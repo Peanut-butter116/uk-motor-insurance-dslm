@@ -1,0 +1,13 @@
+# conda env: policyqa (python=3.12)
+pymupdf==1.28.0
+pymupdf4llm==1.28.0
+chromadb
+streamlit
+openai
+requests
+kaggle
+datasets
+openpyxl
+beautifulsoup4
+lxml
+pytest

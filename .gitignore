@@ -1,0 +1,27 @@
+# Private data and generated experiment artifacts stay out of this code repository.
+policy_qa/
+data/*
+!data/gold/
+data/gold/*
+!data/gold/SCHEMA.md
+eval/results/
+results/
+outputs/
+artifacts/
+kaggle_staging/
+chroma*/
+*.safetensors
+*.gguf
+*.pt
+*.pdf
+*.xlsx
+*.jsonl
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.DS_Store
