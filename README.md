@@ -14,12 +14,12 @@ generated or judged.
 |---|---:|---:|---:|---:|---|
 | Previous Qwen2.5-7B + RAG | 0.608431 | 0.388771 | 0.897872 | 0.723421 | Reproduced from saved outputs |
 | Previous QLoRA-RAFT + RAG | 0.599115 | 0.348093 | 0.919463 | 0.746148 | Reproduced from saved outputs |
-| Qwen2.5-3B without RAG | — | — | — | — | Private GPU evaluation prepared |
-| Qwen2.5-3B + RAG | — | — | — | — | Private GPU evaluation prepared |
-| E1: Ministral-3-3B without RAG | — | — | — | — | Private GPU evaluation prepared |
-| E2: Ministral-3-3B + RAG | — | — | — | — | Private GPU evaluation prepared |
-| E3: Ministral QLoRA-SFT without RAG | — | — | — | — | Waiting for training smoke |
-| E4: Ministral QLoRA-SFT + RAG | — | — | — | — | Waiting for training smoke |
+| Qwen2.5-3B without RAG | — | — | — | — | Running on Kaggle; scores pending |
+| Qwen2.5-3B + RAG | — | — | — | — | Running on Kaggle; scores pending |
+| E1: Ministral-3-3B without RAG | — | — | — | — | Running on Kaggle; scores pending |
+| E2: Ministral-3-3B + RAG | — | — | — | — | Running on Kaggle; scores pending |
+| E3: Ministral QLoRA-SFT without RAG | — | — | — | — | Smoke awaiting free GPU slot |
+| E4: Ministral QLoRA-SFT + RAG | — | — | — | — | Smoke awaiting free GPU slot |
 
 Steps completed, in simple words:
 
@@ -35,6 +35,15 @@ Steps completed, in simple words:
    Kaggle confirms that all three are **private** and ready. The training dataset
    contains only the 21 audited seed examples; test prompts are in evaluation
    datasets only. The API token remains local and is not included in any upload.
+
+7. Started both base-model evaluation jobs on Kaggle with the requested T4
+   accelerator. Kaggle reports both as running. The training smoke launch was
+   rejected because the account permits two simultaneous batch GPU sessions;
+   it has **not started** and will need a free slot.
+
+Private job links (account access required):
+- [Qwen2.5-3B base evaluation](https://www.kaggle.com/code/scarletthe0116/uk-insurance-base-eval-qwen3b)
+- [Ministral-3-3B base evaluation](https://www.kaggle.com/code/scarletthe0116/uk-insurance-base-eval-ministral3b)
 
 No GPU result or adapter-reload success is claimed yet. Full training remains
 blocked until the CUDA smoke passes every gate. The small, answerable-only SFT
