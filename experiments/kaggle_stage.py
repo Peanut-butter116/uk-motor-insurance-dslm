@@ -1,5 +1,6 @@
 """Prepare private Kaggle dataset/kernel folders. This command never uploads or runs."""
 import argparse
+import datetime
 import json
 from pathlib import Path
 import shutil
@@ -31,21 +32,41 @@ def stage(bundle,output,username,kind,model='ministral3b'):
         'title':f'{slug}-private','licenses':[{'name':'other'}]})
     command=(['-m','experiments.train','--mode','smoke'] if kind=='smoke' else
              ['-m','experiments.evaluate','run','--model',model])
-    script='''import glob, json, pathlib, subprocess, sys, traceback
+    nonce=datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ')
+    script='''import glob, json, pathlib, subprocess, sys, traceback, shutil, zipfile
+NONCE=NONCE_VALUE
 work=pathlib.Path('/kaggle/working')
 try:
     hits=glob.glob('/kaggle/input/**/INSURANCE_EXPERIMENT',recursive=True)
     if len(hits)!=1: raise RuntimeError('Expected exactly one private experiment dataset')
-    root=pathlib.Path(hits[0]).parent
-    subprocess.run([sys.executable,'-m','pip','install','-r',str(root/'code/requirements-experiment.txt')],check=True)
+    mounted=pathlib.Path(hits[0]).parent
+    root=work/'input-copy';root.mkdir()
+    for name in ('code','payload'):
+        if (mounted/name).is_dir(): shutil.copytree(mounted/name,root/name)
+        elif (mounted/(name+'.zip')).exists():
+            with zipfile.ZipFile(mounted/(name+'.zip')) as archive:
+                destination=root/name;destination.mkdir()
+                for member in archive.namelist():
+                    if not (destination/member).resolve().is_relative_to(destination.resolve()):
+                        raise RuntimeError('Unsafe archive member')
+                archive.extractall(destination)
+        else: raise RuntimeError('Missing staged '+name)
+    import torch
+    if not torch.cuda.is_available(): raise RuntimeError('No CUDA GPU allocated')
+    (work/'GPU.json').write_text(json.dumps({'gpu':torch.cuda.get_device_name(0),'nonce':NONCE}))
+    with (work/'install.log').open('w') as log:
+        subprocess.run([sys.executable,'-m','pip','install','-r',str(root/'code/requirements-experiment.txt')],stdout=log,stderr=subprocess.STDOUT,check=True)
     cmd=[sys.executable]+COMMAND+['--bundle',str(root/'payload'),'--output',str(work/'run')]
-    subprocess.run(cmd,cwd=root/'code',check=True)
-    (work/'SUCCESS.json').write_text(json.dumps({'kind':KIND}))
+    with (work/'run.log').open('w') as log:
+        subprocess.run(cmd,cwd=root/'code',stdout=log,stderr=subprocess.STDOUT,check=True)
+    (work/'SUCCESS.json').write_text(json.dumps({'kind':KIND,'nonce':NONCE}))
 except Exception:
     (work/'FAILED.txt').write_text(traceback.format_exc())
-    raise
-'''.replace('COMMAND',repr(command)).replace('KIND',repr(kind))
+    # Kaggle publishes diagnostics for completed kernels; FAILED.txt is authoritative.
+    sys.exit(0)
+'''.replace('COMMAND',repr(command)).replace('KIND',repr(kind)).replace('NONCE_VALUE',repr(nonce))
     (kernel/'run.py').write_text(script)
+    write_json(out/'launch.json',{'nonce':nonce,'kind':kind,'model':model})
     write_json(kernel/'kernel-metadata.json',{'id':f'{username}/{slug}','title':slug,'code_file':'run.py',
         'language':'python','kernel_type':'script','is_private':True,'enable_gpu':True,
         'enable_internet':True,'machine_shape':'NvidiaTeslaT4',
