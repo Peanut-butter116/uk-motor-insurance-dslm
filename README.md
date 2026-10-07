@@ -31,8 +31,10 @@ Steps completed, in simple words:
    the 2,048-token training limit; two longer examples were excluded whole.
 5. Ran 168 local regression and safety tests. All 42 protected input files remain
    unchanged. None of the 280 evaluation prompts needs evidence truncation.
-6. Authenticated Kaggle locally and prepared separate private evaluation and
-   training packages. Upload is pending explicit private-data export approval.
+6. Uploaded three separately packaged datasets to Kaggle after explicit approval.
+   Kaggle confirms that all three are **private** and ready. The training dataset
+   contains only the 21 audited seed examples; test prompts are in evaluation
+   datasets only. The API token remains local and is not included in any upload.
 
 No GPU result or adapter-reload success is claimed yet. Full training remains
 blocked until the CUDA smoke passes every gate. The small, answerable-only SFT
