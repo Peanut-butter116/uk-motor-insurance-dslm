@@ -1,0 +1,8 @@
+# CUDA/Kaggle environment only. Torch comes from the GPU image; receipt records it.
+transformers==5.19.0
+peft==0.21.2
+accelerate==1.15.0
+bitsandbytes==0.50.2
+sentencepiece
+protobuf
+jinja2==3.1.6

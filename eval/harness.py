@@ -34,7 +34,6 @@ import sys
 import time
 from pathlib import Path
 
-from openai import OpenAI
 
 PROJ = Path(__file__).resolve().parents[1]
 _candidates = [os.environ.get("POLICY_QA_HOME"),
@@ -140,6 +139,7 @@ def run_row(row_id: str, split: str | None = None) -> None:
     out_path = RESULTS_DIR / f"answers_{row_id}.jsonl"
     done = {r["qid"] for r in read_jsonl(out_path)}
     answers = read_jsonl(out_path)
+    from openai import OpenAI
     client = OpenAI(base_url=LMSTUDIO_BASE_URL, api_key="lm-studio")
 
     for g in gold:

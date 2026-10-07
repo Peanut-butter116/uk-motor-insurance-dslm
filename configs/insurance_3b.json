@@ -1,0 +1,31 @@
+{
+  "seed": 0,
+  "models": {
+    "qwen3b": {
+      "id": "Qwen/Qwen2.5-3B-Instruct",
+      "revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+      "class": "causal"
+    },
+    "ministral3b": {
+      "id": "unsloth/Ministral-3-3B-Instruct-2512-bnb-4bit",
+      "revision": "8491af399e7ad92759da849790a5f7e6c2fdfbc4",
+      "class": "mistral3"
+    }
+  },
+  "training": {
+    "r": 16,
+    "alpha": 32,
+    "dropout": 0.05,
+    "learning_rate": 0.0001,
+    "epochs": 2,
+    "max_length": 2048,
+    "gradient_accumulation_steps": 8,
+    "smoke_steps": 2
+  },
+  "evaluation": {
+    "max_new_tokens": 700,
+    "max_total_tokens": 8192,
+    "do_sample": false
+  },
+  "frozen_contexts_sha256": "0a4cd5de543b10ea7d97aef6603ea5865580987122c166f188850c8303b13c24"
+}
