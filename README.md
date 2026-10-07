@@ -7,19 +7,19 @@ Lean starting point for comparing small base models and QLoRA supervised fine-tu
 
 The following table compares the same frozen 140-question test population.
 Historical results use the corrected abstention reading B. A dash means no
-measurement is available; it is not zero. New model outputs have not yet been
-generated or judged.
+measurement is available; it is not zero. Qwen outputs are verified; correctness judging is pending. Citation resolution
+and abstention can be measured without an LLM judge.
 
 | Experiment | Composite | Correctness | Citation resolution | Abstention | Status |
 |---|---:|---:|---:|---:|---|
 | Previous Qwen2.5-7B + RAG | 0.608431 | 0.388771 | 0.897872 | 0.723421 | Reproduced from saved outputs |
 | Previous QLoRA-RAFT + RAG | 0.599115 | 0.348093 | 0.919463 | 0.746148 | Reproduced from saved outputs |
-| Qwen2.5-3B without RAG | — | — | — | — | Running on Kaggle; scores pending |
-| Qwen2.5-3B + RAG | — | — | — | — | Running on Kaggle; scores pending |
+| Qwen2.5-3B without RAG | — | — | 0.000000 | 0.495763 | 140 answers verified; judging pending |
+| Qwen2.5-3B + RAG | — | — | 0.852761 | 0.522727 | 140 answers verified; judging pending |
 | E1: Ministral-3-3B without RAG | — | — | — | — | Running on Kaggle; scores pending |
 | E2: Ministral-3-3B + RAG | — | — | — | — | Running on Kaggle; scores pending |
-| E3: Ministral QLoRA-SFT without RAG | — | — | — | — | Smoke awaiting free GPU slot |
-| E4: Ministral QLoRA-SFT + RAG | — | — | — | — | Smoke awaiting free GPU slot |
+| E3: Ministral QLoRA-SFT without RAG | — | — | — | — | GPU smoke submitted; gates pending |
+| E4: Ministral QLoRA-SFT + RAG | — | — | — | — | GPU smoke submitted; gates pending |
 
 Steps completed, in simple words:
 
@@ -36,16 +36,23 @@ Steps completed, in simple words:
    contains only the 21 audited seed examples; test prompts are in evaluation
    datasets only. The API token remains local and is not included in any upload.
 
-7. Started both base-model evaluation jobs on Kaggle with the requested T4
-   accelerator. Kaggle reports both as running. The training smoke launch was
-   rejected because the account permits two simultaneous batch GPU sessions;
-   it has **not started** and will need a free slot.
+7. Downloaded and verified the completed Qwen T4 job: 140 unique, nonempty
+   answers in each condition, matching the original launch and frozen benchmark.
+   Generated private blinded judge tasks and calculated the deterministic scores.
+   The Ministral base job has completed and is being checked separately.
+8. Submitted the Ministral QLoRA smoke job after a GPU slot became free.
 
 Private job links (account access required):
 - [Qwen2.5-3B base evaluation](https://www.kaggle.com/code/scarletthe0116/uk-insurance-base-eval-qwen3b)
 - [Ministral-3-3B base evaluation](https://www.kaggle.com/code/scarletthe0116/uk-insurance-base-eval-ministral3b)
 
-No GPU result or adapter-reload success is claimed yet. Full training remains
+Qwen format-parse rates are **21.43% without RAG** and **70.00% with RAG**,
+below the inherited 90% ranking gate. With RAG, only 1 of 22 unanswerable
+questions triggered the adopted abstention detector. Citation resolution measures
+metadata matching, not factual correctness or claim faithfulness. Do not infer
+a composite score or winner before judging.
+
+No adapter-reload success is claimed yet. Full training remains
 blocked until the CUDA smoke passes every gate. The small, answerable-only SFT
 population is a limitation; no new human entailment review has been performed.
 Benchmark text, raw answers, training examples, adapters, logs and credentials
@@ -218,3 +225,12 @@ python -m experiments.table --home "$POLICY_QA_HOME" --metrics /private/path/met
 The table includes the corrected historical Qwen7B and RAFT results and marks
 missing new experiments `not run`. It rejects dev/smoke populations in a test
 comparison. No new measured performance is claimed before generation and judging.
+
+### Downloaded GPU result checks
+
+`python scripts/summarise_gpu_results.py --home "$POLICY_QA_HOME" --bundle "$EXPERIMENT_DIR/test-eval" --launch "$EXPERIMENT_DIR/launch-base-eval-qwen3b" --downloaded "$EXPERIMENT_DIR/output-qwen3b-v1" --output "$EXPERIMENT_DIR/scored-qwen3b-v1"`
+
+Use a fresh output directory. This verifies launch identity and complete answer
+coverage, reuses inherited scoring, and exports private blinded judge tasks.
+Unjudged summaries deliberately omit correctness and composite. The inherited
+rubric and three-vote merge remain required; no judge service is configured yet.
