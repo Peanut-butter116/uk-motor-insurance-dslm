@@ -1,0 +1,77 @@
+## Meeting Summary Week1
+
+- Time: 1st Oct. 2026 Friday
+- Candidates: Sijia, Tushar, Rama
+
+Sijia He (Scarlett) presented four UK insurance small language model use cases with two prototypes. Tushar Sankhe steered the internship toward fine-tuning a domain-specific model on motor insurance with synthetic data.
+
+
+
+## Introductions and Background
+
+Sijia He (Scarlett) is an LSE graduate doing an MSc in data science and ML at UCL, graduating this December.
+
+Previously interned on a property insurance pricing team (Key Insurance)
+
+Tushar Sankhe has 12+ years at TechM; the team builds LLMs and DSLMs from scratch and works with UCL.
+
+Rama Krishna Prasad Koya had asked Sijia He (Scarlett) to research use cases building on a prior intern's (Suma/Sumer) insurance work
+
+
+
+## Four Proposed Use Cases
+
+Option 1: extract pricing data from PDFs, Excel, and slides into a standard template, flagging missing values.
+
+Option 2: SLM agent as QA assistant around an existing insurance ML model (input errors, confidence, missing data).
+
+Option 3: check whether claims in insurance complaints are supported by policy wording or FCA material via RAG.
+
+Main challenge: building a reliable labeled benchmark without private data
+
+Option 4: detect complaint trends over time from FOS data; risks are labeling consistency and selection bias.
+
+
+
+## Prototypes
+
+Option 1 prototype used 60 synthetic files (20 PDFs, 20 Excels, 20 slides) in four layouts, with Qwen 2.5 1.5B locally.
+
+Option 2 prototype on public motorcycle policy data (15,000 synthetic records) underperformed fixed checks.
+
+Zero-shot LLM ran in about 20 minutes vs over one hour for the fixed pipeline
+
+Tushar Sankhe praised the UK-grounded research but said extraction leads to OCR/VLM benchmarking, off-target for this project.
+
+
+
+## Recommended Direction from Tushar Sankhe
+
+- Compare two or three base models (e.g. Qwen, Mistral), justify the pick, then fine-tune with QLoRA SFT and compare accuracy.
+    - Consider LLM as a judge; check hallucination and bias too
+    - Qwen 2.5 3B showed good gains before; 7B too heavy for a laptop
+
+- Build data by scraping UK motor insurance policies and expanding 15,000 records to about 50,000 via synthetic generators.
+    - e.g. NVIDIA's free synthetic data generator; keep distributions the same; no client data
+
+- Aim to go beyond the previous intern's vehicle insurance work, focusing on inquiries, complaints, and claims.
+
+- Results could become a white paper jointly reviewed by mentors and shared with the open source community.
+
+
+
+## Deliverables and Cadence
+
+Final deliverables: a PPT summary, GitHub code, a detailed internship report, and a white paper draft.
+
+Project plan can be informal; focus is learning over the next six or seven weeks.
+
+Meetings aim for weekly, otherwise biweekly; next one likely next Friday, else Tuesday or Wednesday after.
+
+
+
+## Decisions Made
+
+Document extraction (option 1) is dropped from the internship scope.
+
+Project narrows to motor insurance, building on the policy wording Q&A work with fine-tuning.
