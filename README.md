@@ -7,7 +7,7 @@ Lean starting point for comparing small base models and QLoRA supervised fine-tu
 
 The following table compares the same frozen 140-question test population.
 Historical results use the corrected abstention reading B. A dash means no
-measurement is available; it is not zero. Qwen outputs are verified; correctness judging is pending. Citation resolution
+measurement is available; it is not zero. Both base-model outputs are verified; correctness judging is pending. Citation resolution
 and abstention can be measured without an LLM judge.
 
 | Experiment | Composite | Correctness | Citation resolution | Abstention | Status |
@@ -16,8 +16,8 @@ and abstention can be measured without an LLM judge.
 | Previous QLoRA-RAFT + RAG | 0.599115 | 0.348093 | 0.919463 | 0.746148 | Reproduced from saved outputs |
 | Qwen2.5-3B without RAG | — | — | 0.000000 | 0.495763 | 140 answers verified; judging pending |
 | Qwen2.5-3B + RAG | — | — | 0.852761 | 0.522727 | 140 answers verified; judging pending |
-| E1: Ministral-3-3B without RAG | — | — | — | — | Running on Kaggle; scores pending |
-| E2: Ministral-3-3B + RAG | — | — | — | — | Running on Kaggle; scores pending |
+| E1: Ministral-3-3B without RAG | — | — | 0.000000 | 0.462635 | 140 answers verified; judging pending |
+| E2: Ministral-3-3B + RAG | — | — | 0.842697 | 0.596687 | 140 answers verified; judging pending |
 | E3: Ministral QLoRA-SFT without RAG | — | — | — | — | GPU smoke submitted; gates pending |
 | E4: Ministral QLoRA-SFT + RAG | — | — | — | — | GPU smoke submitted; gates pending |
 
@@ -29,7 +29,7 @@ Steps completed, in simple words:
    question, answer and supporting passage came from. Dev/test examples were excluded.
 4. Checked real tokenisation and assistant-only labels. Twenty-one examples fit
    the 2,048-token training limit; two longer examples were excluded whole.
-5. Ran 168 local regression and safety tests. All 42 protected input files remain
+5. Ran 169 local regression and safety tests (including result-reporting checks). All 42 protected input files remain
    unchanged. None of the 280 evaluation prompts needs evidence truncation.
 6. Uploaded three separately packaged datasets to Kaggle after explicit approval.
    Kaggle confirms that all three are **private** and ready. The training dataset
@@ -39,18 +39,33 @@ Steps completed, in simple words:
 7. Downloaded and verified the completed Qwen T4 job: 140 unique, nonempty
    answers in each condition, matching the original launch and frozen benchmark.
    Generated private blinded judge tasks and calculated the deterministic scores.
-   The Ministral base job has completed and is being checked separately.
-8. Submitted the Ministral QLoRA smoke job after a GPU slot became free.
+   Verified the Ministral T4 job in the same way: another 140 answers per
+   condition. All four answer populations are complete (560 answers total).
+8. Submitted the Ministral QLoRA smoke job after a GPU slot became free. Kaggle
+   confirms it is running. Full training will wait for its successful receipt.
 
 Private job links (account access required):
 - [Qwen2.5-3B base evaluation](https://www.kaggle.com/code/scarletthe0116/uk-insurance-base-eval-qwen3b)
 - [Ministral-3-3B base evaluation](https://www.kaggle.com/code/scarletthe0116/uk-insurance-base-eval-ministral3b)
+- [Ministral QLoRA smoke](https://www.kaggle.com/code/scarletthe0116/uk-insurance-smoke-ministral3b)
 
 Qwen format-parse rates are **21.43% without RAG** and **70.00% with RAG**,
 below the inherited 90% ranking gate. With RAG, only 1 of 22 unanswerable
 questions triggered the adopted abstention detector. Citation resolution measures
 metadata matching, not factual correctness or claim faithfulness. Do not infer
 a composite score or winner before judging.
+
+Ministral format-parse rates are **37.86% without RAG** and **69.29% with
+RAG**, also below the ranking gate. With RAG, it refused 5/22 unanswerable
+questions and over-refused 4/118 answerable questions. Its higher abstention
+score does not establish higher answer correctness. The four conditions need
+426 non-abstaining answerable responses judged (1,278 votes at three per item).
+No prompts or model settings were adjusted from these frozen-test results.
+
+Both jobs used Tesla T4, Torch 2.11.0+cu128, Transformers 5.19.0, PEFT
+0.21.2, bitsandbytes 0.50.2 and Accelerate 1.15.0. Generation took about
+75.6 minutes for Qwen and 66.8 minutes for Ministral across both conditions;
+these exclude setup and are not a controlled hardware speed comparison.
 
 No adapter-reload success is claimed yet. Full training remains
 blocked until the CUDA smoke passes every gate. The small, answerable-only SFT
