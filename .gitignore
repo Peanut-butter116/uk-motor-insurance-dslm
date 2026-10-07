@@ -25,3 +25,10 @@ __pycache__/
 .venv/
 venv/
 .DS_Store
+# Additional model/checkpoint and private package formats.
+*.bin
+*.pth
+*.ckpt
+*.zip
+*.tar
+*.tar.gz
