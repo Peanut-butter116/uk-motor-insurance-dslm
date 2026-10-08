@@ -23,14 +23,14 @@ Open-book comparison
 | Previous QLoRA-RAFT + RAG | 0.348093 | 0.919463 | 0.746148 | 0.599115 | 1.000000 | scored |
 | Qwen2.5-3B + RAG | — | 0.852761 | 0.522727 | — | 0.700000 | awaiting_judging |
 | E2: Ministral-3-3B + RAG | — | 0.842697 | 0.596687 | — | 0.692857 | awaiting_judging |
-| E4: Ministral QLoRA-SFT + RAG | — | — | — | — | — | not run |
+| E4: Ministral QLoRA-SFT + RAG | — | — | — | — | — | GPU evaluation running |
 
 Closed-book diagnostic
 
 | Model | Correctness | Citation resolution | Abstention | Composite | Parse rate | Status |
 |---|---:|---:|---:|---:|---:|---|
 | E1: Ministral without RAG | — | 0.000000 | 0.462635 | — | 0.378571 | awaiting_judging |
-| E3: Ministral QLoRA-SFT without RAG | — | — | — | — | — | not run |
+| E3: Ministral QLoRA-SFT without RAG | — | — | — | — | — | GPU evaluation running |
 
 **Supplementary motor-only slice (n=76)**
 
@@ -42,14 +42,14 @@ Open-book comparison
 | Previous QLoRA-RAFT + RAG | 0.333458 | 0.949367 | 0.766169 | 0.604773 | 1.000000 | scored |
 | Qwen2.5-3B + RAG | — | 0.888889 | 0.500000 | — | 0.697368 | awaiting_judging |
 | E2: Ministral-3-3B + RAG | — | 0.812500 | 0.603648 | — | 0.750000 | awaiting_judging |
-| E4: Ministral QLoRA-SFT + RAG | — | — | — | — | — | not run |
+| E4: Ministral QLoRA-SFT + RAG | — | — | — | — | — | GPU evaluation running |
 
 Closed-book diagnostic
 
 | Model | Correctness | Citation resolution | Abstention | Composite | Parse rate | Status |
 |---|---:|---:|---:|---:|---:|---|
 | E1: Ministral without RAG | — | 0.000000 | 0.454395 | — | 0.368421 | awaiting_judging |
-| E3: Ministral QLoRA-SFT without RAG | — | — | — | — | — | not run |
+| E3: Ministral QLoRA-SFT without RAG | — | — | — | — | — | GPU evaluation running |
 
 Parse rate retains the inherited definition (parseable citation or recognised abstention).
 Citation resolution is metadata matching, not claim entailment. No winner is declared while judging is incomplete.
@@ -126,7 +126,7 @@ Both jobs used Tesla T4, Torch 2.11.0+cu128, Transformers 5.19.0, PEFT
 these exclude setup and are not a controlled hardware speed comparison.
 
 Smoke v3 verified fresh adapter reload with zero maximum and mean logit difference.
-Full training uses this successful receipt; E3/E4 wait for full-training verification. The small, answerable-only SFT
+Full training passed using this successful receipt; the separate E3/E4 GPU evaluation is running. The small, answerable-only SFT
 population is a limitation; no new human entailment review has been performed.
 Benchmark text, raw answers, training examples, adapters, logs and credentials
 stay outside this public repository.
@@ -408,8 +408,7 @@ exact passing receipt and code/config; no evaluation tasks are included.
 version 1, was accepted by Kaggle. It runs the existing `experiments.train --mode
 full --smoke-receipt ...` path with the exact successful Smoke v3 receipt, the same
 21 examples and fixed two-epoch configuration. The new training-only dataset is
-verified private. Full-training success, loss and final reload are not yet
-reported; E3/E4 will run separately only after the full receipt is verified.
+verified private. Full training has since passed; its verified results are below.
 
 ### Full QLoRA-SFT completed — 8 October 2026
 
@@ -426,3 +425,15 @@ Top-1, generated tokens, generated text and runtime matched; generation was
 nonempty, and all **364** trained adapter tensors were restored exactly.
 Adapters, tokenizer files, loss history and detailed provenance remain private.
 E3/E4 evaluation follows in a separate dataset/job containing no training examples.
+
+### E3/E4 evaluation launched
+
+[Private tuned-evaluation job](https://www.kaggle.com/code/scarletthe0116/uk-insurance-sft-eval-ministral3b),
+version 1, runs the existing `experiments.evaluate run --model ministral3b --adapter ...`
+path. Its separate, verified-private dataset contains only frozen task prompts,
+the trained adapter, and required code/configuration; it contains no training rows.
+The expected output is 140 E3 and 140 E4 answers. These counts and evaluation
+metrics remain unverified until the completed artifacts are downloaded and checked.
+Correctness/composite and claim faithfulness remain `awaiting_judging`; no judge
+runtime is currently configured. The correctness task pool hides model/condition
+identities and requires three independent votes per answer.
