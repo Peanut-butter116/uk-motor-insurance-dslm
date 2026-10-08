@@ -16,9 +16,18 @@ def runtime(model):
         'commit': getattr(base.config, '_commit_hash', None),
         'quantization': quant, 'config_dtype': str(getattr(base.config, 'dtype', None)),
         'attention': getattr(base.config, '_attn_implementation', None),
+        'mixed_precision_wrappers': [n for n,m in model.named_modules() if '_original_forward' in m.__dict__],
         'parameter_dtypes': {n: str(p.dtype) for n,p in model.named_parameters()},
         'compute_dtypes': {n: str(m.compute_dtype) for n,m in model.named_modules()
                            if hasattr(m, 'compute_dtype')}}
+
+
+def unwrap_for_reload(model, accelerator):
+    """Remove training-only autocast before comparing two inference models."""
+    model = accelerator.unwrap_model(model, keep_fp32_wrapper=False)
+    if any('_original_forward' in m.__dict__ for _,m in model.named_modules()):
+        raise ValueError('Training mixed-precision wrapper remains during reload check')
+    return model
 
 
 def probe(model, tokenizer, ids_cpu, mask_cpu):

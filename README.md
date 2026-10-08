@@ -18,8 +18,8 @@ and abstention can be measured without an LLM judge.
 | Qwen2.5-3B + RAG | — | — | 0.852761 | 0.522727 | 140 answers verified; judging pending |
 | E1: Ministral-3-3B without RAG | — | — | 0.000000 | 0.462635 | 140 answers verified; judging pending |
 | E2: Ministral-3-3B + RAG | — | — | 0.842697 | 0.596687 | 140 answers verified; judging pending |
-| E3: Ministral QLoRA-SFT without RAG | — | — | — | — | Not started; smoke reload diagnosis pending |
-| E4: Ministral QLoRA-SFT + RAG | — | — | — | — | Not started; smoke reload diagnosis pending |
+| E3: Ministral QLoRA-SFT without RAG | — | — | — | — | Not started; Smoke v2 failed numerical gate |
+| E4: Ministral QLoRA-SFT + RAG | — | — | — | — | Not started; Smoke v2 failed numerical gate |
 
 Term Explanation
 
@@ -44,7 +44,7 @@ Steps completed, in simple words:
    question, answer and supporting passage came from. Dev/test examples were excluded.
 4. Checked real tokenisation and assistant-only labels. Twenty-one examples fit
    the 2,048-token training limit; two longer examples were excluded whole.
-5. Ran 178 local regression and safety tests (including result-reporting checks). All 42 protected input files remain
+5. Ran 180 local regression and safety tests (including result-reporting checks). All 42 protected input files remain
    unchanged. None of the 280 evaluation prompts needs evidence truncation.
 6. Uploaded three separately packaged datasets to Kaggle after explicit approval.
    Kaggle confirms that all three are **private** and ready. The training dataset
@@ -274,3 +274,22 @@ Use a fresh output directory. This verifies launch identity and complete answer
 coverage, reuses inherited scoring, and exports private blinded judge tasks.
 Unjudged summaries deliberately omit correctness and composite. The inherited
 rubric and three-vote merge remain required; no judge service is configured yet.
+
+### Smoke v2 diagnosis — 8 October 2026
+
+Smoke v2 failed; no successful receipt exists. No full training was launched.
+
+| Reload path | Max absolute logit difference | Mean absolute difference | Top-1 equal | Generated tokens/text equal | Runtime equal | Adapter tensors equal |
+|---|---:|---:|---|---|---|---|
+| Unprepared | 0.468750 | 0.076282337 | Yes | No | No (276 dtype differences) | 364/364 |
+| Prepared | 0.119457841 | 0.015449368 | Yes | Yes | Yes | 364/364 |
+
+Tokenisation and saved tensors also matched. Both paths failed the original
+numerical gate; matching generated text does not override that failure.
+The pinned Accelerate source shows that Trainer attaches a mixed-precision
+forward wrapper which survives eval(). Smoke v3 removes that training-only
+wrapper with `unwrap_model(..., keep_fp32_wrapper=False)` before comparing
+inference models. It records the wrapped/unwrapped difference to test this
+remaining hypothesis. Prepared base loading is also applied to tuned evaluation
+so it uses the same inference path. Tolerances and every existing gate remain
+unchanged. The 21 examples, hyperparameters, prompts and evidence are unchanged.

@@ -24,3 +24,29 @@ def test_complete_diagnostics_pass():
 def test_dtype_comparison_includes_missing_and_extra_parameters():
     assert mismatches({'norm': 'float32', 'old': 'float16'},
                       {'norm': 'float16', 'new': 'float32'}) == ['new', 'norm', 'old']
+
+
+def test_training_autocast_is_removed_before_reload_comparison():
+    from experiments.reload_check import unwrap_for_reload
+    class Model:
+        def __init__(self): self._original_forward = object()
+        def named_modules(self): return [('', self)]
+    class Accelerator:
+        def unwrap_model(self, model, keep_fp32_wrapper=True):
+            if not keep_fp32_wrapper: del model._original_forward
+            return model
+    model = Model()
+    assert unwrap_for_reload(model, Accelerator()) is model
+    assert '_original_forward' not in model.__dict__
+
+
+def test_remaining_training_autocast_fails_closed():
+    from experiments.reload_check import unwrap_for_reload
+    class Model:
+        _original_forward = None
+        def __init__(self): self._original_forward = object()
+        def named_modules(self): return [('', self)]
+    class Accelerator:
+        def unwrap_model(self, model, **kw): return model
+    with pytest.raises(ValueError, match='wrapper remains'):
+        unwrap_for_reload(Model(), Accelerator())

@@ -68,7 +68,9 @@ def run(bundle, output, model_key, adapter=None):
         adapter_config=json.loads((Path(adapter)/'adapter_config.json').read_text())
         if adapter_config.get('base_model_name_or_path')!=config()['models'][model_key]['id']:
             raise ValueError('Adapter base checkpoint mismatch')
-        from peft import PeftModel
+        from peft import PeftModel, prepare_model_for_kbit_training
+        # Match the prepared, freshly reloaded inference path checked by training.
+        model = prepare_model_for_kbit_training(model, use_gradient_checkpointing=False)
         model = PeftModel.from_pretrained(model, adapter, is_trainable=False)
     label = model_key + ('-sft' if adapter else '-base')
     for mode in ('closedbook','openbook'):

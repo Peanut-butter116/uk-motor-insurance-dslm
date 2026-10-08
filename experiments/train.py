@@ -96,13 +96,18 @@ def run(bundle,output,mode='smoke',receipt=None):
     probe_messages=data[0]['messages'][:-1]
     ids_cpu=torch.tensor([token_ids(tokenizer,probe_messages,True)])
     mask_cpu=torch.ones_like(ids_cpu)
+    wrapped=check.probe(model,tokenizer,ids_cpu,mask_cpu)
+    model=check.unwrap_for_reload(model,trainer.accelerator)
     before=check.probe(model,tokenizer,ids_cpu,mask_cpu)
     saved={k:v.detach().cpu().clone() for k,v in get_peft_model_state_dict(model).items()}
     disk=load_file(str(adapter/'adapter_model.safetensors'))
     disk_check=check.adapter_check(saved,disk,trainable)
     report={'input_ids_sha256':digest(ids_cpu.tolist()), 'attention_mask_sha256':digest(mask_cpu.tolist()),
         'before_runtime':before['runtime'], 'before_generated_tokens':before['tokens'],
-        'before_generated_text':before['text'], 'saved_adapter':disk_check}
+        'before_generated_text':before['text'], 'saved_adapter':disk_check,
+        'training_wrapper_comparison':check.compare(wrapped,before),
+        'wrapped_runtime':wrapped['runtime']}
+    del wrapped
     write_json(out/'reload_diagnostics.json',report)
     # Preserve the exact installed preparation code as private diagnostic evidence.
     (out/'prepare_model_for_kbit_training.txt').write_text(inspect.getsource(prepare_model_for_kbit_training))
