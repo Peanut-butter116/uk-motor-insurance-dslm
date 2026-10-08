@@ -77,7 +77,7 @@ Steps completed, in simple words:
    question, answer and supporting passage came from. Dev/test examples were excluded.
 4. Checked real tokenisation and assistant-only labels. Twenty-one examples fit
    the 2,048-token training limit; two longer examples were excluded whole.
-5. Ran 197 local regression and safety tests (including result-reporting checks). All 42 protected input files remain
+5. Ran 199 local regression and safety tests (including result-reporting checks). All 42 protected input files remain
    unchanged. None of the 280 evaluation prompts needs evidence truncation.
 6. Uploaded three separately packaged datasets to Kaggle after explicit approval.
    Kaggle confirms that all three are **private** and ready. The training dataset
@@ -91,12 +91,12 @@ Steps completed, in simple words:
    condition. All four answer populations are complete (560 answers total).
 8. The first Ministral smoke completed two training steps (mean training loss
    about 2.437), but failed the numerical adapter-reload check. It did not produce
-   a success receipt. Full training and E3/E4 have not started.
+   a success receipt. At that point, full training and E3/E4 were blocked; the later Smoke v3 pass resolved this.
 9. Added reload diagnostics: explicit evaluation mode, identical input IDs and
    attention masks, effective dtype/configuration records, maximum and mean logit
    differences, top-1 predictions, greedy 32-token outputs, and complete saved/
    restored LoRA tensor checks. The diagnostic smoke compares the original reload
-   path with a base prepared in the same way as training. The cause is not yet
+   path with a base prepared in the same way as training. At that stage the cause was not yet
    confirmed; numerical tolerances remain unchanged (atol 0.02, rtol 0.01).
 10. Submitted private Kaggle smoke version 2 with these diagnostics. This is
     another two-step smoke, not full training. It failed the numerical reload
@@ -410,3 +410,19 @@ full --smoke-receipt ...` path with the exact successful Smoke v3 receipt, the s
 21 examples and fixed two-epoch configuration. The new training-only dataset is
 verified private. Full-training success, loss and final reload are not yet
 reported; E3/E4 will run separately only after the full receipt is verified.
+
+### Full QLoRA-SFT completed — 8 October 2026
+
+The private full-training run passed all six receipt gates using the exact Smoke v3
+fingerprint and dependency versions. It used all 21 audited examples for two
+epochs, completing **4 optimiser steps**. Mean training loss was **2.154153**;
+the last logged step loss was **1.659464**. Trainer runtime was **507.995 seconds**
+(excluding installation, model loading and reload checks). This training loss is
+not a benchmark correctness score.
+
+The final adapter passed a fresh prepared-base reload: maximum and mean absolute
+logit differences were both **0.0**, with the original atol 0.02 / rtol 0.01.
+Top-1, generated tokens, generated text and runtime matched; generation was
+nonempty, and all **364** trained adapter tensors were restored exactly.
+Adapters, tokenizer files, loss history and detailed provenance remain private.
+E3/E4 evaluation follows in a separate dataset/job containing no training examples.
