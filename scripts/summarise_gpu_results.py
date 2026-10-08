@@ -19,13 +19,13 @@ def deterministic_metrics(records):
         'over_refuse', 'ans_n', 'refuse_ok', 'refuse_n')}
 
 
-def summarise(home, bundle, launch, downloaded, output):
+def summarise(home, bundle, launch, downloaded, output, tuned=False):
     bundle, launch, downloaded = map(Path, (bundle, launch, downloaded))
     if (downloaded / 'FAILED.txt').exists():
         raise ValueError('GPU wrapper reported failure; inspect private diagnostics')
     receipt = json.loads((downloaded / 'SUCCESS.json').read_text())
     expected = json.loads((launch / 'launch.json').read_text())
-    if receipt['nonce'] != expected['nonce'] or receipt['kind'] != 'base-eval':
+    if receipt['nonce'] != expected['nonce'] or receipt['kind'] != ('sft-eval' if tuned else 'base-eval'):
         raise ValueError('Stale or wrong GPU completion receipt')
     manifest = json.loads((downloaded / 'run/manifest.json').read_text())
     input_manifest = json.loads((bundle / 'manifest.json').read_text())
@@ -33,17 +33,22 @@ def summarise(home, bundle, launch, downloaded, output):
         raise ValueError('GPU results are incomplete or use different benchmark inputs')
     if core.sha(bundle / 'tasks.jsonl') != input_manifest['tasks_sha256']:
         raise ValueError('Prompt bundle changed')
-    if manifest['config'] != input_manifest['config'] or manifest['adapter'] is not None:
+    if manifest['config'] != input_manifest['config'] or (manifest['adapter'] is None if tuned else manifest['adapter'] is not None):
         raise ValueError('Unexpected configuration or adapter in base evaluation')
     if manifest['model_key'] != expected['model']:
         raise ValueError('Unexpected base model')
+    if tuned:
+        provenance = json.loads((launch/'provenance.json').read_text())
+        for name, expected_hash in provenance['adapter_sha256'].items():
+            if core.sha(downloaded/'input-copy/payload/adapter'/name) != expected_hash:
+                raise ValueError('Tuned evaluation adapter differs from the verified full adapter')
     gold = {g['id']: g for g in core.benchmark(home) if g['split'] == input_manifest['split']}
     ctx = core.unique(core.rows(bundle / 'contexts.jsonl'), 'qid')
     ab = core.load_module('_report_abstention', 'eval/abstention.py')
     out = core.private_output(output)
     results = []
     for mode in ('closedbook', 'openbook'):
-        label = manifest['model_key'] + '-base-' + mode
+        label = manifest['model_key'] + ('-sft-' if tuned else '-base-') + mode
         answers = downloaded / 'run' / ('answers_' + label + '.jsonl')
         data = core.rows(answers)
         if set(core.unique(data, 'qid')) != set(gold) or any(
@@ -75,4 +80,5 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ('home', 'bundle', 'launch', 'downloaded', 'output'):
         parser.add_argument('--' + name, required=True)
+    parser.add_argument('--tuned',action='store_true')
     summarise(**vars(parser.parse_args()))

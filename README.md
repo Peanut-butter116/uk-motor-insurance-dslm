@@ -10,16 +10,49 @@ Historical results use the corrected abstention reading B. A dash means no
 measurement is available; it is not zero. Both base-model outputs are verified; correctness judging is pending. Citation resolution
 and abstention can be measured without an LLM judge.
 
-| Experiment | Composite | Correctness | Citation resolution | Abstention | Status |
-|---|---:|---:|---:|---:|---|
-| Previous Qwen2.5-7B + RAG | 0.608431 | 0.388771 | 0.897872 | 0.723421 | Reproduced from saved outputs |
-| Previous QLoRA-RAFT + RAG | 0.599115 | 0.348093 | 0.919463 | 0.746148 | Reproduced from saved outputs |
-| Qwen2.5-3B without RAG | — | — | 0.000000 | 0.495763 | 140 answers verified; judging pending |
-| Qwen2.5-3B + RAG | — | — | 0.852761 | 0.522727 | 140 answers verified; judging pending |
-| E1: Ministral-3-3B without RAG | — | — | 0.000000 | 0.462635 | 140 answers verified; judging pending |
-| E2: Ministral-3-3B + RAG | — | — | 0.842697 | 0.596687 | 140 answers verified; judging pending |
-| E3: Ministral QLoRA-SFT without RAG | — | — | — | — | Not started; Smoke v2 failed numerical gate |
-| E4: Ministral QLoRA-SFT + RAG | — | — | — | — | Not started; Smoke v2 failed numerical gate |
+Aggregate results from the frozen test benchmark. A dash means unmeasured, not zero.
+Correctness/composite stay pending until all required judgements are complete.
+
+**Full frozen benchmark (n=140)**
+
+Open-book comparison
+
+| Model | Correctness | Citation resolution | Abstention | Composite | Parse rate | Status |
+|---|---:|---:|---:|---:|---:|---|
+| Previous Qwen2.5-7B + RAG | 0.388771 | 0.897872 | 0.723421 | 0.608431 | 0.957143 | scored |
+| Previous QLoRA-RAFT + RAG | 0.348093 | 0.919463 | 0.746148 | 0.599115 | 1.000000 | scored |
+| Qwen2.5-3B + RAG | — | 0.852761 | 0.522727 | — | 0.700000 | awaiting_judging |
+| E2: Ministral-3-3B + RAG | — | 0.842697 | 0.596687 | — | 0.692857 | awaiting_judging |
+| E4: Ministral QLoRA-SFT + RAG | — | — | — | — | — | not run |
+
+Closed-book diagnostic
+
+| Model | Correctness | Citation resolution | Abstention | Composite | Parse rate | Status |
+|---|---:|---:|---:|---:|---:|---|
+| E1: Ministral without RAG | — | 0.000000 | 0.462635 | — | 0.378571 | awaiting_judging |
+| E3: Ministral QLoRA-SFT without RAG | — | — | — | — | — | not run |
+
+**Supplementary motor-only slice (n=76)**
+
+Open-book comparison
+
+| Model | Correctness | Citation resolution | Abstention | Composite | Parse rate | Status |
+|---|---:|---:|---:|---:|---:|---|
+| Previous Qwen2.5-7B + RAG | 0.373881 | 0.935252 | 0.718076 | 0.611131 | 0.947368 | scored |
+| Previous QLoRA-RAFT + RAG | 0.333458 | 0.949367 | 0.766169 | 0.604773 | 1.000000 | scored |
+| Qwen2.5-3B + RAG | — | 0.888889 | 0.500000 | — | 0.697368 | awaiting_judging |
+| E2: Ministral-3-3B + RAG | — | 0.812500 | 0.603648 | — | 0.750000 | awaiting_judging |
+| E4: Ministral QLoRA-SFT + RAG | — | — | — | — | — | not run |
+
+Closed-book diagnostic
+
+| Model | Correctness | Citation resolution | Abstention | Composite | Parse rate | Status |
+|---|---:|---:|---:|---:|---:|---|
+| E1: Ministral without RAG | — | 0.000000 | 0.454395 | — | 0.368421 | awaiting_judging |
+| E3: Ministral QLoRA-SFT without RAG | — | — | — | — | — | not run |
+
+Parse rate retains the inherited definition (parseable citation or recognised abstention).
+Citation resolution is metadata matching, not claim entailment. No winner is declared while judging is incomplete.
 
 Term Explanation
 
@@ -44,7 +77,7 @@ Steps completed, in simple words:
    question, answer and supporting passage came from. Dev/test examples were excluded.
 4. Checked real tokenisation and assistant-only labels. Twenty-one examples fit
    the 2,048-token training limit; two longer examples were excluded whole.
-5. Ran 180 local regression and safety tests (including result-reporting checks). All 42 protected input files remain
+5. Ran 197 local regression and safety tests (including result-reporting checks). All 42 protected input files remain
    unchanged. None of the 280 evaluation prompts needs evidence truncation.
 6. Uploaded three separately packaged datasets to Kaggle after explicit approval.
    Kaggle confirms that all three are **private** and ready. The training dataset
@@ -293,3 +326,57 @@ inference models. It records the wrapped/unwrapped difference to test this
 remaining hypothesis. Prepared base loading is also applied to tuned evaluation
 so it uses the same inference path. Tolerances and every existing gate remain
 unchanged. The 21 examples, hyperparameters, prompts and evidence are unchanged.
+
+### Controlled continuation and private analysis
+
+Smoke v3 is submitted; full training and E3/E4 remain gated. The two historical
+full-test results were independently reproduced by the new analysis within
+six-decimal rounding. The motor population was counted from `line == "motor"`
+in the frozen test metadata: 76, including 67 answerable and 9 unanswerable.
+Historical motor scores above use the same procedure as the new motor slice.
+
+Orchestration lives under `scripts/` so a successful training fingerprint is not
+invalidated. `kaggle_followup.py full` validates the receipt, unchanged tolerance,
+all functional gates and complete tensor checks, then packages only the 21-row
+training bundle, smoke receipt and exact code/config. `kaggle_followup.py sft-eval`
+requires completed full training and packages frozen tasks plus the verified
+adapter separately. Both stage only; neither silently launches a GPU job.
+
+`error_analysis.py` writes private per-QID records and aggregates, using inherited
+reading B and unchanged composite mathematics. It rejects incomplete answer
+populations and withholds correctness/composite on incomplete judging. The
+retrieval diagnostic locates normalized gold quotations in same-document,
+same-insurer frozen chunks. A nonmatch is a **quote-location proxy**, not proof
+that semantically equivalent evidence is absent. Semantic generation categories
+remain pending where correctness is unjudged. Resolved-format failure is a
+separate diagnostic; it does not change the inherited parse-rate definition.
+
+`merge_judgements.py` requires three complete, separate blinded vote files and
+uses the inherited merge rule with three valid votes required. Existing historical
+scores are preserved, including their documented two-vote cases; that exception
+is restricted to the two published historical rows. No judge API/runtime is
+currently connected, so new correctness and composite remain awaiting judging.
+
+`faithfulness_audit.py prepare` selects 45 QIDs at seed 20261008 from questions
+where **both E2 and E4** emit non-abstaining open-book answers under reading B,
+then blinds/shuffles both answers. It does not select interesting failures.
+The sample rate is conditional on that pool, not a whole-benchmark hallucination
+rate. A separate claim judge receives only the supplied frozen context as evidence.
+Unsupported, partially supported and contradicted claims are kept distinct. The
+faithfulness audit never changes the historical composite. No hallucination rate
+is reported before these judgements exist. Qualitative improvement/regression
+examples likewise require the corresponding judgements; none are fabricated.
+
+Paired E4-minus-E2 correctness/composite intervals use 2,000 question-level
+bootstrap resamples at seed 0, only after complete correctness judging. Citation
+pairs use per-answer resolved/parsed citation fractions (zero when no citation is
+parsed); this differs from the pooled citation ratio in the leaderboard. Refusal
+pairs compare whether the answer/refuse decision matches answerability.
+
+Research limitations: only 21 answerable SFT examples; mixed-domain benchmark;
+no motor questions in dev; small test population; LLM-judge dependence; citation
+resolution is not entailment; and only one fine-tuning configuration. Post-hoc
+error analysis is for the next research stage and will not drive tuning of this
+run. Prepared tuned inference also upcasts some non-quantised parameters; this
+runtime difference from the original base run must be disclosed when attributing
+an E2–E4 difference entirely to adapter learning.
