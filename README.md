@@ -65,6 +65,9 @@ Steps completed, in simple words:
    restored LoRA tensor checks. The diagnostic smoke compares the original reload
    path with a base prepared in the same way as training. The cause is not yet
    confirmed; numerical tolerances remain unchanged (atol 0.02, rtol 0.01).
+10. Submitted private Kaggle smoke version 2 with these diagnostics. This is
+    another two-step smoke, not full training. Its outcome is pending. Code and
+    GitHub checks pass all 178 tests; the 42 protected input files are unchanged.
 
 Private job links (account access required):
 - [Qwen2.5-3B base evaluation](https://www.kaggle.com/code/scarletthe0116/uk-insurance-base-eval-qwen3b)
