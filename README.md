@@ -125,8 +125,8 @@ Both jobs used Tesla T4, Torch 2.11.0+cu128, Transformers 5.19.0, PEFT
 75.6 minutes for Qwen and 66.8 minutes for Ministral across both conditions;
 these exclude setup and are not a controlled hardware speed comparison.
 
-No adapter-reload success is claimed yet. Full training remains
-blocked until the CUDA smoke passes every gate. The small, answerable-only SFT
+Smoke v3 verified fresh adapter reload with zero maximum and mean logit difference.
+Full training uses this successful receipt; E3/E4 wait for full-training verification. The small, answerable-only SFT
 population is a limitation; no new human entailment review has been performed.
 Benchmark text, raw answers, training examples, adapters, logs and credentials
 stay outside this public repository.
@@ -329,7 +329,7 @@ unchanged. The 21 examples, hyperparameters, prompts and evidence are unchanged.
 
 ### Controlled continuation and private analysis
 
-Smoke v3 is submitted; full training and E3/E4 remain gated. The two historical
+Smoke v3 passed every gate; full training is being launched with its exact receipt. E3/E4 still await the trained adapter. The two historical
 full-test results were independently reproduced by the new analysis within
 six-decimal rounding. The motor population was counted from `line == "motor"`
 in the frozen test metadata: 76, including 67 answerable and 9 unanswerable.
@@ -380,3 +380,24 @@ error analysis is for the next research stage and will not drive tuning of this
 run. Prepared tuned inference also upcasts some non-quantised parameters; this
 runtime difference from the original base run must be disclosed when attributing
 an E2–E4 difference entirely to adapter learning.
+
+### Smoke v3 passed — frozen setup
+
+All six gates passed: leakage, tokenisation, masking, finite loss, language-only
+adapters and adapter reload. The prepared reload has maximum and mean absolute
+logit difference **0.0**, with the original atol 0.02 / rtol 0.01 unchanged.
+Top-1, generated tokens, generated text, nonempty generation, runtime and all
+364 adapter tensors pass. Removing Accelerate's training-only autocast wrapper
+eliminated the remaining prepared-reload difference on the smoke probe. The
+wrapped/unwrapped comparison reproduced the v2 max/mean difference exactly.
+
+- Successful fingerprinted code commit: `5622b257c608a6c464c18912b69790c73cb4fad9`.
+- Experiment fingerprint: `5a5dc00dec20830d4c0c1cf1379425e9aa5b4cd33551c27a468a7d2d437946ef`.
+- Smoke receipt SHA256: `839870936fd19b9cc5b629420bbb543cf140daeff6cad935a88371a7937742a5`.
+- GPU: Tesla T4. Torch 2.11.0+cu128, Transformers 5.19.0, PEFT 0.21.2,
+  bitsandbytes 0.50.2, Accelerate 1.15.0.
+
+Private provenance includes the manifest, configuration and diagnostic hashes.
+Fingerprinted Python files and configuration are frozen until full training
+finishes. The full-training package contains the same 21 examples, manifest,
+exact passing receipt and code/config; no evaluation tasks are included.
