@@ -99,8 +99,8 @@ Steps completed, in simple words:
    path with a base prepared in the same way as training. The cause is not yet
    confirmed; numerical tolerances remain unchanged (atol 0.02, rtol 0.01).
 10. Submitted private Kaggle smoke version 2 with these diagnostics. This is
-    another two-step smoke, not full training. Its outcome is pending. Code and
-    GitHub checks pass all 178 tests; the 42 protected input files are unchanged.
+    another two-step smoke, not full training. It failed the numerical reload
+    gate; detailed measurements and the Smoke v3 fix are recorded below.
 
 Private job links (account access required):
 - [Qwen2.5-3B base evaluation](https://www.kaggle.com/code/scarletthe0116/uk-insurance-base-eval-qwen3b)

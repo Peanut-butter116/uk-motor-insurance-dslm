@@ -108,6 +108,11 @@ def aggregate(records):
             'unjudged':len(subset)-len(scored),'over_refusals':sum(r['abst'] for r in subset),
             'over_refusal_rate':sum(r['abst'] for r in subset)/len(subset) if subset else None}
     categories=dict(Counter(c for r in records for c in r['categories']))
+    for name in ['RETRIEVAL_EVIDENCE_NOT_LOCATED_PROXY','GENERATION_FAILURE_WITH_QUOTED_EVIDENCE_AVAILABLE',
+                 'INCOMPLETE_ANSWER','CONTRADICTION','OVER_REFUSAL','UNDER_REFUSAL_BY_READING_B',
+                 'CITATION_FAILURE','FORMAT_FAILURE_RESOLVED']:
+        categories.setdefault(name,0)
+    categories['HALLUCINATION_FAITHFULNESS_FAILURE']=None
     for name in ['INCOMPLETE_ANSWER','CONTRADICTION','GENERATION_FAILURE_WITH_QUOTED_EVIDENCE_AVAILABLE']:
         if missing:categories[name]=None
     return dict(metrics,n=len(records),missing_correctness=missing,
