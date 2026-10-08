@@ -29,6 +29,13 @@ Term Explanation
 | **Citation resolution** | Checks whether citations written by the model match the document information in the frozen retrieved passages: insurer, document, section and page, allowing a one-page difference. | Whether the model points to an identifiable source. It does **not** establish that the source actually supports every claim. |
 | **Abstention** | The model declines to answer because the evidence is insufficient. | Whether it refuses appropriately instead of guessing, while still answering questions that have an answer. |
 
+| Item | Count/unit | Meaning and use |
+|---|---:|---|
+| Policy documents | **27 documents** | The underlying policy collection. |
+| Policy chunks | **1,976 passages** | Searchable pieces extracted from those documents for retrieval. They are not 1,976 QA examples. |
+| Original gold benchmark | **200 QA records** | Reference questions and answers, divided into seed/dev/test. |
+| Final SFT dataset | **21 examples** | Each contains one question, supporting context and one target answer with citations. |
+
 Steps completed, in simple words:
 
 1. Checked the old benchmark and reproduced both historical RAG scores.
