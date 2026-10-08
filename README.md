@@ -21,6 +21,14 @@ and abstention can be measured without an LLM judge.
 | E3: Ministral QLoRA-SFT without RAG | — | — | — | — | GPU smoke submitted; gates pending |
 | E4: Ministral QLoRA-SFT + RAG | — | — | — | — | GPU smoke submitted; gates pending |
 
+Term Explanation
+
+| Term | Meaning in this project | What it tells us |
+|---|---|---|
+| **Smoke run** | A short training trial—here, two optimiser steps—before full training. | Whether model loading, tokenisation, training, saving and adapter reloading work. It does **not** establish model quality. |
+| **Citation resolution** | Checks whether citations written by the model match the document information in the frozen retrieved passages: insurer, document, section and page, allowing a one-page difference. | Whether the model points to an identifiable source. It does **not** establish that the source actually supports every claim. |
+| **Abstention** | The model declines to answer because the evidence is insufficient. | Whether it refuses appropriately instead of guessing, while still answering questions that have an answer. |
+
 Steps completed, in simple words:
 
 1. Checked the old benchmark and reproduced both historical RAG scores.
