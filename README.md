@@ -329,7 +329,7 @@ unchanged. The 21 examples, hyperparameters, prompts and evidence are unchanged.
 
 ### Controlled continuation and private analysis
 
-Smoke v3 passed every gate; full training is being launched with its exact receipt. E3/E4 still await the trained adapter. The two historical
+Smoke v3 passed every gate; full training has been submitted with its exact receipt. E3/E4 still await the trained adapter. The two historical
 full-test results were independently reproduced by the new analysis within
 six-decimal rounding. The motor population was counted from `line == "motor"`
 in the frozen test metadata: 76, including 67 answerable and 9 unanswerable.
@@ -401,3 +401,12 @@ Private provenance includes the manifest, configuration and diagnostic hashes.
 Fingerprinted Python files and configuration are frozen until full training
 finishes. The full-training package contains the same 21 examples, manifest,
 exact passing receipt and code/config; no evaluation tasks are included.
+
+### Full training submitted
+
+[Private full-training job](https://www.kaggle.com/code/scarletthe0116/uk-insurance-full-ministral3b),
+version 1, was accepted by Kaggle. It runs the existing `experiments.train --mode
+full --smoke-receipt ...` path with the exact successful Smoke v3 receipt, the same
+21 examples and fixed two-epoch configuration. The new training-only dataset is
+verified private. Full-training success, loss and final reload are not yet
+reported; E3/E4 will run separately only after the full receipt is verified.
