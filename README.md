@@ -3,7 +3,7 @@
 Lean starting point for comparing small base models and QLoRA supervised fine-tuning with the existing insurance RAG pipeline.
 
 
-## Experiment progress — 7 October 2026
+## Experiment progress — 8 October 2026
 
 The following table compares the same frozen 140-question test population.
 Historical results use the corrected abstention reading B. A dash means no
@@ -18,8 +18,8 @@ and abstention can be measured without an LLM judge.
 | Qwen2.5-3B + RAG | — | — | 0.852761 | 0.522727 | 140 answers verified; judging pending |
 | E1: Ministral-3-3B without RAG | — | — | 0.000000 | 0.462635 | 140 answers verified; judging pending |
 | E2: Ministral-3-3B + RAG | — | — | 0.842697 | 0.596687 | 140 answers verified; judging pending |
-| E3: Ministral QLoRA-SFT without RAG | — | — | — | — | GPU smoke submitted; gates pending |
-| E4: Ministral QLoRA-SFT + RAG | — | — | — | — | GPU smoke submitted; gates pending |
+| E3: Ministral QLoRA-SFT without RAG | — | — | — | — | Not started; smoke reload diagnosis pending |
+| E4: Ministral QLoRA-SFT + RAG | — | — | — | — | Not started; smoke reload diagnosis pending |
 
 Term Explanation
 
@@ -44,7 +44,7 @@ Steps completed, in simple words:
    question, answer and supporting passage came from. Dev/test examples were excluded.
 4. Checked real tokenisation and assistant-only labels. Twenty-one examples fit
    the 2,048-token training limit; two longer examples were excluded whole.
-5. Ran 169 local regression and safety tests (including result-reporting checks). All 42 protected input files remain
+5. Ran 178 local regression and safety tests (including result-reporting checks). All 42 protected input files remain
    unchanged. None of the 280 evaluation prompts needs evidence truncation.
 6. Uploaded three separately packaged datasets to Kaggle after explicit approval.
    Kaggle confirms that all three are **private** and ready. The training dataset
@@ -56,8 +56,15 @@ Steps completed, in simple words:
    Generated private blinded judge tasks and calculated the deterministic scores.
    Verified the Ministral T4 job in the same way: another 140 answers per
    condition. All four answer populations are complete (560 answers total).
-8. Submitted the Ministral QLoRA smoke job after a GPU slot became free. Kaggle
-   confirms it is running. Full training will wait for its successful receipt.
+8. The first Ministral smoke completed two training steps (mean training loss
+   about 2.437), but failed the numerical adapter-reload check. It did not produce
+   a success receipt. Full training and E3/E4 have not started.
+9. Added reload diagnostics: explicit evaluation mode, identical input IDs and
+   attention masks, effective dtype/configuration records, maximum and mean logit
+   differences, top-1 predictions, greedy 32-token outputs, and complete saved/
+   restored LoRA tensor checks. The diagnostic smoke compares the original reload
+   path with a base prepared in the same way as training. The cause is not yet
+   confirmed; numerical tolerances remain unchanged (atol 0.02, rtol 0.01).
 
 Private job links (account access required):
 - [Qwen2.5-3B base evaluation](https://www.kaggle.com/code/scarletthe0116/uk-insurance-base-eval-qwen3b)

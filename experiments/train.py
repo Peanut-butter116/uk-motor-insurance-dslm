@@ -90,27 +90,55 @@ def run(bundle,output,mode='smoke',receipt=None):
     del initial,updated
     adapter=out/'adapter';model.save_pretrained(adapter);tokenizer.save_pretrained(adapter)
     write_json(out/'training.json',{'loss':result.training_loss,'log':trainer.state.log_history,'trainable':trainable})
-    probe=data[0]['messages'][:-1]
-    model.eval();model.config.use_cache=True
-    ids=torch.tensor([token_ids(tokenizer,probe,True)],device=model.device)
-    with torch.inference_mode():before=model(input_ids=ids).logits[:,-1,:].float().cpu()
-    from peft import get_peft_model_state_dict
+    from . import reload_check as check
+    from safetensors.torch import load_file
+    import inspect
+    probe_messages=data[0]['messages'][:-1]
+    ids_cpu=torch.tensor([token_ids(tokenizer,probe_messages,True)])
+    mask_cpu=torch.ones_like(ids_cpu)
+    before=check.probe(model,tokenizer,ids_cpu,mask_cpu)
     saved={k:v.detach().cpu().clone() for k,v in get_peft_model_state_dict(model).items()}
-    del trainer,model,ids;gc.collect();torch.cuda.empty_cache()
-    fresh,fresh_tokenizer=load_model('ministral3b')
-    fresh=PeftModel.from_pretrained(fresh,adapter,is_trainable=False);fresh.eval()
-    if token_ids(fresh_tokenizer,probe,True)!=token_ids(tokenizer,probe,True):raise ValueError('Reload tokenisation drift')
-    restored=get_peft_model_state_dict(fresh)
-    if set(saved)!=set(restored) or any(not torch.equal(saved[k],restored[k].detach().cpu()) for k in saved):
-        raise ValueError('Adapter weights differ after reload')
-    ids=torch.tensor([token_ids(fresh_tokenizer,probe,True)],device=fresh.device)
-    with torch.inference_mode():after=fresh(input_ids=ids).logits[:,-1,:].float().cpu()
-    if not torch.allclose(before,after,atol=0.02,rtol=0.01):raise ValueError('Reload logits differ')
-    answer,_=generate(fresh,fresh_tokenizer,probe,max_new_tokens=32)
-    if not answer.strip():raise ValueError('Reload generation empty')
+    disk=load_file(str(adapter/'adapter_model.safetensors'))
+    disk_check=check.adapter_check(saved,disk,trainable)
+    report={'input_ids_sha256':digest(ids_cpu.tolist()), 'attention_mask_sha256':digest(mask_cpu.tolist()),
+        'before_runtime':before['runtime'], 'before_generated_tokens':before['tokens'],
+        'before_generated_text':before['text'], 'saved_adapter':disk_check}
+    write_json(out/'reload_diagnostics.json',report)
+    # Preserve the exact installed preparation code as private diagnostic evidence.
+    (out/'prepare_model_for_kbit_training.txt').write_text(inspect.getsource(prepare_model_for_kbit_training))
+    if not disk_check['equal']:raise ValueError('Saved adapter does not contain all trained weights')
+    del trainer,model,disk;gc.collect();torch.cuda.empty_cache()
+    comparisons={}
+    # First reproduce the old reload, then isolate base preparation as the only
+    # changed operation. Both paths use the same fixed IDs/mask and pinned loader.
+    for label,prepare_base in [('unprepared_reload',False),('prepared_reload',True)]:
+        fresh,fresh_tokenizer=load_model('ministral3b')
+        tokenizer_equal=token_ids(fresh_tokenizer,probe_messages,True)==ids_cpu[0].tolist()
+        if prepare_base:
+            fresh=prepare_model_for_kbit_training(fresh,use_gradient_checkpointing=False)
+        fresh=PeftModel.from_pretrained(fresh,adapter,is_trainable=False)
+        restored_check=check.adapter_check(saved,get_peft_model_state_dict(fresh),trainable)
+        after=check.probe(fresh,fresh_tokenizer,ids_cpu,mask_cpu)
+        comparison=check.compare(before,after)
+        comparison.update(tokenizer_equal=tokenizer_equal,restored_adapter=restored_check)
+        comparisons[label]=comparison
+        report[label]={**comparison,'runtime':after['runtime'],
+            'generated_tokens':after['tokens'],'generated_text':after['text']}
+        write_json(out/'reload_diagnostics.json',report)
+        print(label,json.dumps(comparison),flush=True)
+        del fresh,after;gc.collect();torch.cuda.empty_cache()
+    final=comparisons['prepared_reload']
+    if not final['tokenizer_equal'] or not final['restored_adapter']['equal']:
+        raise ValueError('Reload tokenisation or adapter weights differ')
+    check.require_comparison(final)
     write_json(out/'receipt.json',{'mode':mode,'fingerprint':fingerprint(manifest),'versions':versions,
         'gates':dict.fromkeys(['leakage','tokenisation','masking','finite_loss','language_only','adapter_reload'],True),
-        'rows':len(data),'steps':trainer_steps(result),'max_logit_difference':(before-after).abs().max().item()})
+        'rows':len(data),'steps':trainer_steps(result),
+        'reload_requires_kbit_preparation':True,
+        'max_logit_difference':final['max_absolute_difference'],
+        'mean_logit_difference':final['mean_absolute_difference'],
+        'diagnostics_sha256':sha(out/'reload_diagnostics.json')})
+
 
 
 def trainer_steps(result):return result.global_step
