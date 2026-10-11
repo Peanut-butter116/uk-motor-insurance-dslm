@@ -3,56 +3,62 @@
 Lean starting point for comparing small base models and QLoRA supervised fine-tuning with the existing insurance RAG pipeline.
 
 
-## Experiment progress — 8 October 2026
+## Experiment progress — 11 October 2026
 
-The following table compares the same frozen 140-question test population.
-Historical results use the corrected abstention reading B. A dash means no
-measurement is available; it is not zero. Both base-model outputs are verified; correctness judging is pending. Citation resolution
-and abstention can be measured without an LLM judge.
+**E3 and E4 are complete and verified: 140 unique, nonempty answers each.**
+All new-model correctness/composite scores remain **awaiting_judging**.
+The single table below contains every completed condition and the supplementary
+motor slice. The full 140-question benchmark is the historical comparison;
+the motor subset has 76 questions. Rows without RAG are diagnostic.
 
-Aggregate results from the frozen test benchmark. A dash means unmeasured, not zero.
-Correctness/composite stay pending until all required judgements are complete.
+| Population | Model / training | RAG | Correctness | Citation resolution | Abstention | Composite | Parse rate |
+|---|---|:---:|---:|---:|---:|---:|---:|
+| Full · 140 | Previous Qwen2.5-7B | Yes | 0.388771 | 0.897872 | 0.723421 | 0.608431 | 0.957143 |
+| Full · 140 | Previous Qwen2.5-7B · QLoRA-RAFT | Yes | 0.348093 | 0.919463 | 0.746148 | 0.599115 | 1.000000 |
+| Full · 140 | Qwen2.5-3B base | Yes | Pending | 0.852761 | 0.522727 | Pending | 0.700000 |
+| Full · 140 | E2 · Ministral-3B base | Yes | Pending | 0.842697 | 0.596687 | Pending | 0.692857 |
+| Full · 140 | E4 · Ministral-3B QLoRA-SFT | Yes | Pending | 0.914729 | 0.696071 | Pending | 0.842857 |
+| Full · 140 | Qwen2.5-3B base | No | Pending | 0.000000 | 0.495763 | Pending | 0.214286 |
+| Full · 140 | E1 · Ministral-3B base | No | Pending | 0.000000 | 0.462635 | Pending | 0.378571 |
+| Full · 140 | E3 · Ministral-3B QLoRA-SFT | No | Pending | 0.000000 | 0.590524 | Pending | 0.450000 |
+| Motor · 76 | Previous Qwen2.5-7B | Yes | 0.373881 | 0.935252 | 0.718076 | 0.611131 | 0.947368 |
+| Motor · 76 | Previous Qwen2.5-7B · QLoRA-RAFT | Yes | 0.333458 | 0.949367 | 0.766169 | 0.604773 | 1.000000 |
+| Motor · 76 | Qwen2.5-3B base | Yes | Pending | 0.888889 | 0.500000 | Pending | 0.697368 |
+| Motor · 76 | E2 · Ministral-3B base | Yes | Pending | 0.812500 | 0.603648 | Pending | 0.750000 |
+| Motor · 76 | E4 · Ministral-3B QLoRA-SFT | Yes | Pending | 0.925373 | 0.659204 | Pending | 0.763158 |
+| Motor · 76 | Qwen2.5-3B base | No | Pending | 0.000000 | 0.492537 | Pending | 0.250000 |
+| Motor · 76 | E1 · Ministral-3B base | No | Pending | 0.000000 | 0.454395 | Pending | 0.368421 |
+| Motor · 76 | E3 · Ministral-3B QLoRA-SFT | No | Pending | 0.000000 | 0.694859 | Pending | 0.473684 |
 
-**Full frozen benchmark (n=140)**
+**Reading the results.** Pending means unmeasured, not zero. Abstention uses
+adopted reading B. Parse rate is the inherited definition: a parseable citation
+or recognised abstention. Citation resolution checks source metadata, not
+semantic support or hallucination. No overall winner is declared until correctness
+judging is complete. The historical composite remains 0.5 × correctness +
+0.3 × citation resolution + 0.2 × balanced abstention.
 
-Open-book comparison
+**E2 → E4:** citation resolution rose from 0.842697 to **0.914729**; balanced
+abstention from 0.596687 to **0.696071**; parse rate from 0.692857 to **0.842857**.
+E4 resolved 118/129 parsed citations, correctly refused 9/22 unanswerable questions
+and over-refused 2/118 answerable questions (E2: 5/22 and 4/118). Its parse rate
+still falls below the inherited 90% ranking gate. These are measured behavioural
+changes; whether answer correctness improved is **not yet known**.
 
-| Model | Correctness | Citation resolution | Abstention | Composite | Parse rate | Status |
-|---|---:|---:|---:|---:|---:|---|
-| Previous Qwen2.5-7B + RAG | 0.388771 | 0.897872 | 0.723421 | 0.608431 | 0.957143 | scored |
-| Previous QLoRA-RAFT + RAG | 0.348093 | 0.919463 | 0.746148 | 0.599115 | 1.000000 | scored |
-| Qwen2.5-3B + RAG | — | 0.852761 | 0.522727 | — | 0.700000 | awaiting_judging |
-| E2: Ministral-3-3B + RAG | — | 0.842697 | 0.596687 | — | 0.692857 | awaiting_judging |
-| E4: Ministral QLoRA-SFT + RAG | — | — | — | — | — | GPU evaluation running |
+E3 resolved 0/8 parsed citations, correctly refused 12/22 unanswerable questions
+and over-refused 43/118 answerable questions. In the 76-question motor subset,
+E4 resolved 62/67 parsed citations, correctly refused 3/9 unanswerable questions
+and over-refused 1/67 answerable questions.
 
-Closed-book diagnostic
+Generation took 2,335.479 seconds for E3 and 2,670.970 seconds for E4 (about
+83.4 minutes combined, excluding setup). The launch receipt, frozen input manifest,
+configuration, answer populations and adapter hashes passed verification.
+Detailed answers, hashes and judge tasks remain private. Runtime versions match
+the recorded experiment environment. Latency is descriptive, not a controlled
+speed comparison.
 
-| Model | Correctness | Citation resolution | Abstention | Composite | Parse rate | Status |
-|---|---:|---:|---:|---:|---:|---|
-| E1: Ministral without RAG | — | 0.000000 | 0.462635 | — | 0.378571 | awaiting_judging |
-| E3: Ministral QLoRA-SFT without RAG | — | — | — | — | — | GPU evaluation running |
-
-**Supplementary motor-only slice (n=76)**
-
-Open-book comparison
-
-| Model | Correctness | Citation resolution | Abstention | Composite | Parse rate | Status |
-|---|---:|---:|---:|---:|---:|---|
-| Previous Qwen2.5-7B + RAG | 0.373881 | 0.935252 | 0.718076 | 0.611131 | 0.947368 | scored |
-| Previous QLoRA-RAFT + RAG | 0.333458 | 0.949367 | 0.766169 | 0.604773 | 1.000000 | scored |
-| Qwen2.5-3B + RAG | — | 0.888889 | 0.500000 | — | 0.697368 | awaiting_judging |
-| E2: Ministral-3-3B + RAG | — | 0.812500 | 0.603648 | — | 0.750000 | awaiting_judging |
-| E4: Ministral QLoRA-SFT + RAG | — | — | — | — | — | GPU evaluation running |
-
-Closed-book diagnostic
-
-| Model | Correctness | Citation resolution | Abstention | Composite | Parse rate | Status |
-|---|---:|---:|---:|---:|---:|---|
-| E1: Ministral without RAG | — | 0.000000 | 0.454395 | — | 0.368421 | awaiting_judging |
-| E3: Ministral QLoRA-SFT without RAG | — | — | — | — | — | GPU evaluation running |
-
-Parse rate retains the inherited definition (parseable citation or recognised abstention).
-Citation resolution is metadata matching, not claim entailment. No winner is declared while judging is incomplete.
+Research aim: **Improve the previous insurance model using alternative adaptation
+techniques and increase answer accuracy.** 3B is used as a practical prototype
+under current compute constraints; 7B remains desirable for later validation.
 
 Term Explanation
 
@@ -126,7 +132,7 @@ Both jobs used Tesla T4, Torch 2.11.0+cu128, Transformers 5.19.0, PEFT
 these exclude setup and are not a controlled hardware speed comparison.
 
 Smoke v3 verified fresh adapter reload with zero maximum and mean logit difference.
-Full training passed using this successful receipt; the separate E3/E4 GPU evaluation is running. The small, answerable-only SFT
+Full training passed using this successful receipt; the separate E3/E4 GPU evaluation has completed and passed verification. The small, answerable-only SFT
 population is a limitation; no new human entailment review has been performed.
 Benchmark text, raw answers, training examples, adapters, logs and credentials
 stay outside this public repository.
@@ -310,7 +316,7 @@ rubric and three-vote merge remain required; no judge service is configured yet.
 
 ### Smoke v2 diagnosis — 8 October 2026
 
-Smoke v2 failed; no successful receipt exists. No full training was launched.
+Smoke v2 failed and produced no successful receipt; full training remained blocked at that stage.
 
 | Reload path | Max absolute logit difference | Mean absolute difference | Top-1 equal | Generated tokens/text equal | Runtime equal | Adapter tensors equal |
 |---|---:|---:|---|---|---|---|
@@ -329,7 +335,7 @@ unchanged. The 21 examples, hyperparameters, prompts and evidence are unchanged.
 
 ### Controlled continuation and private analysis
 
-Smoke v3 passed every gate; full training has been submitted with its exact receipt. E3/E4 still await the trained adapter. The two historical
+Smoke v3, full training and E3/E4 generation have all passed verification. The two historical
 full-test results were independently reproduced by the new analysis within
 six-decimal rounding. The motor population was counted from `line == "motor"`
 in the frozen test metadata: 76, including 67 answerable and 9 unanswerable.
@@ -432,8 +438,9 @@ E3/E4 evaluation follows in a separate dataset/job containing no training exampl
 version 1, runs the existing `experiments.evaluate run --model ministral3b --adapter ...`
 path. Its separate, verified-private dataset contains only frozen task prompts,
 the trained adapter, and required code/configuration; it contains no training rows.
-The expected output is 140 E3 and 140 E4 answers. These counts and evaluation
-metrics remain unverified until the completed artifacts are downloaded and checked.
+The output was verified on 11 October 2026: 140 E3 and 140 E4 answers, with
+no missing/duplicate QIDs or empty answers. Deterministic metrics are in the
+single comparison table above.
 Correctness/composite and claim faithfulness remain `awaiting_judging`; no judge
 runtime is currently configured. The correctness task pool hides model/condition
 identities and requires three independent votes per answer.
