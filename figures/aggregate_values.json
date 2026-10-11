@@ -1,0 +1,73 @@
+{
+  "date": "2026-10-11",
+  "source_commit": "1e1ff8d2d2875c0e19baed98964d20c865bda57b",
+  "source": "README.md",
+  "readme_sha256": "c6fe2f8be52aacff948ce4f8043a50e649633e42f5ea494013988d149ea2d896",
+  "benchmark_n": 140,
+  "motor_n": 76,
+  "sft_n": 21,
+  "e3_n": 140,
+  "e4_n": 140,
+  "e3_e4_status": "complete",
+  "correctness_status": "pending",
+  "faithfulness_status": "pending",
+  "results": [
+    {
+      "label": "Qwen2.5-7B\nBase + RAG",
+      "correctness": 0.388771,
+      "citation": 0.897872,
+      "abstention": 0.723421,
+      "composite": 0.608431,
+      "parse_rate": 0.957143
+    },
+    {
+      "label": "Qwen2.5-7B\nQLoRA-RAFT + RAG",
+      "correctness": 0.348093,
+      "citation": 0.919463,
+      "abstention": 0.746148,
+      "composite": 0.599115,
+      "parse_rate": 1.0
+    },
+    {
+      "label": "Qwen2.5-3B\nBase + RAG",
+      "correctness": null,
+      "citation": 0.852761,
+      "abstention": 0.522727,
+      "composite": null,
+      "parse_rate": 0.7
+    },
+    {
+      "label": "E2 \u00b7 Ministral-3B\nBase + RAG",
+      "correctness": null,
+      "citation": 0.842697,
+      "abstention": 0.596687,
+      "composite": null,
+      "parse_rate": 0.692857
+    },
+    {
+      "label": "E4 \u00b7 Ministral-3B\nQLoRA-SFT + RAG",
+      "correctness": null,
+      "citation": 0.914729,
+      "abstention": 0.696071,
+      "composite": null,
+      "parse_rate": 0.842857
+    }
+  ],
+  "reload": [
+    {
+      "label": "Smoke v2\nUnprepared reload",
+      "max": 0.46875,
+      "mean": 0.076282
+    },
+    {
+      "label": "Smoke v2\nPrepared reload",
+      "max": 0.119458,
+      "mean": 0.015449
+    },
+    {
+      "label": "Smoke v3\nCorrected inference",
+      "max": 0.0,
+      "mean": 0.0
+    }
+  ]
+}
