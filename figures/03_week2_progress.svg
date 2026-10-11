@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="1152pt" height="648pt" viewBox="0 0 1152 648" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-10-11</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Public aggregate progress figures</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 648
+L 1152 648
+L 1152 0
+L 0 0
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="line2d_1">
+    <path d="M 126 219.6
+L 1026 219.6
+" clip-path="url(#p72ff8d7c37)" style="fill: none; stroke: #cbd5df; stroke-width: 3; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 126 442.8
+L 846 442.8
+" clip-path="url(#p72ff8d7c37)" style="fill: none; stroke: #cbd5df; stroke-width: 3; stroke-linecap: square"/>
+   </g>
+   <g id="patch_2">
+    <path d="M 126 365.600391
+Q 126 392.4008 126 417.412356
+" clip-path="url(#p72ff8d7c37)" style="fill: none; stroke: #9baab9; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 129.4 410.612356
+L 126 417.412356
+L 122.6 410.612356
+z
+" clip-path="url(#p72ff8d7c37)" style="fill: #9baab9; stroke: #9baab9; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 1045.44 219.6
+L 1119.6 219.6
+L 1119.6 363.6
+L 126 363.6
+" clip-path="url(#p72ff8d7c37)" style="fill: none; stroke: #cbd5df; stroke-width: 1.5; stroke-linecap: square"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #087f82" x="39.6" y="32.4" transform="rotate(-0 39.6 32.4)">03  /  UK INSURANCE DSLM</text>
+   </g>
+   <g id="text_2">
+    <text style="font-weight: 700; font-size: 29px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18324d" x="39.6" y="70.56" transform="rotate(-0 39.6 70.56)">Week 2: from inherited pipeline to completed E3/E4</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #526476" x="39.6" y="104.4" transform="rotate(-0 39.6 104.4)">Generation and engineering gates are complete. Correctness and faithfulness are still unmeasured.</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #526476" x="39.6" y="631.44" transform="rotate(-0 39.6 631.44)">Tech Mahindra  •  Research progress  •  2026-10-11</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #526476" x="1112.4" y="631.44" transform="rotate(-0 1112.4 631.44)">Public aggregates only  |  README 1e1ff8d</text>
+   </g>
+   <g id="PathCollection_1">
+    <defs>
+     <path id="m090f6d503a" d="M 0 11.937336
+C 3.165819 11.937336 6.2024 10.679543 8.440972 8.440972
+C 10.679543 6.2024 11.937336 3.165819 11.937336 0
+C 11.937336 -3.165819 10.679543 -6.2024 8.440972 -8.440972
+C 6.2024 -10.679543 3.165819 -11.937336 0 -11.937336
+C -3.165819 -11.937336 -6.2024 -10.679543 -8.440972 -8.440972
+C -10.679543 -6.2024 -11.937336 -3.165819 -11.937336 0
+C -11.937336 3.165819 -10.679543 6.2024 -8.440972 8.440972
+C -6.2024 10.679543 -3.165819 11.937336 0 11.937336
+z
+" style="stroke: #087f82; stroke-width: 2"/>
+    </defs>
+    <g clip-path="url(#p72ff8d7c37)">
+     <use xlink:href="#m090f6d503a" x="126" y="219.6" style="fill: #087f82; stroke: #087f82; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="text_6">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="126" y="223.496484" transform="rotate(-0 126 223.496484)">1</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; fill: #18324d" transform="translate(42.23 286.365)">Inherited benchmark</text>
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; fill: #18324d" transform="translate(91.64 307.165)">and RAG</text>
+   </g>
+   <g id="text_8">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #087f82" x="126" y="333.36" transform="rotate(-0 126 333.36)">DONE</text>
+   </g>
+   <g id="PathCollection_2">
+    <g clip-path="url(#p72ff8d7c37)">
+     <use xlink:href="#m090f6d503a" x="306" y="219.6" style="fill: #087f82; stroke: #087f82; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="306" y="223.496484" transform="rotate(-0 306 223.496484)">2</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; fill: #18324d" transform="translate(238.2725 284.815)">Audited previous</text>
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; fill: #18324d" transform="translate(265.54625 305.615)">repository</text>
+   </g>
+   <g id="text_11">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #087f82" x="306" y="333.36" transform="rotate(-0 306 333.36)">DONE</text>
+   </g>
+   <g id="PathCollection_3">
+    <g clip-path="url(#p72ff8d7c37)">
+     <use xlink:href="#m090f6d503a" x="486" y="219.6" style="fill: #087f82; stroke: #087f82; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="text_12">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="486" y="223.496484" transform="rotate(-0 486 223.496484)">3</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; fill: #18324d" transform="translate(451.76125 286.365)">21 clean</text>
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; fill: #18324d" transform="translate(430.4275 305.615)">SFT examples</text>
+   </g>
+   <g id="text_14">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #087f82" x="486" y="333.36" transform="rotate(-0 486 333.36)">DONE</text>
+   </g>
+   <g id="PathCollection_4">
+    <g clip-path="url(#p72ff8d7c37)">
+     <use xlink:href="#m090f6d503a" x="666" y="219.6" style="fill: #087f82; stroke: #087f82; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="text_15">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="666" y="223.496484" transform="rotate(-0 666 223.496484)">4</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; fill: #18324d" transform="translate(605.3275 285.30625)">Base Qwen3B /</text>
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; fill: #18324d" transform="translate(587.24375 307.165)">Ministral evaluation</text>
+   </g>
+   <g id="text_17">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #087f82" x="666" y="333.36" transform="rotate(-0 666 333.36)">DONE</text>
+   </g>
+   <g id="PathCollection_5">
+    <defs>
+     <path id="m23f69460f1" d="M 0 11.937336
+C 3.165819 11.937336 6.2024 10.679543 8.440972 8.440972
+C 10.679543 6.2024 11.937336 3.165819 11.937336 0
+C 11.937336 -3.165819 10.679543 -6.2024 8.440972 -8.440972
+C 6.2024 -10.679543 3.165819 -11.937336 0 -11.937336
+C -3.165819 -11.937336 -6.2024 -10.679543 -8.440972 -8.440972
+C -10.679543 -6.2024 -11.937336 -3.165819 -11.937336 0
+C -11.937336 3.165819 -10.679543 6.2024 -8.440972 8.440972
+C -6.2024 10.679543 -3.165819 11.937336 0 11.937336
+z
+" style="stroke: #a46a13; stroke-width: 2"/>
+    </defs>
+    <g clip-path="url(#p72ff8d7c37)">
+     <use xlink:href="#m23f69460f1" x="846" y="219.6" style="fill: #a46a13; stroke: #a46a13; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="text_18">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="846" y="223.496484" transform="rotate(-0 846 223.496484)">5</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18324d" x="846" y="286.365" transform="rotate(-0 846 286.365)">Smoke v1</text>
+   </g>
+   <g id="text_20">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #a46a13" x="846" y="333.36" transform="rotate(-0 846 333.36)">GATE FAILED</text>
+   </g>
+   <g id="PathCollection_6">
+    <g clip-path="url(#p72ff8d7c37)">
+     <use xlink:href="#m23f69460f1" x="1026" y="219.6" style="fill: #a46a13; stroke: #a46a13; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="text_21">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="1026" y="223.496484" transform="rotate(-0 1026 223.496484)">6</text>
+   </g>
+   <g id="text_22">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18324d" x="1026" y="286.365" transform="rotate(-0 1026 286.365)">Smoke v2</text>
+   </g>
+   <g id="text_23">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #a46a13" x="1026" y="333.36" transform="rotate(-0 1026 333.36)">GATE FAILED</text>
+   </g>
+   <g id="PathCollection_7">
+    <g clip-path="url(#p72ff8d7c37)">
+     <use xlink:href="#m090f6d503a" x="126" y="442.8" style="fill: #087f82; stroke: #087f82; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="text_24">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="126" y="446.696484" transform="rotate(-0 126 446.696484)">7</text>
+   </g>
+   <g id="text_25">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18324d" x="126" y="509.565" transform="rotate(-0 126 509.565)">Smoke v3</text>
+   </g>
+   <g id="text_26">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #087f82" x="126" y="556.56" transform="rotate(-0 126 556.56)">PASS</text>
+   </g>
+   <g id="PathCollection_8">
+    <g clip-path="url(#p72ff8d7c37)">
+     <use xlink:href="#m090f6d503a" x="306" y="442.8" style="fill: #087f82; stroke: #087f82; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="text_27">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="306" y="446.696484" transform="rotate(-0 306 446.696484)">8</text>
+   </g>
+   <g id="text_28">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18324d" x="306" y="508.6475" transform="rotate(-0 306 508.6475)">Full QLoRA-SFT</text>
+   </g>
+   <g id="text_29">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #087f82" x="306" y="556.56" transform="rotate(-0 306 556.56)">PASS</text>
+   </g>
+   <g id="PathCollection_9">
+    <g clip-path="url(#p72ff8d7c37)">
+     <use xlink:href="#m090f6d503a" x="486" y="442.8" style="fill: #087f82; stroke: #087f82; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="text_30">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="486" y="446.696484" transform="rotate(-0 486 446.696484)">9</text>
+   </g>
+   <g id="text_31">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; fill: #18324d" transform="translate(418.39375 508.93625)">E3/E4 evaluation</text>
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; fill: #18324d" transform="translate(408.0675 530.22375)">140 + 140 answers</text>
+   </g>
+   <g id="text_32">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #087f82" x="486" y="556.56" transform="rotate(-0 486 556.56)">DONE</text>
+   </g>
+   <g id="PathCollection_10">
+    <defs>
+     <path id="mc156762d82" d="M 0 11.937336
+C 3.165819 11.937336 6.2024 10.679543 8.440972 8.440972
+C 10.679543 6.2024 11.937336 3.165819 11.937336 0
+C 11.937336 -3.165819 10.679543 -6.2024 8.440972 -8.440972
+C 6.2024 -10.679543 3.165819 -11.937336 0 -11.937336
+C -3.165819 -11.937336 -6.2024 -10.679543 -8.440972 -8.440972
+C -10.679543 -6.2024 -11.937336 -3.165819 -11.937336 0
+C -11.937336 3.165819 -10.679543 6.2024 -8.440972 8.440972
+C -6.2024 10.679543 -3.165819 11.937336 0 11.937336
+z
+" style="stroke: #526476; stroke-width: 2"/>
+    </defs>
+    <g clip-path="url(#p72ff8d7c37)">
+     <use xlink:href="#mc156762d82" x="666" y="442.8" style="fill: #ffffff; stroke: #526476; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="text_33">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #526476" x="666" y="446.696484" transform="rotate(-0 666 446.696484)">10</text>
+   </g>
+   <g id="text_34">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; fill: #18324d" transform="translate(618.4725 509.42375)">Correctness</text>
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; fill: #18324d" transform="translate(636.17875 528.815)">judging</text>
+   </g>
+   <g id="text_35">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #526476" x="666" y="556.56" transform="rotate(-0 666 556.56)">PENDING</text>
+   </g>
+   <g id="PathCollection_11">
+    <g clip-path="url(#p72ff8d7c37)">
+     <use xlink:href="#mc156762d82" x="846" y="442.8" style="fill: #ffffff; stroke: #526476; stroke-width: 2"/>
+    </g>
+   </g>
+   <g id="text_36">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #526476" x="846" y="446.696484" transform="rotate(-0 846 446.696484)">11</text>
+   </g>
+   <g id="text_37">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; fill: #18324d" transform="translate(772.13625 508.93625)">Error / faithfulness</text>
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; fill: #18324d" transform="translate(813.61 528.815)">analysis</text>
+   </g>
+   <g id="text_38">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #526476" x="846" y="556.56" transform="rotate(-0 846 556.56)">PENDING JUDGING</text>
+   </g>
+   <g id="text_39">
+    <text style="font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #526476" x="50.4" y="594" transform="rotate(-0 50.4 594)">Failed smokes were diagnosed before proceeding; the strict numerical reload tolerance was never relaxed.</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p72ff8d7c37">
+   <rect x="0" y="0" width="1152" height="648"/>
+  </clipPath>
+ </defs>
+</svg>

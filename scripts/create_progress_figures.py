@@ -49,7 +49,10 @@ def arrow(ax,x1,y1,x2,y2,color=MUTED):
 def save(fig,name):
     for ext in ('svg','png'):
         meta={'Date':DATA['date'],'Creator':'Public aggregate progress figures'} if ext=='svg' else {'Software':'Public aggregate progress figures'}
-        fig.savefig(OUT/(name+'.'+ext),dpi=160,metadata=meta)
+        target = OUT/(name+'.'+ext)
+        fig.savefig(target,dpi=160,metadata=meta)
+        if ext == 'svg':
+            target.write_text('\n'.join(line.rstrip() for line in target.read_text().splitlines())+'\n')
     plt.close(fig)
 
 

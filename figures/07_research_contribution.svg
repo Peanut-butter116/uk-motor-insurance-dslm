@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="1152pt" height="648pt" viewBox="0 0 1152 648" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-10-11</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Public aggregate progress figures</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 648
+L 1152 648
+L 1152 0
+L 0 0
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 49.32 555.84
+L 375.48 555.84
+Q 382.68 555.84 382.68 548.64
+L 382.68 154.08
+Q 382.68 146.88 375.48 146.88
+L 49.32 146.88
+Q 42.12 146.88 42.12 154.08
+L 42.12 548.64
+Q 42.12 555.84 49.32 555.84
+z
+" clip-path="url(#p72ff8d7c37)" style="fill: #f0f4f8; stroke: #f0f4f8; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 412.92 555.84
+L 739.08 555.84
+Q 746.28 555.84 746.28 548.64
+L 746.28 154.08
+Q 746.28 146.88 739.08 146.88
+L 412.92 146.88
+Q 405.72 146.88 405.72 154.08
+L 405.72 548.64
+Q 405.72 555.84 412.92 555.84
+z
+" clip-path="url(#p72ff8d7c37)" style="fill: #eaf4f3; stroke: #eaf4f3; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 776.52 555.84
+L 1102.68 555.84
+Q 1109.88 555.84 1109.88 548.64
+L 1109.88 154.08
+Q 1109.88 146.88 1102.68 146.88
+L 776.52 146.88
+Q 769.32 146.88 769.32 154.08
+L 769.32 548.64
+Q 769.32 555.84 776.52 555.84
+z
+" clip-path="url(#p72ff8d7c37)" style="fill: #f5f6f8; stroke: #f5f6f8; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #087f82" x="39.6" y="32.4" transform="rotate(-0 39.6 32.4)">07  /  UK INSURANCE DSLM</text>
+   </g>
+   <g id="text_2">
+    <text style="font-weight: 700; font-size: 29px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18324d" x="39.6" y="70.56" transform="rotate(-0 39.6 70.56)">Research contribution: what was inherited, added and next</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #526476" x="39.6" y="104.4" transform="rotate(-0 39.6 104.4)">Extend the previous controlled experiment; preserve the benchmark and report neutral or negative findings honestly.</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #526476" x="39.6" y="631.44" transform="rotate(-0 39.6 631.44)">Tech Mahindra  •  Research progress  •  2026-10-11</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #526476" x="1112.4" y="631.44" transform="rotate(-0 1112.4 631.44)">Public aggregates only  |  README 1e1ff8d</text>
+   </g>
+   <g id="text_6">
+    <text style="font-weight: 700; font-size: 18px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #4776a4" x="62.64" y="183.6" transform="rotate(-0 62.64 183.6)">INHERITED</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18324d" x="62.64" y="243.196875" transform="rotate(-0 62.64 243.196875)">• Frozen benchmark</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18324d" x="62.64" y="283.516875" transform="rotate(-0 62.64 283.516875)">• RAG pipeline</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18324d" x="62.64" y="323.836875" transform="rotate(-0 62.64 323.836875)">• Qwen7B baseline</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18324d" x="62.64" y="364.156875" transform="rotate(-0 62.64 364.156875)">• QLoRA-RAFT result</text>
+   </g>
+   <g id="text_11">
+    <text style="font-weight: 700; font-size: 18px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #087f82" x="426.24" y="183.6" transform="rotate(-0 426.24 183.6)">ADDED THIS WEEK</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18324d" x="426.24" y="243.196875" transform="rotate(-0 426.24 243.196875)">• Qwen3B / Ministral3B support</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18324d" x="426.24" y="283.516875" transform="rotate(-0 426.24 283.516875)">• 21-example plain SFT dataset</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18324d" x="426.24" y="323.836875" transform="rotate(-0 426.24 323.836875)">• Strict leakage controls</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18324d" x="426.24" y="364.156875" transform="rotate(-0 426.24 364.156875)">• Reproducible QLoRA reload</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18324d" x="426.24" y="404.476875" transform="rotate(-0 426.24 404.476875)">• E2 vs E4 experiment</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18324d" x="426.24" y="444.796875" transform="rotate(-0 426.24 444.796875)">• Motor-only slice (76 questions)</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18324d" x="426.24" y="485.11625" transform="rotate(-0 426.24 485.11625)">• E3/E4: 140 + 140 answers</text>
+   </g>
+   <g id="text_19">
+    <text style="font-weight: 700; font-size: 18px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #526476" x="789.84" y="183.6" transform="rotate(-0 789.84 183.6)">NEXT</text>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18324d" x="789.84" y="243.196875" transform="rotate(-0 789.84 243.196875)">• LLM correctness judging</text>
+   </g>
+   <g id="text_21">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18324d" x="789.84" y="283.516875" transform="rotate(-0 789.84 283.516875)">• Paired error analysis</text>
+   </g>
+   <g id="text_22">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18324d" x="789.84" y="323.836875" transform="rotate(-0 789.84 323.836875)">• Faithfulness / hallucination audit</text>
+   </g>
+   <g id="text_23">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18324d" x="789.84" y="364.156875" transform="rotate(-0 789.84 364.156875)">• Choose next adaptation technique</text>
+   </g>
+   <g id="text_24">
+    <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #526476" x="576" y="586.08" transform="rotate(-0 576 586.08)">E3/E4 generation is complete. New-model correctness, composite and faithfulness remain pending.</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p72ff8d7c37">
+   <rect x="0" y="0" width="1152" height="648"/>
+  </clipPath>
+ </defs>
+</svg>
