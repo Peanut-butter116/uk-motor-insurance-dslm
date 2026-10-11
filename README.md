@@ -430,7 +430,7 @@ logit differences were both **0.0**, with the original atol 0.02 / rtol 0.01.
 Top-1, generated tokens, generated text and runtime matched; generation was
 nonempty, and all **364** trained adapter tensors were restored exactly.
 Adapters, tokenizer files, loss history and detailed provenance remain private.
-E3/E4 evaluation follows in a separate dataset/job containing no training examples.
+E3/E4 evaluation completed in a separate dataset/job containing no training examples.
 
 ### E3/E4 evaluation launched
 
@@ -444,3 +444,12 @@ single comparison table above.
 Correctness/composite and claim faithfulness remain `awaiting_judging`; no judge
 runtime is currently configured. The correctness task pool hides model/condition
 identities and requires three independent votes per answer.
+
+## Supervisor meeting figures
+
+[Seven presentation figures, with PNG/SVG downloads and public source values](figures/README.md)
+cover the project extension, E1–E4 design, progress timeline, reload debugging,
+current benchmark results, conditional next steps and research contribution.
+Regenerate them with `python scripts/create_progress_figures.py` in a plotting
+environment. The generator uses only `figures/aggregate_values.json`; it never
+reads private experiment data.
