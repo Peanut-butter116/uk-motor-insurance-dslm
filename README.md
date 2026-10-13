@@ -459,13 +459,13 @@ reads private experiment data.
 Research question: does the same plain QLoRA-SFT treatment improve both model
 families relative to their own base model? This is a treatment-response comparison,
 not a claim about which architecture is generally better. E5 is Qwen SFT without
-RAG; E6 is Qwen SFT with the same frozen RAG evidence. Neither has run yet.
+RAG; E6 is Qwen SFT with the same frozen RAG evidence. E5/E6 evaluation is now running; results remain unverified.
 
 The existing pinned Qwen checkpoint is `Qwen/Qwen2.5-3B-Instruct`, revision
 `aa8e72537993ba99e69dfaafa59ed015b17504d1`. Its text-only Qwen2 architecture has
 36 layers, with the seven attention/MLP projection types giving 252 intended LoRA
 modules. It does not have Ministral's `language_model` wrapper. Actual GPU
-trainable tensors and strict adapter reload still require a Qwen-specific smoke.
+trainable tensors and strict adapter reload were subsequently verified by the Qwen-specific smoke below.
 
 Real Qwen tokenisation passed for **all 21 identical training examples**, ranging
 from **510 to 1,881 tokens**, below 2,048. The full target decodes correctly, prompt
@@ -543,3 +543,19 @@ matching tokenisation/runtime and exact restoration of all **504 LoRA tensors**.
 The downloaded adapter checksum matches its receipt; weights and detailed logs
 remain private. All **219 tests passed**, and all **442 protected original
 artifacts remain unchanged**. E5/E6 will use a separate evaluation-only package.
+
+### E5/E6 evaluation running
+
+[Private Qwen SFT evaluation](https://www.kaggle.com/code/scarletthe0116/uk-insurance-sft-eval-qwen3b)
+version 1 is **running** on Kaggle after verified full-training completion.
+The dataset and kernel are confirmed private. The evaluation payload contains
+only the frozen tasks/manifest and verified adapter, with no training examples.
+The existing evaluator targets **140 E5 answers + 140 E6 answers**, using the
+unchanged frozen evidence, greedy decoding, 700-token generation allowance and
+8192-token input/output budget without evidence truncation. These are expected
+populations, not completed answer counts.
+
+E5/E6 metrics and Figure 08 remain pending output validation and deterministic
+scoring. Correctness/composite additionally require the inherited blinded
+three-vote judging process. No Qwen SFT performance or cross-model SFT effect
+is claimed yet.
