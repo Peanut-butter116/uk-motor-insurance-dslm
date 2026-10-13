@@ -526,5 +526,20 @@ strict receipt; E5/E6 will follow only after full-training verification.
 version 1 was accepted by Kaggle on 13 October 2026. Its package matches the
 passing smoke's code, dependency requirements, configuration, training rows and
 manifest exactly, and includes that exact smoke receipt. The dataset is private
-and contains no evaluation tasks. Full-training completion and final adapter
-reload are not yet verified; no E5/E6 performance values are claimed.
+and contains no evaluation tasks. Full training and final adapter reload have now been verified; E5/E6 performance
+values remain pending evaluation.
+
+### Full Qwen training passed
+
+The private full-run receipt passed all six gates with the exact successful
+smoke fingerprint, model revision, manifest and dependency versions. Training
+used **21 examples, two epochs and four optimiser steps**. Mean training loss
+was **2.582013** (last step: **2.010740**); trainer runtime was **451.189 seconds**
+on Tesla T4 with two visible GPUs. Training loss is not benchmark correctness.
+
+Fresh reload passed the unchanged numerical tolerance with maximum/mean logit
+differences **0.0 / 0.0**, identical top-1 and deterministic generated tokens/text,
+matching tokenisation/runtime and exact restoration of all **504 LoRA tensors**.
+The downloaded adapter checksum matches its receipt; weights and detailed logs
+remain private. All **219 tests passed**, and all **442 protected original
+artifacts remain unchanged**. E5/E6 will use a separate evaluation-only package.
