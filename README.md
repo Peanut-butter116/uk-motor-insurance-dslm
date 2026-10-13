@@ -493,3 +493,10 @@ templates/token lengths and the number of adapted parameters necessarily differ.
 Prepared tuned inference retains the disclosed dtype difference from the original
 base runs. The 140-question benchmark, 76-question motor subset, generation
 settings, inherited metrics and three-vote judging protocol are unchanged.
+
+Qwen smoke v1 was submitted privately on 13 October 2026:
+[private Qwen smoke job](https://www.kaggle.com/code/scarletthe0116/uk-insurance-smoke-qwen3b).
+The training-only dataset is verified private. This is a two-step smoke, not full
+training or E5/E6 evaluation. Completion status alone is insufficient: all six
+receipt gates, original logit tolerance, deterministic generation and exact
+adapter tensor restoration must pass before full training.
