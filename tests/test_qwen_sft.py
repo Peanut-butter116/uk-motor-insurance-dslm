@@ -137,3 +137,34 @@ def test_cross_model_changes_are_within_family_and_pending_stays_missing():
     assert r['correctness']['qwen3b']['delta'] is None
     assert 'Pending' in render_effects({'models':models})
     assert sft_effects(models)['motor']['citation']['qwen3b']['delta'] is None
+
+
+@pytest.mark.parametrize('family',['ministral3b','qwen3b'])
+def test_full_stage_uses_receipt_and_correct_model_without_evaluation(tmp_path,monkeypatch,family):
+    from scripts import kaggle_followup as follow
+    p=bundle(tmp_path);done=tmp_path/'done';(done/'run').mkdir(parents=True)
+    core.write_json(done/'run/receipt.json',{'model_key':family})
+    monkeypatch.setattr(follow,'verify_training',lambda *args:None)
+    follow.stage_full(p,done,tmp_path/'unused',tmp_path/'stage','synthetic',family)
+    script=(tmp_path/'stage/kernel/run.py').read_text()
+    assert "'--mode', 'full'" in script and "'--smoke-receipt'" in script
+    assert ("'--model', 'qwen3b'" in script)==(family=='qwen3b')
+    assert {f.name for f in (tmp_path/'stage/dataset/payload').iterdir()}=={'train.jsonl','manifest.json','smoke_receipt.json'}
+    launch=json.loads((tmp_path/'stage/launch.json').read_text())
+    assert launch['kind']=='full' and launch['model']==family
+
+
+@pytest.mark.parametrize('family',['ministral3b','qwen3b'])
+def test_tuned_stage_cannot_include_training_rows(tmp_path,monkeypatch,family):
+    from scripts import kaggle_followup as follow
+    p=bundle(tmp_path);ev=tmp_path/'eval';ev.mkdir();core.write_rows(ev/'tasks.jsonl',[{'synthetic':True}])
+    core.write_json(ev/'manifest.json',{'tasks_sha256':core.sha(ev/'tasks.jsonl')})
+    done=tmp_path/'done';adapter=done/'run/adapter';adapter.mkdir(parents=True)
+    core.write_json(done/'run/receipt.json',{'model_key':family})
+    core.write_json(adapter/'adapter_config.json',{'base_model_name_or_path':core.config()['models'][family]['id']})
+    (adapter/'adapter_model.safetensors').write_bytes(b'synthetic fixture, not weights')
+    monkeypatch.setattr(follow,'verify_training',lambda *args:None)
+    follow.stage_eval(ev,p,done,tmp_path/'unused',tmp_path/'stage','synthetic',family)
+    script=(tmp_path/'stage/kernel/run.py').read_text()
+    assert repr(['-m','experiments.evaluate','run','--model',family,'--adapter','/kaggle/working/input-copy/payload/adapter']) in script
+    assert {f.name for f in (tmp_path/'stage/dataset/payload').iterdir()}=={'tasks.jsonl','manifest.json','adapter'}
