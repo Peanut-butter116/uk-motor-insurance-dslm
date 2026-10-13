@@ -500,3 +500,22 @@ The training-only dataset is verified private. This is a two-step smoke, not ful
 training or E5/E6 evaluation. Completion status alone is insufficient: all six
 receipt gates, original logit tolerance, deterministic generation and exact
 adapter tensor restoration must pass before full training.
+
+### Qwen smoke v1 passed
+
+The two-step Qwen smoke passed all six gates on Tesla T4 (two visible GPUs),
+using the same recorded Torch/Transformers/PEFT/bitsandbytes/Accelerate versions
+as Ministral. Maximum and mean reload logit difference were both **0.0**, with
+atol 0.02 / rtol 0.01 unchanged. Tokenisation, top-1 prediction, nonempty greedy
+generated tokens/text and runtime matched. All **504** LoRA tensors restored
+exactly, covering **252** attention/MLP projections and **29,933,568** trainable
+parameters. No embedding, norm or unrelated weight was trained. Smoke mean loss
+was **2.856490**, an engineering check rather than a benchmark result.
+
+Successful training-code commit: `24c3d4e`. Experiment fingerprint:
+`f63a7ed57517afb19b3b13fbeb6d4119ece28536d783573b0039008668c89be9`.
+The exact successful receipt, full provenance and adapter remain private.
+Training code/configuration are frozen for the full run. Local suite: **219 tests**.
+The generalised analysis reproduces all previous historical/Ministral aggregate
+and paired results exactly. Full Qwen training is now authorised by its own
+strict receipt; E5/E6 will follow only after full-training verification.
