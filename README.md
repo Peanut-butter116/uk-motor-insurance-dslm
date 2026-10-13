@@ -519,3 +519,12 @@ Training code/configuration are frozen for the full run. Local suite: **219 test
 The generalised analysis reproduces all previous historical/Ministral aggregate
 and paired results exactly. Full Qwen training is now authorised by its own
 strict receipt; E5/E6 will follow only after full-training verification.
+
+### Full Qwen training submitted
+
+[Private full Qwen job](https://www.kaggle.com/code/scarletthe0116/uk-insurance-full-qwen3b)
+version 1 was accepted by Kaggle on 13 October 2026. Its package matches the
+passing smoke's code, dependency requirements, configuration, training rows and
+manifest exactly, and includes that exact smoke receipt. The dataset is private
+and contains no evaluation tasks. Full-training completion and final adapter
+reload are not yet verified; no E5/E6 performance values are claimed.
