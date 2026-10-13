@@ -63,8 +63,6 @@ def run(bundle, output, model_key, adapter=None):
     out = private_output(output)
     model, tokenizer = load_model(model_key)
     if adapter:
-        if model_key != 'ministral3b':
-            raise ValueError('Adapter supported only for the pinned Ministral checkpoint')
         adapter_config=json.loads((Path(adapter)/'adapter_config.json').read_text())
         if adapter_config.get('base_model_name_or_path')!=config()['models'][model_key]['id']:
             raise ValueError('Adapter base checkpoint mismatch')

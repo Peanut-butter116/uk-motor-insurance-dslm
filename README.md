@@ -453,3 +453,43 @@ current benchmark results, conditional next steps and research contribution.
 Regenerate them with `python scripts/create_progress_figures.py` in a plotting
 environment. The generator uses only `figures/aggregate_values.json`; it never
 reads private experiment data.
+
+## Matched Qwen SFT extension — audit, 13 October 2026
+
+Research question: does the same plain QLoRA-SFT treatment improve both model
+families relative to their own base model? This is a treatment-response comparison,
+not a claim about which architecture is generally better. E5 is Qwen SFT without
+RAG; E6 is Qwen SFT with the same frozen RAG evidence. Neither has run yet.
+
+The existing pinned Qwen checkpoint is `Qwen/Qwen2.5-3B-Instruct`, revision
+`aa8e72537993ba99e69dfaafa59ed015b17504d1`. Its text-only Qwen2 architecture has
+36 layers, with the seven attention/MLP projection types giving 252 intended LoRA
+modules. It does not have Ministral's `language_model` wrapper. Actual GPU
+trainable tensors and strict adapter reload still require a Qwen-specific smoke.
+
+Real Qwen tokenisation passed for **all 21 identical training examples**, ranging
+from **510 to 1,881 tokens**, below 2,048. The full target decodes correctly, prompt
+tokens receive label -100, and only assistant tokens receive loss. The new private
+bundle copies `train.jsonl` byte-for-byte; its model-specific manifest records the
+original dataset/manifest hashes. No example, target, evidence or hyperparameter
+was changed. Any overlength row would stop the matched run rather than be removed.
+
+Training now accepts `--model qwen3b` or `--model ministral3b` through the same
+implementation. Model-specific smoke fingerprints prevent using a Ministral
+receipt for Qwen. Exact trainable-name checks reject embeddings, layer norms,
+unrelated parameters and missing adapters. All strict reload gates and numerical
+tolerances remain unchanged. Local tests: **215 passed**.
+
+The completed Ministral experiment remains preserved with its original receipts,
+adapter, answers and source snapshot. Its fingerprinted code is available at
+`5622b257c608a6c464c18912b69790c73cb4fad9`; use that revision and its recorded
+environment to reproduce the original run. New code has a new fingerprint and
+requires a new smoke; historical receipts are never rewritten to accept it.
+All 442 checked original data and completed-experiment artifacts are unchanged.
+
+Matching uses the same 21 rows, rank 16, alpha 32, dropout 0.05, learning rate
+1e-4, two epochs, accumulation 8, seed 0 and assistant-only loss. Model-native chat
+templates/token lengths and the number of adapted parameters necessarily differ.
+Prepared tuned inference retains the disclosed dtype difference from the original
+base runs. The 140-question benchmark, 76-question motor subset, generation
+settings, inherited metrics and three-vote judging protocol are unchanged.

@@ -30,7 +30,7 @@ def stage(bundle,output,username,kind,model='ministral3b'):
     slug=f'uk-insurance-{kind}-{model}'
     write_json(dataset/'dataset-metadata.json',{'id':f'{username}/{slug}-private',
         'title':f'{slug}-private','licenses':[{'name':'other'}]})
-    command=(['-m','experiments.train','--mode','smoke'] if kind=='smoke' else
+    command=((['-m','experiments.train','--mode','smoke']+(['--model',model] if model!='ministral3b' else [])) if kind=='smoke' else
              ['-m','experiments.evaluate','run','--model',model])
     nonce=datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ')
     script='''import glob, json, pathlib, subprocess, sys, traceback, shutil, zipfile

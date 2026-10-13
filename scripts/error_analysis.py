@@ -162,6 +162,21 @@ def paired(left,right,seed=0,iterations=2000):
     return out,cases
 
 
+def sft_effects(models):
+    """Within-family aggregate effects; absent judgements never become zeros."""
+    effects={}
+    for slice_name in ['full','motor']:
+        effects[slice_name]={}
+        for metric in ['correctness','citation','abstention','composite','parse_rate']:
+            cell={}
+            for family in ['ministral3b','qwen3b']:
+                base=models.get(family+'-base-openbook',{}).get(slice_name,{}).get(metric)
+                tuned=models.get(family+'-sft-openbook',{}).get(slice_name,{}).get(metric)
+                cell[family]={'base':base,'sft':tuned,'delta':tuned-base if base is not None and tuned is not None else None}
+            effects[slice_name][metric]=cell
+    return effects
+
+
 def run(home,bundle,models,output):
     gold={g['id']:g for g in core.benchmark(home) if g['split']=='test'}
     bundle=Path(bundle);manifest=json.loads((bundle/'manifest.json').read_text())
@@ -182,15 +197,18 @@ def run(home,bundle,models,output):
         all_records[label]=records;core.write_rows(out/(label+'.jsonl'),records)
         summary['models'][label]={'full':aggregate(records),'motor':aggregate([r for r in records if r['line']=='motor']),
             'answers_sha256':core.sha(spec['answers'])}
-    for prefix in ['openbook','closedbook']:
-        left='ministral3b-base-'+prefix;right='ministral3b-sft-'+prefix
-        if left in all_records and right in all_records:
-            summary['paired_'+prefix]={}
-            for name in ['full','motor']:
-                a=[r for r in all_records[left] if name=='full' or r['line']=='motor']
-                b=[r for r in all_records[right] if name=='full' or r['line']=='motor']
-                result,cases=paired(a,b);summary['paired_'+prefix][name]=result
-                core.write_rows(out/('paired_'+prefix+'_'+name+'.jsonl'),cases)
+    for family in ['ministral3b','qwen3b']:
+        for prefix in ['openbook','closedbook']:
+            left=family+'-base-'+prefix;right=family+'-sft-'+prefix
+            key='paired_'+prefix if family=='ministral3b' else 'paired_qwen3b_'+prefix
+            if left in all_records and right in all_records:
+                summary[key]={}
+                for name in ['full','motor']:
+                    a=[r for r in all_records[left] if name=='full' or r['line']=='motor']
+                    b=[r for r in all_records[right] if name=='full' or r['line']=='motor']
+                    result,cases=paired(a,b);summary[key][name]=result
+                    core.write_rows(out/(key+'_'+name+'.jsonl'),cases)
+    summary['sft_effects']=sft_effects(summary['models'])
     core.write_json(out/'aggregate.json',summary)
     print(json.dumps({'population':summary['population'],'motor_population':summary['motor_population'],
         'status':{k:v['full']['status'] for k,v in summary['models'].items()}}))

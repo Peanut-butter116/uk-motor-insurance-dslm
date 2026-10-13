@@ -6,12 +6,12 @@ def mismatches(left, right):
     return [k for k in sorted(set(left) | set(right)) if left.get(k) != right.get(k)]
 
 
-def runtime(model):
+def runtime(model,model_key='ministral3b'):
     base = model.get_base_model()
     quant = getattr(base.config, 'quantization_config', {})
     if hasattr(quant, 'to_dict'):
         quant = quant.to_dict()
-    return {'checkpoint': config()['models']['ministral3b'],
+    return {'checkpoint': config()['models'][model_key],
         'loaded_name': base.config._name_or_path,
         'commit': getattr(base.config, '_commit_hash', None),
         'quantization': quant, 'config_dtype': str(getattr(base.config, 'dtype', None)),
@@ -30,7 +30,7 @@ def unwrap_for_reload(model, accelerator):
     return model
 
 
-def probe(model, tokenizer, ids_cpu, mask_cpu):
+def probe(model, tokenizer, ids_cpu, mask_cpu, model_key='ministral3b'):
     import torch
     model.eval()
     model.gradient_checkpointing_disable()
@@ -48,7 +48,7 @@ def probe(model, tokenizer, ids_cpu, mask_cpu):
     completion = generated[0, ids.shape[1]:].cpu().tolist()
     return {'logits': logits, 'tokens': completion,
             'text': tokenizer.decode(completion, skip_special_tokens=True),
-            'runtime': runtime(model)}
+            'runtime': runtime(model,model_key)}
 
 
 def compare(before, after):

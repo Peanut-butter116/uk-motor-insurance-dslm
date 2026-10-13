@@ -15,24 +15,54 @@ def code_hash():
         for p in sorted((ROOT/folder).glob('*.py'))})
 
 
-def fingerprint(manifest):
-    return digest({'training_manifest':manifest,'config':config(),'code':code_hash()})
+def fingerprint(manifest, model_key='ministral3b'):
+    payload={'training_manifest':manifest,'config':config(),'code':code_hash()}
+    if model_key != 'ministral3b':payload['model_key']=model_key
+    return digest(payload)
 
 
-def require_smoke(receipt,manifest):
+def require_smoke(receipt,manifest,model_key='ministral3b'):
     r=json.loads(Path(receipt).read_text())
     gates=['leakage','tokenisation','masking','finite_loss','language_only','adapter_reload']
-    if r.get('mode')!='smoke' or r.get('fingerprint')!=fingerprint(manifest) or any(r.get('gates',{}).get(g) is not True for g in gates):
+    if r.get('mode')!='smoke' or r.get('fingerprint')!=fingerprint(manifest,model_key) or r.get('model_key','ministral3b')!=model_key or any(r.get('gates',{}).get(g) is not True for g in gates):
         raise ValueError('Full training blocked: smoke receipt missing, stale or failed')
     return r
 
 
-def language_targets(model):
+def language_targets(model,model_key='ministral3b'):
     suffixes={'q_proj','k_proj','v_proj','o_proj','gate_proj','up_proj','down_proj'}
+    if model_key == 'qwen3b':
+        if model.config.model_type != 'qwen2':raise ValueError('Unexpected Qwen architecture')
+        expected={f'model.layers.{i}.{block}.{suffix}'
+            for i in range(model.config.num_hidden_layers)
+            for block,ss in [('self_attn',{'q_proj','k_proj','v_proj','o_proj'}),
+                             ('mlp',{'gate_proj','up_proj','down_proj'})] for suffix in ss}
+        modules=dict(model.named_modules())
+        if not expected or not expected <= set(modules):raise ValueError('Incomplete Qwen projection population')
+        if any(getattr(getattr(modules[n],'weight',None),'ndim',None)!=2 for n in expected):
+            raise ValueError('Qwen LoRA targets must be linear projections')
+        return sorted(expected)
+    if model_key != 'ministral3b':raise ValueError('Unknown training model')
     names=[name for name,_ in model.named_modules() if 'language_model' in name.split('.')
         and name.rsplit('.',1)[-1] in suffixes and not any(x in name.lower() for x in ('vision','visual','projector'))]
     if not names:raise ValueError('No language-only adapter targets found')
     return names
+
+
+def validate_trainable(model,targets):
+    trainable={n:p for n,p in model.named_parameters() if p.requires_grad}
+    expected={f'base_model.model.{n}.lora_{side}.default.weight' for n in targets for side in ['A','B']}
+    if not expected or set(trainable)!=expected:
+        raise ValueError('Unexpected or missing trainable LoRA parameters')
+    return list(trainable)
+
+
+def validate_training_manifest(manifest,model_key):
+    if manifest.get('tokenisation_checked') is not True or manifest.get('tokenizer')!=config()['models'][model_key]:
+        raise ValueError('Run matching model tokenisation preflight before training')
+    if model_key=='qwen3b' and (manifest.get('train_rows')!=21 or
+            manifest.get('matched_train_sha256')!=manifest.get('train_sha256')):
+        raise ValueError('Qwen requires the identical matched 21-row dataset')
 
 
 def collate(batch,pad_id):
@@ -42,14 +72,13 @@ def collate(batch,pad_id):
         for k,pad in [('input_ids',pad_id),('attention_mask',0),('labels',-100)]}
 
 
-def run(bundle,output,mode='smoke',receipt=None):
+def run(bundle,output,mode='smoke',receipt=None,model_key='ministral3b'):
     data,manifest=validate_bundle(bundle)
-    if manifest.get('tokenisation_checked') is not True:
-        raise ValueError('Run experiments.tokenise before training')
+    validate_training_manifest(manifest,model_key)
     old_receipt=None
     if mode=='full':
         if not receipt:raise ValueError('Full training requires --smoke-receipt')
-        old_receipt=require_smoke(receipt,manifest)
+        old_receipt=require_smoke(receipt,manifest,model_key)
     import torch
     from transformers import Trainer, TrainingArguments, set_seed
     from peft import LoraConfig,get_peft_model,prepare_model_for_kbit_training,PeftModel
@@ -58,18 +87,19 @@ def run(bundle,output,mode='smoke',receipt=None):
         raise ValueError('Runtime differs from the successful smoke; repeat smoke first')
     set_seed(config()['seed'])
     out=private_output(output);cfg=config()['training']
-    model,tokenizer=load_model('ministral3b')
+    model,tokenizer=load_model(model_key)
     # Preflight EVERY eligible row, even for a two-step smoke. Never truncate.
     encoded=[encode_training(tokenizer,r['messages'],cfg['max_length']) for r in data]
     write_json(out/'tokenisation.json',{'rows':len(data),'lengths':[len(r['input_ids']) for r in encoded],
         'supervised_tokens':[sum(t!=-100 for t in r['labels']) for r in encoded]})
-    targets=language_targets(model)
+    targets=language_targets(model,model_key)
     model=prepare_model_for_kbit_training(model,use_gradient_checkpointing=True)
     model=get_peft_model(model,LoraConfig(r=cfg['r'],lora_alpha=cfg['alpha'],lora_dropout=cfg['dropout'],
         bias='none',target_modules=targets,task_type='CAUSAL_LM'))
-    trainable=[n for n,p in model.named_parameters() if p.requires_grad]
-    if not trainable or any('lora_' not in n or 'language_model' not in n or any(s in n for s in ('vision','projector')) for n in trainable):
-        raise ValueError('Non-language adapter parameter became trainable')
+    trainable=validate_trainable(model,targets)
+    write_json(out/'trainable.json',{'model_key':model_key,'targets':targets,'parameter_names':trainable,
+        'parameter_count':sum(p.numel() for p in model.parameters() if p.requires_grad),
+        'tensor_count':len(trainable)})
     from peft import get_peft_model_state_dict
     initial={k:v.detach().cpu().clone() for k,v in get_peft_model_state_dict(model).items()}
     model.config.use_cache=False
@@ -96,9 +126,9 @@ def run(bundle,output,mode='smoke',receipt=None):
     probe_messages=data[0]['messages'][:-1]
     ids_cpu=torch.tensor([token_ids(tokenizer,probe_messages,True)])
     mask_cpu=torch.ones_like(ids_cpu)
-    wrapped=check.probe(model,tokenizer,ids_cpu,mask_cpu)
+    wrapped=check.probe(model,tokenizer,ids_cpu,mask_cpu,model_key)
     model=check.unwrap_for_reload(model,trainer.accelerator)
-    before=check.probe(model,tokenizer,ids_cpu,mask_cpu)
+    before=check.probe(model,tokenizer,ids_cpu,mask_cpu,model_key)
     saved={k:v.detach().cpu().clone() for k,v in get_peft_model_state_dict(model).items()}
     disk=load_file(str(adapter/'adapter_model.safetensors'))
     disk_check=check.adapter_check(saved,disk,trainable)
@@ -117,13 +147,13 @@ def run(bundle,output,mode='smoke',receipt=None):
     # First reproduce the old reload, then isolate base preparation as the only
     # changed operation. Both paths use the same fixed IDs/mask and pinned loader.
     for label,prepare_base in [('unprepared_reload',False),('prepared_reload',True)]:
-        fresh,fresh_tokenizer=load_model('ministral3b')
+        fresh,fresh_tokenizer=load_model(model_key)
         tokenizer_equal=token_ids(fresh_tokenizer,probe_messages,True)==ids_cpu[0].tolist()
         if prepare_base:
             fresh=prepare_model_for_kbit_training(fresh,use_gradient_checkpointing=False)
         fresh=PeftModel.from_pretrained(fresh,adapter,is_trainable=False)
         restored_check=check.adapter_check(saved,get_peft_model_state_dict(fresh),trainable)
-        after=check.probe(fresh,fresh_tokenizer,ids_cpu,mask_cpu)
+        after=check.probe(fresh,fresh_tokenizer,ids_cpu,mask_cpu,model_key)
         comparison=check.compare(before,after)
         comparison.update(tokenizer_equal=tokenizer_equal,restored_adapter=restored_check)
         comparisons[label]=comparison
@@ -136,7 +166,12 @@ def run(bundle,output,mode='smoke',receipt=None):
     if not final['tokenizer_equal'] or not final['restored_adapter']['equal']:
         raise ValueError('Reload tokenisation or adapter weights differ')
     check.require_comparison(final)
-    write_json(out/'receipt.json',{'mode':mode,'fingerprint':fingerprint(manifest),'versions':versions,
+    write_json(out/'receipt.json',{'mode':mode,'fingerprint':fingerprint(manifest,model_key),'versions':versions,
+        'model_key':model_key,'model':config()['models'][model_key],
+        'train_sha256':manifest['train_sha256'],'training_manifest_sha256':sha(Path(bundle)/'manifest.json'),
+        'config_sha256':sha(ROOT/'configs/insurance_3b.json'),'code_hash':code_hash(),
+        'gpu':torch.cuda.get_device_name(0),'visible_gpu_count':torch.cuda.device_count(),
+        'adapter_sha256':sha(adapter/'adapter_model.safetensors'),
         'gates':dict.fromkeys(['leakage','tokenisation','masking','finite_loss','language_only','adapter_reload'],True),
         'rows':len(data),'steps':trainer_steps(result),
         'reload_requires_kbit_preparation':True,
@@ -151,4 +186,5 @@ def trainer_steps(result):return result.global_step
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--bundle',required=True);p.add_argument('--output',required=True)
     p.add_argument('--mode',choices=['smoke','full'],default='smoke');p.add_argument('--smoke-receipt')
-    a=p.parse_args();run(a.bundle,a.output,a.mode,a.smoke_receipt)
+    p.add_argument('--model',choices=['ministral3b','qwen3b'],default='ministral3b')
+    a=p.parse_args();run(a.bundle,a.output,a.mode,a.smoke_receipt,a.model)

@@ -14,7 +14,7 @@ from experiments import core, train, reload_check, prepare_sft, kaggle_stage
 GATES = ['leakage', 'tokenisation', 'masking', 'finite_loss', 'language_only', 'adapter_reload']
 
 
-def verify_training(downloaded, launch, bundle, mode):
+def verify_training(downloaded, launch, bundle, mode, model='ministral3b'):
     downloaded, launch, bundle = map(Path, (downloaded, launch, bundle))
     if (downloaded/'FAILED.txt').exists():
         raise ValueError('GPU wrapper failed')
@@ -22,13 +22,16 @@ def verify_training(downloaded, launch, bundle, mode):
     expected = json.loads((launch/'launch.json').read_text())
     if success != {'kind': mode, 'nonce': expected['nonce']}:
         raise ValueError('Wrong or stale GPU launch')
+    if expected.get('model') != model:raise ValueError('Launch model mismatch')
     _, manifest = prepare_sft.validate_bundle(bundle)
     receipt = json.loads((downloaded/'run/receipt.json').read_text())
     if mode == 'smoke':
-        train.require_smoke(downloaded/'run/receipt.json', manifest)
-    if (receipt.get('mode') != mode or receipt.get('fingerprint') != train.fingerprint(manifest)
+        train.require_smoke(downloaded/'run/receipt.json', manifest, model)
+    if (receipt.get('mode') != mode or receipt.get('fingerprint') != train.fingerprint(manifest,model)
             or receipt.get('rows') != 21 or any(receipt.get('gates', {}).get(g) is not True for g in GATES)):
         raise ValueError('Training receipt does not match frozen experiment')
+    if receipt.get('model_key','ministral3b')!=model:raise ValueError('Receipt model mismatch')
+    if model=='qwen3b' and receipt.get('model')!=core.config()['models'][model]:raise ValueError('Model revision mismatch')
     if core.sha(downloaded/'run/reload_diagnostics.json') != receipt['diagnostics_sha256']:
         raise ValueError('Reload diagnostics changed')
     diagnostics = json.loads((downloaded/'run/reload_diagnostics.json').read_text())
@@ -49,8 +52,8 @@ def verify_training(downloaded, launch, bundle, mode):
     return receipt
 
 
-def retarget(out, username, kind, before_command, after_command):
-    out = Path(out); slug = 'uk-insurance-' + kind + '-ministral3b'
+def retarget(out, username, kind, before_command, after_command, model='ministral3b'):
+    out = Path(out); slug = 'uk-insurance-' + kind + '-'+model
     core.write_json(out/'dataset/dataset-metadata.json', {'id':username+'/'+slug+'-private',
         'title':slug+'-private','licenses':[{'name':'other'}]})
     p = out/'kernel/kernel-metadata.json'; meta = json.loads(p.read_text())
@@ -73,31 +76,32 @@ def provenance(bundle, receipt_path):
         'receipt_sha256':core.sha(receipt_path), 'receipt':json.loads(Path(receipt_path).read_text())}
 
 
-def stage_full(bundle, completed, source_launch, output, username):
-    verify_training(completed,source_launch,bundle,'smoke')
+def stage_full(bundle, completed, source_launch, output, username, model='ministral3b'):
+    verify_training(completed,source_launch,bundle,'smoke',model)
     receipt = Path(completed)/'run/receipt.json'
-    kaggle_stage.stage(bundle,output,username,'smoke','ministral3b')
+    kaggle_stage.stage(bundle,output,username,'smoke',model)
     out = Path(output)
     shutil.copy2(receipt,out/'dataset/payload/smoke_receipt.json')
-    retarget(out,username,'full',['-m','experiments.train','--mode','smoke'],
+    extra=['--model',model] if model!='ministral3b' else []
+    retarget(out,username,'full',['-m','experiments.train','--mode','smoke']+extra,
         ['-m','experiments.train','--mode','full','--smoke-receipt',
-         '/kaggle/working/input-copy/payload/smoke_receipt.json'])
+         '/kaggle/working/input-copy/payload/smoke_receipt.json']+extra,model)
     core.write_json(out/'provenance.json',provenance(bundle,receipt))
 
 
-def stage_eval(bundle, training_bundle, completed, source_launch, output, username):
-    verify_training(completed,source_launch,training_bundle,'full')
+def stage_eval(bundle, training_bundle, completed, source_launch, output, username, model='ministral3b'):
+    verify_training(completed,source_launch,training_bundle,'full',model)
     adapter = Path(completed)/'run/adapter'
     ac = json.loads((adapter/'adapter_config.json').read_text())
-    if ac['base_model_name_or_path'] != core.config()['models']['ministral3b']['id']:
+    if ac['base_model_name_or_path'] != core.config()['models'][model]['id']:
         raise ValueError('Adapter model mismatch')
-    kaggle_stage.stage(bundle,output,username,'base-eval','ministral3b')
+    kaggle_stage.stage(bundle,output,username,'base-eval',model)
     out = Path(output); dest = out/'dataset/payload/adapter';dest.mkdir()
     for name in ('adapter_config.json','adapter_model.safetensors'):
         shutil.copy2(adapter/name,dest/name)
-    retarget(out,username,'sft-eval',['-m','experiments.evaluate','run','--model','ministral3b'],
-        ['-m','experiments.evaluate','run','--model','ministral3b','--adapter',
-         '/kaggle/working/input-copy/payload/adapter'])
+    retarget(out,username,'sft-eval',['-m','experiments.evaluate','run','--model',model],
+        ['-m','experiments.evaluate','run','--model',model,'--adapter',
+         '/kaggle/working/input-copy/payload/adapter'],model)
     meta = provenance(training_bundle,Path(completed)/'run/receipt.json')
     meta['adapter_sha256'] = {p.name:core.sha(p) for p in dest.iterdir()}
     core.write_json(out/'provenance.json',meta)
@@ -109,6 +113,7 @@ if __name__ == '__main__':
     for name in ['bundle','completed','source-launch','output','username']:
         parser.add_argument('--'+name,required=True)
     parser.add_argument('--training-bundle')
+    parser.add_argument('--model',choices=['ministral3b','qwen3b'],default='ministral3b')
     args = vars(parser.parse_args());kind = args.pop('kind')
     if kind == 'full':
         args.pop('training_bundle');stage_full(**args)
