@@ -1,0 +1,76 @@
+{
+  "source_repository": "https://github.com/Peanut-butter116/uk-insurance-QA-data",
+  "dataset_version": "63a736cd768267114bf229097d05b77c8f0fbc7ae4d9126bc512e4ae3fa36083",
+  "source_commit": "aef4d8c947750bb2fe1b10530c7060e2ab5cbda6",
+  "export_timestamp_utc": "2026-10-18T12:59:45.550801+00:00",
+  "training_examples": 409,
+  "unique_questions": 384,
+  "insurers": [
+    "AA",
+    "AXA",
+    "Admiral",
+    "Ageas",
+    "Aviva",
+    "Hastings Direct"
+  ],
+  "source_documents": 27,
+  "evidence_sections": 501,
+  "answerability": {
+    "answerable": 335,
+    "unanswerable": 74
+  },
+  "origins": {
+    "legacy": 135,
+    "generated": 274
+  },
+  "validation_methods": {
+    "deterministic_plus_independent_two_stage_gpt-5.4": 325,
+    "deterministic_plus_independent_two_stage_gemini-3.5-flash-lite": 84
+  },
+  "human_review_completed": 0,
+  "training_ready": false,
+  "source_status": "paused_provider_quota",
+  "all_protected_semantic_screen_passed": true,
+  "duplicate_question_rows": 25,
+  "policy_versions": "Source-content hashes, printed versions unverified",
+  "csv_encoding": "Canonical: JSON in every cell. Display: readable strings, nested values JSON, formula prefixes escaped.",
+  "fields": [
+    "abstention_reason",
+    "answer",
+    "answerability",
+    "citation_ids",
+    "context",
+    "data_origin",
+    "evidence_ids",
+    "evidence_text",
+    "example_id",
+    "generation_method",
+    "generation_model",
+    "human_review_status",
+    "insurer",
+    "legacy_example_id",
+    "legacy_record",
+    "policy_id",
+    "policy_version",
+    "product",
+    "provenance",
+    "question",
+    "question_type",
+    "source_id",
+    "source_url",
+    "split",
+    "unresolved_citations",
+    "validation_method",
+    "validation_status"
+  ],
+  "sha256": {
+    "interim_motor_training_display.csv": "abba17857636569d958b53d94e1b313e5d95acfae4d16fe3633607487b4087de",
+    "interim_motor_training.csv": "ef0a10026eb639865a56112d61c964a5e6738fd27c36685c36b9b3bcdb085d54",
+    "interim_motor_training.jsonl": "6ec5b3728bd6b25cae09d97c81974f371c76a47ce61d2d2795a6919257b44a8f"
+  },
+  "limitations": [
+    "Interim accepted export, not cleared for new full training",
+    "Human review outstanding",
+    "Repeated question variants require grouped deduplication before training"
+  ]
+}

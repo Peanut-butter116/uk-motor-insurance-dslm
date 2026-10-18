@@ -1,0 +1,21 @@
+{
+  "status": "draft_not_eligible_for_model_selection",
+  "questions": 20,
+  "answerable": 16,
+  "unanswerable": 4,
+  "source_groups": 8,
+  "insurer_holdout": "LV=",
+  "source_groups_absent_from_protected_gold_citations": true,
+  "training_insurer_disjoint": true,
+  "lexical_screen_max_ratio": 0.6494845360824743,
+  "independent_review_complete": false,
+  "training_leakage_screen_complete": false,
+  "protected_semantic_screen_complete": false,
+  "questions_sha256": "d884ab04bcb18e8e14be8e8bf9b3754ba7f8902154b68b4b07110e2104640668",
+  "limitations": [
+    "One held-out insurer and legal-expenses-heavy coverage",
+    "Semantic independence and reference answers require independent review",
+    "Full training-context source-group overlap beyond metadata not established",
+    "Use only after review, expansion and frozen retrieval export"
+  ]
+}
