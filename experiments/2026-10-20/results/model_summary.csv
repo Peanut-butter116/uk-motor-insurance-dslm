@@ -1,0 +1,17 @@
+population,model,parameters_billion,condition,sft_examples,n,correctness,balanced_abstention,citation_resolution,claim_support,parse_rate,over_refusals,answerable_n,correct_refusals,unanswerable_n,generation_seconds,peak_gpu_memory_gb,composite,review_status
+historical_full,qwen3b,3,Base,0,140,,0.4957627118644068,,,0.21428571428571427,1,118,0,22,1798.5119287840007,,,awaiting_independent_judging
+motor,qwen3b,3,Base,0,76,,0.4925373134328358,,,0.25,1,67,0,9,1046.2758760729998,,,awaiting_independent_judging
+historical_full,qwen3b,3,Base + RAG,0,140,,0.5227272727272727,0.852760736196319,,0.7,0,118,1,22,2739.6557051429954,,,awaiting_independent_judging
+motor,qwen3b,3,Base + RAG,0,76,,0.5,0.8888888888888888,,0.6973684210526315,0,67,0,9,1479.305368938,,,awaiting_independent_judging
+historical_full,ministral3b,3,Base,0,140,,0.46263482280431434,,,0.37857142857142856,41,118,6,22,943.9274005379998,,,awaiting_independent_judging
+motor,ministral3b,3,Base,0,76,,0.45439469320066334,,,0.3684210526315789,21,67,2,9,517.581613997,,,awaiting_independent_judging
+historical_full,ministral3b,3,Base + RAG,0,140,,0.5966872110939907,0.8426966292134831,,0.6928571428571428,4,118,5,22,3067.067625532005,,,awaiting_independent_judging
+motor,ministral3b,3,Base + RAG,0,76,,0.6036484245439468,0.8125,,0.75,1,67,2,9,1698.471404493002,,,awaiting_independent_judging
+historical_full,ministral3b,3,SFT,21,140,,0.5905238828967643,,,0.45,43,118,12,22,2335.479105177001,,,awaiting_independent_judging
+motor,ministral3b,3,SFT,21,76,,0.6948590381426203,,,0.47368421052631576,26,67,7,9,1264.4783662050006,,,awaiting_independent_judging
+historical_full,ministral3b,3,SFT + RAG,21,140,,0.6960708782742682,0.9147286821705426,,0.8428571428571429,2,118,9,22,2670.969871827003,,,awaiting_independent_judging
+motor,ministral3b,3,SFT + RAG,21,76,,0.6592039800995024,0.9253731343283582,,0.7631578947368421,1,67,3,9,1423.2320910599992,,,awaiting_independent_judging
+historical_full,qwen3b,3,SFT,21,140,,0.4957627118644068,,,0.29285714285714287,1,118,0,22,4391.707971469002,,,awaiting_independent_judging
+motor,qwen3b,3,SFT,21,76,,0.4925373134328358,,,0.3026315789473684,1,67,0,9,2375.4543464879994,,,awaiting_independent_judging
+historical_full,qwen3b,3,SFT + RAG,21,140,,0.536979969183359,0.7612208258527827,,0.8714285714285714,2,118,2,22,6071.61458865699,,,awaiting_independent_judging
+motor,qwen3b,3,SFT + RAG,21,76,,0.4925373134328358,0.7857142857142857,,0.881578947368421,1,67,0,9,3497.4603251469925,,,awaiting_independent_judging

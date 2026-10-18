@@ -1,0 +1,62 @@
+[
+  {
+    "model": "qwen3b",
+    "rows": 21,
+    "steps": 4,
+    "gates": {
+      "leakage": true,
+      "tokenisation": true,
+      "masking": true,
+      "finite_loss": true,
+      "language_only": true,
+      "adapter_reload": true
+    },
+    "frozen_launch_code_sha256": "2328e15c1f6a35de7dd603151a8c292aafea29c52c1c1169ad952224cb402900",
+    "adapter_sha256": "5b8b3d41757acf3c0b4ea0fffcbe2cdc20b612f2356c600376ec10375d32f164",
+    "fingerprint": "f63a7ed57517afb19b3b13fbeb6d4119ece28536d783573b0039008668c89be9",
+    "max_logit_difference": 0.0,
+    "gpu": "Tesla T4",
+    "training_config": {
+      "r": 16,
+      "alpha": 32,
+      "dropout": 0.05,
+      "learning_rate": 0.0001,
+      "epochs": 2,
+      "max_length": 2048,
+      "gradient_accumulation_steps": 8,
+      "smoke_steps": 2
+    },
+    "verification": "Recomputed against launch-time code, not changed current checkout",
+    "mean_logit_difference": 0.0
+  },
+  {
+    "model": "ministral3b",
+    "rows": 21,
+    "steps": 4,
+    "gates": {
+      "leakage": true,
+      "tokenisation": true,
+      "masking": true,
+      "finite_loss": true,
+      "language_only": true,
+      "adapter_reload": true
+    },
+    "frozen_launch_code_sha256": "793bf8b41ad97a85e1970b3cd3a665148341da3092ca00d6b7d881657a438a16",
+    "adapter_sha256": "9c4a952d43c98a6e0f92aaa6cdb10e78e83f39b1101223f6c9a4dc74a6011c46",
+    "fingerprint": "5a5dc00dec20830d4c0c1cf1379425e9aa5b4cd33551c27a468a7d2d437946ef",
+    "max_logit_difference": 0.0,
+    "gpu": "Tesla T4",
+    "training_config": {
+      "r": 16,
+      "alpha": 32,
+      "dropout": 0.05,
+      "learning_rate": 0.0001,
+      "epochs": 2,
+      "max_length": 2048,
+      "gradient_accumulation_steps": 8,
+      "smoke_steps": 2
+    },
+    "verification": "Recomputed against launch-time code, not changed current checkout",
+    "mean_logit_difference": 0.0
+  }
+]

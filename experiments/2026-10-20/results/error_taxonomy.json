@@ -1,0 +1,246 @@
+{
+  "scope": "Automatic behaviour, non-exclusive categories. Citation resolution is not claim support. Exact quote-location is a retrieval proxy.",
+  "counts": [
+    {
+      "condition": "ministral3b-base-closedbook",
+      "category": "FORMAT_FAILURE_RESOLVED",
+      "motor_question_count": 53
+    },
+    {
+      "condition": "ministral3b-base-closedbook",
+      "category": "RETRIEVAL_EVIDENCE_NOT_LOCATED_PROXY",
+      "motor_question_count": 30
+    },
+    {
+      "condition": "ministral3b-base-closedbook",
+      "category": "OVER_REFUSAL",
+      "motor_question_count": 21
+    },
+    {
+      "condition": "ministral3b-base-closedbook",
+      "category": "CITATION_FAILURE",
+      "motor_question_count": 5
+    },
+    {
+      "condition": "ministral3b-base-closedbook",
+      "category": "UNDER_REFUSAL_BY_READING_B",
+      "motor_question_count": 7
+    },
+    {
+      "condition": "ministral3b-base-closedbook",
+      "category": "appropriate_refusal_by_detector",
+      "motor_question_count": 2
+    },
+    {
+      "condition": "ministral3b-base-openbook",
+      "category": "all_parsed_citations_resolve",
+      "motor_question_count": 43
+    },
+    {
+      "condition": "ministral3b-base-openbook",
+      "category": "RETRIEVAL_EVIDENCE_NOT_LOCATED_PROXY",
+      "motor_question_count": 30
+    },
+    {
+      "condition": "ministral3b-base-openbook",
+      "category": "CITATION_FAILURE",
+      "motor_question_count": 30
+    },
+    {
+      "condition": "ministral3b-base-openbook",
+      "category": "FORMAT_FAILURE_RESOLVED",
+      "motor_question_count": 23
+    },
+    {
+      "condition": "ministral3b-base-openbook",
+      "category": "OVER_REFUSAL",
+      "motor_question_count": 1
+    },
+    {
+      "condition": "ministral3b-base-openbook",
+      "category": "UNDER_REFUSAL_BY_READING_B",
+      "motor_question_count": 7
+    },
+    {
+      "condition": "ministral3b-base-openbook",
+      "category": "appropriate_refusal_by_detector",
+      "motor_question_count": 2
+    },
+    {
+      "condition": "qwen3b-base-closedbook",
+      "category": "FORMAT_FAILURE_RESOLVED",
+      "motor_question_count": 75
+    },
+    {
+      "condition": "qwen3b-base-closedbook",
+      "category": "RETRIEVAL_EVIDENCE_NOT_LOCATED_PROXY",
+      "motor_question_count": 30
+    },
+    {
+      "condition": "qwen3b-base-closedbook",
+      "category": "CITATION_FAILURE",
+      "motor_question_count": 18
+    },
+    {
+      "condition": "qwen3b-base-closedbook",
+      "category": "OVER_REFUSAL",
+      "motor_question_count": 1
+    },
+    {
+      "condition": "qwen3b-base-closedbook",
+      "category": "UNDER_REFUSAL_BY_READING_B",
+      "motor_question_count": 9
+    },
+    {
+      "condition": "qwen3b-base-openbook",
+      "category": "all_parsed_citations_resolve",
+      "motor_question_count": 44
+    },
+    {
+      "condition": "qwen3b-base-openbook",
+      "category": "RETRIEVAL_EVIDENCE_NOT_LOCATED_PROXY",
+      "motor_question_count": 30
+    },
+    {
+      "condition": "qwen3b-base-openbook",
+      "category": "CITATION_FAILURE",
+      "motor_question_count": 32
+    },
+    {
+      "condition": "qwen3b-base-openbook",
+      "category": "FORMAT_FAILURE_RESOLVED",
+      "motor_question_count": 32
+    },
+    {
+      "condition": "qwen3b-base-openbook",
+      "category": "UNDER_REFUSAL_BY_READING_B",
+      "motor_question_count": 9
+    },
+    {
+      "condition": "ministral3b-sft-closedbook",
+      "category": "FORMAT_FAILURE_RESOLVED",
+      "motor_question_count": 43
+    },
+    {
+      "condition": "ministral3b-sft-closedbook",
+      "category": "RETRIEVAL_EVIDENCE_NOT_LOCATED_PROXY",
+      "motor_question_count": 30
+    },
+    {
+      "condition": "ministral3b-sft-closedbook",
+      "category": "OVER_REFUSAL",
+      "motor_question_count": 26
+    },
+    {
+      "condition": "ministral3b-sft-closedbook",
+      "category": "CITATION_FAILURE",
+      "motor_question_count": 3
+    },
+    {
+      "condition": "ministral3b-sft-closedbook",
+      "category": "appropriate_refusal_by_detector",
+      "motor_question_count": 7
+    },
+    {
+      "condition": "ministral3b-sft-closedbook",
+      "category": "UNDER_REFUSAL_BY_READING_B",
+      "motor_question_count": 2
+    },
+    {
+      "condition": "ministral3b-sft-openbook",
+      "category": "all_parsed_citations_resolve",
+      "motor_question_count": 49
+    },
+    {
+      "condition": "ministral3b-sft-openbook",
+      "category": "RETRIEVAL_EVIDENCE_NOT_LOCATED_PROXY",
+      "motor_question_count": 30
+    },
+    {
+      "condition": "ministral3b-sft-openbook",
+      "category": "CITATION_FAILURE",
+      "motor_question_count": 23
+    },
+    {
+      "condition": "ministral3b-sft-openbook",
+      "category": "FORMAT_FAILURE_RESOLVED",
+      "motor_question_count": 23
+    },
+    {
+      "condition": "ministral3b-sft-openbook",
+      "category": "appropriate_refusal_by_detector",
+      "motor_question_count": 3
+    },
+    {
+      "condition": "ministral3b-sft-openbook",
+      "category": "UNDER_REFUSAL_BY_READING_B",
+      "motor_question_count": 6
+    },
+    {
+      "condition": "ministral3b-sft-openbook",
+      "category": "OVER_REFUSAL",
+      "motor_question_count": 1
+    },
+    {
+      "condition": "qwen3b-sft-openbook",
+      "category": "all_parsed_citations_resolve",
+      "motor_question_count": 55
+    },
+    {
+      "condition": "qwen3b-sft-openbook",
+      "category": "RETRIEVAL_EVIDENCE_NOT_LOCATED_PROXY",
+      "motor_question_count": 30
+    },
+    {
+      "condition": "qwen3b-sft-openbook",
+      "category": "CITATION_FAILURE",
+      "motor_question_count": 21
+    },
+    {
+      "condition": "qwen3b-sft-openbook",
+      "category": "FORMAT_FAILURE_RESOLVED",
+      "motor_question_count": 13
+    },
+    {
+      "condition": "qwen3b-sft-openbook",
+      "category": "UNDER_REFUSAL_BY_READING_B",
+      "motor_question_count": 9
+    },
+    {
+      "condition": "qwen3b-sft-openbook",
+      "category": "OVER_REFUSAL",
+      "motor_question_count": 1
+    },
+    {
+      "condition": "qwen3b-sft-closedbook",
+      "category": "FORMAT_FAILURE_RESOLVED",
+      "motor_question_count": 75
+    },
+    {
+      "condition": "qwen3b-sft-closedbook",
+      "category": "RETRIEVAL_EVIDENCE_NOT_LOCATED_PROXY",
+      "motor_question_count": 30
+    },
+    {
+      "condition": "qwen3b-sft-closedbook",
+      "category": "CITATION_FAILURE",
+      "motor_question_count": 22
+    },
+    {
+      "condition": "qwen3b-sft-closedbook",
+      "category": "UNDER_REFUSAL_BY_READING_B",
+      "motor_question_count": 9
+    },
+    {
+      "condition": "qwen3b-sft-closedbook",
+      "category": "OVER_REFUSAL",
+      "motor_question_count": 1
+    }
+  ],
+  "not_measured": [
+    "incomplete answer",
+    "contradiction",
+    "unsupported claim",
+    "semantic citation support"
+  ]
+}

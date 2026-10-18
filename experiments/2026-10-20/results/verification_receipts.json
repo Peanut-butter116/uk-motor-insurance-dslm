@@ -1,0 +1,62 @@
+[
+  {
+    "condition": "qwen3b-base",
+    "success_sha256": "02e1939ff4f49a3a76ebe44084e5754bf1c90d64e3d81c087bc2696a8a3fdc2b",
+    "launch_sha256": "4cfbe847a7ea709a6fe87af7cc7004d57e8b5e1bf9d0931bfdd452dcc28d94a8",
+    "run_manifest_sha256": "cf2dbe221d3f4b437269f32dbd1440548c42f536961c1e321876fb99077b827a",
+    "nonce": "20261007T170521Z",
+    "runtime": {
+      "torch": "2.11.0+cu128",
+      "transformers": "5.19.0",
+      "peft": "0.21.2",
+      "bitsandbytes": "0.50.2",
+      "accelerate": "1.15.0",
+      "gpu": "Tesla T4"
+    }
+  },
+  {
+    "condition": "ministral3b-base",
+    "success_sha256": "02e1939ff4f49a3a76ebe44084e5754bf1c90d64e3d81c087bc2696a8a3fdc2b",
+    "launch_sha256": "4d1633960a9d387c44af6fd736c60b8486952a92f82945b0c4e9023a7d6873ca",
+    "run_manifest_sha256": "d8d25bf970dcbb47c7a814f683bbdb212a870f0d8b4e993f56585a9c21049a84",
+    "nonce": "20261007T170521Z",
+    "runtime": {
+      "torch": "2.11.0+cu128",
+      "transformers": "5.19.0",
+      "peft": "0.21.2",
+      "bitsandbytes": "0.50.2",
+      "accelerate": "1.15.0",
+      "gpu": "Tesla T4"
+    }
+  },
+  {
+    "condition": "ministral3b-sft",
+    "success_sha256": "751d436a054fbf2dbeef6c24094eccab8905cdb86237964cfeda0365baa169cf",
+    "launch_sha256": "185f43a2b8af5deae104662c7e4c163e9b16e97554668996b4cc32d819d602d3",
+    "run_manifest_sha256": "67067f0569e9d71d9b779938b0ee69402e9d333a0df9f24b859d55f5530e2e09",
+    "nonce": "20261008T203603Z",
+    "runtime": {
+      "torch": "2.11.0+cu128",
+      "transformers": "5.19.0",
+      "peft": "0.21.2",
+      "bitsandbytes": "0.50.2",
+      "accelerate": "1.15.0",
+      "gpu": "Tesla T4"
+    }
+  },
+  {
+    "condition": "qwen3b-sft",
+    "success_sha256": "69bc196b32c31c1fa9fd6c58ddfc6ca972222d1012c30b9e54d3ae54df7b780b",
+    "launch_sha256": "1e2d579b1739446acddf4d7de701a79e7064f991ce9bd7d4b332d926f33e0beb",
+    "run_manifest_sha256": "d4b49d15bcba6a433c0ba939267083feb17a85a1bfa7d8f5bd2db80c41a68bd3",
+    "nonce": "20261013T144032Z",
+    "runtime": {
+      "torch": "2.11.0+cu128",
+      "transformers": "5.19.0",
+      "peft": "0.21.2",
+      "bitsandbytes": "0.50.2",
+      "accelerate": "1.15.0",
+      "gpu": "Tesla T4"
+    }
+  }
+]

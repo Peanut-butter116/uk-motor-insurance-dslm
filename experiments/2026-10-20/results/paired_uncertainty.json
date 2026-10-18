@@ -1,0 +1,46 @@
+[
+  {
+    "model": "ministral3b",
+    "condition": "closedbook",
+    "metric": "motor_parse_rate_sft_minus_base",
+    "paired_n": 76,
+    "estimate": 0.10526315789473684,
+    "lower_95": -0.039473684210526314,
+    "upper_95": 0.25,
+    "method": "paired QID percentile bootstrap, 5000 draws, seed 20261020",
+    "limitations": "Exploratory, no multiplicity correction; parse success does not establish answer correctness"
+  },
+  {
+    "model": "ministral3b",
+    "condition": "openbook",
+    "metric": "motor_parse_rate_sft_minus_base",
+    "paired_n": 76,
+    "estimate": 0.013157894736842105,
+    "lower_95": -0.10526315789473684,
+    "upper_95": 0.13157894736842105,
+    "method": "paired QID percentile bootstrap, 5000 draws, seed 20261020",
+    "limitations": "Exploratory, no multiplicity correction; parse success does not establish answer correctness"
+  },
+  {
+    "model": "qwen3b",
+    "condition": "closedbook",
+    "metric": "motor_parse_rate_sft_minus_base",
+    "paired_n": 76,
+    "estimate": 0.05263157894736842,
+    "lower_95": -0.039473684210526314,
+    "upper_95": 0.15789473684210525,
+    "method": "paired QID percentile bootstrap, 5000 draws, seed 20261020",
+    "limitations": "Exploratory, no multiplicity correction; parse success does not establish answer correctness"
+  },
+  {
+    "model": "qwen3b",
+    "condition": "openbook",
+    "metric": "motor_parse_rate_sft_minus_base",
+    "paired_n": 76,
+    "estimate": 0.18421052631578946,
+    "lower_95": 0.07894736842105263,
+    "upper_95": 0.2894736842105263,
+    "method": "paired QID percentile bootstrap, 5000 draws, seed 20261020",
+    "limitations": "Exploratory, no multiplicity correction; parse success does not establish answer correctness"
+  }
+]
