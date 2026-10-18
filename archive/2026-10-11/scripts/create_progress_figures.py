@@ -1,7 +1,7 @@
 """Regenerate seven public-only meeting figures (Matplotlib required).
 
 Reads figures/aggregate_values.json only; never imports the experiment code or
-opens private data. Run: python scripts/create_progress_figures.py
+opens private data. Run: python archive/2026-10-11/scripts/create_progress_figures.py
 """
 from pathlib import Path
 import json

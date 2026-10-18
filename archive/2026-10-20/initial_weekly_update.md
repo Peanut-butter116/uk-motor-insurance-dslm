@@ -8,7 +8,7 @@ The immutable private export contains 409 accepted records, 384 distinct questio
 
 Verified 1,120 answers across eight historical conditions, including newly recovered Qwen SFT inference. Both SFT runs used 21 seed examples, four optimiser steps and two epochs, with validated saved-adapter reloads. Frozen contexts, launch nonces, checkpoint configuration, populations and adapter hashes passed checks. New dataset snapshot did not supply those historical experiments.
 
-Created private paired-result CSV, public full/motor aggregate tables, exploratory paired bootstrap intervals and a blinded 850-response judging package. The repository regression suite passed 224 tests including new snapshot acceptance safeguards.
+Created private paired-result CSV, public full/motor aggregate tables, exploratory paired bootstrap intervals and a blinded 850-response judging package. The regression suite passed 224 tests before this continuation. See the current execution report for later checks.
 
 Prepared 20 new private development drafts from eight groups, with 16 answerable and four unanswerable questions. The insurer is absent from training and selected source groups are absent from inherited gold citations. Independent review and semantic independence remain pending; legal-expenses-heavy coverage needs expansion. No quality model selection used these drafts or the protected test.
 

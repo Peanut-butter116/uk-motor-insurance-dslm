@@ -53,7 +53,7 @@ From the repository root, in a separate plotting environment:
 ```bash
 python -m venv /tmp/insurance-figures
 /tmp/insurance-figures/bin/python -m pip install matplotlib==3.11.2
-/tmp/insurance-figures/bin/python scripts/create_progress_figures.py
+/tmp/insurance-figures/bin/python archive/2026-10-11/scripts/create_progress_figures.py
 ```
 
 The script overwrites only the 14 named figure images. It uses DejaVu Sans,
