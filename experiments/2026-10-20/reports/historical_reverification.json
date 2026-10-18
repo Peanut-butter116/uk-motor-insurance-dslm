@@ -1,0 +1,21 @@
+{
+  "status": "reverified",
+  "verified_answers": 1120,
+  "historical_conditions": 8,
+  "motor_questions": 76,
+  "full_questions": 140,
+  "inference_rerun": false,
+  "public_artifacts_byte_identical": true,
+  "artifact_sha256": {
+    "summary.json": "1265331ca96cb2a4d45aa8ccf915074eecddce6bdaaf46bb4782f499069bd4da",
+    "paired_uncertainty.json": "3b05c9d64fd83a86cb5131aef85de6dae1b3d1bd0fdcae4a0e4d4bd4413678a3",
+    "verification_receipts.json": "906413f70cf5f17f3dca0952fb88c54bad1c11a2bf5ef5eb95bc5357a737a191",
+    "model_summary.csv": "d37aeb2743d1eb5be166bf2f6c737e043206eee1ea1882d453da1defa25da928"
+  },
+  "motor_correctness_pending": 484,
+  "motor_independent_votes_required": 1452,
+  "full_correctness_pending": 850,
+  "full_independent_votes_required": 2550,
+  "semantic_claim_support": "unjudged",
+  "unsupported_claims": "unjudged"
+}

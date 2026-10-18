@@ -1,0 +1,25 @@
+{
+  "owner": "scarletthe0116",
+  "slug": "uk-motor-interim-20261020-409",
+  "dataset_id": 12682948,
+  "version": 1,
+  "is_private": true,
+  "url": "https://www.kaggle.com/datasets/scarletthe0116/uk-motor-interim-20261020-409",
+  "checked_at_utc": "2026-10-18T14:13:22.633275+00:00",
+  "owner_upload_approval": true,
+  "supervisor_usernames_pending": true,
+  "supervisor_access_verified": false,
+  "owner_download_verified": true,
+  "downloaded_rows": 409,
+  "downloaded_sha256": {
+    "display_manifest.json": "f9459b41678272d4354f095fcb86a2b0851c9634e631d49d817ee70e21637e16",
+    "interim_motor_training_display.csv": "2e368db03e8d0ab3015b56c573154a83c4c5b07496da4fc5a5c8776df5eed4cc",
+    "interim_motor_training.csv": "ef0a10026eb639865a56112d61c964a5e6738fd27c36685c36b9b3bcdb085d54",
+    "interim_dataset_manifest.json": "a6d019592b34d88f955eb527d51fe0b29c90dfb65e58975edd7257cceee6f180",
+    "interim_motor_training.jsonl": "6ec5b3728bd6b25cae09d97c81974f371c76a47ce61d2d2795a6919257b44a8f"
+  },
+  "download_method": "Authenticated per-file downloads pinned to version 1; archive endpoint returned HTTP 404",
+  "archive_download_status": "HTTP 404 at verification time",
+  "csv_download_status": "verified",
+  "version_url": "https://www.kaggle.com/datasets/scarletthe0116/uk-motor-interim-20261020-409/versions/1"
+}

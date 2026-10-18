@@ -1,0 +1,62 @@
+{
+  "runtime_transformers": "5.5.3",
+  "purpose": "CPU tokenisation only, not GPU compatibility or quality",
+  "models": [
+    {
+      "model": "meta-llama/Llama-3.2-1B-Instruct",
+      "revision": "9213176726f574b556790deb65791e0c5aa438b6",
+      "status": "access_or_dependency_blocked",
+      "exception_type": "OSError"
+    },
+    {
+      "model": "google/gemma-3-1b-it",
+      "revision": "dcc83ea841ab6100d6b47a070329e1ba4cf78752",
+      "status": "access_or_dependency_blocked",
+      "exception_type": "OSError"
+    },
+    {
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+      "tokenizer_class": "Qwen2Tokenizer",
+      "status": "tokenisation_passed",
+      "tasks": 152,
+      "min_prompt_tokens": 233,
+      "max_prompt_tokens": 2979,
+      "over_budget_tasks": 0,
+      "chat_template_sha256": "cd8e9439f0570856fd70470bf8889ebd8b5d1107207f67a5efb46e342330527f"
+    },
+    {
+      "model": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+      "revision": "ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562",
+      "tokenizer_class": "TokenizersBackend",
+      "status": "tokenisation_passed",
+      "tasks": 152,
+      "min_prompt_tokens": 209,
+      "max_prompt_tokens": 2955,
+      "over_budget_tasks": 0,
+      "chat_template_sha256": "56a1447ad31926fdc21fb07e56e5642bd9c850c4f52d8c8af7bbe5f079a84f5f"
+    },
+    {
+      "model": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+      "revision": "31b70e2e869a7173562077fd711b654946d38674",
+      "tokenizer_class": "GPT2Tokenizer",
+      "status": "tokenisation_passed",
+      "tasks": 152,
+      "min_prompt_tokens": 248,
+      "max_prompt_tokens": 3244,
+      "over_budget_tasks": 0,
+      "chat_template_sha256": "872be49dbb638044ad01b60388f48d469ff2980e5f0dccdc22ec907db54d0788"
+    },
+    {
+      "model": "mistralai/Ministral-3-3B-Instruct-2512",
+      "revision": "b35d4dfe56c142746f54dbd64f579faab2744308",
+      "tokenizer_class": "TokenizersBackend",
+      "status": "tokenisation_passed",
+      "tasks": 152,
+      "min_prompt_tokens": 735,
+      "max_prompt_tokens": 3612,
+      "over_budget_tasks": 0,
+      "chat_template_sha256": "0701cfbdc2b7d44fdbad104dff604faee4b0543e8247624568777fe465746f9b"
+    }
+  ]
+}

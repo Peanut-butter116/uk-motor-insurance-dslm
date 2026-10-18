@@ -1,0 +1,73 @@
+{
+  "checked_at_utc": "2026-10-18T14:18:53.767786+00:00",
+  "jobs": [
+    {
+      "notebook": "scarletthe0116/motor-six-model-compatibility-20261020",
+      "status": "QUEUED",
+      "failure_message_present": false,
+      "url": "https://www.kaggle.com/code/scarletthe0116/motor-six-model-compatibility-20261020"
+    },
+    {
+      "notebook": "scarletthe0116/motor-six-model-frozen-test-20261020",
+      "status": "QUEUED",
+      "failure_message_present": false,
+      "url": "https://www.kaggle.com/code/scarletthe0116/motor-six-model-frozen-test-20261020"
+    },
+    {
+      "notebook": "scarletthe0116/uk-insurance-base-eval-qwen3b",
+      "status": "COMPLETE",
+      "failure_message_present": false,
+      "url": "https://www.kaggle.com/code/scarletthe0116/uk-insurance-base-eval-qwen3b"
+    },
+    {
+      "notebook": "scarletthe0116/uk-insurance-base-eval-ministral3b",
+      "status": "COMPLETE",
+      "failure_message_present": false,
+      "url": "https://www.kaggle.com/code/scarletthe0116/uk-insurance-base-eval-ministral3b"
+    },
+    {
+      "notebook": "scarletthe0116/uk-insurance-smoke-qwen3b",
+      "status": "COMPLETE",
+      "failure_message_present": false,
+      "url": "https://www.kaggle.com/code/scarletthe0116/uk-insurance-smoke-qwen3b"
+    },
+    {
+      "notebook": "scarletthe0116/uk-insurance-smoke-ministral3b",
+      "status": "COMPLETE",
+      "failure_message_present": false,
+      "url": "https://www.kaggle.com/code/scarletthe0116/uk-insurance-smoke-ministral3b"
+    },
+    {
+      "notebook": "scarletthe0116/uk-insurance-full-qwen3b",
+      "status": "COMPLETE",
+      "failure_message_present": false,
+      "url": "https://www.kaggle.com/code/scarletthe0116/uk-insurance-full-qwen3b"
+    },
+    {
+      "notebook": "scarletthe0116/uk-insurance-full-ministral3b",
+      "status": "COMPLETE",
+      "failure_message_present": false,
+      "url": "https://www.kaggle.com/code/scarletthe0116/uk-insurance-full-ministral3b"
+    },
+    {
+      "notebook": "scarletthe0116/uk-insurance-sft-eval-qwen3b",
+      "status": "COMPLETE",
+      "failure_message_present": false,
+      "url": "https://www.kaggle.com/code/scarletthe0116/uk-insurance-sft-eval-qwen3b"
+    },
+    {
+      "notebook": "scarletthe0116/uk-insurance-sft-eval-ministral3b",
+      "status": "COMPLETE",
+      "failure_message_present": false,
+      "url": "https://www.kaggle.com/code/scarletthe0116/uk-insurance-sft-eval-ministral3b"
+    }
+  ],
+  "gpu_quota_hours": {
+    "time_used": 0.0,
+    "time_reserved": 0.0,
+    "total_time_allowed": 30.0,
+    "paid_scaling_enabled": false,
+    "refresh_utc": "2026-10-24 00:00:00"
+  },
+  "interpretation": "Queued is not running or complete. Free quota does not guarantee accelerator availability. No paid judging or new SFT run submitted."
+}

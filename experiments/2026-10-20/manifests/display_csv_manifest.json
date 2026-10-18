@@ -1,0 +1,36 @@
+{
+  "rows": 409,
+  "distinct_questions": 384,
+  "unique_ids": 409,
+  "exact_model_visible_duplicates": 0,
+  "repeated_question_clusters": 25,
+  "cross_answerability_clusters": 25,
+  "cluster_sizes": {
+    "2": 25
+  },
+  "interpretation": "25 repeated question texts are answerable/insufficient-evidence pairs with different contexts, not duplicate model-visible rows. Keep groups together and review label/context contrast before SFT.",
+  "columns": [
+    "id",
+    "insurer",
+    "product",
+    "question",
+    "context",
+    "answer",
+    "answerability",
+    "citation",
+    "question_type",
+    "validation_status"
+  ],
+  "encoding": "UTF-8",
+  "multiline": "RFC 4180 quoted multiline cells, verified with csv.DictReader",
+  "training_ready": false,
+  "human_review_completed": 0,
+  "source_dataset_version": "63a736cd768267114bf229097d05b77c8f0fbc7ae4d9126bc512e4ae3fa36083",
+  "canonical_jsonl_sha256": "6ec5b3728bd6b25cae09d97c81974f371c76a47ce61d2d2795a6919257b44a8f",
+  "display_csv_sha256": "2e368db03e8d0ab3015b56c573154a83c4c5b07496da4fc5a5c8776df5eed4cc",
+  "supervisor_download_url": "https://www.kaggle.com/datasets/scarletthe0116/uk-motor-interim-20261020-409",
+  "leakage_status": "All 409 carry approved protected-question screens. Newly drafted dev excluded from training; exhaustive source/context semantic review pending.",
+  "sharing_status_at_export": "pending content-transfer approval and confirmed supervisor access; no new restricted upload",
+  "current_access_receipt": "private_dataset_receipt.json",
+  "sharing_status": "Owner-approved private Kaggle version 1. Supervisor invitations pending usernames."
+}
