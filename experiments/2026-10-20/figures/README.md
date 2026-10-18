@@ -12,6 +12,7 @@ These figures contain historical 21-example SFT results and current six-model ex
 | 04_model_efficiency | [PNG](04_model_efficiency.png) | [SVG](04_model_efficiency.svg) |
 | 05_dataset_composition | [PNG](05_dataset_composition.png) | [SVG](05_dataset_composition.svg) |
 | 06_error_analysis | [PNG](06_error_analysis.png) | [SVG](06_error_analysis.svg) |
+| 07_new_model_efficiency | [PNG](07_new_model_efficiency.png) | [SVG](07_new_model_efficiency.svg) |
 
 Exact plotted inputs and source checksums: [figure_data.json](figure_data.json).
 

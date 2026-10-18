@@ -84,6 +84,8 @@ def make(results, output):
         for i,value in enumerate(values):
             if not math.isfinite(value):ax.text(i,.03,'N/A',ha='center',fontsize=8)
     save(fig,'04_abstention_unsupported','Abstention and unsupported answers',foot)
+    for svg in output.glob('*.svg'):
+        svg.write_text('\n'.join(line.rstrip() for line in svg.read_text().splitlines())+'\n')
     (output/'README.md').write_text('# Semantic evaluation figures\n\n'+foot+'\n\nPNG (300 dpi) and editable SVG; exact aggregate inputs and hashes in figure_data.json. Empty bars denote N/A, never zero. All scores remain synthetic judge labels until independent human validation. The pilot uses the same observed questions across all eight arms; excludes missing/uncertain scores and does not estimate full-test performance.\n')
 
 

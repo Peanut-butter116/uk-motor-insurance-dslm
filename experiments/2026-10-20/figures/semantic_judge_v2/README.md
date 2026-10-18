@@ -1,7 +1,5 @@
 # Semantic evaluation figures
 
-No correctness, RAG correctness improvement, correctness-versus-support, unsupported-answer or SFT-improvement figures were generated: **zero real responses have valid semantic judgements**.
+PRELIMINARY matched complete-case pilot, n=13 per arm; single vote protocol. Historical SFT21; human validation n=0. Not a validated ranking. Answerable/unanswerable n=11/2.
 
-Existing behaviour figures measure citation resolution, parsing and refusal only. They cannot answer whether SFT improves accuracy.
-
-`figure_data.json` records the exact pending aggregate inputs and hashes. Regenerate after authorised judging: `python scripts/plot_semantic_results.py --results experiments/2026-10-20/results/semantic_judge_v2 --output experiments/2026-10-20/figures/semantic_judge_v2`.
+PNG (300 dpi) and editable SVG; exact aggregate inputs and hashes in figure_data.json. Empty bars denote N/A, never zero. All scores remain synthetic judge labels until independent human validation. The pilot uses the same observed questions across all eight arms; excludes missing/uncertain scores and does not estimate full-test performance.

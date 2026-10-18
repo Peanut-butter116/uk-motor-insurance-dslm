@@ -1,5 +1,6 @@
 """Generate PNG/SVG research figures from public verified aggregates only."""
 import argparse
+import csv
 import hashlib
 import json
 from pathlib import Path
@@ -17,9 +18,14 @@ def make(output):
     output=Path(output);output.mkdir(parents=True,exist_ok=True)
     sources={name:EXP/name for name in ['results/summary.json','results/error_taxonomy.json',
         'manifests/interim_dataset_manifest.json','manifests/display_csv_manifest.json','configs/six_models.json',
-        'reports/kaggle_status.json','results/six_model_v1/six_model_verification.json']}
+        'reports/kaggle_status.json','results/six_model_v1/six_model_verification.json',
+        'results/ministral_fp16_repair/six_model_verification.json']}
     data={k:json.loads(p.read_text()) for k,p in sources.items()}
     data['source_sha256']={k:hashlib.sha256(p.read_bytes()).hexdigest() for k,p in sources.items()}
+    for rel in ['results/six_model_v1/six_model_summary.csv','results/ministral_fp16_repair/six_model_summary.csv']:
+        source=EXP/rel
+        data[rel]=list(csv.DictReader(source.open()))
+        data['source_sha256'][rel]=hashlib.sha256(source.read_bytes()).hexdigest()
     data['plotting_runtime']={'matplotlib':matplotlib.__version__,'numpy':np.__version__}
     (output/'figure_data.json').write_text(json.dumps(data,indent=2)+'\n')
     rows=[r for r in data['results/summary.json'] if r['population']=='motor']
@@ -60,6 +66,8 @@ def make(output):
     status=next(j['status'] for j in data['reports/kaggle_status.json']['jobs']
         if j['notebook'].endswith('motor-six-model-frozen-test-20261020'))
     verified={r['model']:r for r in data['results/six_model_v1/six_model_verification.json']['models']}
+    for r in data['results/ministral_fp16_repair/six_model_verification.json']['models']:
+        if r['status']=='inference_complete':verified[r['model']]=r
     values=[[m['id'].split('/')[-1],str(m['parameters_billion_nominal'])+'B',
         ('Inference complete;\njudging pending' if verified[m['id']]['status']=='inference_complete' else
          'Gated access failed' if m['gated'] else 'Compute dtype failed') if status=='COMPLETE' else
@@ -71,7 +79,7 @@ def make(output):
         cell.set_edgecolor('#CCCCCC')
         if row==0:cell.set_text_props(color=RED,weight='bold');cell.set_facecolor('#F3F3F3')
     save(fig,'01_base_models','Base-model evidence and six-candidate status',
-        'Left: historical 3B base models, motor n=76. Right: three new candidates completed verified paired inference.\nCorrectness and claim support remain unjudged. Parse rate counts a citation parse or recognised abstention.')
+        'Left: historical 3B base models, motor n=76. Right: four new candidates completed verified paired inference.\nNew-model correctness remains pending. Parse rate counts a citation parse or recognised abstention.')
 
     fig,axes=plt.subplots(1,2,figsize=(14,8))
     for ax,metric,title in zip(axes,['balanced_abstention','parse_rate'],['Balanced abstention','Inherited parse rate']):
@@ -140,6 +148,25 @@ def make(output):
         ax.set_xticks(range(4),labs,rotation=32,ha='right',fontsize=10);ax.set_title(title);polish(ax,'Rate (%)',True)
     save(fig,'06_error_analysis','Measured motor refusal and citation failures',
         'Historical RAG arms only. Citation failure includes missing or unresolved citations, not semantic contradiction.\nIncorrect-answer and unsupported-claim rates remain unjudged. Categories overlap and must not be summed.')
+    new_rows=data['results/six_model_v1/six_model_summary.csv']+data['results/ministral_fp16_repair/six_model_summary.csv']
+    new_ids=list(dict.fromkeys(r['model'] for r in new_rows))
+    new_names=[m.split('/')[-1].replace('-Instruct','').replace('-2512','') for m in new_ids]
+    fig,axes=plt.subplots(1,2,figsize=(15,8))
+    for j,(condition,color) in enumerate([('Base',GREY),('Base + RAG',RED)]):
+        selected=[next(r for r in new_rows if r['model']==m and r['condition']==condition) for m in new_ids]
+        values=[float(r['mean_latency_seconds']) for r in selected]
+        bars=axes[0].bar(np.arange(len(new_ids))+(j-.5)*.32,values,.32,color=color,label=condition)
+        axes[0].bar_label(bars,fmt='%.1f',padding=3,fontsize=10)
+    memory=[float(next(r for r in new_rows if r['model']==m)['peak_gpu_allocated_gib']) for m in new_ids]
+    bars=axes[1].bar(range(len(new_ids)),memory,color=RED);axes[1].bar_label(bars,fmt='%.2f',padding=3)
+    for ax in axes:ax.set_xticks(range(len(new_ids)),new_names,rotation=22,ha='right',fontsize=9)
+    polish(axes[0],'Mean generation seconds / question');polish(axes[1],'Peak allocated GPU memory (GiB)')
+    axes[0].legend(frameon=False);axes[0].set_ylim(0,max(float(r['mean_latency_seconds']) for r in new_rows)*1.2)
+    axes[1].set_ylim(0,max(memory)*1.2)
+    save(fig,'07_new_model_efficiency','Verified current base-model efficiency',
+        'Same 76 motor questions per condition; float16, Tesla T4, greedy decoding, 700-token cap.\nMemory is the whole-model-run peak across both conditions. Parameter classes: 1.5B, 1.5B, 1.7B and 3B (nominal).')
+    for svg in output.glob('*.svg'):
+        svg.write_text('\n'.join(line.rstrip() for line in svg.read_text().splitlines())+'\n')
     files=sorted(p.name for p in output.iterdir() if p.suffix in ['.png','.svg'])
     lines=['# Current research figures','', 'Generated from verified public aggregates. White/black/red style, 300 dpi PNG and SVG with editable text. No private inputs or missing performance bars.', '',
         'These figures contain historical 21-example SFT results and current six-model execution status. They do not claim a completed six-model quality benchmark.', '',
