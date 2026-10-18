@@ -34,6 +34,7 @@ def test_blinding_and_duplicate_prevention():
     assert mapping[0]['model']=='secret-model'
     assert sj.blind([r],4)==sj.blind([r],4)
     with pytest.raises(ValueError):sj.blind([r,r],4)
+    with pytest.raises(ValueError,match='self-identification'):sj.blind([{**r,'model_answer':'I am Qwen2.5.'}],4)
 
 
 @pytest.mark.parametrize('bad',['```json\n{}\n```','{"a":1,"a":2}','{"a":','[]','NaN'])
@@ -82,7 +83,7 @@ def test_three_votes_disagreement_null_and_duplicates():
 def test_bootstrap_paired_missing_and_groups():
     result=sj.paired_bootstrap([('a',0,1),('a',.5,1),('b',None,0)],iterations=100)
     assert result['n_pairs']==2 and result['n_groups']==1 and result['difference']==.75
-    assert result['ci_low']==.75
+    assert result['ci_low'] is None and result['interval_status']=='insufficient_independent_groups'
     assert sj.paired_bootstrap([('b',None,0)])['difference'] is None
 
 
@@ -137,6 +138,90 @@ def test_mixed_judges_and_invalid_vote_index():
     with pytest.raises(ValueError):sj.merge([{**v,'vote':i,'provider':str(i)} for i in (1,2,3)],t)
 
 
+def test_provider_schema_enforces_canonical_fact_arity():
+    t,_=task_vote();schema=sj.response_schema(t)
+    assert set(schema['required'])==sj.FIELDS
+    assert schema['properties']['fact_scores']['minItems']==len(t['key_facts'])
+    assert schema['properties']['evidence_spans']['maxItems']==len(t['key_facts'])
+    assert schema['additionalProperties'] is False
+
+
+def test_unsupported_absence_does_not_need_fabricated_quote():
+    t,v=task_vote(5);v['reference_spans']=[]
+    assert sj.validate(json.dumps(v),t)['evidence_support']==0
+    v['unsupported_material_claim']=False;v['contradiction']=False
+    with pytest.raises(ValueError):sj.validate(json.dumps(v),t)
+
+
+def test_batch_pack_preserves_population_and_independent_questions():
+    from scripts.run_gemini_batch_judge import pack
+    tasks=[];mapping={}
+    for q in range(4):
+        for arm in range(8):
+            t=copy.deepcopy(fixtures()[0][0]);t['evaluation_id']=f'q{q}-a{arm}';tasks.append(t)
+            mapping[t['evaluation_id']]={'question_group':str(q)}
+    batches=list(pack(tasks,mapping,42,size=10))
+    assert len([t for batch in batches for t in batch])==32
+    assert all(len({mapping[t['evaluation_id']]['question_group'] for t in batch})==len(batch) for batch in batches)
+    assert list(pack(tasks,mapping,42,size=10))==batches
+
+
+def test_indexed_transport_lossless_and_exact_resolution():
+    from eval import judge_span_ids as ids
+    text='First sentence.  Second sentence.\nThird line\n'
+    spans=ids.segments(text,'A')
+    assert ''.join(s['text'] for s in spans)==text
+    assert ids.resolve('A0-A2',[spans])==text
+    with pytest.raises(ValueError):ids.resolve('A2-A0',[spans])
+    with pytest.raises(ValueError):ids.resolve('R0S0-R1S0',[[{'id':'R0S0','text':'one'}],[{'id':'R1S0','text':'two'}]])
+    with pytest.raises(ValueError):ids.resolve('Invented',[spans])
+
+
+def test_indexed_normalisation_preserves_legacy_scores():
+    from eval import judge_span_ids as ids
+    t,v=task_vote();transport={k:x for k,x in v.items() if k not in ('evidence_spans','reference_spans')}
+    transport['answer_span_ids']=['A0'];transport['reference_span_ids']=['R0S0-R0S3']
+    result=ids.normalise(transport,t)
+    assert result['fact_scores']==v['fact_scores'] and result['correctness']==1
+    assert result['evidence_spans']==v['evidence_spans']
+    transport['answer_span_ids']=['A999']
+    with pytest.raises(ValueError):ids.normalise(transport,t)
+
+
+def test_unanswerable_reference_scope_and_missing_answerable_reference():
+    from scripts.run_semantic_judge import reference_package
+    context=[{'text':'Fictional Acorn policy wording.','meta':{'filename':'fictional.txt','section_id':'1'}}]
+    gold={'answerable':False,'gold_citations':[],'review_status':'council_verified'}
+    refs,complete=reference_package(gold,[],context)
+    assert complete and refs[0]['text']==context[0]['text']
+    assert 'not a positive gold citation' in refs[0]['scope']
+    assert reference_package({**gold,'answerable':True},[],context)==([],False)
+    assert reference_package({**gold,'review_status':'draft'},[],context)[1] is False
+
+
+def test_adoption_requires_identical_input_and_identity_mapping():
+    from scripts.adopt_unchanged_judge_votes import unchanged_ids
+    old={'e0':{'model_answer':'Fictional answer'}};meta={'e0':{'model':'student-a','condition':'base'}}
+    assert unchanged_ids(old,copy.deepcopy(old),meta,copy.deepcopy(meta))=={'e0'}
+    assert not unchanged_ids(old,old,meta,{'e0':{'model':'student-b','condition':'base'}})
+    assert not unchanged_ids(old,{'e0':{'model_answer':'Changed answer'}},meta,meta)
+
+
+def test_explicit_judge_plan_does_not_allow_unregistered_models():
+    t,v=task_vote();votes=[{**v,'vote':i,'provider':'gemini','model':'judge-a' if i!=3 else 'judge-b'} for i in (1,2,3)]
+    plan={'1':'judge-a','2':'judge-a','3':'judge-b'}
+    assert sj.merge(votes,t,judge_plan=plan)['n_votes']==3
+    with pytest.raises(ValueError):sj.merge(votes,t,judge_plan={**plan,'3':'other-model'})
+
+
+def test_worker_lock_prevents_duplicate_dispatch(tmp_path):
+    import fcntl
+    from scripts.run_gemini_batch_judge import execute
+    with (tmp_path/'.judge_worker.lock').open('a') as lock:
+        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+        with pytest.raises(RuntimeError,match='already owns'):execute(directory=str(tmp_path))
+
+
 def test_no_semantic_figures_from_pending_scores(tmp_path):
     from scripts.plot_semantic_results import make
     source=tmp_path/'results';source.mkdir();out=tmp_path/'figures'
@@ -155,7 +240,7 @@ def test_aggregate_exact_denominators_and_pending(tmp_path):
     def rows(name,items):(directory/name).write_text(''.join(json.dumps(r)+'\n' for r in items))
     rows('judge_inputs.jsonl',tasks)
     rows('private_mapping.jsonl',[{'evaluation_id':t['evaluation_id'],'qid':str(i),'model':'qwen3b',
-        'experiment':'historical_sft21','condition':'qwen3b-base-closedbook','question_group':str(i),
+        'experiment':'historical_sft21','model_id':'fictional/student','revision':'fixture-v1','condition':'qwen3b-base-closedbook','question_group':str(i),
         'parse_success':True,'latency_seconds':1,'citation_count':None,'resolved_citation_count':None} for i,t in enumerate(tasks)])
     # One response complete, the other missing: never count missing as incorrect.
     v=task_vote(0)[1];rows('judge_votes.jsonl',[{**v,'vote':i} for i in (1,2,3)])

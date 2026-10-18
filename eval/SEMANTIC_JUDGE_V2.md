@@ -1,108 +1,160 @@
-# UK motor semantic judge — motor-semantic-v2.0
+# UK motor semantic judge — motor-semantic-v2.2
 
-This is an explicit extension of [JUDGE_RUBRIC.md](JUDGE_RUBRIC.md), not a replacement
-for historical scores. The frozen prompt lives in `semantic_judge.PROMPT` and its
-hash is recorded before execution. Calibration uses eight fictional Acorn policy
-examples in `semantic_fixtures.py`; protected labels must never tune the prompt.
+This version extends [JUDGE_RUBRIC.md](JUDGE_RUBRIC.md). Historical predictions,
+reference answers, benchmark hashes and published legacy metrics are preserved.
+Overall correctness below is a separate metric from the legacy mean key-fact score.
 
-## Inputs and blinding
+## Frozen rubric and inputs
 
-Only a shuffled opaque evaluation ID, question, gold answerability, reference
-answer/key facts, gold policy clauses, student-visible evidence, answer, citations
-and deterministic refusal decision enter the prompt. Model, family, adaptation,
-condition, question IDs, source output paths and existing metrics remain in a
-separate private mapping. Shuffle seed: 20261020. Reference clauses resolve by
-frozen document and section; all matching chunks are retained without truncation.
-Gold answers are grading references, not evidence. Unsupported gold assumptions
-must be flagged. Historical inference did not record truncation flags; completeness
-is unknown there. New reasoning/final-answer and output-cap flags are preserved.
+Correctness is **1** (all essential facts correct), **0.5** (useful but incomplete
+or with a limited noncritical error), or **0** (materially wrong). Invented cover,
+material safety/coverage errors, decisive exclusions missed and material
+contradictions score zero. Check coverage, exclusions, excesses, limits, conditions,
+exceptions, eligibility and customer circumstances. Fluency and answer similarity
+are insufficient.
 
-## Scores and abstention
-
-Overall correctness is 1 (all essential facts), 0.5 (partial with material omission
-or limited noncritical error), or 0 (materially wrong). Material coverage/safety
-errors, decisive exclusions missed and contradictions always score 0. Fluency and
-reference-answer resemblance are insufficient. Evaluate coverage, excess, limits,
-conditions, exceptions, eligibility and customer circumstances.
-
-Reference evidence support is 1 (all material claims), 0.5 (some unsupported claims
-without contradiction), or 0 (central unsupported/contradicted claim). Report an
-unsupported-material-claim flag. Verbatim source spans are validated mechanically;
-the span match alone does not verify entailment. Student **citation grounding**
-requires a separate claim-to-cited-passage review and remains pending. It is N/A
-without student-visible evidence. Reference support can be judged in either arm.
+Reference support is **1** (all material claims supported), **0.5** (some unsupported
+claims without contradiction), or **0** (central unsupported/contradicted claim).
+Record `unsupported_material_claim`. Positive support requires verifiable source
+spans. An unsupported claim may have no supporting span; it must then carry an
+unsupported/contradiction flag. Refusals have no factual-claim support score.
 
 Use the inherited deterministic refusal detector. An answerable refusal scores
-correctness 0; an appropriately calibrated unanswerable refusal scores 1. Refusals
-have no factual-claim evidence-support score. A detector/gold disagreement needs
-review. An invented answer to an unanswerable question scores 0.
+correctness zero. An appropriately calibrated unanswerable refusal may score one;
+an invented answer scores zero. Ambiguous/missing/conflicting evidence or an
+unsupported gold assumption yields null scores and human-review flags. Incomplete
+outputs and borderline decisions are explicitly flagged. Invalid or absent votes
+never become zeros.
 
-Missing/ambiguous/conflicting evidence or unsupported gold assumptions produce
-null scores and human-review flags. Borderline and incomplete output are explicit
-uncertainty flags. No absent, invalid or uncertain output becomes a zero.
+The private payload contains only opaque ID, question, gold answerability,
+reference answer/key facts, policy evidence, student-visible evidence,
+answer/citations and engineering refusal/completeness flags. A separate private
+mapping retains model, revision, condition, experiment and question ID. Shuffle
+seed: **20261020**. Student names and performance scores are not supplied. Potential
+self-identification in an answer blocks preparation pending an audited blind copy.
 
-## Compatibility and reliability
+Gold cited document/sections supply reference evidence for answerable questions.
+Verified unanswerable questions deliberately lack a positive gold citation: their
+reference package retains the **frozen policy context**, labelled as context rather
+than a positive gold citation, alongside the frozen answerability/reference answer.
+This package repair is versioned `frozen-policy-scope-v2.2.1`. It does not change
+benchmark labels, questions, references or student outputs. Votes were adopted
+only for identical canonical inputs and retained source provenance.
 
-The strict v2 JSON also retains legacy `fact_scores` (0/1/2), verbatim answer
-`evidence_spans` and `contradiction`. These are aggregated by existing
-`judge_votes.merge_task`: median-low per fact, majority contradiction (ties true).
-Legacy mean-fact correctness and v2 overall correctness are different metrics.
-No historical result or composite is overwritten.
+Reference evidence and student-visible evidence are distinct. Reference support
+can be assessed in either inference arm. **Student citation grounding is N/A
+without student evidence and remains a separate pending claim-to-citation audit
+for RAG.** Source ID existence or citation resolution alone is not entailment.
 
-Primary v2 results require three valid distinct vote indices. Overall scores use
-median-low; any null vote leaves that metric null. Majority contradiction caps
-correctness at zero. Disagreements and any review flag remain visible. Repeated
-calls to one model measure within-model consistency, not independent human truth.
-One-vote outputs are separately labelled preliminary and never fill primary tables.
+## Strict indexed transport
 
-The initial 28-item blind review sheet stratifies arms/families/answerability before
-scores exist. After actual scoring, supplement it with correct/incorrect and
-borderline/disagreement cases. Blank review fields are not completed human reviews.
-Human agreement remains null until actual independent labels are supplied; use
-`human_agreement.quadratic_weighted_kappa` on ordinal 0/1/2 mapped from 0/.5/1.
-Do not trust rankings without independent validation (inherited kappa gate ≈0.6).
+`judge_span_ids.py` supplies lossless ordered text segments: `A0` for answer spans,
+`R0S0` for reference spans. Their concatenation exactly reconstructs the original
+text. The judge selects IDs/ranges and still decides whether the segment supports
+the claim. Local code resolves them to exact original substrings. Invented IDs,
+reversed ranges and ranges across source chunks are rejected. No quotation is
+fabricated or paraphrased by post-processing.
 
-Paired differences use common question IDs with observed scores in both arms;
-bootstrap exact repeated-question groups jointly, seed 20261020, 4,000 resamples.
-Report complete-case coverage. Dependence across different questions sharing policy
-sources is not yet modelled. Nine unanswerable motor questions provide imprecise
-refusal sensitivity. Missing correctness means differences stay pending.
+`indexed-pointwise-v3` uses a shared JSON schema for a batch of at most ten
+**different question groups**. Exact IDs, uniqueness, fact arity, types, scores,
+verbatim resolved spans, refusal rules and uncertainty constraints are validated
+per item. An item is one vote, not an entire batch. The same response's three
+votes always occur in three separate stateless API requests, seeds 20261021–23;
+no other votes or previous decisions enter any prompt.
 
-## Provider and privacy gates
+Nested fixed array grammars exceeded provider schema limits. Shared schemas and
+post-generation arity validation preserve strictness without truncating inputs.
+Each request reserves a conservative UTF-8-byte/token upper bound, at most 175,000,
+and up to 32,768 output tokens including thinking. The actual model limit is
+checked through the authenticated catalogue. No evidence truncation is allowed.
+See Google's [structured output documentation](https://ai.google.dev/gemini-api/docs/structured-output)
+and [thinking documentation](https://ai.google.dev/gemini-api/docs/generate-content/thinking).
 
-Gemini catalogue discovery sends no research content. `gemini_judge.py` requires
-explicit permission for every payload field and the semantic evaluation purpose;
-questions-only leakage permission is insufficient. Free-plan/model/quota receipt
-must be current, shared production usage is read-only, and evaluation reservations
-are separate. There is no paid fallback or automatic retry on HTTP 429. Run only
-one evaluation worker; shared usage snapshots cannot guarantee cross-process quota
-reservations against an independently changing production pipeline.
+## Compatibility and aggregation
 
-Fictional mode accepts only the fixed public fixtures, not arbitrary content marked
-fictional. For local fallback, pinned Phi-4-mini 4-bit weights run through native
-MLX without transmitting task content. All eight fictional calibration examples
-must pass strict schema and expected correctness before protected evaluation.
-This small engineering gate is not a substitute for independent human calibration.
+| Transport field | Canonical / historical mapping |
+|---|---|
+| `answer_span_ids` | Resolve into legacy verbatim `evidence_spans`, one per key fact |
+| `reference_span_ids` | Resolve into canonical `reference_spans` |
+| `fact_scores` | Legacy integers 0/1/2, unchanged |
+| `contradiction` | Legacy material-contradiction cap, unchanged |
+| `correctness` | New overall 0/.5/1 rubric; **not** mean fact correctness |
+| `evidence_support` | Reference semantic support; **not** citation resolution |
+| `evaluation_id` | Opaque task ID; join private mapping for historical `(qid, row)` |
+
+Primary results require three valid distinct vote indices. The existing
+`judge_votes.merge_task` supplies median-low fact scores and majority contradiction
+(ties true). Overall scores use median-low; any null vote leaves that metric null.
+Majority contradiction caps correctness at zero. A full merged correctness score
+with a missing/partial merged required fact is inconsistent: correctness stays
+null and needs human review. Disagreements and low confidence remain visible.
+One-vote tables use **vote 1 only** and are explicitly preliminary. An explicit
+per-vote model plan is required before combining different judge identities;
+the current research run uses Gemini 3.5 Flash-Lite only.
+
+These are repeated runs of one model, not three independent human experts.
+Within-model ordinal kappa and exact agreement measure consistency, not truth.
+Human agreement remains null until actual independent labels exist. The inherited
+human-validation trust gate is approximately weighted kappa ≥0.6, with sample size
+and coverage considered. No ranking is validated without independent review.
+
+Paired differences use common question IDs, including separate fully-correct
+percentage-point differences. Bootstrap exact repeated-question groups jointly,
+seed 20261020, 4,000 resamples. A second sensitivity resamples connected components
+sharing any reference source document. Fewer than two independent groups yields
+**no interval**, not a zero-width interval. Four source components and only nine
+unanswerable questions limit inference. Complete-case plots use identical observed
+questions across all eight historical arms; their population is explicitly a
+selected subset, not a full-test performance estimate.
+
+## Providers, permissions and quota
+
+The owner explicitly authorised the full motor semantic payload through the
+**official Gemini API, free quota only**, after the original questions-only
+leakage-check receipt was found insufficient. Approval is recorded privately in
+`gemini_semantic_permission.json`. No production permission or usage file was
+modified. Current judge: **`gemini-3.5-flash-lite`**, catalogue version
+`3.5-flash-lite-07-2026`, high thinking. The authenticated AI Studio free-tier model
+row showed 15 RPM / 250K input TPM / 500 RPD on 18 October.
+
+The adapter requires exact purpose/field approval, a current model-matched free
+receipt and a model in the authenticated catalogue. Production usage is read
+only; evaluation reservations use a separate ledger. It reserves 50 daily requests,
+one request/minute and 50K input tokens/minute for other work. Completed requests
+replace conservative TPM reservations with reported input tokens; all token
+categories remain recorded for accounting. HTTP 429 stops without a paid fallback.
+Only one worker may use a given evaluation ledger.
+
+Eight scoreable fictional Acorn cases must match the rubric exactly; a ninth
+missing-reference guard must return null or fail strict validation. Only invalid
+outputs get one predefined retry; valid-but-wrong calibration scores are not
+retried. All calibration attempts are retained. Earlier quoted-span/local Phi
+trials and failed secondary-model trials are not mixed into research scores.
 
 ## Reproduction
 
-Install `mlx-lm` in a separate native Apple Python environment. Download
-`mlx-community/Phi-4-mini-instruct-4bit` revision
-`ac1c269cb4222a4e136a3d09edad301056c1f36a` with Hugging Face snapshot metadata intact.
-Keep weights and all following outputs outside the public repository.
+Prepare outside the public repository, verify model catalogue/free quota/permission,
+then calibrate before any research calls. No paid SDK is required: the adapter
+uses the official REST endpoint and Python standard library.
 
 ```bash
 python scripts/run_semantic_judge.py prepare --home "$POLICY_QA_HOME" \
   --output "$PRIVATE_JUDGE_RUN" --new-predictions "$VERIFIED_NEW_PREDICTIONS"
-python scripts/run_semantic_judge.py calibrate --model-dir "$LOCAL_PHI" \
-  --output "$FRESH_PRIVATE_CALIBRATION"
-python scripts/run_semantic_judge.py run --directory "$PRIVATE_JUDGE_RUN" \
-  --model-dir "$LOCAL_PHI" --calibration "$FRESH_PRIVATE_CALIBRATION/calibration.json" --limit 24
+python scripts/run_semantic_judge.py evidence-groups --home "$POLICY_QA_HOME" \
+  --directory "$PRIVATE_JUDGE_RUN"
+python scripts/calibrate_gemini_judge.py --directory "$PRIVATE_JUDGE_RUN" \
+  --free-receipt "$FREE_QUOTA_RECEIPT" --shared-usage "$READ_ONLY_PRODUCTION_USAGE" \
+  --catalogue "$AUTHENTICATED_CATALOGUE" --env-file "$PRIVATE_ENV_FILE"
+python scripts/run_gemini_batch_judge.py --directory "$PRIVATE_JUDGE_RUN" \
+  --free-receipt "$FREE_QUOTA_RECEIPT" --shared-usage "$READ_ONLY_PRODUCTION_USAGE" \
+  --catalogue "$AUTHENTICATED_CATALOGUE" --env-file "$PRIVATE_ENV_FILE" --include-new
 python scripts/run_semantic_judge.py aggregate --directory "$PRIVATE_JUDGE_RUN" \
   --public experiments/2026-10-20/results/semantic_judge_v2
+python scripts/plot_semantic_results.py --results experiments/2026-10-20/results/semantic_judge_v2 \
+  --output experiments/2026-10-20/figures/semantic_judge_v2
 ```
 
-The run journal is append-only and resumes valid vote units. Invalid attempts remain
-auditable. Aggregation revalidates every vote and rejects duplicates. Private
-outputs contain raw attempts, votes, mappings, per-response results and the blind
-review sheet. Only aggregate tables and the validation summary are publishable.
+The manifest contains prompt/rubric/transport versions and hashes, dataset/corpus
+hashes, model IDs, seeds, actual attempts, token receipts, costs and review coverage.
+Raw attempts, per-question results, model mapping and the blind human sheet stay
+private. Public output contains only approved aggregate tables and figures.

@@ -13,7 +13,7 @@ def fixtures():
         ('What is the repair excess?', 'There is no repair excess.', ['No repair excess'], 'I cannot answer from the provided information.', True, True, 0),
         ('What is the renewal premium?', 'The supplied policy does not specify it.', [], 'I cannot answer from the provided information.', False, True, 1),
         ('What is the renewal premium?', 'The supplied policy does not specify it.', [], 'Your renewal premium is £300.', False, False, 0),
-        ('Are personal belongings covered and what is the cash exclusion?', 'Belongings up to £200, excluding cash.', ['£200 limit', 'Cash excluded'], 'Belongings are covered up to £200.', True, False, .5),
+        ('What are the windscreen repair and replacement excesses?', 'Repair has no excess; replacement has a £150 excess.', ['No repair excess', '£150 replacement excess'], 'The replacement excess is £150.', True, False, .5),
         ('Is business delivery use covered?', 'Business delivery is excluded.', ['Business delivery excluded'], 'Business delivery use is excluded.', True, False, 1),
     ]
     result = []
@@ -22,4 +22,9 @@ def fixtures():
                                     [], False, ans, [], abst, True, True]))
         task['evaluation_id'] = f'fictional-{i}'
         result.append((task, expected))
+    missing=dict(result[0][0]);missing.update(evaluation_id='fictional-missing-reference',
+        question='What is the fictional Acorn flood excess?',reference_answer='Verified reference information is missing.',
+        key_facts=['A verified policy source is required.'],reference_evidence=[],reference_complete=False,
+        model_answer='The flood excess is £250.')
+    result.append((missing,None))
     return result

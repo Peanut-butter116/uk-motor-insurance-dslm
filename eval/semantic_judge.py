@@ -5,8 +5,9 @@ Legacy fact-score results remain a separate metric. No IO or provider calls here
 import json
 import random
 import statistics
+import re
 
-VERSION = 'motor-semantic-v2.0'
+VERSION = 'motor-semantic-v2.2'
 SCORES = (0, .5, 1)
 CATEGORIES = ('correct_abstention', 'incorrect_abstention', 'correct_answer',
               'incorrect_unsupported_answer', 'incorrect_answer', 'uncertain')
@@ -64,11 +65,38 @@ unsupported_gold_assumption, borderline, incomplete_output.
 '''
 
 
+def response_schema(task):
+    """Transport-only constraints; scoring rubric and protected labels unchanged."""
+    props={}
+    for k in FIELDS:
+        if k in ('correctness','evidence_support'):props[k]={'type':['number','null'],'enum':[0,.5,1,None]}
+        elif k in ('materially_incorrect','unsupported_material_claim','contradiction','needs_human_review'):props[k]={'type':'boolean'}
+        elif k=='fact_scores':props[k]={'type':'array','items':{'type':'integer','enum':[0,1,2]},'minItems':len(task['key_facts']),'maxItems':len(task['key_facts'])}
+        elif k in ('evidence_spans','material_conditions','contradictions','reference_spans','uncertainty_flags'):
+            props[k]={'type':'array','items':{'type':'string'}}
+            if k=='evidence_spans':props[k].update(minItems=len(task['key_facts']),maxItems=len(task['key_facts']))
+            if k=='uncertainty_flags':props[k]['items']['enum']=list(FLAGS)
+        else:props[k]={'type':'string'}
+    props['abstention_category']['enum']=list(CATEGORIES)
+    props['judge_confidence']['enum']=['high','medium','low']
+    props['evaluation_id']['enum']=[task['evaluation_id']]
+    props['needs_human_review']['description']='Must be true whenever any uncertainty_flags are present, correctness is null, or judge_confidence is low. A borderline flag ALWAYS requires true.'
+    props['reference_spans']['description']='Verbatim excerpts from reference_evidence supporting the factual claims. Unsupported central claims (score 0) may have no supporting excerpt; mark unsupported_material_claim true. Never invent or paraphrase quotations.'
+    props['evidence_spans']['description']='Exactly one verbatim substring of model_answer per key fact, in order. Use empty string for absent facts with score 0. Never quote the reference answer here.'
+    # Cross-field constraints remain in validate(). Narrowing nullable numerical
+    # fields to null-only is rejected by some Gemini schema combinations.
+    props['correctness']['description']='Use null when reference_complete is false unless an appropriate unanswerable refusal can be judged. Never force a score from missing reference evidence.'
+    props['evidence_support']['description']='Use null for refusals or missing reference evidence. Contradicted or centrally unsupported claims score 0, never 1.'
+    return {'type':'object','properties':{k:props[k] for k in sorted(props)},'required':sorted(FIELDS),'additionalProperties':False}
+
+
 def blind(records, seed):
     """Allowlist payload; separate source metadata, randomized opaque IDs."""
     records = list(records)
     seen = set()
     for r in records:
+        if re.search(r'(?i)\b(?:qwen[\d.]*|ministral(?:-?\d)?|smollm2?|llama[\d.]*|deepseek(?:-r1)?|gemma[\d.]*)\b',r['model_answer']):
+            raise ValueError('Possible student self-identification requires an audited blinding copy')
         identity = (r['qid'], r['condition'], r['model'])
         if identity in seen:
             raise ValueError('Duplicate evaluated response')
@@ -156,8 +184,10 @@ def validate(text, task):
     if not task['reference_complete'] and not (abst and not task['gold_answerable']):
         if v['correctness'] is not None or v['evidence_support'] is not None:
             raise ValueError('Missing evidence cannot be scored')
-    if v['evidence_support'] is not None and not v['reference_spans']:
+    if v['evidence_support'] in (.5,1) and not v['reference_spans']:
         raise ValueError('Support needs verifiable reference spans')
+    if v['evidence_support']==0 and not v['reference_spans'] and not (v['unsupported_material_claim'] or v['contradiction']):
+        raise ValueError('Absent support requires an unsupported/contradicted claim flag')
     severe = {'ambiguous_evidence', 'missing_reference', 'conflicting_passages', 'unsupported_gold_assumption'}
     if severe & set(v['uncertainty_flags']) and (v['correctness'] is not None or v['evidence_support'] is not None):
         raise ValueError('Insufficient evidence requires null scores')
@@ -171,14 +201,21 @@ def validate(text, task):
     return v
 
 
-def merge(votes, task, required=3):
+def merge(votes, task, required=3, judge_plan=None):
     """Three valid distinct votes for primary output; never fill missing scores."""
     if len({v['vote'] for v in votes}) != len(votes):
         raise ValueError('Duplicate vote')
     if any(type(v['vote']) is not int or v['vote'] not in (1, 2, 3) for v in votes):
         raise ValueError('Invalid vote index')
-    if len({(v.get('provider'),v.get('model'),v.get('revision')) for v in votes})>1:
-        raise ValueError('Mixed judge identities/revisions')
+    if judge_plan is None:
+        if len({(v.get('provider'),v.get('model'),v.get('revision'),v.get('transport_version')) for v in votes})>1:
+            raise ValueError('Mixed judge identities/revisions')
+    else:
+        for v in votes:
+            expected=judge_plan.get(str(v['vote']))
+            if not expected or v.get('provider')!='gemini' or v.get('model')!=expected:
+                raise ValueError('Vote does not match the explicit judge plan')
+        if len({v.get('transport_version') for v in votes})>1:raise ValueError('Mixed transport protocols')
     if len(votes) < required:
         return None
     if len(votes) > 3:
@@ -189,14 +226,26 @@ def merge(votes, task, required=3):
     result = {'evaluation_id': task['evaluation_id'], 'n_votes': len(votes),
               'fact_scores': old['fact_scores'], 'contradiction': old['contradiction'],
               'needs_human_review': any(v['needs_human_review'] for v in votes),
-              'disagreement': any(len({v[k] for v in votes}) > 1 for k in ('correctness', 'evidence_support')),
+              'disagreement': old['n_facts_disagreed']>0 or any(len({v[k] for v in votes}) > 1 for k in ('correctness', 'evidence_support','contradiction','unsupported_material_claim','materially_incorrect')),
+              'n_facts_disagreed':old['n_facts_disagreed'],
               'unsupported_material_claim': sum(v['unsupported_material_claim'] for v in votes) * 2 >= len(votes)}
     for key in ('correctness', 'evidence_support'):
         xs = [v[key] for v in votes]
         result[key] = statistics.median_low(sorted(xs)) if None not in xs else None
     if old['contradiction'] and result['correctness'] is not None:
         result['correctness'] = 0
+    inconsistent=result['correctness']==1 and task['gold_answerable'] and not task['deterministic_abstention'] and any(s<2 for s in result['fact_scores'])
+    result['fact_overall_inconsistency']=inconsistent
+    if inconsistent:
+        result['correctness']=None;result['needs_human_review']=True
     result['citation_grounding'] = None  # separate claim/cited-passage audit required
+    counts={c:sum(v['abstention_category']==c for v in votes) for c in CATEGORIES}
+    category=max(counts,key=counts.get)
+    result['abstention_category']=category if counts[category]*2>len(votes) else 'uncertain'
+    result['materially_incorrect']=sum(v['materially_incorrect'] for v in votes)*2>=len(votes)
+    result['uncertainty_flags']=sorted({flag for v in votes for flag in v['uncertainty_flags']})
+    result['material_conditions']=sorted({fact for v in votes for fact in v['material_conditions']})
+    if len({v['abstention_category'] for v in votes})>1:result['needs_human_review']=True
     result['protocol'] = 'three_vote' if len(votes) == 3 else 'preliminary_single_vote'
     return result
 
@@ -209,11 +258,16 @@ def paired_bootstrap(pairs, seed=20261020, iterations=4000):
             groups.setdefault(group, []).append(after - before)
     if not groups:
         return {'n_pairs': 0, 'difference': None, 'ci_low': None, 'ci_high': None}
+    values=[x for xs in groups.values() for x in xs]
+    if len(groups)<2:
+        return {'n_pairs':len(values),'n_groups':len(groups),'difference':statistics.mean(values),
+                'ci_low':None,'ci_high':None,'interval_status':'insufficient_independent_groups'}
     rng = random.Random(seed); keys = sorted(groups); diffs = []
+    totals=[sum(groups[k]) for k in keys];sizes=[len(groups[k]) for k in keys]
     for _ in range(iterations):
-        sample = [x for k in rng.choices(keys, k=len(keys)) for x in groups[k]]
-        diffs.append(statistics.mean(sample))
-    diffs.sort(); values = [x for xs in groups.values() for x in xs]
+        picked=rng.choices(range(len(keys)),k=len(keys))
+        diffs.append(sum(totals[i] for i in picked)/sum(sizes[i] for i in picked))
+    diffs.sort()
     return {'n_pairs': len(values), 'n_groups': len(keys), 'difference': statistics.mean(values),
             'ci_low': diffs[int(iterations*.025)], 'ci_high': diffs[int(iterations*.975)],
             'bootstrap_seed': seed, 'bootstrap_iterations': iterations}
