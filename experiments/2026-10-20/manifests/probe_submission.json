@@ -1,0 +1,15 @@
+{
+  "owner": "scarletthe0116",
+  "notebook_slug": "motor-six-model-compatibility-20261020",
+  "version": 1,
+  "status": "submitted_queued_at_last_check",
+  "purpose": "synthetic compatibility only",
+  "private_requested": true,
+  "hardware_requested": "NvidiaTeslaT4",
+  "restricted_upload": false,
+  "dataset_sources": [],
+  "new_training_snapshot_uploaded": false,
+  "url": "https://www.kaggle.com/code/scarletthe0116/motor-six-model-compatibility-20261020",
+  "server_metadata_private_verified": true,
+  "server_metadata_sha256": "07c4c822b750533174c49ad548ad55f4f100f254e43a6f88980e2ae28d40e2c5"
+}
