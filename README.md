@@ -3,6 +3,16 @@
 Lean starting point for comparing small base models and QLoRA supervised fine-tuning with the existing insurance RAG pipeline.
 
 
+## Supervisor update — 20 October 2026
+
+[Weekly evidence-based update](docs/weekly_updates/2026-10-20.md) · [Nine-slide presentation](presentations/2026-10-20/slides.md) · [Verified aggregate results](experiments/2026-10-20/results/model_summary.csv) · [Experiment receipts and reproduction](experiments/2026-10-20/README.md)
+
+The 18 October audit verifies **1,120 historical answers across eight conditions**, including the completed Qwen 21-example SFT evaluation recovered from Kaggle. Correctness and claim support still await judging. A new immutable private snapshot contains **409 accepted records / 384 distinct questions**. It remains **not training-ready**, with human review and repeated-question handling outstanding. Six-model checkpoint revisions are pinned and a fictional-data GPU compatibility probe is submitted. No six-model quality winner or new interim-data SFT result is claimed.
+
+**Authoritative data production:** [uk-insurance-QA-data](https://github.com/Peanut-butter116/uk-insurance-QA-data). Restricted records remain in private local storage. This repository owns model research, evaluation and reporting. See [dataset provenance](docs/dataset_sources.md) and [evaluation safeguards](docs/evaluation_protocol.md).
+
+**Updated milestones:** 1,000 interim, 2,000 committed / 3,000 stretch accepted examples; dataset freeze **18 November**; final research delivery **18 December 2026**. See [roadmap](docs/project_roadmap.md). Earlier dated tables below retain historical scope.
+
 ## Experiment progress — 11 October 2026
 
 **E3 and E4 are complete and verified: 140 unique, nonempty answers each.**
