@@ -25,3 +25,11 @@ For paired binary outcomes bootstrap QID pairs (5,000 draws, seed 20261020), rep
 ## New SFT gate
 
 Current production snapshot is not training-ready. Complete human review and grouped deduplication first. Record token lengths, exclude whole overlength records and apply assistant-only loss masking. Keep answerability metadata out of model inputs. Reuse smoke, complete-epoch, saved-adapter and exact reload checks. Verify historical fingerprints against frozen launch code rather than a changed working tree. A new smoke is required for changed data, model or runtime. Full training is complete only after adapter save/reload, inference and saved outputs.
+
+## Frozen descriptive test run, 18 October continuation
+
+The owner requested completion of the six-model experiment. A separate protocol now freezes all 76 protected motor questions and 152 matched tasks before submission. It reuses the previously approved private Kaggle evaluation dataset and unchanged evidence. This run is descriptive only, with selection_permitted=false. It does not replace reviewed dev-based selection or use test results to revise prompts.
+
+Pinned checkpoints and revisions remain unchanged. The new common precision is float16, with the official Ministral FP8 weights dequantised to float16 using the model-card loading path. Historical NF4 jobs remain separate. The shared user-turn wrapper preserves task instructions and each checkpoint's own chat template. The 700-token cap and 8,192-token budget are fixed. Local tokenizer checks pass all 152 tasks for the four open checkpoints; Llama/Gemma require authorised gated access. CPU tokenizer checks are not GPU loading or quality results.
+
+The runner saves per-model status, raw and normalised predictions, final-answer/cap flags, timing and GPU allocation. The verifier requires exact revision, manifest and answer hashes and a complete 152-task population before reporting a completed model. DeepSeek reasoning remains raw and cannot count as a final answer when no final delimiter exists. None of these automatic fields supplies independent correctness or claim-support scores.
