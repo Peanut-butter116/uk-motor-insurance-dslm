@@ -8,7 +8,7 @@ from pathlib import Path
 def audit(owner, output):
     from kaggle import api
     from kagglesdk.kernels.types.kernels_api_service import ApiGetAcceleratorQuotaStatisticsRequest
-    names=['motor-six-model-compatibility-20261020','motor-six-model-frozen-test-20261020']
+    names=['motor-six-model-compatibility-20261020','motor-six-model-frozen-test-20261020','motor-ministral-fp16-repair-20261020']
     names += ['uk-insurance-'+kind+'-'+model for kind in ['base-eval','smoke','full','sft-eval'] for model in ['qwen3b','ministral3b']]
     jobs=[]
     for name in names:
@@ -23,7 +23,7 @@ def audit(owner, output):
         quota['refresh_utc']=str(q.quota_refresh_time)
     result={'checked_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),
         'jobs':jobs,'gpu_quota_hours':quota,
-        'interpretation':'Queued is not running or complete. Free quota does not guarantee accelerator availability. No paid judging or new SFT run submitted.'}
+        'interpretation':'Notebook completion does not imply every model succeeded. Verify per-model receipts and complete paired outputs separately. The repair requests only the failed pinned Ministral checkpoint. Paid scaling is disabled; no new interim-data SFT was submitted.'}
     Path(output).write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(result,indent=2))
 

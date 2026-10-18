@@ -89,12 +89,12 @@ def verify(home, launch, downloaded, output, public):
     if predictions:
         with (out/'normalised_predictions.csv').open('x',newline='') as f:
             fields=['qid','mode','answer','answerable','abstention_decision','parse_success','latency_seconds','peak_gpu_allocated_gib','review_status']
-            w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows({k:r[k] for k in fields} for r in predictions)
+            w=csv.DictWriter(f,fieldnames=fields,lineterminator='\n');w.writeheader();w.writerows({k:r[k] for k in fields} for r in predictions)
     public.mkdir(parents=True,exist_ok=True)
     core.write_json(public/'six_model_summary.json',summary)
     if summary:
         with (public/'six_model_summary.csv').open('x',newline='') as f:
-            w=csv.DictWriter(f,fieldnames=list(summary[0]));w.writeheader();w.writerows(summary)
+            w=csv.DictWriter(f,fieldnames=list(summary[0]),lineterminator='\n');w.writeheader();w.writerows(summary)
     core.write_json(public/'six_model_verification.json',{'status':'verified_download',
         'receipt_sha256':core.sha(downloaded/'benchmark-output/receipt.json'),'models':list(statuses.values()),
         'integrity':integrity,'correctness_pending_responses':len(tasks),'required_independent_votes':3*len(tasks),

@@ -1,0 +1,30 @@
+{
+  "status": "verified_download",
+  "receipt_sha256": "3f5a8a39f4362faca2dee5edda311686fe3c398b1e336a217d7e7686b1f19e61",
+  "models": [
+    {
+      "model": "mistralai/Ministral-3-3B-Instruct-2512",
+      "revision": "b35d4dfe56c142746f54dbd64f579faab2744308",
+      "status": "inference_complete",
+      "tasks_completed": 152,
+      "runtime_seconds": 1900.7749789069999,
+      "post_dequant_parameter_dtypes": {
+        "torch.float16": 3849090048
+      },
+      "answers_sha256": "45e18dd91979c68d2683a8020a4d8fe5fb189db48cee76c4691b56fd985a5a4a"
+    }
+  ],
+  "integrity": [
+    {
+      "model": "mistralai/Ministral-3-3B-Instruct-2512",
+      "revision": "b35d4dfe56c142746f54dbd64f579faab2744308",
+      "raw_sha256": "45e18dd91979c68d2683a8020a4d8fe5fb189db48cee76c4691b56fd985a5a4a",
+      "matched_questions": 76,
+      "tasks": 152
+    }
+  ],
+  "correctness_pending_responses": 132,
+  "required_independent_votes": 396,
+  "selection_permitted": false,
+  "semantic_support": "not_judged"
+}

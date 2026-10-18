@@ -1,0 +1,31 @@
+{
+  "protocol": "motor-frozen-test-descriptive-ministral-fp16-repair-v1",
+  "status": "protocol_frozen",
+  "models": [
+    {
+      "id": "mistralai/Ministral-3-3B-Instruct-2512",
+      "revision": "b35d4dfe56c142746f54dbd64f579faab2744308",
+      "parameters_billion_nominal": 3,
+      "family": "Ministral",
+      "gated": false,
+      "access_status": "public metadata verified; GPU load untested",
+      "class": "mistral3",
+      "source": "https://huggingface.co/mistralai/Ministral-3-3B-Instruct-2512"
+    }
+  ],
+  "generation": {
+    "do_sample": false,
+    "max_new_tokens": 700,
+    "max_total_tokens": 8192,
+    "seed": 0
+  },
+  "quantisation": "None, except original Ministral FP8 weights dequantised to float16",
+  "development_required": false,
+  "selection_rule": "Descriptive only. No winner, model selection or prompt adjustment from protected test results.",
+  "deepseek_exception": "Qwen-derived architecture; report raw reasoning and final answer separately; 700-token cap may limit reasoning.",
+  "ministral_exception": "Official checkpoint differs from historical unsloth 4-bit checkpoint. Do not pool results.",
+  "loading_precision": "float16",
+  "selection_permitted": false,
+  "prompt_version": "common-single-user-inherited-instructions-v1",
+  "post_dequant_fp16_cast": true
+}

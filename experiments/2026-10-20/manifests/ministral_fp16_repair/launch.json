@@ -1,0 +1,26 @@
+{
+  "notebook": "scarletthe0116/motor-ministral-fp16-repair-20261020",
+  "status": "RUNNING",
+  "private_requested": true,
+  "kernel_sha256": "fd7cccac05ff54633d596280326a8195a01004fe994e9b4cd3991d2232141b1d",
+  "runner_sha256": "91e17dfb3ce812d7e1961af63eeb450f5f08ae66ca0e8b6152b8bbf024183da9",
+  "selected_checkpoint": {
+    "id": "mistralai/Ministral-3-3B-Instruct-2512",
+    "revision": "b35d4dfe56c142746f54dbd64f579faab2744308",
+    "parameters_billion_nominal": 3,
+    "family": "Ministral",
+    "gated": false,
+    "access_status": "public metadata verified; GPU load untested",
+    "class": "mistral3",
+    "source": "https://huggingface.co/mistralai/Ministral-3-3B-Instruct-2512"
+  },
+  "questions": 76,
+  "paired_tasks": 152,
+  "new_restricted_upload": false,
+  "url": "https://www.kaggle.com/code/scarletthe0116/motor-ministral-fp16-repair-20261020",
+  "version": 1,
+  "submitted_at_utc": "2026-10-18T22:09:58.542532+00:00",
+  "maximum_gpu_runtime_hours": 2,
+  "private_verified": true,
+  "privacy_checked_at_utc": "2026-10-18T22:12:53.282523+00:00"
+}

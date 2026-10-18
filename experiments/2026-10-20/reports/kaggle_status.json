@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-10-18T21:25:36.845697+00:00",
+  "checked_at_utc": "2026-10-18T22:54:29.525672+00:00",
   "jobs": [
     {
       "notebook": "scarletthe0116/motor-six-model-compatibility-20261020",
@@ -12,6 +12,12 @@
       "status": "COMPLETE",
       "failure_message_present": false,
       "url": "https://www.kaggle.com/code/scarletthe0116/motor-six-model-frozen-test-20261020"
+    },
+    {
+      "notebook": "scarletthe0116/motor-ministral-fp16-repair-20261020",
+      "status": "COMPLETE",
+      "failure_message_present": false,
+      "url": "https://www.kaggle.com/code/scarletthe0116/motor-ministral-fp16-repair-20261020"
     },
     {
       "notebook": "scarletthe0116/uk-insurance-base-eval-qwen3b",
@@ -63,11 +69,11 @@
     }
   ],
   "gpu_quota_hours": {
-    "time_used": 1.4721105555555556,
+    "time_used": 2.014913611111111,
     "time_reserved": 0.0,
     "total_time_allowed": 30.0,
     "paid_scaling_enabled": false,
     "refresh_utc": "2026-10-24 00:00:00"
   },
-  "interpretation": "Queued is not running or complete. Free quota does not guarantee accelerator availability. No paid judging or new SFT run submitted."
+  "interpretation": "Notebook completion does not imply every model succeeded. Verify per-model receipts and complete paired outputs separately. The repair requests only the failed pinned Ministral checkpoint. Paid scaling is disabled; no new interim-data SFT was submitted."
 }

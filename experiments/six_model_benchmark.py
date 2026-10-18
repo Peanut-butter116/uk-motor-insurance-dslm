@@ -50,6 +50,20 @@ def normalise_answer(raw, reasoning_expected=False):
     return {'answer':answer,'reasoning_truncated':False,'final_answer_present':bool(answer)}
 
 
+def align_dequantised_dtype(model,cfg,item,torch):
+    """Repair FP8 dequantisation's BF16 layers while preserving the pinned model."""
+    if not cfg.get('post_dequant_fp16_cast'):return None
+    if cfg.get('loading_precision')!='float16' or item['class']!='mistral3':
+        raise ValueError('Post-dequantisation repair is only for official Ministral FP16')
+    model.to(dtype=torch.float16)
+    counts={}
+    for p in model.parameters():
+        if p.is_floating_point():
+            if p.dtype!=torch.float16:raise RuntimeError('Floating weight dtype still differs from requested FP16')
+            counts[str(p.dtype)]=counts.get(str(p.dtype),0)+p.numel()
+    return counts
+
+
 def run(config, bundle, output, compatibility_probe=False):
     import torch
     from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
@@ -86,6 +100,7 @@ def run(config, bundle, output, compatibility_probe=False):
                 loading['quantization_config']=BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_quant_type='nf4',
                     bnb_4bit_use_double_quant=True,bnb_4bit_compute_dtype=torch.float16)
             model=cls.from_pretrained(item['id'],revision=item['revision'],**loading)
+            dtype_receipt=align_dequantised_dtype(model,cfg,item,torch)
             model.eval()
             torch.manual_seed(cfg['generation']['seed'])
             torch.cuda.reset_peak_memory_stats()
@@ -119,6 +134,7 @@ def run(config, bundle, output, compatibility_probe=False):
             statuses.append({'model':item['id'],'revision':item['revision'],
                 'status':'compatibility_probe_complete' if compatibility_probe else 'inference_complete',
                 'tasks_completed':completed,'runtime_seconds':time.monotonic()-started,
+                'post_dequant_parameter_dtypes':dtype_receipt,
                 'answers_sha256':hashlib.sha256(output_file.read_bytes()).hexdigest()})
         except Exception as exc:
             # Exception text can include private inputs or credential-bearing URLs.
