@@ -1,8 +1,8 @@
 # UK Motor Insurance SLM Research
 
-Tech Mahindra Makers Lab research for the **20 October 2026** supervisor meeting. Evidence checked on **18 October 2026**. Final project deadline: **18 December 2026**.
+Tech Mahindra Makers Lab research for the **20 October 2026** supervisor meeting. Evidence checked on **19 October 2026 (London; 18 October UTC)**. Final project deadline: **18 December 2026**.
 
-**Current execution:** both Kaggle jobs completed. Qwen1.5B, DeepSeek1.5B and SmolLM2 completed verified inference on 76 questions in each of two conditions (456 responses). Llama/Gemma failed on gated access; Ministral failed on a compute-dtype mismatch. Historical Qwen/Ministral comparisons contain 1,120 verified answers. Correctness and semantic support remain unjudged; the independent judging pipeline is implemented and privacy gated. [Live job links and last checked state](experiments/2026-10-20/reports/kaggle_status.json).
+**Current execution:** four new models completed verified Base/Base+RAG inference (608 responses); Llama/Gemma remain gated. Historical predictions are verified (1,120 full-benchmark / 608 motor). Authorised free-tier Gemini judging saved 535 valid votes, but persistent HTTP 503 overload interrupted execution: 0 three-vote responses and 0 human reviews. Current correctness estimates are explicitly preliminary. [Job receipts](experiments/2026-10-20/reports/kaggle_status.json).
 
 ## 1. Project overview
 
@@ -74,7 +74,7 @@ All revisions are pinned in the [six-model configuration](experiments/2026-10-20
 | [Qwen/Qwen2.5-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct) | 1.5B | Verified Base / Base + RAG: 76 each |
 | [deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B) | 1.5B | Verified Base / Base + RAG: 76 each; Qwen-derived architecture |
 | [HuggingFaceTB/SmolLM2-1.7B-Instruct](https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B-Instruct) | 1.7B | Verified Base / Base + RAG: 76 each |
-| [mistralai/Ministral-3-3B-Instruct-2512](https://huggingface.co/mistralai/Ministral-3-3B-Instruct-2512) | 3B | Failed: BF16 / FP16 compute mismatch during original FP8 loading |
+| [mistralai/Ministral-3-3B-Instruct-2512](https://huggingface.co/mistralai/Ministral-3-3B-Instruct-2512) | 3B | Verified Base / Base + RAG: 76 each after failed-only FP16 repair |
 
 The official Ministral candidate differs from the historical Unsloth 4-bit checkpoint. The historical Qwen is 3B, while the new candidate is 1.5B. These experiment populations and checkpoints remain separate.
 
@@ -90,37 +90,58 @@ QLoRA training retains assistant-only loss masking, whole-record exclusions for 
 
 ## 7. Validation and evaluation
 
-- **Correctness:** blinded key-fact rubric with three independent votes. Historical motor subset: 484 non-abstaining answerable responses need 1,452 votes; full historical set: 850 responses need 2,550 votes. [Rubric](eval/JUDGE_RUBRIC.md).
+- **Correctness:** blinded key-fact and overall correctness rubric with three repeated valid votes for primary results; separate preliminary vote-1 results below. [Inherited rubric](eval/JUDGE_RUBRIC.md) and [versioned extension](eval/SEMANTIC_JUDGE_V2.md).
 - **Citation resolution:** automatic metadata matching against frozen passages. A resolved citation does not prove correctness or semantic support.
-- **Claim support and unsupported claims:** require evidence-based semantic review. Both remain unjudged.
+- **Reference support and unsupported claims:** preliminary semantic labels are available for part of the historical motor set. Claim-to-citation entailment remains pending.
 - **Abstention:** report refusal sensitivity on nine unanswerable motor items, unnecessary refusals on 67 answerable items and their balanced score.
 - **Parsing:** inherited metric counts a parseable citation or recognised abstention. New raw outputs retain reasoning, final-answer presence and token-cap failures separately.
 - **Efficiency:** record generation time and peak GPU allocation where measured. Historical latency is descriptive; historical peak memory is unavailable.
 
-Paid API judging remains disabled. Existing production-provider permissions do not establish approval to transfer protected gold answers and model predictions for a new judging batch. No such payload was sent. Missing scores stay null, and no new composite or winner is reported. The historical composite remains `0.5 × correctness + 0.3 × citation resolution + 0.2 × balanced abstention`, only when all components exist.
+Paid API judging remains disabled. Full semantic payload processing is explicitly owner-authorised for official Gemini free quota. Missing scores stay null; no winner is reported. Historical metric definitions are preserved.
 
 ### LLM-as-a-Judge Correctness Evaluation
 
-Citation resolution checks whether a citation matches a supplied passage; it does not establish whether the passage supports a claim or whether the answer is correct. The new [versioned semantic evaluator](eval/SEMANTIC_JUDGE_V2.md), `motor-semantic-v2.0`, preserves the historical fact rubric while adding overall correctness (0, 0.5, 1), reference evidence support, material-error flags and explicit uncertainty.
+Citation resolution checks whether a citation matches a supplied passage. It cannot establish whether that passage supports the claim or whether the answer is correct. The [versioned evaluator](eval/SEMANTIC_JUDGE_V2.md) uses **`motor-semantic-v2.2`**, preserving the inherited key-fact rubric and adding overall correctness (0, 0.5, 1), reference-evidence support, material errors and explicit uncertainty. Material coverage/safety errors score zero; missing or ambiguous references leave scores null.
 
-The authenticated official Gemini catalogue confirms **`gemini-3.5-flash-lite`** is available. Its free-plan receipt and shared quota were checked, and one wholly fictional structured-output smoke test passed. **No protected evaluation payload was sent.** Existing permission allows questions-only leakage checks and explicitly excludes gold answers/frozen contexts; semantic processing needs a separate field-and-purpose approval. An independent local **Phi-4-mini-instruct 4-bit** fallback was attempted but failed all eight fictional calibration cases, so it was blocked from protected judging. [Execution report](experiments/2026-10-20/reports/semantic_judge_execution.md).
+**Judge:** official Gemini API, **`gemini-3.5-flash-lite`**, catalogue version `3.5-flash-lite-07-2026`, high thinking. The owner explicitly authorised protected questions, reference answers/key facts, policy wording and model answers/citations for this purpose. Actual free-tier limits were verified: 15 RPM / 250K input TPM / 500 RPD. Paid calls are disabled. Production is read only and retains a quota reserve. The fictional calibration gate passed before protected judging. Local Phi-4-mini and secondary Gemini 3.1 trials failed calibration and contribute no research labels.
 
-Private inputs are shuffled with seed 20261020 and contain only an opaque ID, question, answerability, reference answer/key facts, gold evidence, student-visible evidence, answer/citations and deterministic refusal decision. Student identities and Base/SFT/RAG labels remain in a separate private mapping. Reference evidence is distinct from what the student saw: no-RAG citation grounding is N/A. Supported source spans must be verbatim; factual entailment still needs semantic validation. Refusals are scored against answerability; missing/ambiguous/conflicting references produce null scores and review flags.
+Inputs are blinded, shuffled with seed 20261020, and omit student model names, Base/SFT/RAG labels and existing scores. They retain the question, answerability, gold reference/key facts, reference policy evidence, separately identified student-visible evidence, model answer/citations and deterministic refusal decision. Exact source spans are validated locally. No-RAG answers may be assessed against gold references, but citation grounding remains N/A. **Reference support is not claim-to-citation entailment; the latter remains pending for RAG.**
 
-Primary outputs require **three valid repeated votes** with predefined median aggregation and material-contradiction caps. These are within-judge consistency checks, not independent human ground truth. Single-vote outputs are separate and preliminary. The blind 28-item review sheet is prepared; **human reviews completed: 0; agreement: not measured**. Paired differences use common question IDs and a grouped question-level bootstrap; source dependence and only nine unanswerable questions limit inference.
+Primary results require three valid repeated stateless requests, predefined median aggregation and contradiction caps. These measure within-model consistency, not independent human truth. **535 valid votes** are saved: **502 responses have a valid first vote, 475 have a non-null first-vote correctness score, and 0 have completed all three votes**. Persistent provider HTTP 503 overload interrupted execution; no paid fallback was used. Human review completed: **0** of a prepared blinded 28-case sample. Human agreement is unmeasured. Repeat-vote agreement on 26 scoreable pairs is 80.8%, weighted kappa 0.778; this is not validation accuracy.
 
-| Evaluation population | Responses prepared | Real responses judged | Required votes |
-|---|---:|---:|---:|
-| Historical motor, 21-example SFT, eight arms | 608 | **0** | 1,824 |
-| New three-model Base / Base + RAG | 456 | **0** | 1,368 |
+**Preliminary vote-1 results below are incomplete and unvalidated.** Each arm targets the same 76 questions (67 answerable, nine unanswerable); the displayed denominators are the available scoreable subset and differ between arms. Support excludes refusals and uncertain support labels. Do not infer effects by subtracting these unpaired means.
 
-The earlier 484-answer / 1,452-vote count covers only non-abstaining answerable historical responses; the new batch includes refusals and all unanswerable questions. No correctness gain, grounding gain, composite or overall winner can yet be claimed. [Correctness table](experiments/2026-10-20/results/semantic_judge_v2/correctness_summary.csv) · [Grounding table](experiments/2026-10-20/results/semantic_judge_v2/grounding_summary.csv) · [Paired SFT/RAG comparisons](experiments/2026-10-20/results/semantic_judge_v2/sft_rag_comparison.csv) · [Validation coverage](experiments/2026-10-20/results/semantic_judge_v2/judge_validation_summary.json). Blank values mean pending, never zero. The five semantic figures await actual scores.
+| Model | Condition | Correctness (scored n) | Reference support (scored n) |
+|---|---|---:|---:|
+| Ministral-3B | Base | 0.172 (64) | 0.262 (21) |
+| Ministral-3B | Base + RAG | 0.558 (60) | 0.808 (52) |
+| Ministral-3B | SFT | 0.152 (56) | 0.118 (34) |
+| Ministral-3B | SFT + RAG | 0.455 (56) | 0.672 (61) |
+| Qwen2.5-3B | Base | 0.087 (63) | 0.091 (55) |
+| Qwen2.5-3B | Base + RAG | 0.364 (55) | 0.595 (58) |
+| Qwen2.5-3B | SFT | 0.065 (69) | 0.077 (65) |
+| Qwen2.5-3B | SFT + RAG | 0.288 (52) | 0.491 (55) |
+
+Paired vote-1 comparisons use common scored question IDs and 4,000 question-group bootstrap resamples; missing scores are excluded, never zero. These selected complete-case intervals condition on one judge's labels, have no multiplicity correction, and do not represent human-validated full-test effects. Source-component sensitivity is reported separately (only three or four independent components).
+
+| Model | SFT comparison | Scored pairs | Mean difference [95% paired CI] |
+|---|---|---:|---:|
+| Qwen2.5-3B | Without RAG | 57 | +0.000 [-0.061, +0.070] |
+| Qwen2.5-3B | With RAG | 41 | +0.024 [-0.085, +0.122] |
+| Ministral-3B | Without RAG | 50 | -0.030 [-0.110, +0.040] |
+| Ministral-3B | With RAG | 47 | -0.149 [-0.277, -0.032] |
+
+The available pairs do **not establish a consistent SFT accuracy improvement**. Both completion of the three-vote protocol and independent review remain necessary. No winner or new composite is reported. The original 484 non-abstaining answerable historical responses require 1,452 votes; this expanded historical protocol covers **all 608 responses / 1,824 votes**, including refusals and unanswerable items. The full 140-question historical benchmark stays separate.
+
+[Primary correctness](experiments/2026-10-20/results/semantic_judge_v2/correctness_summary.csv) · [Primary grounding](experiments/2026-10-20/results/semantic_judge_v2/grounding_summary.csv) · [Preliminary vote-1 summary](experiments/2026-10-20/results/semantic_judge_v2/preliminary_single_vote_summary.csv) · [Paired vote-1 comparisons](experiments/2026-10-20/results/semantic_judge_v2/preliminary_single_vote_comparison.csv) · [Coverage/reliability](experiments/2026-10-20/results/semantic_judge_v2/judge_validation_summary.json) · [Execution report](experiments/2026-10-20/reports/semantic_judge_execution.md).
+
+[Five semantic PNG/SVG figures](experiments/2026-10-20/figures/semantic_judge_v2/README.md) use the **same 13 scoreable questions across all eight arms**, a deliberately labelled matched preliminary subset (11 answerable, two unanswerable). Their means differ from the partial-arm table above and must not be described as full 76-question results. Exact inputs and hashes accompany the figures.
 
 ## 8. This week's results
 
-**New six-model experiment:** the private [actual benchmark](https://www.kaggle.com/code/scarletthe0116/motor-six-model-frozen-test-20261020) and [compatibility probe](https://www.kaggle.com/code/scarletthe0116/motor-six-model-compatibility-20261020) completed. Three checkpoints produced all 152 required paired responses each; file hashes, revisions, frozen input manifests and question/condition uniqueness passed verification. Llama and Gemma could not access gated checkpoints. Official Ministral failed with a BF16/FP16 matrix dtype mismatch. No successful run was restarted. [New-model measured behaviour, latency and memory](experiments/2026-10-20/results/six_model_v1/six_model_summary.csv) remain separate from historical 3B SFT results. Correctness and semantic grounding are pending for every new condition.
+**New six-model experiment:** the private [actual benchmark](https://www.kaggle.com/code/scarletthe0116/motor-six-model-frozen-test-20261020) and [compatibility probe](https://www.kaggle.com/code/scarletthe0116/motor-six-model-compatibility-20261020) completed. Three checkpoints produced all 152 required paired responses each; file hashes, revisions, frozen input manifests and question/condition uniqueness passed verification. Llama and Gemma could not access gated checkpoints. Official Ministral initially failed a BF16/FP16 mismatch; a separate [failed-only repair](https://www.kaggle.com/code/scarletthe0116/motor-ministral-fp16-repair-20261020) completed another 152 verified responses with the same pinned checkpoint. No successful model was rerun. [Repair results](experiments/2026-10-20/results/ministral_fp16_repair/six_model_summary.csv). [New-model measured behaviour, latency and memory](experiments/2026-10-20/results/six_model_v1/six_model_summary.csv) remain separate from historical 3B SFT results. Correctness and semantic grounding are pending for every new condition. The original three-model judge package and the separate 152-response Ministral extension are prepared; historical judging has priority. The original three-model judge package and the separate 152-response Ministral extension are prepared; historical judging has priority. The original three-model judge package and the separate 152-response Ministral extension are prepared; historical judging has priority.
 
-**Directly relevant historical evidence:** 1,120 verified answers, comprising four arms each for Qwen2.5-3B and Ministral-3B. SFT used 21 examples. Below is the common 76-question motor slice, with correctness and claim support pending throughout.
+**Directly relevant historical evidence:** 1,120 verified answers, comprising four arms each for Qwen2.5-3B and Ministral-3B. SFT used 21 examples. Below is the common 76-question motor slice for deterministic behaviour. Partial semantic results and their exact observed denominators are reported separately above.
 
 | Model | Condition | Balanced abstention | Citation resolution | Parse rate |
 |---|---|---:|---:|---:|

@@ -1,4 +1,14 @@
-# Motor evaluation protocol, draft v1
+# Motor evaluation protocol
+
+The frozen inference protocol below is preserved. The separately versioned
+[motor-semantic-v2.2 judge protocol](../eval/SEMANTIC_JUDGE_V2.md) defines the
+current correctness/reference-support extension, explicit owner permission,
+free-quota controls, three-vote aggregation, uncertainty and human review.
+[Current coverage](../experiments/2026-10-20/results/semantic_judge_v2/judge_validation_summary.json)
+records the actual partial execution; preliminary vote-1 tables are separate
+from primary three-vote results. Semantic paired intervals use 4,000 question-group
+resamples plus source-component sensitivity; historical binary behaviour intervals
+below retain their original 5,000-resample definition.
 
 ## Populations and leakage
 

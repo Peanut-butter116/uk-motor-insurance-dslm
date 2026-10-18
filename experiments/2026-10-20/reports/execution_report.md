@@ -1,3 +1,5 @@
+> Earlier execution snapshot, superseded by [current Kaggle receipts](kaggle_status.json) and [semantic evaluation report](semantic_judge_execution.md). Preserved for audit history.
+
 # Current execution report for the 20 October meeting
 
 Evidence checked on 18 October 2026. This report supersedes the archived initial weekly update. No new presentation materials were produced.
