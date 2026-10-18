@@ -1,0 +1,9 @@
+model,before,after,protocol,n_pairs,difference,ci_low,ci_high,fully_correct_difference_pp,fully_correct_ci_low_pp,fully_correct_ci_high_pp,status,human_validated,source_cluster_n,source_cluster_ci_low,source_cluster_ci_high
+qwen3b,base-closedbook,sft-closedbook,three_vote,0,,,,,,,preliminary_selected_complete_cases,False,,,
+qwen3b,base-openbook,sft-openbook,three_vote,0,,,,,,,preliminary_selected_complete_cases,False,,,
+qwen3b,base-closedbook,base-openbook,three_vote,0,,,,,,,preliminary_selected_complete_cases,False,,,
+qwen3b,sft-closedbook,sft-openbook,three_vote,0,,,,,,,preliminary_selected_complete_cases,False,,,
+ministral3b,base-closedbook,sft-closedbook,three_vote,0,,,,,,,preliminary_selected_complete_cases,False,,,
+ministral3b,base-openbook,sft-openbook,three_vote,0,,,,,,,preliminary_selected_complete_cases,False,,,
+ministral3b,base-closedbook,base-openbook,three_vote,0,,,,,,,preliminary_selected_complete_cases,False,,,
+ministral3b,sft-closedbook,sft-openbook,three_vote,0,,,,,,,preliminary_selected_complete_cases,False,,,

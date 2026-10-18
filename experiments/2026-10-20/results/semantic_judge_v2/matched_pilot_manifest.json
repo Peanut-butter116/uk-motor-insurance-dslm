@@ -1,0 +1,14 @@
+{
+  "three_vote": {
+    "matched_questions": 0,
+    "question_ids_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "population": "same complete-case questions across all eight historical arms; not the full frozen benchmark",
+    "human_validated": false
+  },
+  "preliminary_single_vote": {
+    "matched_questions": 13,
+    "question_ids_sha256": "cfaafb0c4e200e7083ee23ead3e6e8112d5351fcce600334191a9d6069228ed8",
+    "population": "same complete-case questions across all eight historical arms; not the full frozen benchmark",
+    "human_validated": false
+  }
+}

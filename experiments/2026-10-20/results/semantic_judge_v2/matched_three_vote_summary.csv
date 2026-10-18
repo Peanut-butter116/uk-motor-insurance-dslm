@@ -1,0 +1,9 @@
+experiment,model,condition,protocol,population_n,judged_n,answerable_n,unanswerable_n,mean_correctness,mean_reference_support,reference_support_judged_n,unsupported_material_claim_rate,unsupported_claim_judged_n,unnecessary_refusal_rate,correct_refusal_rate,human_validated,status
+historical_sft21_matched_pilot,ministral3b,ministral3b-base-closedbook,three_vote,0,0,0,0,,,0,,0,,,False,preliminary_selected_complete_cases
+historical_sft21_matched_pilot,ministral3b,ministral3b-base-openbook,three_vote,0,0,0,0,,,0,,0,,,False,preliminary_selected_complete_cases
+historical_sft21_matched_pilot,ministral3b,ministral3b-sft-closedbook,three_vote,0,0,0,0,,,0,,0,,,False,preliminary_selected_complete_cases
+historical_sft21_matched_pilot,ministral3b,ministral3b-sft-openbook,three_vote,0,0,0,0,,,0,,0,,,False,preliminary_selected_complete_cases
+historical_sft21_matched_pilot,qwen3b,qwen3b-base-closedbook,three_vote,0,0,0,0,,,0,,0,,,False,preliminary_selected_complete_cases
+historical_sft21_matched_pilot,qwen3b,qwen3b-base-openbook,three_vote,0,0,0,0,,,0,,0,,,False,preliminary_selected_complete_cases
+historical_sft21_matched_pilot,qwen3b,qwen3b-sft-closedbook,three_vote,0,0,0,0,,,0,,0,,,False,preliminary_selected_complete_cases
+historical_sft21_matched_pilot,qwen3b,qwen3b-sft-openbook,three_vote,0,0,0,0,,,0,,0,,,False,preliminary_selected_complete_cases
