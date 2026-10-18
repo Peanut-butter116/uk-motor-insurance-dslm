@@ -66,7 +66,7 @@ def make(results, output):
         for i,r in enumerate(comps):
             x=float(r['difference']);lo=float(r['ci_low']);hi=float(r['ci_high'])
             ax.errorbar(x,i,xerr=[[x-lo],[hi-x]],fmt='o',color='#C8102E',capsize=4)
-        ax.set_yticks(range(len(comps)),[names[r['model']]+' / '+r['before']+' → '+r['after'] for r in comps]);ax.axvline(0,color='black',linewidth=.7);ax.set_xlim(-1,1);ax.set_xlabel('Paired mean correctness difference (95% group bootstrap CI)')
+        ax.set_yticks(range(len(comps)),[names[r['model']]+' / '+r['before']+' → '+r['after'] for r in comps]);ax.set_ylim(-.6,len(comps)-.4);ax.axvline(0,color='black',linewidth=.7);ax.set_xlim(-1,1);ax.set_xlabel('Paired mean correctness difference (95% group bootstrap CI)')
         save(fig,stem,'Effect of '+kind.upper()+' on correctness',foot)
     fig,ax=plt.subplots(figsize=(12,7))
     legend=[]

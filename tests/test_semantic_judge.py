@@ -252,5 +252,8 @@ def test_aggregate_exact_denominators_and_pending(tmp_path):
     result=list(csv.DictReader((public/'correctness_summary.csv').open()))[0]
     assert result['population_n']=='2' and result['judged_n']=='1'
     assert float(result['mean_correctness'])==1 and result['pending_or_uncertain_n']=='1'
+    single=list(csv.DictReader((public/'preliminary_single_vote_summary.csv').open()))[0]
+    assert single['correctness_scored_n']=='1' and single['population_n']=='2'
+    assert single['protocol']=='preliminary_vote_1' and single['revision']=='fixture-v1'
     validation=json.loads((public/'judge_validation_summary.json').read_text())
     assert validation['valid_votes']==3 and validation['human_review_completed']==0

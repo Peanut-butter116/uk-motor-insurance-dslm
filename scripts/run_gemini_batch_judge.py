@@ -38,7 +38,7 @@ def pack(tasks, mapping, seed, size=10):
 
 
 def _execute(directory, free_receipt, shared_usage, catalogue, env_file,
-            reserve_requests=50, request_limit=300, include_new=False, vote_indices=None):
+            reserve_requests=50, request_limit=300, include_new=False, vote_indices=None, batch_size=10):
     out=secure(directory);manifest=json.loads((out/'judge_manifest.json').read_text())
     calibration=json.loads((out/'calibration_indexed_v3.json').read_text())
     if not calibration['passed'] or calibration['rubric_version']!=sj.VERSION or calibration['fixture_sha256']!=core.digest(fixtures()) or calibration.get('thinking_level') not in ('medium','high'):
@@ -52,6 +52,7 @@ def _execute(directory, free_receipt, shared_usage, catalogue, env_file,
     free=json.loads(Path(free_receipt).read_text());free=free.get('gemini',free)
     if calibration['model']!=free['model']:raise ValueError('Calibration belongs to a different judge')
     vote_indices=vote_indices or [1,2,3]
+    if type(batch_size) is not int or not 1<=batch_size<=10:raise ValueError('Batch size must be 1–10')
     if len(set(vote_indices))!=len(vote_indices) or set(vote_indices)-{1,2,3}:raise ValueError('Invalid vote indices')
     if manifest.get('judge_plan') and any(manifest['judge_plan'].get(str(v))!=free['model'] for v in vote_indices):
         raise ValueError('Worker model does not match planned vote assignment')
@@ -70,7 +71,7 @@ def _execute(directory, free_receipt, shared_usage, catalogue, env_file,
          mapping_sha256=core.sha(out/'private_mapping.jsonl'),
          paid_api_enabled=False,permission_status='owner_authorised_full_semantic_payload',
          production_reserve={'requests_per_day':reserve_requests,'requests_per_minute':1,'tokens_per_minute':50000},
-         batch_max_tasks=10,batch_max_bound=175000,batch_seed=20261020,maximum_attempts_per_vote=2,
+         batch_max_tasks=batch_size,batch_max_bound=175000,batch_seed=20261020,maximum_attempts_per_vote=2,
          primary_schedule='historical all three vote rounds and one invalid-output retry pass, then new models if enabled')
     core.write_json(out/'judge_manifest.json',manifest);calls=0
     populations=['historical_sft21']+(['six_model_base_v1'] if include_new else [])
@@ -87,7 +88,7 @@ def _execute(directory, free_receipt, shared_usage, catalogue, env_file,
             for vote in vote_indices:
                 todo=[t for t in tasks if mapping[t['evaluation_id']]['experiment']==population
                       and (t['evaluation_id'],vote) not in done and attempt_counts.get((t['evaluation_id'],vote),0)<2]
-                for batch in pack(todo,mapping,20261020+vote):
+                for batch in pack(todo,mapping,20261020+vote,size=batch_size):
                     if calls>=request_limit:return finish('request_limit')
                     request_id=f'b{len(core.rows(out/"judge_requests.jsonl")):05d}'
                     receipt={'request_id':request_id,'vote':vote,'seed':20261020+vote,'population':population,
@@ -149,4 +150,5 @@ if __name__=='__main__':
     for name in ('directory','free-receipt','shared-usage','catalogue','env-file'):p.add_argument('--'+name,required=True)
     p.add_argument('--reserve-requests',type=int,default=50);p.add_argument('--request-limit',type=int,default=300)
     p.add_argument('--vote-indices',nargs='+',type=int,choices=[1,2,3])
+    p.add_argument('--batch-size',type=int,default=10)
     p.add_argument('--include-new',action='store_true');execute(**vars(p.parse_args()))

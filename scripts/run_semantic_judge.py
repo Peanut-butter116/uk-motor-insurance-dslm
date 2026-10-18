@@ -395,6 +395,39 @@ def aggregate(directory, public):
     csv_write(public/'correctness_summary.csv',summaries);csv_write(public/'grounding_summary.csv',grounding)
     csv_write(public/'sft_rag_comparison.csv',comparisons)
     csv_write(public/'sft_accuracy_decomposition.csv',decomposition)
+    single_summaries=[]
+    for key in sorted({(r['experiment'],r['model'],r['condition']) for r in per}):
+        eligible=[r for r in per if (r['experiment'],r['model'],r['condition'])==key]
+        rs=[r for r in preliminary if (r['experiment'],r['model'],r['condition'])==key]
+        cs=[r['correctness'] for r in rs if r['correctness'] is not None]
+        es=[r['evidence_support'] for r in rs if r['evidence_support'] is not None]
+        claims=[r for r in rs if r['correctness'] is not None and (r['evidence_support'] is not None or r['abstention'])]
+        single_summaries.append({'experiment':key[0],'model':key[1],'model_id':eligible[0]['model_id'],
+            'revision':eligible[0]['revision'],'condition':key[2],'protocol':'preliminary_vote_1',
+            'population_n':len(eligible),'valid_vote_n':len(rs),'correctness_scored_n':len(cs),
+            'pending_or_uncertain_n':len(eligible)-len(cs),'mean_correctness':statistics.mean(cs) if cs else None,
+            'fully_correct_pct':100*cs.count(1)/len(cs) if cs else None,
+            'partial_pct':100*cs.count(.5)/len(cs) if cs else None,'incorrect_pct':100*cs.count(0)/len(cs) if cs else None,
+            'reference_support_scored_n':len(es),'mean_reference_support':statistics.mean(es) if es else None,
+            'unsupported_claim_scored_n':len(claims),
+            'unsupported_material_claim_rate':statistics.mean(r['unsupported_material_claim'] for r in claims) if claims else None,
+            'human_validated':False,'status':'preliminary_incomplete_unvalidated'})
+    csv_write(public/'preliminary_single_vote_summary.csv',single_summaries)
+    single_comparisons=[]
+    for model in ('qwen3b','ministral3b'):
+        for before,after in [('base-closedbook','sft-closedbook'),('base-openbook','sft-openbook'),('base-closedbook','base-openbook'),('sft-closedbook','sft-openbook')]:
+            aa={r['qid']:r for r in preliminary if r['model']==model and r['condition']==model+'-'+before}
+            bb={r['qid']:r for r in preliminary if r['model']==model and r['condition']==model+'-'+after}
+            common=sorted(aa.keys()&bb.keys())
+            pairs=[(aa[q]['question_group'],aa[q]['correctness'],bb[q]['correctness']) for q in common]
+            row={'model':model,'before':before,'after':after,'protocol':'preliminary_vote_1',
+                 **sj.paired_bootstrap(pairs),**full_correct_change(pairs),'human_validated':False,
+                 'status':'preliminary_pairwise_complete_cases_not_full_test'}
+            if source_groups:
+                sc=sj.paired_bootstrap([(source_groups[q],aa[q]['correctness'],bb[q]['correctness']) for q in common])
+                row.update(source_cluster_n=sc.get('n_groups'),source_cluster_ci_low=sc['ci_low'],source_cluster_ci_high=sc['ci_high'])
+            single_comparisons.append(row)
+    csv_write(public/'preliminary_single_vote_comparison.csv',single_comparisons)
     strata=[]
     for protocol,items in [('three_vote',primary),('preliminary_vote_1',preliminary)]:
         for key in sorted({(r['experiment'],r['model'],r['condition']) for r in per}):
@@ -488,6 +521,10 @@ def aggregate(directory, public):
         consistency.append({'vote_a':va,'vote_b':vb,'paired_scored_n':len(pairs),
             'exact_agreement':statistics.mean(a==b for a,b in pairs) if pairs else None,'quadratic_weighted_kappa':kappa})
     validation={'rubric_version':sj.VERSION,'population_n':len(tasks),'valid_votes':len(votes),'attempts':len(attempts),
+                'required_vote_units':3*len(tasks),'pending_vote_units':3*len(tasks)-len(votes),
+                'provider_failed_vote_units':sum(not a['valid'] and 'Gemini HTTP' in (a.get('error') or '') for a in attempts),
+                'invalid_judge_output_attempts':sum(not a['valid'] and 'Gemini HTTP' not in (a.get('error') or '') for a in attempts),
+                'provider_failed_requests':sum(bool(r.get('provider_error')) for r in all_requests),
                 'three_vote_completed_responses':len(primary),'single_vote_responses':len(preliminary),
                 'three_vote_scored_responses':sum(r['correctness'] is not None for r in primary),
                 'single_vote_scored_responses':sum(r['correctness'] is not None for r in preliminary),
