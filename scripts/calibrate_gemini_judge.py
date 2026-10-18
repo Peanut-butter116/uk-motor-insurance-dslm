@@ -20,7 +20,8 @@ def make_client(directory,free_receipt,shared_usage,catalogue,env_file,fictional
     if not key:raise ValueError('Missing GEMINI_API_KEY')
     free=json.loads(Path(free_receipt).read_text());free=free.get('gemini',free)
     return GeminiJudge(key,free['model'],json.loads((directory/'gemini_semantic_permission.json').read_text()),free,
-        directory/'gemini_usage.jsonl',Path(shared_usage),json.loads(Path(catalogue).read_text()),fictional=fictional,reserve_requests=50,thinking_level=thinking_level)
+        directory/'gemini_usage.jsonl',Path(shared_usage),json.loads(Path(catalogue).read_text()),fictional=fictional,reserve_requests=50,thinking_level=thinking_level,
+        related_ledgers=list(directory.parent.glob('llm_judge*/gemini_usage.jsonl')))
 
 
 def calibrate(directory,free_receipt,shared_usage,catalogue,env_file,thinking_level='high'):

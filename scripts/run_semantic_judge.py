@@ -342,7 +342,14 @@ def aggregate(directory, public):
         if one:preliminary.append({**base,**one})
     csv_write(directory/'per_question_results.csv',per);csv_write(directory/'judge_results.csv',primary)
     csv_write(directory/'preliminary_single_vote_results.csv',preliminary)
-    csv_write(directory/'judge_disagreements.csv',[r for r in primary if r['disagreement'] or r['needs_human_review']])
+    disagreements=[r for r in primary if r['disagreement'] or r['needs_human_review']]
+    for eid,vs in groups.items():
+        if 1<len(vs)<3 and any(len({json.dumps(v[k],sort_keys=True) for v in vs})>1
+                              for k in ('correctness','evidence_support','fact_scores','contradiction')):
+            disagreements.append({**mapping[eid],'status':'partial_votes_disagree','n_votes':len(vs),
+                'correctness_votes':[v['correctness'] for v in vs],
+                'reference_support_votes':[v['evidence_support'] for v in vs],'needs_human_review':True})
+    csv_write(directory/'judge_disagreements.csv',disagreements)
     summaries=[];grounding=[]
     for key in sorted({(r['experiment'],r['model'],r['condition']) for r in per}):
         rs=[r for r in per if (r['experiment'],r['model'],r['condition'])==key]

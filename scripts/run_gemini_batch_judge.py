@@ -57,7 +57,8 @@ def _execute(directory, free_receipt, shared_usage, catalogue, env_file,
     if manifest.get('judge_plan') and any(manifest['judge_plan'].get(str(v))!=free['model'] for v in vote_indices):
         raise ValueError('Worker model does not match planned vote assignment')
     client=GeminiJudge(keys['key'],free['model'],json.loads((out/'gemini_semantic_permission.json').read_text()),free,
-                       out/'gemini_usage.jsonl',Path(shared_usage),json.loads(Path(catalogue).read_text()),reserve_requests=reserve_requests,thinking_level=calibration['thinking_level'])
+                       out/'gemini_usage.jsonl',Path(shared_usage),json.loads(Path(catalogue).read_text()),reserve_requests=reserve_requests,thinking_level=calibration['thinking_level'],
+                       related_ledgers=list(out.parent.glob('llm_judge*/gemini_usage.jsonl')))
     existing=core.rows(out/'judge_votes.jsonl');done={(v['evaluation_id'],v['vote']) for v in existing}
     if len(done)!=len(existing):raise ValueError('Duplicate votes')
     if any(v.get('transport_version')!=indexed.TRANSPORT for v in existing):raise ValueError('Do not mix transport protocols')

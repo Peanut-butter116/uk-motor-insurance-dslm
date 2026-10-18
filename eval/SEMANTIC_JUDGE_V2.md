@@ -124,6 +124,11 @@ one request/minute and 50K input tokens/minute for other work. Completed request
 replace conservative TPM reservations with reported input tokens; all token
 categories remain recorded for accounting. HTTP 429 stops without a paid fallback.
 Only one worker may use a given evaluation ledger.
+The batch/calibration entry points also read sibling `llm_judge*/gemini_usage.jsonl`
+journals, deduplicating copied reservations by their original timestamp. This
+retains earlier research usage when a separate later-model package is resumed.
+Usage across judge models is conservatively pooled. Run only one research worker
+per account; no production ledger is written.
 
 Eight scoreable fictional Acorn cases must match the rubric exactly; a ninth
 missing-reference guard must return null or fail strict validation. Only invalid

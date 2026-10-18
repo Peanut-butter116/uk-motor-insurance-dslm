@@ -51,14 +51,27 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
         raise PermissionError('Provider redirects forbidden')
 
 
+def research_events(paths):
+    """Copied journals share timestamps: count each reservation exactly once."""
+    rows=[]
+    for path in paths:
+        if path.exists():rows.extend(json.loads(line) for line in path.read_text().splitlines() if line.strip())
+    actual={e['request_time']:e.get('quota_actual_tokens',e['actual_tokens']) for e in rows if 'actual_tokens' in e}
+    reserved={}
+    for e in rows:
+        if 'reserved_tokens' in e:reserved[e['time']]=max(reserved.get(e['time'],0),e['reserved_tokens'])
+    return [(t,actual.get(t,n)) for t,n in reserved.items()]
+
+
 class GeminiJudge:
     def __init__(self, key, model, permission, free_receipt, ledger, shared_usage,
-                 catalogue, fictional=False, clock=time.time, reserve_requests=0, thinking_level='high'):
+                 catalogue, fictional=False, clock=time.time, reserve_requests=0, thinking_level='high',related_ledgers=()):
         self.key, self.model, self.permission = key, model.removeprefix('models/'), permission
         self.free, self.ledger, self.shared = free_receipt, ledger, shared_usage
         self.fictional, self.clock = fictional, clock
         self.reserve_requests=reserve_requests
         self.thinking_level=thinking_level
+        self.related_ledgers=list(related_ledgers)
         if type(reserve_requests) is not int or reserve_requests<0 or reserve_requests>=self.free.get('rpd',0):
             raise ValueError('Invalid production quota reserve')
         name='models/'+self.model
@@ -81,9 +94,7 @@ class GeminiJudge:
     def _request(self, prompt, schema, max_tokens, identity, seed):
         reserve=len(prompt.encode('utf-8'))+len(json.dumps(schema).encode())+max_tokens
         now=self.clock(); usage=json.loads(self.shared.read_text())
-        own=[json.loads(l) for l in self.ledger.read_text().splitlines() if l.strip()] if self.ledger.exists() else []
-        actual={e['request_time']:e.get('quota_actual_tokens',e['actual_tokens']) for e in own if 'actual_tokens' in e}
-        events=[(e['time'],e['quota_tokens']) for e in usage['entries']]+[(e['time'],actual.get(e['time'],e['reserved_tokens'])) for e in own if 'reserved_tokens' in e]
+        events=[(e['time'],e['quota_tokens']) for e in usage['entries']]+research_events([self.ledger]+self.related_ledgers)
         quota={**self.free,'rpd':self.free['rpd']-self.reserve_requests,
                'rpm':max(1,self.free['rpm']-1),'tpm':max(1,self.free['tpm']-50000)}
         if len([t for t,n in events if now-86400<t<=now])>=quota['rpd']:

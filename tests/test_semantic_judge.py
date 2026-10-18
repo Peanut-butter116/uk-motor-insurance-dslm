@@ -103,6 +103,15 @@ def test_quota_and_unknown_free_plan():
     with pytest.raises(PermissionError):sj.quota_available({},[],100,10)
 
 
+def test_shared_research_quota_deduplicates_adopted_journals(tmp_path):
+    from eval.gemini_judge import research_events
+    a=tmp_path/'old';b=tmp_path/'new'
+    reservation={'time':99,'reserved_tokens':300}
+    a.write_text(json.dumps(reservation)+'\n')
+    b.write_text(json.dumps(reservation)+'\n'+json.dumps({'request_time':99,'actual_tokens':200,'quota_actual_tokens':100})+'\n'+json.dumps({'time':100,'reserved_tokens':400})+'\n')
+    assert sorted(research_events([a,b,b]))==[(99,100),(100,400)]
+
+
 def client(tmp_path,fictional=False):
     shared=tmp_path/'shared.json';shared.write_text('{"entries":[],"blocked_until":0}')
     free={'model':'gemini-test-flash','free_plan_confirmed':True,'verified_at_epoch':100,'rpm':5,'rpd':500,'tpm':250000}
