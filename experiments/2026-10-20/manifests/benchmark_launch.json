@@ -1,0 +1,14 @@
+{
+  "notebook": "scarletthe0116/motor-six-model-frozen-test-20261020",
+  "status": "submitted_queued",
+  "private_requested": true,
+  "kernel_sha256": "14fa8e33af0ef1c6f6c7807d0d7bf110f7100ccf17f1c4d21700feb829c9ae44",
+  "runner_sha256": "8173657d33822fb61e6acb43816ef77a41ff0161b051f92a75a74c68a7b1a0da",
+  "manifest_sha256": "a0014e69c0ab186fe2350697e234214e19d549e2eae21501fc9fc5816e07bde9",
+  "new_restricted_upload": false,
+  "version": 1,
+  "private_verified": true,
+  "gpu_requested": "NvidiaTeslaT4",
+  "submitted_runner_source": "../kaggle/benchmark_runner_v1.py",
+  "normalisation_note": "Raw generation is immutable. Verification applies current final-answer parsing, including incomplete DeepSeek reasoning detection."
+}

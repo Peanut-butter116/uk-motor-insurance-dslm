@@ -1,0 +1,17 @@
+{
+  "purpose": "frozen_motor_test_descriptive",
+  "split": "test",
+  "questions": 76,
+  "selection_permitted": false,
+  "protocol_frozen_before_submission": true,
+  "frozen_at_utc": "2026-10-18T14:06:10.964273+00:00",
+  "config_sha256": "6a27ab782c29658f079fc3656a106f8aff2cb0dd28cd54c3ac024c0f97550b99",
+  "tasks_sha256": "beae4713f14f859e16bfd2e5aa9f66bae6396b6a570212362a80be7819f3ea64",
+  "contexts_sha256": "44c5d55666d631b28b5e539b272d05787086c67fcbbac3920dc8ae4f32d18dc6",
+  "source_tasks_sha256": "4d4191ab1f76e9ee2aa1492c48d9a4da0459854b35eec3472ac7b8a919365c4d",
+  "source_contexts_sha256": "0a4cd5de543b10ea7d97aef6603ea5865580987122c166f188850c8303b13c24",
+  "gold_sha256": "233befbf343d93fcef52aa6983e7c34508d531ca203ae9efcd0a7b3ede678234",
+  "source_dataset": "scarletthe0116/uk-insurance-base-eval-qwen3b-private",
+  "evaluation_population": "Protected motor test, descriptive only, no selection",
+  "new_restricted_upload": false
+}
