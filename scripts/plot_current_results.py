@@ -17,7 +17,7 @@ def make(output):
     output=Path(output);output.mkdir(parents=True,exist_ok=True)
     sources={name:EXP/name for name in ['results/summary.json','results/error_taxonomy.json',
         'manifests/interim_dataset_manifest.json','manifests/display_csv_manifest.json','configs/six_models.json',
-        'reports/kaggle_status.json']}
+        'reports/kaggle_status.json','results/six_model_v1/six_model_verification.json']}
     data={k:json.loads(p.read_text()) for k,p in sources.items()}
     data['source_sha256']={k:hashlib.sha256(p.read_bytes()).hexdigest() for k,p in sources.items()}
     data['plotting_runtime']={'matplotlib':matplotlib.__version__,'numpy':np.__version__}
@@ -59,9 +59,10 @@ def make(output):
     candidates=data['configs/six_models.json']['models']
     status=next(j['status'] for j in data['reports/kaggle_status.json']['jobs']
         if j['notebook'].endswith('motor-six-model-frozen-test-20261020'))
-    if status=='COMPLETE':
-        raise ValueError('Actual benchmark completed: verify outputs and update figures before regenerating status-only panels')
+    verified={r['model']:r for r in data['results/six_model_v1/six_model_verification.json']['models']}
     values=[[m['id'].split('/')[-1],str(m['parameters_billion_nominal'])+'B',
+        ('Inference complete;\njudging pending' if verified[m['id']]['status']=='inference_complete' else
+         'Gated access failed' if m['gated'] else 'Compute dtype failed') if status=='COMPLETE' else
         'Access gated / '+status.lower() if m['gated'] else status.capitalize()+'; no verified outputs'] for m in candidates]
     tb=axes[1].table(cellText=values,colLabels=['New candidate','Size','Quality evaluation'],
         colWidths=[.55,.12,.38],cellLoc='left',loc='center')
@@ -70,7 +71,7 @@ def make(output):
         cell.set_edgecolor('#CCCCCC')
         if row==0:cell.set_text_props(color=RED,weight='bold');cell.set_facecolor('#F3F3F3')
     save(fig,'01_base_models','Base-model evidence and six-candidate status',
-        'Left: historical 3B base models, motor n=76. Right: new pinned candidates have no verified quality results.\nCorrectness and claim support remain unjudged. Parse rate counts a citation parse or recognised abstention.')
+        'Left: historical 3B base models, motor n=76. Right: three new candidates completed verified paired inference.\nCorrectness and claim support remain unjudged. Parse rate counts a citation parse or recognised abstention.')
 
     fig,axes=plt.subplots(1,2,figsize=(14,8))
     for ax,metric,title in zip(axes,['balanced_abstention','parse_rate'],['Balanced abstention','Inherited parse rate']):
@@ -112,7 +113,7 @@ def make(output):
     ax.spines[['top','right']].set_visible(False);ax.grid(axis='x',alpha=.15);ax.set_axisbelow(True)
     fig.subplots_adjust(left=.28)
     fig.suptitle('Historical inference efficiency',x=.07,y=.96,ha='left',fontsize=21,fontweight='bold')
-    fig.text(.07,.035,'All rows: 3B-class models, Tesla T4, motor n=76. Setup time excluded.\nDescriptive job timing, not a controlled speed benchmark. Peak GPU memory was not recorded. New six-model timing pending.',fontsize=11)
+    fig.text(.07,.035,'All rows: historical 3B-class models, Tesla T4, motor n=76. Setup time excluded.\nHistorical peak GPU memory was not recorded. New-model timing is separate: see verified six_model_v1 tables.',fontsize=11)
     fig.subplots_adjust(left=.28,right=.91,bottom=.20,top=.83)
     for ext in ['png','svg']:fig.savefig(output/('04_model_efficiency.'+ext),dpi=300)
     plt.close(fig)

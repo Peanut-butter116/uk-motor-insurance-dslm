@@ -773,17 +773,17 @@
     "ministral_exception": "Official checkpoint differs from historical unsloth 4-bit checkpoint. Do not pool results."
   },
   "reports/kaggle_status.json": {
-    "checked_at_utc": "2026-10-18T14:18:53.767786+00:00",
+    "checked_at_utc": "2026-10-18T21:25:36.845697+00:00",
     "jobs": [
       {
         "notebook": "scarletthe0116/motor-six-model-compatibility-20261020",
-        "status": "QUEUED",
+        "status": "COMPLETE",
         "failure_message_present": false,
         "url": "https://www.kaggle.com/code/scarletthe0116/motor-six-model-compatibility-20261020"
       },
       {
         "notebook": "scarletthe0116/motor-six-model-frozen-test-20261020",
-        "status": "QUEUED",
+        "status": "COMPLETE",
         "failure_message_present": false,
         "url": "https://www.kaggle.com/code/scarletthe0116/motor-six-model-frozen-test-20261020"
       },
@@ -837,7 +837,7 @@
       }
     ],
     "gpu_quota_hours": {
-      "time_used": 0.0,
+      "time_used": 1.4721105555555556,
       "time_reserved": 0.0,
       "total_time_allowed": 30.0,
       "paid_scaling_enabled": false,
@@ -845,13 +845,95 @@
     },
     "interpretation": "Queued is not running or complete. Free quota does not guarantee accelerator availability. No paid judging or new SFT run submitted."
   },
+  "results/six_model_v1/six_model_verification.json": {
+    "status": "verified_download",
+    "receipt_sha256": "463ab1e7aaa9910716030924fe1547b657caf460b3db09d8f46d5630c8483c52",
+    "models": [
+      {
+        "model": "meta-llama/Llama-3.2-1B-Instruct",
+        "revision": "9213176726f574b556790deb65791e0c5aa438b6",
+        "status": "failed",
+        "exception_type": "OSError",
+        "tasks_completed": 0,
+        "runtime_seconds": 0.7807579529999771
+      },
+      {
+        "model": "google/gemma-3-1b-it",
+        "revision": "dcc83ea841ab6100d6b47a070329e1ba4cf78752",
+        "status": "failed",
+        "exception_type": "OSError",
+        "tasks_completed": 0,
+        "runtime_seconds": 0.48465445099998306
+      },
+      {
+        "model": "Qwen/Qwen2.5-1.5B-Instruct",
+        "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+        "status": "inference_complete",
+        "tasks_completed": 152,
+        "runtime_seconds": 1021.667857704,
+        "answers_sha256": "9d1350d75303a0b756b4b94a1719f0aaebd7a88b3c16b1fa51cffef12245530e"
+      },
+      {
+        "model": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+        "revision": "ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562",
+        "status": "inference_complete",
+        "tasks_completed": 152,
+        "runtime_seconds": 3260.820746027,
+        "answers_sha256": "0a00cec868a1a8b180fc61f65c6f3bbac779d42339b15884dbc4f0a970255b56"
+      },
+      {
+        "model": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "revision": "31b70e2e869a7173562077fd711b654946d38674",
+        "status": "inference_complete",
+        "tasks_completed": 152,
+        "runtime_seconds": 723.4165224340004,
+        "answers_sha256": "f57c2700fa4f08fb7ba1fbf98ed3d7cedbe09b14a107f181184c2c14b2d3a95f"
+      },
+      {
+        "model": "mistralai/Ministral-3-3B-Instruct-2512",
+        "revision": "b35d4dfe56c142746f54dbd64f579faab2744308",
+        "status": "failed",
+        "exception_type": "RuntimeError",
+        "tasks_completed": 0,
+        "runtime_seconds": 36.65963533900049
+      }
+    ],
+    "integrity": [
+      {
+        "model": "Qwen/Qwen2.5-1.5B-Instruct",
+        "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+        "raw_sha256": "9d1350d75303a0b756b4b94a1719f0aaebd7a88b3c16b1fa51cffef12245530e",
+        "matched_questions": 76,
+        "tasks": 152
+      },
+      {
+        "model": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+        "revision": "ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562",
+        "raw_sha256": "0a00cec868a1a8b180fc61f65c6f3bbac779d42339b15884dbc4f0a970255b56",
+        "matched_questions": 76,
+        "tasks": 152
+      },
+      {
+        "model": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "revision": "31b70e2e869a7173562077fd711b654946d38674",
+        "raw_sha256": "f57c2700fa4f08fb7ba1fbf98ed3d7cedbe09b14a107f181184c2c14b2d3a95f",
+        "matched_questions": 76,
+        "tasks": 152
+      }
+    ],
+    "correctness_pending_responses": 381,
+    "required_independent_votes": 1143,
+    "selection_permitted": false,
+    "semantic_support": "not_judged"
+  },
   "source_sha256": {
     "results/summary.json": "1265331ca96cb2a4d45aa8ccf915074eecddce6bdaaf46bb4782f499069bd4da",
     "results/error_taxonomy.json": "fe82bfee30a24d5ee8a32cee7900012865f828553292fe3628ebf178ae88c260",
     "manifests/interim_dataset_manifest.json": "65aec6b4511594a0fd931f2d461a857caacbaf892a480fd1f70f0c93d0a8901e",
     "manifests/display_csv_manifest.json": "6dbee4142b8afd17e0cc3b8e62e6759d45eb9392989979dbe2eb7a337ff59b87",
     "configs/six_models.json": "7ff20604999899cc0cf2adfc3032044ef238e049ec248fd48088e69a4076bba0",
-    "reports/kaggle_status.json": "1e9913ad3d8250400ba637b4a46c02a09cd6ee4a198801ec5b40876568631dc3"
+    "reports/kaggle_status.json": "e58076ff2bc6e198b980229d6c95f9b763d96a5703655972c1f49cf29cbc052d",
+    "results/six_model_v1/six_model_verification.json": "7d4dd7ffb73666aac321a0479c11d98a85e7df5e7b9b9053ac7c218596fb78f1"
   },
   "plotting_runtime": {
     "matplotlib": "3.5.1",

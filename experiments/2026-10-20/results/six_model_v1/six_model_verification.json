@@ -1,0 +1,81 @@
+{
+  "status": "verified_download",
+  "receipt_sha256": "463ab1e7aaa9910716030924fe1547b657caf460b3db09d8f46d5630c8483c52",
+  "models": [
+    {
+      "model": "meta-llama/Llama-3.2-1B-Instruct",
+      "revision": "9213176726f574b556790deb65791e0c5aa438b6",
+      "status": "failed",
+      "exception_type": "OSError",
+      "tasks_completed": 0,
+      "runtime_seconds": 0.7807579529999771
+    },
+    {
+      "model": "google/gemma-3-1b-it",
+      "revision": "dcc83ea841ab6100d6b47a070329e1ba4cf78752",
+      "status": "failed",
+      "exception_type": "OSError",
+      "tasks_completed": 0,
+      "runtime_seconds": 0.48465445099998306
+    },
+    {
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+      "status": "inference_complete",
+      "tasks_completed": 152,
+      "runtime_seconds": 1021.667857704,
+      "answers_sha256": "9d1350d75303a0b756b4b94a1719f0aaebd7a88b3c16b1fa51cffef12245530e"
+    },
+    {
+      "model": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+      "revision": "ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562",
+      "status": "inference_complete",
+      "tasks_completed": 152,
+      "runtime_seconds": 3260.820746027,
+      "answers_sha256": "0a00cec868a1a8b180fc61f65c6f3bbac779d42339b15884dbc4f0a970255b56"
+    },
+    {
+      "model": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+      "revision": "31b70e2e869a7173562077fd711b654946d38674",
+      "status": "inference_complete",
+      "tasks_completed": 152,
+      "runtime_seconds": 723.4165224340004,
+      "answers_sha256": "f57c2700fa4f08fb7ba1fbf98ed3d7cedbe09b14a107f181184c2c14b2d3a95f"
+    },
+    {
+      "model": "mistralai/Ministral-3-3B-Instruct-2512",
+      "revision": "b35d4dfe56c142746f54dbd64f579faab2744308",
+      "status": "failed",
+      "exception_type": "RuntimeError",
+      "tasks_completed": 0,
+      "runtime_seconds": 36.65963533900049
+    }
+  ],
+  "integrity": [
+    {
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+      "raw_sha256": "9d1350d75303a0b756b4b94a1719f0aaebd7a88b3c16b1fa51cffef12245530e",
+      "matched_questions": 76,
+      "tasks": 152
+    },
+    {
+      "model": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+      "revision": "ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562",
+      "raw_sha256": "0a00cec868a1a8b180fc61f65c6f3bbac779d42339b15884dbc4f0a970255b56",
+      "matched_questions": 76,
+      "tasks": 152
+    },
+    {
+      "model": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+      "revision": "31b70e2e869a7173562077fd711b654946d38674",
+      "raw_sha256": "f57c2700fa4f08fb7ba1fbf98ed3d7cedbe09b14a107f181184c2c14b2d3a95f",
+      "matched_questions": 76,
+      "tasks": 152
+    }
+  ],
+  "correctness_pending_responses": 381,
+  "required_independent_votes": 1143,
+  "selection_permitted": false,
+  "semantic_support": "not_judged"
+}

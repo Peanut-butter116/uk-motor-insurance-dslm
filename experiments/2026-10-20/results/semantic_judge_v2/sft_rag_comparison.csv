@@ -1,0 +1,9 @@
+model,before,after,eligible_pairs,n_pairs,difference,ci_low,ci_high,status
+qwen3b,base-closedbook,sft-closedbook,76,0,,,,pending
+qwen3b,base-openbook,sft-openbook,76,0,,,,pending
+qwen3b,base-closedbook,base-openbook,76,0,,,,pending
+qwen3b,sft-closedbook,sft-openbook,76,0,,,,pending
+ministral3b,base-closedbook,sft-closedbook,76,0,,,,pending
+ministral3b,base-openbook,sft-openbook,76,0,,,,pending
+ministral3b,base-closedbook,base-openbook,76,0,,,,pending
+ministral3b,sft-closedbook,sft-openbook,76,0,,,,pending

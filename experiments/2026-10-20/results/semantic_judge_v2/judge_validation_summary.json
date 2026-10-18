@@ -1,0 +1,19 @@
+{
+  "rubric_version": "motor-semantic-v2.0",
+  "population_n": 1064,
+  "valid_votes": 0,
+  "attempts": 0,
+  "three_vote_completed_responses": 0,
+  "single_vote_responses": 0,
+  "invalid_attempts": 0,
+  "human_review_completed": 0,
+  "human_agreement": null,
+  "three_vote_disagreements": 0,
+  "paid_api_enabled": false,
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "estimated_cost_usd": 0,
+  "rankings_validated": false,
+  "citation_grounding": "not_judged",
+  "uncertainty": "Only nine unanswerable questions; source dependence beyond exact repeated questions remains unmodelled."
+}

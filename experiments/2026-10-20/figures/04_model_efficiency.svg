@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-10-18T15:20:44.365833</dc:date>
+    <dc:date>2026-10-18T22:27:30.301885</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -327,8 +327,8 @@ L 917.28 460.8
    <text style="fill: #171717; font: 700 21px 'DejaVu Sans'; text-anchor: start" x="70.56" y="38.996719" transform="rotate(-0, 70.56, 38.996719)">Historical inference efficiency</text>
   </g>
   <g id="text_25">
-   <text style="fill: #171717; font: 11px 'DejaVu Sans'" transform="translate(70.56 543.522406)">All rows: 3B-class models, Tesla T4, motor n=76. Setup time excluded.</text>
-   <text style="fill: #171717; font: 11px 'DejaVu Sans'" transform="translate(70.56 555.84)">Descriptive job timing, not a controlled speed benchmark. Peak GPU memory was not recorded. New six-model timing pending.</text>
+   <text style="fill: #171717; font: 11px 'DejaVu Sans'" transform="translate(70.56 543.522406)">All rows: historical 3B-class models, Tesla T4, motor n=76. Setup time excluded.</text>
+   <text style="fill: #171717; font: 11px 'DejaVu Sans'" transform="translate(70.56 555.84)">Historical peak GPU memory was not recorded. New-model timing is separate: see verified six_model_v1 tables.</text>
   </g>
  </g>
  <defs>

@@ -2,7 +2,7 @@
 
 Tech Mahindra Makers Lab research for the **20 October 2026** supervisor meeting. Evidence checked on **18 October 2026**. Final project deadline: **18 December 2026**.
 
-**Current execution:** the actual six-model benchmark and its earlier compatibility probe are queued on Kaggle. Neither has verified inference outputs. Historical Qwen/Ministral comparisons contain 1,120 verified answers. Correctness and semantic support remain unjudged. [Live job links and last checked state](experiments/2026-10-20/reports/kaggle_status.json).
+**Current execution:** both Kaggle jobs completed. Qwen1.5B, DeepSeek1.5B and SmolLM2 completed verified inference on 76 questions in each of two conditions (456 responses). Llama/Gemma failed on gated access; Ministral failed on a compute-dtype mismatch. Historical Qwen/Ministral comparisons contain 1,120 verified answers. Correctness and semantic support remain unjudged; the independent judging pipeline is implemented and privacy gated. [Live job links and last checked state](experiments/2026-10-20/reports/kaggle_status.json).
 
 ## 1. Project overview
 
@@ -69,12 +69,12 @@ All revisions are pinned in the [six-model configuration](experiments/2026-10-20
 
 | Exact checkpoint | Nominal parameters | Current status |
 |---|---:|---|
-| [meta-llama/Llama-3.2-1B-Instruct](https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct) | 1B | Gated config returns HTTP 401 without authorised credentials; job queued |
-| [google/gemma-3-1b-it](https://huggingface.co/google/gemma-3-1b-it) | 1B | Gated config returns HTTP 401 without authorised credentials; job queued |
-| [Qwen/Qwen2.5-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct) | 1.5B | Actual evaluation queued |
-| [deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B) | 1.5B | Actual evaluation queued; Qwen-derived architecture |
-| [HuggingFaceTB/SmolLM2-1.7B-Instruct](https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B-Instruct) | 1.7B | Actual evaluation queued |
-| [mistralai/Ministral-3-3B-Instruct-2512](https://huggingface.co/mistralai/Ministral-3-3B-Instruct-2512) | 3B | Actual evaluation queued; original FP8 weights require T4 dequantisation |
+| [meta-llama/Llama-3.2-1B-Instruct](https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct) | 1B | Failed: gated checkpoint access |
+| [google/gemma-3-1b-it](https://huggingface.co/google/gemma-3-1b-it) | 1B | Failed: gated checkpoint access |
+| [Qwen/Qwen2.5-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct) | 1.5B | Verified Base / Base + RAG: 76 each |
+| [deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B) | 1.5B | Verified Base / Base + RAG: 76 each; Qwen-derived architecture |
+| [HuggingFaceTB/SmolLM2-1.7B-Instruct](https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B-Instruct) | 1.7B | Verified Base / Base + RAG: 76 each |
+| [mistralai/Ministral-3-3B-Instruct-2512](https://huggingface.co/mistralai/Ministral-3-3B-Instruct-2512) | 3B | Failed: BF16 / FP16 compute mismatch during original FP8 loading |
 
 The official Ministral candidate differs from the historical Unsloth 4-bit checkpoint. The historical Qwen is 3B, while the new candidate is 1.5B. These experiment populations and checkpoints remain separate.
 
@@ -99,9 +99,26 @@ QLoRA training retains assistant-only loss masking, whole-record exclusions for 
 
 Paid API judging remains disabled. Existing production-provider permissions do not establish approval to transfer protected gold answers and model predictions for a new judging batch. No such payload was sent. Missing scores stay null, and no new composite or winner is reported. The historical composite remains `0.5 × correctness + 0.3 × citation resolution + 0.2 × balanced abstention`, only when all components exist.
 
+### LLM-as-a-Judge Correctness Evaluation
+
+Citation resolution checks whether a citation matches a supplied passage; it does not establish whether the passage supports a claim or whether the answer is correct. The new [versioned semantic evaluator](eval/SEMANTIC_JUDGE_V2.md), `motor-semantic-v2.0`, preserves the historical fact rubric while adding overall correctness (0, 0.5, 1), reference evidence support, material-error flags and explicit uncertainty.
+
+The authenticated official Gemini catalogue confirms **`gemini-3.5-flash-lite`** is available. Its free-plan receipt and shared quota were checked, and one wholly fictional structured-output smoke test passed. **No protected evaluation payload was sent.** Existing permission allows questions-only leakage checks and explicitly excludes gold answers/frozen contexts; semantic processing needs a separate field-and-purpose approval. An independent local **Phi-4-mini-instruct 4-bit** fallback was attempted but failed all eight fictional calibration cases, so it was blocked from protected judging. [Execution report](experiments/2026-10-20/reports/semantic_judge_execution.md).
+
+Private inputs are shuffled with seed 20261020 and contain only an opaque ID, question, answerability, reference answer/key facts, gold evidence, student-visible evidence, answer/citations and deterministic refusal decision. Student identities and Base/SFT/RAG labels remain in a separate private mapping. Reference evidence is distinct from what the student saw: no-RAG citation grounding is N/A. Supported source spans must be verbatim; factual entailment still needs semantic validation. Refusals are scored against answerability; missing/ambiguous/conflicting references produce null scores and review flags.
+
+Primary outputs require **three valid repeated votes** with predefined median aggregation and material-contradiction caps. These are within-judge consistency checks, not independent human ground truth. Single-vote outputs are separate and preliminary. The blind 28-item review sheet is prepared; **human reviews completed: 0; agreement: not measured**. Paired differences use common question IDs and a grouped question-level bootstrap; source dependence and only nine unanswerable questions limit inference.
+
+| Evaluation population | Responses prepared | Real responses judged | Required votes |
+|---|---:|---:|---:|
+| Historical motor, 21-example SFT, eight arms | 608 | **0** | 1,824 |
+| New three-model Base / Base + RAG | 456 | **0** | 1,368 |
+
+The earlier 484-answer / 1,452-vote count covers only non-abstaining answerable historical responses; the new batch includes refusals and all unanswerable questions. No correctness gain, grounding gain, composite or overall winner can yet be claimed. [Correctness table](experiments/2026-10-20/results/semantic_judge_v2/correctness_summary.csv) · [Grounding table](experiments/2026-10-20/results/semantic_judge_v2/grounding_summary.csv) · [Paired SFT/RAG comparisons](experiments/2026-10-20/results/semantic_judge_v2/sft_rag_comparison.csv) · [Validation coverage](experiments/2026-10-20/results/semantic_judge_v2/judge_validation_summary.json). Blank values mean pending, never zero. The five semantic figures await actual scores.
+
 ## 8. This week's results
 
-**New six-model experiment:** submitted as a private [actual benchmark](https://www.kaggle.com/code/scarletthe0116/motor-six-model-frozen-test-20261020), currently queued. The earlier [compatibility probe](https://www.kaggle.com/code/scarletthe0116/motor-six-model-compatibility-20261020) also remains queued. No candidate has a verified new quality result. Both are distinct from completed historical inference.
+**New six-model experiment:** the private [actual benchmark](https://www.kaggle.com/code/scarletthe0116/motor-six-model-frozen-test-20261020) and [compatibility probe](https://www.kaggle.com/code/scarletthe0116/motor-six-model-compatibility-20261020) completed. Three checkpoints produced all 152 required paired responses each; file hashes, revisions, frozen input manifests and question/condition uniqueness passed verification. Llama and Gemma could not access gated checkpoints. Official Ministral failed with a BF16/FP16 matrix dtype mismatch. No successful run was restarted. [New-model measured behaviour, latency and memory](experiments/2026-10-20/results/six_model_v1/six_model_summary.csv) remain separate from historical 3B SFT results. Correctness and semantic grounding are pending for every new condition.
 
 **Directly relevant historical evidence:** 1,120 verified answers, comprising four arms each for Qwen2.5-3B and Ministral-3B. SFT used 21 examples. Below is the common 76-question motor slice, with correctness and claim support pending throughout.
 
@@ -132,7 +149,7 @@ python scripts/stage_motor_benchmark.py --home "$POLICY_QA_HOME" \
   --output "$NEW_PRIVATE_RUN" --public experiments/2026-10-20/manifests
 ```
 
-Check job state before submitting anything. The actual run already exists: **do not launch it again**. Private Kaggle uses the existing approved evaluation dataset. After completion, download to a new private directory and run `scripts/verify_motor_benchmark.py` to validate the receipt, hashes, checkpoint revisions and all 152 task pairs before adding any results.
+Check job state before submitting anything. The actual run already exists: **do not launch it again**. Private Kaggle uses the existing approved evaluation dataset. The completed outputs have been privately downloaded and verified. For future runs, download to a new private directory and run `scripts/verify_motor_benchmark.py` to validate the receipt, hashes, checkpoint revisions and all 152 task pairs before adding any results.
 
 [Detailed reproduction](experiments/2026-10-20/README.md) covers snapshot loading, readable CSV export, paired base/RAG inference, QLoRA training gates, output verification and judging. Reusable code remains in `experiments/`, `src/`, `eval/`, `train/` and `scripts/`. Restricted data and adapters always stay outside the public repository.
 

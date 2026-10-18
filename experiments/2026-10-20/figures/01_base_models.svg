@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-10-18T15:20:42.110795</dc:date>
+    <dc:date>2026-10-18T22:27:28.091930</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -309,7 +309,7 @@ z
 " style="fill: #ffffff; stroke: #cccccc; stroke-linejoin: miter"/>
     </g>
     <g id="text_21">
-     <text style="fill: #171717; font: 10px 'DejaVu Sans'; text-anchor: start" x="885.715043" y="238.096518" transform="rotate(-0, 885.715043, 238.096518)">Access gated / queued</text>
+     <text style="fill: #171717; font: 10px 'DejaVu Sans'; text-anchor: start" x="885.715043" y="238.096518" transform="rotate(-0, 885.715043, 238.096518)">Gated access failed</text>
     </g>
     <g id="patch_17">
      <path d="M 548.276087 266.194286 
@@ -342,7 +342,7 @@ z
 " style="fill: #ffffff; stroke: #cccccc; stroke-linejoin: miter"/>
     </g>
     <g id="text_24">
-     <text style="fill: #171717; font: 10px 'DejaVu Sans'; text-anchor: start" x="885.715043" y="258.667946" transform="rotate(-0, 885.715043, 258.667946)">Access gated / queued</text>
+     <text style="fill: #171717; font: 10px 'DejaVu Sans'; text-anchor: start" x="885.715043" y="258.667946" transform="rotate(-0, 885.715043, 258.667946)">Gated access failed</text>
     </g>
     <g id="patch_20">
      <path d="M 548.276087 286.765714 
@@ -375,7 +375,8 @@ z
 " style="fill: #ffffff; stroke: #cccccc; stroke-linejoin: miter"/>
     </g>
     <g id="text_27">
-     <text style="fill: #171717; font: 10px 'DejaVu Sans'; text-anchor: start" x="885.715043" y="279.239375" transform="rotate(-0, 885.715043, 279.239375)">Queued; no verified outputs</text>
+     <text style="fill: #171717; font: 10px 'DejaVu Sans'" transform="translate(885.715043 273.640469)">Inference complete;</text>
+     <text style="fill: #171717; font: 10px 'DejaVu Sans'" transform="translate(885.715043 284.838281)">judging pending</text>
     </g>
     <g id="patch_23">
      <path d="M 548.276087 307.337143 
@@ -408,7 +409,8 @@ z
 " style="fill: #ffffff; stroke: #cccccc; stroke-linejoin: miter"/>
     </g>
     <g id="text_30">
-     <text style="fill: #171717; font: 10px 'DejaVu Sans'; text-anchor: start" x="885.715043" y="299.810804" transform="rotate(-0, 885.715043, 299.810804)">Queued; no verified outputs</text>
+     <text style="fill: #171717; font: 10px 'DejaVu Sans'" transform="translate(885.715043 294.211897)">Inference complete;</text>
+     <text style="fill: #171717; font: 10px 'DejaVu Sans'" transform="translate(885.715043 305.40971)">judging pending</text>
     </g>
     <g id="patch_26">
      <path d="M 548.276087 327.908571 
@@ -441,7 +443,8 @@ z
 " style="fill: #ffffff; stroke: #cccccc; stroke-linejoin: miter"/>
     </g>
     <g id="text_33">
-     <text style="fill: #171717; font: 10px 'DejaVu Sans'; text-anchor: start" x="885.715043" y="320.382232" transform="rotate(-0, 885.715043, 320.382232)">Queued; no verified outputs</text>
+     <text style="fill: #171717; font: 10px 'DejaVu Sans'" transform="translate(885.715043 314.783326)">Inference complete;</text>
+     <text style="fill: #171717; font: 10px 'DejaVu Sans'" transform="translate(885.715043 325.981138)">judging pending</text>
     </g>
     <g id="patch_29">
      <path d="M 548.276087 348.48 
@@ -474,7 +477,7 @@ z
 " style="fill: #ffffff; stroke: #cccccc; stroke-linejoin: miter"/>
     </g>
     <g id="text_36">
-     <text style="fill: #171717; font: 10px 'DejaVu Sans'; text-anchor: start" x="885.715043" y="340.953661" transform="rotate(-0, 885.715043, 340.953661)">Queued; no verified outputs</text>
+     <text style="fill: #171717; font: 10px 'DejaVu Sans'; text-anchor: start" x="885.715043" y="340.953661" transform="rotate(-0, 885.715043, 340.953661)">Compute dtype failed</text>
     </g>
    </g>
   </g>
@@ -482,7 +485,7 @@ z
    <text style="fill: #171717; font: 700 21px 'DejaVu Sans'; text-anchor: start" x="75.6" y="38.996719" transform="rotate(-0, 75.6, 38.996719)">Base-model evidence and six-candidate status</text>
   </g>
   <g id="text_38">
-   <text style="fill: #171717; font: 11px 'DejaVu Sans'" transform="translate(75.6 541.23475)">Left: historical 3B base models, motor n=76. Right: new pinned candidates have no verified quality results.</text>
+   <text style="fill: #171717; font: 11px 'DejaVu Sans'" transform="translate(75.6 541.23475)">Left: historical 3B base models, motor n=76. Right: three new candidates completed verified paired inference.</text>
    <text style="fill: #171717; font: 11px 'DejaVu Sans'" transform="translate(75.6 553.552344)">Correctness and claim support remain unjudged. Parse rate counts a citation parse or recognised abstention.</text>
   </g>
  </g>
