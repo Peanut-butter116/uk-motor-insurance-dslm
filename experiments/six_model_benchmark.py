@@ -112,7 +112,7 @@ def run(config, bundle, output, compatibility_probe=False):
                         'prompt_tokens':n,'generated_tokens':y.shape[-1]-n,
                         'hit_output_cap':y.shape[-1]-n>=cfg['generation']['max_new_tokens'],
                         'latency_seconds':time.monotonic()-start,
-                        'peak_gpu_allocated_gb':torch.cuda.max_memory_allocated()/2**30,
+                        'peak_gpu_allocated_gib':torch.cuda.max_memory_allocated()/2**30,
                         'tokenizer_class':type(tok).__name__,'loading_precision':cfg.get('loading_precision','nf4')})+'\n');f.flush()
                     completed+=1
             output_file=out/(key+'.jsonl')

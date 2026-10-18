@@ -56,6 +56,7 @@ def verify(home, launch, downloaded, output, public):
                 citations=core.rag.verify_citations(a,ctx[q]['chunks']) if mode=='openbook' else {'n_supported':0,'n_total':0}
                 parsed=abst or bool(core.common.CITATION_RE.search(a))
                 row={**raw,**norm,'abstention_decision':abst,'answerable':g['answerable'],
+                    'peak_gpu_allocated_gib':raw.get('peak_gpu_allocated_gib',raw.get('peak_gpu_allocated_gb')),
                     'citation_count':citations['n_total'] if mode=='openbook' else None,
                     'resolved_citation_count':citations['n_supported'] if mode=='openbook' else None,
                     'parse_success':parsed,'correctness':None,'claim_support':None,
@@ -77,7 +78,7 @@ def verify(home, launch, downloaded, output, public):
                 'citation_resolution':sum(r['resolved_citation_count'] or 0 for r in metrics)/n_cites if mode=='openbook' and n_cites else None,
                 'parse_rate':statistics.mean(r['parse_success'] for r in metrics),
                 'mean_latency_seconds':statistics.mean(r['latency_seconds'] for r in metrics),
-                'peak_gpu_allocated_gb':max(r['peak_gpu_allocated_gb'] for r in rows),
+                'peak_gpu_allocated_gib':max(r.get('peak_gpu_allocated_gib',r.get('peak_gpu_allocated_gb')) for r in rows),
                 'peak_memory_scope':'whole model run, both conditions',
                 'output_cap_rate':statistics.mean(r['hit_output_cap'] for r in metrics),
                 'final_answer_missing_rate':statistics.mean(not r['final_answer_present'] for r in metrics),
@@ -87,7 +88,7 @@ def verify(home, launch, downloaded, output, public):
     (out/'rubric.md').write_text((core.ROOT/'eval/JUDGE_RUBRIC.md').read_text())
     if predictions:
         with (out/'normalised_predictions.csv').open('x',newline='') as f:
-            fields=['qid','mode','answer','answerable','abstention_decision','parse_success','latency_seconds','peak_gpu_allocated_gb','review_status']
+            fields=['qid','mode','answer','answerable','abstention_decision','parse_success','latency_seconds','peak_gpu_allocated_gib','review_status']
             w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows({k:r[k] for k in fields} for r in predictions)
     public.mkdir(parents=True,exist_ok=True)
     core.write_json(public/'six_model_summary.json',summary)
