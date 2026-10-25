@@ -1,49 +1,51 @@
 {
-  "total_accepted": 409,
+  "total_accepted": 412,
   "target": 2000,
-  "remaining_to_target": 1591,
+  "remaining_to_target": 1588,
   "answerability": {
-    "answerable": 335,
+    "answerable": 338,
     "unanswerable": 74
   },
   "answerability_percent": {
-    "answerable": 81.91,
-    "unanswerable": 18.09
+    "answerable": 82.04,
+    "unanswerable": 17.96
   },
-  "new_cloud_accepted": 0,
-  "new_cloud_answerability": {},
-  "new_cloud_insufficiency_percent": null,
+  "new_cloud_accepted": 3,
+  "new_cloud_answerability": {
+    "answerable": 3
+  },
+  "new_cloud_insufficiency_percent": 0.0,
   "new_cloud_insufficiency_target_percent": [
     20,
     25
   ],
   "candidates_generated": 608,
-  "generated_accepted": 274,
-  "generated_acceptance_rate": 0.4506578947368421,
+  "generated_accepted": 277,
+  "generated_acceptance_rate": 0.4555921052631579,
   "generated_dispositions": {
-    "needs_review": 266,
-    "accepted": 274,
+    "needs_review": 267,
+    "accepted": 277,
     "rejected": 49,
-    "failed_structured_output": 15,
-    "pending": 4
+    "failed_structured_output": 15
   },
   "verification_reasons": {
-    "unsupported_or_unresolved_claim": 181,
+    "full_protected_semantic_screen_failed_or_uncertain": 41,
     "judge_answer_supported": 82,
     "judge_context_complete": 115,
-    "judge_numbers_conditions_correct": 79,
-    "judge_review": 83,
-    "judge_citations_support_claims": 54,
-    "judge_no_material_contradiction": 54,
-    "judge_reject": 49,
-    "full_protected_semantic_screen_failed_or_uncertain": 41,
-    "judge_question_useful": 1,
-    "persistent_retry_limit_exhausted": 15,
     "judge_label_correct": 35,
+    "judge_no_material_contradiction": 54,
+    "judge_review": 83,
     "independent_answerability_disagrees": 46,
-    "near_duplicate_question": 12,
+    "judge_numbers_conditions_correct": 79,
+    "unsupported_or_unresolved_claim": 181,
+    "judge_reject": 49,
+    "judge_question_useful": 1,
     "no_answer_citations": 40,
-    "missing_answer_quote": 1
+    "judge_citations_support_claims": 54,
+    "persistent_retry_limit_exhausted": 15,
+    "missing_answer_quote": 1,
+    "near_duplicate_question": 12,
+    "full_document_extraction_incomplete": 1
   },
   "duplicate_removals": 12,
   "leakage_exclusions": 41,
@@ -51,27 +53,26 @@
     "Admiral": 35,
     "Aviva": 57,
     "AA": 43,
-    "Hastings Direct": 164,
+    "Hastings Direct": 167,
     "Ageas": 29,
     "AXA": 81
   },
-  "last_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p40",
-  "last_checkpoint_utc": "2026-10-18T22:55:37Z",
-  "status": "blocked_budget_or_api",
-  "train_sha256": "6ec5b3728bd6b25cae09d97c81974f371c76a47ce61d2d2795a6919257b44a8f",
+  "last_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p42",
+  "last_checkpoint_utc": "2026-10-25T17:27:50Z",
+  "status": "paused_cloud_batch_limit",
+  "train_sha256": "cc9999596268d368a2431c833bfe365e3b8bc7f0146b5d00730f8435611d3de3",
   "human_review_completed": 0,
   "training_ready": false,
   "statistics_scope": "All recorded generated candidates, including historical providers; reasons may overlap. No package completion timestamp exists in inherited state.",
   "remaining_source_queue": {
-    "packages": 537,
+    "packages": 536,
     "insurers": {
-      "Hastings Direct": 537
+      "Hastings Direct": 536
     },
-    "max_candidates": 2148,
-    "historical_yield_additional_estimate": 968,
-    "estimated_total_before_new_gates": 1377,
-    "historical_package_yield_additional_estimate": 347,
-    "limitation": "Descriptive historical aggregate yield; not a forecast. Additional approved evidence likely required for 2000."
+    "max_new_candidates": 2144,
+    "historical_all_provider_additional_estimate": 419,
+    "historical_free_workflow_additional_estimate": 549,
+    "limitation": "Pre-test historical package yields, not forecasts; additional exclusions and ordered overlapping pages limit extrapolation."
   },
   "audited_on": "2026-10-25",
   "production_commit": "aef4d8c947750bb2fe1b10530c7060e2ab5cbda6",
@@ -79,20 +80,21 @@
   "accepted_ids_unique": true,
   "frozen_gold_hash_verified": true,
   "original_gold_sha256": "233befbf343d93fcef52aa6983e7c34508d531ca203ae9efcd0a7b3ede678234",
-  "unique_question_texts": 384,
+  "unique_question_texts": null,
   "model_visible_duplicates": 0,
   "validation_methods": {
     "deterministic_plus_independent_two_stage_gpt-5.4": 325,
-    "deterministic_plus_independent_two_stage_gemini-3.5-flash-lite": 84
+    "deterministic_plus_independent_two_stage_gemini-3.5-flash-lite": 87
   },
   "generation_packages": {
     "source_review": 257,
-    "judged": 146,
+    "judged": 147,
     "failed_structured_output": 21
   },
-  "cloud_generation_launched": false,
+  "cloud_generation_launched": true,
   "blocked_on": [
-    "Notebook secrets not configured"
+    "Finish two missing within-p42 semantic duplicate comparisons; v9 count is provisional",
+    "Owner approval required before any further source package"
   ],
   "insufficiency_target_new_batches_percent": [
     20,
@@ -100,8 +102,20 @@
   ],
   "deadline": "2026-11-18",
   "milestones_remaining": {
-    "500": 91,
-    "1000": 591,
-    "2000": 1591
-  }
+    "500": 88,
+    "1000": 588,
+    "2000": 1588
+  },
+  "cloud_batch_completed": true,
+  "last_controlled_batch": {
+    "package_id": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p42",
+    "resumed_candidates": 4,
+    "new_candidates_generated": 0,
+    "accepted": 3,
+    "needs_review": 1,
+    "dataset_version": 9,
+    "dataset_private": true,
+    "restored_and_verified": true
+  },
+  "cloud_batch_quality_verified": false
 }

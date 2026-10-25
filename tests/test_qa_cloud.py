@@ -125,3 +125,45 @@ def test_migration_with_relative_paths_includes_current_export(tmp_path, monkeyp
         name = 'uk-insurance-QA-data-local/production-v1/data/export_versions/fictional-version/train.jsonl'
         assert tar.extractfile(name).read().decode() == content
         assert tar.getmember('uk-insurance-QA-data-local/production-v1/data/final').issym()
+
+
+def test_controlled_notebook_pins_one_package_without_credentials(tmp_path):
+    import stage_controlled
+    stage_controlled.main(tmp_path)
+    meta = json.loads((tmp_path/'kernel-metadata.json').read_text())
+    assert meta['id'] == 'scarletthe0116/uk-motor-qa-checkpoint-check'
+    assert meta['is_private'] is True and meta['enable_gpu'] is False
+    notebook = json.loads((tmp_path/'resume.ipynb').read_text())
+    code = ''.join(notebook['cells'][-1]['source'])
+    assert 'from controlled import run' in code
+    assert 'main(max_packages=1, target=500, package_id=PACKAGE)' in code
+    assert 'p42' in code
+    assert 'get_secret(name)' in code
+
+
+def test_controlled_package_rejects_multiple_package_limit(monkeypatch):
+    import runner
+    monkeypatch.setattr(runner, 'require_cloud', lambda: None)
+    with pytest.raises(ValueError, match='only source package'):
+        runner.main(max_packages=2, target=500, package_id='fictional-package')
+
+
+def test_resume_keeps_previously_screened_provisional_comparisons():
+    from runner import training_comparison
+    candidates = [row(i) for i in range(4)]
+    decisions = {'0': {'status':'accepted'},
+        '1': {'status':'semantically_validated','training_semantic_screen':{'verdict':{'duplicate':False}}},
+        '2': {'status':'semantically_validated'},
+        '3': {'status':'needs_review','training_semantic_screen':{'verdict':{'duplicate':False}}}}
+    assert [r['example_id'] for r in training_comparison(candidates, decisions)] == ['0','1']
+
+
+def test_missing_pairs_can_be_completed_by_audited_supplement_only():
+    from repair_p42 import missing_pairs
+    records=[row(i) for i in range(3)]
+    decisions={str(i):{'training_semantic_screen':{'comparison_ids':[]}} for i in range(3)}
+    decisions['1']['training_semantic_screen']['comparison_ids']=['0']
+    assert missing_pairs(records,decisions)==[('0','2'),('1','2')]
+    decisions['0']['training_semantic_screen']['repair_comparison_ids']=['2']
+    decisions['1']['training_semantic_screen']['repair_comparison_ids']=['2']
+    assert missing_pairs(records,decisions)==[]

@@ -1,0 +1,100 @@
+{
+  "test_success": false,
+  "controlled_package_id": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p42",
+  "source_package_limit": 1,
+  "total_accepted": 409,
+  "target": 2000,
+  "remaining_to_target": 1591,
+  "answerability": {
+    "answerable": 335,
+    "unanswerable": 74
+  },
+  "answerability_percent": {
+    "answerable": 81.91,
+    "unanswerable": 18.09
+  },
+  "new_cloud_accepted": 0,
+  "new_cloud_answerability": {},
+  "new_cloud_insufficiency_percent": null,
+  "new_cloud_insufficiency_target_percent": [
+    20,
+    25
+  ],
+  "candidates_generated": 608,
+  "generated_accepted": 274,
+  "generated_acceptance_rate": 0.4506578947368421,
+  "generated_dispositions": {
+    "rejected": 49,
+    "needs_review": 267,
+    "accepted": 274,
+    "failed_structured_output": 15,
+    "semantically_validated": 3
+  },
+  "verification_reasons": {
+    "judge_context_complete": 115,
+    "judge_label_correct": 35,
+    "judge_reject": 49,
+    "independent_answerability_disagrees": 46,
+    "judge_answer_supported": 82,
+    "judge_citations_support_claims": 54,
+    "judge_no_material_contradiction": 54,
+    "judge_numbers_conditions_correct": 79,
+    "judge_review": 83,
+    "unsupported_or_unresolved_claim": 181,
+    "persistent_retry_limit_exhausted": 15,
+    "full_protected_semantic_screen_failed_or_uncertain": 41,
+    "missing_answer_quote": 1,
+    "no_answer_citations": 40,
+    "near_duplicate_question": 12,
+    "judge_question_useful": 1,
+    "full_document_extraction_incomplete": 1
+  },
+  "duplicate_removals": 12,
+  "leakage_exclusions": 41,
+  "by_insurer": {
+    "Admiral": 35,
+    "Aviva": 57,
+    "AA": 43,
+    "Hastings Direct": 164,
+    "Ageas": 29,
+    "AXA": 81
+  },
+  "last_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p40",
+  "last_checkpoint_utc": "2026-10-25T17:15:40Z",
+  "status": "paused_provider_quota",
+  "train_sha256": "6ec5b3728bd6b25cae09d97c81974f371c76a47ce61d2d2795a6919257b44a8f",
+  "human_review_completed": 0,
+  "training_ready": false,
+  "statistics_scope": "All recorded generated candidates, including historical providers; reasons may overlap. No package completion timestamp exists in inherited state.",
+  "accepted_before": 409,
+  "accepted_delta": 0,
+  "generated_before": 608,
+  "generated_delta": 0,
+  "baseline_409_preserved": true,
+  "frozen_benchmark_unchanged": true,
+  "changed_candidate_dispositions": {
+    "semantically_validated": 3,
+    "needs_review": 1
+  },
+  "changed_candidate_failure_reasons": {
+    "full_document_extraction_incomplete": 1
+  },
+  "changed_candidate_ids": [
+    "generated-45c49da8b3a047ba6e2859343d2a88b08bcccc0e417a42f838e40e65def83da6",
+    "generated-50f149841d5e19dfa338cd706ad83264ab15512a742e8928b86d1a6eb03bd35f",
+    "generated-7396006b04f9f0882e76f3d2b2f6523fb946eae8b5d3c70d2f173f925aaa9d51",
+    "generated-879c7e0199e85e1e56ce2c45c5c4452c117c1bb347a556dcfa78e2a92fe230f9"
+  ],
+  "completed_controlled_package": [],
+  "only_controlled_package_processed": true,
+  "api_stop_reason": null,
+  "resume_after_epoch": 1792948593.5832946,
+  "current_accepted_ids_unique": true,
+  "accepted_decisions_match_export": true,
+  "accepted_schema_valid": true,
+  "new_acceptances_independently_verified": true,
+  "persisted_dataset_version": 5,
+  "dataset_private": true,
+  "persisted_restore_verified": true,
+  "persisted_archive_sha256": "fc48f196cd8ae0cedd2268fe9e05957cfd57fd3ae3c5d73c8509f31a9cba80d3"
+}

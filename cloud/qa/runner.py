@@ -153,10 +153,19 @@ def cap_source(source, target):
     return compile(ast.fix_missing_locations(tree), 'generate_motor.py', 'exec')
 
 
-def main(max_packages=1, target=500):
+def training_comparison(candidates, decisions):
+    """Retain earlier passing provisional rows in comparisons after a restart."""
+    return [r for r in candidates if decisions.get(r['example_id'], {}).get('status') == 'accepted'
+            or (decisions.get(r['example_id'], {}).get('status') == 'semantically_validated'
+                and decisions[r['example_id']].get('training_semantic_screen'))]
+
+
+def main(max_packages=1, target=500, package_id=None):
     require_cloud()
     if target not in (500, 1000, 2000) or not 1 <= max_packages <= 20:
         raise ValueError('Use a milestone target and 1–20 packages per cloud session')
+    if package_id and max_packages != 1:
+        raise ValueError('A controlled package must be the only source package')
     from kaggle_secrets import UserSecretsClient
     secrets = UserSecretsClient()
     # Load every credential before making any provider call; never print values.
@@ -195,6 +204,24 @@ def main(max_packages=1, target=500):
         shutil.copyfile(Path(__file__).parent/name, adapter/name)
     source = session/'uk-insurance-QA-data'
     run = session/'uk-insurance-QA-data-local/production-v1'
+    initial_manifest = json.loads((run/'data/final/dataset_manifest.json').read_text())
+    frozen_gold = session/'uk-insurance-dslm-data/data/gold/gold_v2.jsonl'
+    frozen_gold_sha256 = sha(frozen_gold)
+    if frozen_gold_sha256 != initial_manifest['original_gold_sha256']:
+        raise ValueError('Frozen evaluation benchmark differs')
+    if package_id:
+        candidates = read_rows(run/'generated_candidates.jsonl')
+        initial_state = json.loads((run/'state.json').read_text())
+        unfinished = [r for r in candidates if initial_state['decisions'].get(r['example_id'], {}).get('status') in (None, 'semantically_validated')]
+        if any(r['provenance']['package_id'] != package_id for r in unfinished):
+            raise ValueError('Unfinished records outside controlled package; no provider calls made')
+        before = run/'controlled_batch_before.json'
+        if not before.exists():
+            write_json(before, {'input_dataset_version': version, 'package_id': package_id,
+                'progress': report(run), 'decisions': initial_state['decisions'],
+                'generation': initial_state['generation'], 'frozen_gold_sha256': frozen_gold_sha256})
+        elif json.loads(before.read_text())['package_id'] != package_id:
+            raise ValueError('Controlled package changed')
     baseline_path = run/'cloud_baseline.jsonl'
     if not baseline_path.exists():
         shutil.copyfile(run/'data/final/train.jsonl', baseline_path)
@@ -297,7 +324,7 @@ def main(max_packages=1, target=500):
             screening_constants = [n.value for n in ast.walk(ast.parse((source/'src/protected_screen.py').read_text()))
                                    if isinstance(n, ast.Constant) and isinstance(n.value, str)]
             screening_prefix = next(v for v in screening_constants if v.startswith('Check each candidate question'))
-            comparison = [r for r in self.candidates if self.state['decisions'].get(r['example_id'], {}).get('status') == 'accepted']
+            comparison = training_comparison(self.candidates, self.state['decisions'])
             for row in batch:
                 decision = self.state['decisions'].get(row['example_id'], {})
                 if decision.get('status') != 'semantically_validated' or decision.get('training_semantic_screen'):
@@ -354,6 +381,8 @@ def main(max_packages=1, target=500):
             current = read_rows(self.run/'data/final/train.jsonl')
             verify_preserved(baseline, current)
             verify_preserved(initial_records, current)
+            if sha(frozen_gold) != frozen_gold_sha256:
+                raise ValueError('Frozen evaluation benchmark changed during batch')
             freeze_milestones(self.run, current, baseline, utc())
             write_json(self.run/'cloud_progress.json', report(self.run))
             # A finished source package, quota pause, or final stop is durable before proceeding.
@@ -368,6 +397,8 @@ def main(max_packages=1, target=500):
         completed = {item['package_id'] for item in build.state['generation']}
         eligible = [p for p in original_packages(build) if p['id'] not in completed]
         build.state['cloud_has_more_packages'] = len(eligible) > max_packages
+        if package_id:
+            return [p for p in eligible if p['id'] == package_id]
         return eligible[:max_packages]
     namespace['packages'] = bounded_packages
     original_screen = namespace['screen']
