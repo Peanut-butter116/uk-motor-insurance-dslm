@@ -1,67 +1,68 @@
 {
-  "total_accepted": 414,
+  "total_accepted": 416,
   "target": 1000,
-  "remaining_to_target": 586,
+  "remaining_to_target": 584,
   "answerability": {
-    "answerable": 340,
+    "answerable": 342,
     "unanswerable": 74
   },
   "answerability_percent": {
-    "answerable": 82.13,
-    "unanswerable": 17.87
+    "answerable": 82.21,
+    "unanswerable": 17.79
   },
-  "new_cloud_accepted": 5,
+  "new_cloud_accepted": 7,
   "new_cloud_answerability": {
-    "answerable": 5
+    "answerable": 7
   },
   "new_cloud_insufficiency_percent": 0.0,
   "new_cloud_insufficiency_target_percent": [
     20,
     25
   ],
-  "candidates_generated": 616,
-  "generated_accepted": 279,
-  "generated_acceptance_rate": 0.45292207792207795,
+  "candidates_generated": 628,
+  "generated_accepted": 281,
+  "generated_acceptance_rate": 0.44745222929936307,
   "generated_dispositions": {
-    "accepted": 279,
-    "rejected": 49,
-    "needs_review": 273,
+    "rejected": 50,
+    "accepted": 281,
+    "needs_review": 279,
+    "semantically_validated": 3,
     "failed_structured_output": 15
   },
   "verification_reasons": {
-    "judge_answer_supported": 82,
-    "judge_citations_support_claims": 54,
+    "judge_answer_supported": 83,
+    "judge_citations_support_claims": 55,
+    "judge_context_complete": 116,
+    "judge_label_correct": 37,
     "judge_no_material_contradiction": 54,
-    "judge_numbers_conditions_correct": 79,
-    "judge_reject": 49,
-    "unsupported_or_unresolved_claim": 183,
-    "independent_answerability_disagrees": 46,
-    "judge_label_correct": 35,
-    "no_answer_citations": 43,
-    "judge_context_complete": 115,
-    "near_duplicate_question": 12,
+    "judge_numbers_conditions_correct": 80,
+    "judge_reject": 50,
+    "unsupported_or_unresolved_claim": 184,
+    "independent_answerability_disagrees": 48,
     "judge_review": 83,
-    "full_protected_semantic_screen_failed_or_uncertain": 41,
+    "full_protected_semantic_screen_failed_or_uncertain": 42,
     "persistent_retry_limit_exhausted": 15,
-    "full_document_extraction_incomplete": 1,
-    "judge_question_useful": 1,
-    "training_semantic_duplicate_or_uncertain": 1,
-    "missing_answer_quote": 1
+    "no_answer_citations": 43,
+    "near_duplicate_question": 12,
+    "full_document_extraction_incomplete": 4,
+    "training_semantic_duplicate_or_uncertain": 2,
+    "missing_answer_quote": 1,
+    "judge_question_useful": 1
   },
-  "duplicate_removals": 13,
-  "leakage_exclusions": 41,
+  "duplicate_removals": 14,
+  "leakage_exclusions": 42,
   "by_insurer": {
     "Admiral": 35,
     "Aviva": 57,
     "AA": 43,
-    "Hastings Direct": 169,
+    "Hastings Direct": 171,
     "Ageas": 29,
     "AXA": 81
   },
-  "last_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p44",
-  "last_checkpoint_utc": "2026-10-25T18:27:24Z",
+  "last_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p46",
+  "last_checkpoint_utc": "2026-10-25T18:38:55Z",
   "status": "paused_provider_quota",
-  "train_sha256": "621ff3e869ea98e29f993ee1c77b74ae135dcb9fbbec20dea029c28f560c4164",
+  "train_sha256": "a32bb6c0ce22264f3e0584709feb6207c245cff6d85766388dbf41ff79cf3762",
   "human_review_completed": 0,
   "training_ready": false,
   "statistics_scope": "All recorded generated candidates, including historical providers; reasons may overlap. No package completion timestamp exists in inherited state.",
@@ -82,11 +83,11 @@
   "accepted_ids_unique": true,
   "frozen_gold_hash_verified": true,
   "original_gold_sha256": "233befbf343d93fcef52aa6983e7c34508d531ca203ae9efcd0a7b3ede678234",
-  "unique_question_texts": 387,
+  "unique_question_texts": null,
   "model_visible_duplicates": 0,
   "validation_methods": {
     "deterministic_plus_independent_two_stage_gpt-5.4": 325,
-    "deterministic_plus_independent_two_stage_gemini-3.5-flash-lite": 89
+    "deterministic_plus_independent_two_stage_gemini-3.5-flash-lite": 91
   },
   "generation_packages": null,
   "cloud_generation_launched": true,
@@ -97,10 +98,10 @@
   ],
   "deadline": "2026-11-18",
   "milestones_remaining": {
-    "500": 86,
-    "750": 336,
-    "1000": 586,
-    "2000": 1586
+    "500": 84,
+    "750": 334,
+    "1000": 584,
+    "2000": 1584
   },
   "cloud_batch_completed": true,
   "last_controlled_batch": {
@@ -129,7 +130,7 @@
   },
   "controlled_batch_verified_at_utc": "2026-10-25T17:55:54.687805+00:00",
   "dataset_private": true,
-  "dataset_version": 19,
+  "dataset_version": 30,
   "future_packages_authorised": true,
   "main_research_target": 2000,
   "authorised_accepted_target": 1000,
@@ -146,12 +147,12 @@
     "starting_accepted": 412,
     "verified_at_utc": "2026-10-25T18:13:50.751815+00:00",
     "execution_status": "RUNNING",
-    "latest_observed_checkpoint": 19,
+    "latest_observed_checkpoint": 30,
     "execution_version": 8,
-    "new_candidates_generated": 8,
-    "new_accepted": 2,
-    "new_review": 6,
-    "new_rejections": 0,
+    "new_candidates_generated": 20,
+    "new_accepted": 4,
+    "new_review": 12,
+    "new_rejections": 1,
     "first_fresh_acceptance_rate": 0.5,
     "first_fresh_failure_reasons": {
       "unsupported_or_unresolved_claim": 1,
@@ -160,20 +161,34 @@
     "automatic_continuation_confirmed": true,
     "progress_monitor": "uk-motor-qa-cloud-progress",
     "progress_monitor_interval_minutes": 15,
-    "remaining_to_target": 586,
+    "remaining_to_target": 584,
     "confirmed_first_package_completed": true,
     "current_api_status": "paused_provider_quota; notebook running with same-session wait/restart",
     "new_candidate_failure_reasons": {
-      "unsupported_or_unresolved_claim": 2,
+      "judge_answer_supported": 1,
+      "judge_citations_support_claims": 1,
+      "judge_context_complete": 1,
+      "judge_label_correct": 2,
+      "judge_numbers_conditions_correct": 1,
+      "judge_reject": 1,
+      "unsupported_or_unresolved_claim": 3,
+      "independent_answerability_disagrees": 2,
+      "full_protected_semantic_screen_failed_or_uncertain": 1,
       "no_answer_citations": 3,
-      "training_semantic_duplicate_or_uncertain": 1
-    }
+      "full_document_extraction_incomplete": 3,
+      "training_semantic_duplicate_or_uncertain": 2
+    },
+    "new_provisional": 3
   },
-  "last_observed_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p44",
-  "latest_observation_utc": "2026-10-25T18:28:49.236919+00:00",
+  "last_observed_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p46",
+  "latest_observation_utc": "2026-10-25T18:41:35.240792+00:00",
   "latest_dataset_privacy_verified": true,
   "v10_archive_sha256": "dad0ab797bb97a3f3f522014fdd11f8db6627e7abd83e5cc8e8b647c72ae89b6",
   "latest_checkpoint_archive_sha256": null,
   "last_external_full_restore_audit_version": 10,
-  "current_checkpoint_qc": "Provider-free acceptance audit and authenticated streaming persistence checks run inside each campaign export"
+  "current_checkpoint_qc": "Provider-free acceptance audit and authenticated streaming persistence checks run inside each campaign export",
+  "last_external_unique_question_count": {
+    "dataset_version": 10,
+    "count": 387
+  }
 }

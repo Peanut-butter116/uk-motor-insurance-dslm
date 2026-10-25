@@ -1,0 +1,69 @@
+{
+  "total_accepted": 416,
+  "target": 1000,
+  "remaining_to_target": 584,
+  "answerability": {
+    "answerable": 342,
+    "unanswerable": 74
+  },
+  "answerability_percent": {
+    "answerable": 82.21,
+    "unanswerable": 17.79
+  },
+  "new_cloud_accepted": 7,
+  "new_cloud_answerability": {
+    "answerable": 7
+  },
+  "new_cloud_insufficiency_percent": 0.0,
+  "new_cloud_insufficiency_target_percent": [
+    20,
+    25
+  ],
+  "candidates_generated": 628,
+  "generated_accepted": 281,
+  "generated_acceptance_rate": 0.44745222929936307,
+  "generated_dispositions": {
+    "rejected": 50,
+    "accepted": 281,
+    "needs_review": 279,
+    "semantically_validated": 3,
+    "failed_structured_output": 15
+  },
+  "verification_reasons": {
+    "judge_answer_supported": 83,
+    "judge_citations_support_claims": 55,
+    "judge_context_complete": 116,
+    "judge_label_correct": 37,
+    "judge_no_material_contradiction": 54,
+    "judge_numbers_conditions_correct": 80,
+    "judge_reject": 50,
+    "unsupported_or_unresolved_claim": 184,
+    "independent_answerability_disagrees": 48,
+    "judge_review": 83,
+    "full_protected_semantic_screen_failed_or_uncertain": 42,
+    "persistent_retry_limit_exhausted": 15,
+    "no_answer_citations": 43,
+    "near_duplicate_question": 12,
+    "full_document_extraction_incomplete": 4,
+    "training_semantic_duplicate_or_uncertain": 2,
+    "missing_answer_quote": 1,
+    "judge_question_useful": 1
+  },
+  "duplicate_removals": 14,
+  "leakage_exclusions": 42,
+  "by_insurer": {
+    "Admiral": 35,
+    "Aviva": 57,
+    "AA": 43,
+    "Hastings Direct": 171,
+    "Ageas": 29,
+    "AXA": 81
+  },
+  "last_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p46",
+  "last_checkpoint_utc": "2026-10-25T18:38:55Z",
+  "status": "paused_provider_quota",
+  "train_sha256": "a32bb6c0ce22264f3e0584709feb6207c245cff6d85766388dbf41ff79cf3762",
+  "human_review_completed": 0,
+  "training_ready": false,
+  "statistics_scope": "All recorded generated candidates, including historical providers; reasons may overlap. No package completion timestamp exists in inherited state."
+}
