@@ -19,13 +19,13 @@
     20,
     25
   ],
-  "candidates_generated": 612,
+  "candidates_generated": 616,
   "generated_accepted": 279,
-  "generated_acceptance_rate": 0.45588235294117646,
+  "generated_acceptance_rate": 0.45292207792207795,
   "generated_dispositions": {
     "accepted": 279,
     "rejected": 49,
-    "needs_review": 269,
+    "needs_review": 273,
     "failed_structured_output": 15
   },
   "verification_reasons": {
@@ -34,10 +34,10 @@
     "judge_no_material_contradiction": 54,
     "judge_numbers_conditions_correct": 79,
     "judge_reject": 49,
-    "unsupported_or_unresolved_claim": 182,
+    "unsupported_or_unresolved_claim": 183,
     "independent_answerability_disagrees": 46,
     "judge_label_correct": 35,
-    "no_answer_citations": 40,
+    "no_answer_citations": 43,
     "judge_context_complete": 115,
     "near_duplicate_question": 12,
     "judge_review": 83,
@@ -58,23 +58,23 @@
     "Ageas": 29,
     "AXA": 81
   },
-  "last_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p43",
-  "last_checkpoint_utc": "2026-10-25T18:24:13Z",
-  "status": "paused_cloud_batch_limit",
+  "last_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p44",
+  "last_checkpoint_utc": "2026-10-25T18:27:24Z",
+  "status": "paused_provider_quota",
   "train_sha256": "621ff3e869ea98e29f993ee1c77b74ae135dcb9fbbec20dea029c28f560c4164",
   "human_review_completed": 0,
   "training_ready": false,
   "statistics_scope": "All recorded generated candidates, including historical providers; reasons may overlap. No package completion timestamp exists in inherited state.",
   "remaining_source_queue": {
-    "packages": 535,
+    "packages": null,
     "insurers": {
-      "Hastings Direct": 535
+      "Hastings Direct": null
     },
-    "max_new_candidates": 2140,
+    "max_new_candidates": null,
     "historical_all_provider_additional_estimate": 419,
     "historical_free_workflow_additional_estimate": 549,
     "limitation": "Pre-test historical package yields, not forecasts; additional exclusions and ordered overlapping pages limit extrapolation.",
-    "scope": "After confirmed p43 completion; the running batch may have advanced further since this observation."
+    "scope": "Last confirmed queue count after p43; subsequent processing is active and exact remaining count will be refreshed from the campaign receipt."
   },
   "audited_on": "2026-10-25",
   "production_commit": "aef4d8c947750bb2fe1b10530c7060e2ab5cbda6",
@@ -88,11 +88,7 @@
     "deterministic_plus_independent_two_stage_gpt-5.4": 325,
     "deterministic_plus_independent_two_stage_gemini-3.5-flash-lite": 89
   },
-  "generation_packages": {
-    "source_review": 257,
-    "judged": 148,
-    "failed_structured_output": 21
-  },
+  "generation_packages": null,
   "cloud_generation_launched": true,
   "blocked_on": [],
   "insufficiency_target_new_batches_percent": [
@@ -133,7 +129,7 @@
   },
   "controlled_batch_verified_at_utc": "2026-10-25T17:55:54.687805+00:00",
   "dataset_private": true,
-  "dataset_version": 17,
+  "dataset_version": 19,
   "future_packages_authorised": true,
   "main_research_target": 2000,
   "authorised_accepted_target": 1000,
@@ -150,11 +146,11 @@
     "starting_accepted": 412,
     "verified_at_utc": "2026-10-25T18:13:50.751815+00:00",
     "execution_status": "RUNNING",
-    "latest_observed_checkpoint": 17,
+    "latest_observed_checkpoint": 19,
     "execution_version": 8,
-    "new_candidates_generated": 4,
+    "new_candidates_generated": 8,
     "new_accepted": 2,
-    "new_review": 2,
+    "new_review": 6,
     "new_rejections": 0,
     "first_fresh_acceptance_rate": 0.5,
     "first_fresh_failure_reasons": {
@@ -165,10 +161,16 @@
     "progress_monitor": "uk-motor-qa-cloud-progress",
     "progress_monitor_interval_minutes": 15,
     "remaining_to_target": 586,
-    "confirmed_first_package_completed": true
+    "confirmed_first_package_completed": true,
+    "current_api_status": "paused_provider_quota; notebook running with same-session wait/restart",
+    "new_candidate_failure_reasons": {
+      "unsupported_or_unresolved_claim": 2,
+      "no_answer_citations": 3,
+      "training_semantic_duplicate_or_uncertain": 1
+    }
   },
-  "last_observed_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p43",
-  "latest_observation_utc": "2026-10-25T18:27:15.876218+00:00",
+  "last_observed_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p44",
+  "latest_observation_utc": "2026-10-25T18:28:49.236919+00:00",
   "latest_dataset_privacy_verified": true,
   "v10_archive_sha256": "dad0ab797bb97a3f3f522014fdd11f8db6627e7abd83e5cc8e8b647c72ae89b6",
   "latest_checkpoint_archive_sha256": null,
