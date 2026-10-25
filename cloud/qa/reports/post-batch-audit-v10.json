@@ -1,0 +1,18 @@
+{
+  "dataset_version": 10,
+  "archive_sha256": "dad0ab797bb97a3f3f522014fdd11f8db6627e7abd83e5cc8e8b647c72ae89b6",
+  "accepted": 412,
+  "baseline_preserved": 409,
+  "unique_question_texts": 387,
+  "new_accepted": 3,
+  "frozen_benchmark_unchanged": true,
+  "files_verified": 5139,
+  "new_lexical_duplicate_pairs": [],
+  "missing_training_baseline_screens": 0,
+  "missing_within_batch_semantic_pairs": [],
+  "deterministic_and_claim_failures": {},
+  "only_one_package_completed": true,
+  "paid_kelly_ledger_unchanged": true,
+  "provider_calls": 0,
+  "passed": true
+}

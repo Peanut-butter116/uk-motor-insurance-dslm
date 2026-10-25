@@ -23,28 +23,28 @@
   "generated_accepted": 277,
   "generated_acceptance_rate": 0.4555921052631579,
   "generated_dispositions": {
-    "needs_review": 267,
     "accepted": 277,
+    "needs_review": 267,
     "rejected": 49,
     "failed_structured_output": 15
   },
   "verification_reasons": {
-    "full_protected_semantic_screen_failed_or_uncertain": 41,
     "judge_answer_supported": 82,
+    "judge_citations_support_claims": 54,
     "judge_context_complete": 115,
     "judge_label_correct": 35,
     "judge_no_material_contradiction": 54,
-    "judge_review": 83,
-    "independent_answerability_disagrees": 46,
     "judge_numbers_conditions_correct": 79,
+    "judge_review": 83,
     "unsupported_or_unresolved_claim": 181,
-    "judge_reject": 49,
-    "judge_question_useful": 1,
+    "independent_answerability_disagrees": 46,
     "no_answer_citations": 40,
-    "judge_citations_support_claims": 54,
-    "persistent_retry_limit_exhausted": 15,
-    "missing_answer_quote": 1,
+    "judge_reject": 49,
     "near_duplicate_question": 12,
+    "missing_answer_quote": 1,
+    "full_protected_semantic_screen_failed_or_uncertain": 41,
+    "persistent_retry_limit_exhausted": 15,
+    "judge_question_useful": 1,
     "full_document_extraction_incomplete": 1
   },
   "duplicate_removals": 12,
@@ -58,9 +58,9 @@
     "AXA": 81
   },
   "last_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p42",
-  "last_checkpoint_utc": "2026-10-25T17:27:50Z",
+  "last_checkpoint_utc": "2026-10-25T17:52:32Z",
   "status": "paused_cloud_batch_limit",
-  "train_sha256": "cc9999596268d368a2431c833bfe365e3b8bc7f0146b5d00730f8435611d3de3",
+  "train_sha256": "1ec1916bd5ceb5173e8a3540584085811584042810849d060aa1b66d3a5af8d9",
   "human_review_completed": 0,
   "training_ready": false,
   "statistics_scope": "All recorded generated candidates, including historical providers; reasons may overlap. No package completion timestamp exists in inherited state.",
@@ -80,7 +80,7 @@
   "accepted_ids_unique": true,
   "frozen_gold_hash_verified": true,
   "original_gold_sha256": "233befbf343d93fcef52aa6983e7c34508d531ca203ae9efcd0a7b3ede678234",
-  "unique_question_texts": null,
+  "unique_question_texts": 387,
   "model_visible_duplicates": 0,
   "validation_methods": {
     "deterministic_plus_independent_two_stage_gpt-5.4": 325,
@@ -93,7 +93,6 @@
   },
   "cloud_generation_launched": true,
   "blocked_on": [
-    "Finish two missing within-p42 semantic duplicate comparisons; v9 count is provisional",
     "Owner approval required before any further source package"
   ],
   "insufficiency_target_new_batches_percent": [
@@ -113,17 +112,27 @@
     "new_candidates_generated": 0,
     "accepted": 3,
     "needs_review": 1,
-    "dataset_version": 9,
+    "dataset_version": 10,
     "dataset_private": true,
-    "restored_and_verified": true
+    "restored_and_verified": true,
+    "missing_semantic_comparisons_repaired": 2,
+    "independent_audit_passed": true,
+    "files_verified": 5139
   },
-  "cloud_batch_quality_verified": false,
-  "pending_repair": {
-    "notebook_version_saved": 7,
-    "executed": false,
-    "missing_semantic_comparisons": 2,
-    "last_ui_error": "ConcurrencyViolation: expected sequence 13, actual sequence 12",
-    "minimum_user_action": "Reopen the saved notebook in a fresh editor draft; Save Version -> Save & Run All with existing secrets enabled",
-    "provider_calls_observed": 0
-  }
+  "cloud_batch_quality_verified": true,
+  "completed_repair": {
+    "notebook_execution_version": 8,
+    "executed": true,
+    "repair_success": true,
+    "dataset_version": 10,
+    "missing_semantic_comparisons_after": 0,
+    "new_candidates_generated": 0,
+    "teacher_api_calls": 0,
+    "independent_restore_audit": "passed"
+  },
+  "controlled_batch_verified_at_utc": "2026-10-25T17:55:54.687805+00:00",
+  "dataset_private": true,
+  "dataset_version": 10,
+  "archive_sha256": "dad0ab797bb97a3f3f522014fdd11f8db6627e7abd83e5cc8e8b647c72ae89b6",
+  "future_packages_authorised": false
 }
