@@ -7,6 +7,6 @@
   },
   "milestone_loader_implemented": false,
   "training_launched": false,
-  "regression_tests_passed": 276,
-  "regression_scope": "Existing research suite plus controlled package scope tests; no milestone path implemented"
+  "regression_tests_passed": 279,
+  "regression_scope": "Existing research suite plus controlled package, nested D750 and fictional continuation safety tests; no milestone loader path implemented"
 }

@@ -36,6 +36,7 @@ def test_nested_milestones_are_immutable(tmp_path):
     assert (tmp_path/'milestones/D500/train.jsonl').read_bytes() == first
     thousand = (tmp_path/'milestones/D1000/train.jsonl').read_text().splitlines()
     assert thousand[:500] == first.decode().splitlines()
+    assert (tmp_path/'milestones/D750/train.jsonl').read_text().splitlines() == thousand[:750]
     changed = [row(i) for i in range(1000)]
     changed[410]['question'] = 'Altered after freeze'
     with pytest.raises(ValueError, match='Frozen milestone changed'):

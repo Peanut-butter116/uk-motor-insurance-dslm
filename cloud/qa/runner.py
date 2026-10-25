@@ -200,7 +200,7 @@ def main(max_packages=1, target=500, package_id=None):
     load_archive(incoming/'checkpoint.bin', manifest, session)
     adapter = session/'cloud-adapter'
     adapter.mkdir(exist_ok=True)
-    for name in ('runner.py', 'state.py'):
+    for name in ('runner.py', 'state.py', 'quality.py'):
         shutil.copyfile(Path(__file__).parent/name, adapter/name)
     source = session/'uk-insurance-QA-data'
     run = session/'uk-insurance-QA-data-local/production-v1'
@@ -243,7 +243,16 @@ def main(max_packages=1, target=500, package_id=None):
     probe = importlib.util.module_from_spec(readiness); readiness.loader.exec_module(probe)
     argv = sys.argv; sys.argv = ['check_provider_readiness.py', '--probe']
     try:
-        probe.main()
+        # Reuse the original seven-day verification policy. Repeating synthetic
+        # probes on every subprocess restart wastes quota and can itself pause.
+        fresh = True
+        for provider, model in (('groq', values['GROQ_MODEL']), ('gemini', values['GEMINI_MODEL'])):
+            try:
+                providers.verify_receipt(run, provider, model)
+            except kelly.SafeAPIError:
+                fresh = False
+        if not fresh:
+            probe.main()
     finally:
         sys.argv = argv
         # Retain reservations even when readiness fails part way through.
@@ -272,6 +281,16 @@ def main(max_packages=1, target=500, package_id=None):
     OriginalBuild = production.Build
     initial_records = read_rows(run/'data/final/train.jsonl')
     initial_ids = {r['example_id'] for r in initial_records}
+    campaign_start = run/'campaign_start.json'
+    if target == 1000 and not campaign_start.exists():
+        state = json.loads((run/'state.json').read_text())
+        package_build = production.Build(session/'uk-insurance-dslm-data', session/'uk-insurance-QA-data-local')
+        all_packages = namespace['packages'](package_build)
+        done = {p['package_id'] for p in state['generation']}
+        write_json(campaign_start, {'input_version': version, 'accepted':len(initial_records),
+            'generation_count':len(state['generation']), 'generated_ids':[r['example_id'] for r in read_rows(run/'generated_candidates.jsonl')],
+            'eligible_package_count':sum(p['id'] not in done for p in all_packages), 'created_at_utc':utc()})
+        shutil.copyfile(run/'data/final/train.jsonl',run/'campaign_baseline.jsonl')
     last_persisted = [None]
     class CloudBuild(OriginalBuild):
         def save(self, status):
@@ -381,8 +400,13 @@ def main(max_packages=1, target=500, package_id=None):
             current = read_rows(self.run/'data/final/train.jsonl')
             verify_preserved(baseline, current)
             verify_preserved(initial_records, current)
+            if (self.run/'campaign_baseline.jsonl').exists():
+                verify_preserved(read_rows(self.run/'campaign_baseline.jsonl'),current)
             if sha(frozen_gold) != frozen_gold_sha256:
                 raise ValueError('Frozen evaluation benchmark changed during batch')
+            from quality import validate_new_records
+            qc = validate_new_records(self, current, baseline)
+            write_json(self.run/'cloud_quality_report.json', qc)
             freeze_milestones(self.run, current, baseline, utc())
             write_json(self.run/'cloud_progress.json', report(self.run))
             # A finished source package, quota pause, or final stop is durable before proceeding.

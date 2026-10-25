@@ -1,7 +1,7 @@
 {
   "total_accepted": 412,
-  "target": 2000,
-  "remaining_to_target": 1588,
+  "target": 1000,
+  "remaining_to_target": 588,
   "answerability": {
     "answerable": 338,
     "unanswerable": 74
@@ -93,7 +93,7 @@
   },
   "cloud_generation_launched": true,
   "blocked_on": [
-    "Owner approval required before any further source package"
+    "Kaggle editor Save & Run All required to attach existing secrets; API-start cannot attach secrets"
   ],
   "insufficiency_target_new_batches_percent": [
     20,
@@ -102,6 +102,7 @@
   "deadline": "2026-11-18",
   "milestones_remaining": {
     "500": 88,
+    "750": 338,
     "1000": 588,
     "2000": 1588
   },
@@ -134,5 +135,20 @@
   "dataset_private": true,
   "dataset_version": 10,
   "archive_sha256": "dad0ab797bb97a3f3f522014fdd11f8db6627e7abd83e5cc8e8b647c72ae89b6",
-  "future_packages_authorised": false
+  "future_packages_authorised": true,
+  "main_research_target": 2000,
+  "authorised_accepted_target": 1000,
+  "campaign": {
+    "notebook": "scarletthe0116/uk-motor-qa-resume",
+    "saved_version": 7,
+    "execution_confirmed": false,
+    "fresh_generation_test": "not started",
+    "same_session_continuation": true,
+    "batch_package_cap_after_test": 5,
+    "session_limit_hours": 4,
+    "cross_session_scheduler": false,
+    "starting_checkpoint": 10,
+    "starting_accepted": 412,
+    "verified_at_utc": "2026-10-25T18:13:50.751815+00:00"
+  }
 }

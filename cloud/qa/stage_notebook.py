@@ -16,7 +16,7 @@ def stage(output):
         {'cell_type': 'code', 'execution_count': None, 'outputs': [], 'metadata': {},
          'source': ["%pip install -q kaggle==2.2.5 groq==1.7.0 tiktoken==0.14.0 jsonschema\n"]}]
     code = "from pathlib import Path\nimport sys\np = Path('/kaggle/working/qa_adapter'); p.mkdir(exist_ok=True)\n"
-    for name in ('state.py', 'runner.py'):
+    for name in ('state.py', 'runner.py', 'quality.py'):
         code += '(p / '+repr(name)+').write_text('+repr((here/name).read_text())+')\n'
     code += "sys.path.insert(0, str(p))\nfrom runner import main\nmain(max_packages=1, target=500)\n"
     cells.append({'cell_type': 'code', 'execution_count': None, 'outputs': [], 'metadata': {}, 'source': code.splitlines(True)})

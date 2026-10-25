@@ -46,7 +46,7 @@ def report(run):
     new_labels = collections.Counter(r['answerability'] for r in new_records)
     generated_accepted = sum(decisions.get(key, {}).get('status') == 'accepted' for key in ids)
     return {
-        'total_accepted': len(records), 'target': 2000, 'remaining_to_target': max(0, 2000-len(records)),
+        'total_accepted': len(records), 'target': state.get('cloud_run_target',2000), 'remaining_to_target': max(0,state.get('cloud_run_target',2000)-len(records)),
         'answerability': dict(labels),
         'answerability_percent': {k: round(100*v/len(records), 2) for k, v in labels.items()} if records else {},
         'new_cloud_accepted': len(new_records), 'new_cloud_answerability': dict(new_labels),
@@ -77,7 +77,7 @@ def freeze_milestones(run, records, baseline, now):
         raise ValueError('Acceptance order changed')
     order += sorted(set(lookup)-set(order))
     write_json(order_path, order)
-    for n in (500, 1000, 2000):
+    for n in (500, 750, 1000, 2000):
         if len(order) < n:
             continue
         dest = run / 'milestones' / ('D'+str(n))
