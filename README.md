@@ -178,6 +178,8 @@ Check job state before submitting anything. The actual run already exists: **do 
 
 Reach **2,000 accepted examples**, with **3,000** as a stretch. Complete review and freeze the dataset by **18 November**. Finish reviewed dev-based model selection and the full SFT/RAG comparison, then deliver the model, reproducible repository and final research report by **18 December 2026**. [Roadmap](docs/project_roadmap.md).
 
+**25 October generation audit:** the authoritative export still contains 409 accepted records (335 answerable / 74 insufficient evidence). A private Kaggle production checkpoint and resumption notebook are prepared; generation awaits notebook secrets. The existing configured teacher is Groq GPT-OSS, independently verified by Gemini. Only 537 source packages remain, all Hastings Direct; the 2,000-row target likely needs additional eligible evidence. [Audit, cloud locations and restart instructions](cloud/qa/README.md) · [Reproducible progress](cloud/qa/progress.json).
+
 ## 11. Archived experiments
 
 [Historical research, reproduction notes, figures and earlier presentation materials](archive/README.md).

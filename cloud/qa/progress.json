@@ -1,0 +1,100 @@
+{
+  "total_accepted": 409,
+  "target": 2000,
+  "remaining_to_target": 1591,
+  "answerability": {
+    "answerable": 335,
+    "unanswerable": 74
+  },
+  "answerability_percent": {
+    "answerable": 81.91,
+    "unanswerable": 18.09
+  },
+  "candidates_generated": 608,
+  "generated_accepted": 274,
+  "generated_acceptance_rate": 0.4506578947368421,
+  "generated_dispositions": {
+    "needs_review": 266,
+    "accepted": 274,
+    "pending": 4,
+    "rejected": 49,
+    "failed_structured_output": 15
+  },
+  "verification_reasons": {
+    "judge_context_complete": 115,
+    "judge_review": 83,
+    "judge_answer_supported": 82,
+    "judge_citations_support_claims": 54,
+    "judge_label_correct": 35,
+    "judge_no_material_contradiction": 54,
+    "judge_numbers_conditions_correct": 79,
+    "unsupported_or_unresolved_claim": 181,
+    "independent_answerability_disagrees": 46,
+    "full_protected_semantic_screen_failed_or_uncertain": 41,
+    "no_answer_citations": 40,
+    "judge_reject": 49,
+    "near_duplicate_question": 12,
+    "persistent_retry_limit_exhausted": 15,
+    "judge_question_useful": 1,
+    "missing_answer_quote": 1
+  },
+  "duplicate_removals": 12,
+  "leakage_exclusions": 41,
+  "by_insurer": {
+    "Admiral": 35,
+    "Aviva": 57,
+    "AA": 43,
+    "Hastings Direct": 164,
+    "Ageas": 29,
+    "AXA": 81
+  },
+  "last_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p40",
+  "last_checkpoint_utc": "2026-10-18T22:55:37Z",
+  "status": "blocked_budget_or_api",
+  "train_sha256": "6ec5b3728bd6b25cae09d97c81974f371c76a47ce61d2d2795a6919257b44a8f",
+  "human_review_completed": 0,
+  "training_ready": false,
+  "statistics_scope": "All recorded generated candidates, including historical providers; reasons may overlap. No package completion timestamp exists in inherited state.",
+  "remaining_source_queue": {
+    "packages": 537,
+    "insurers": {
+      "Hastings Direct": 537
+    },
+    "max_candidates": 2148,
+    "historical_yield_additional_estimate": 968,
+    "estimated_total_before_new_gates": 1377,
+    "historical_package_yield_additional_estimate": 347,
+    "limitation": "Descriptive historical aggregate yield; not a forecast. Additional approved evidence likely required for 2000."
+  },
+  "audited_on": "2026-10-25",
+  "production_commit": "aef4d8c947750bb2fe1b10530c7060e2ab5cbda6",
+  "schema_valid": true,
+  "accepted_ids_unique": true,
+  "frozen_gold_hash_verified": true,
+  "original_gold_sha256": "233befbf343d93fcef52aa6983e7c34508d531ca203ae9efcd0a7b3ede678234",
+  "unique_question_texts": 384,
+  "model_visible_duplicates": 0,
+  "validation_methods": {
+    "deterministic_plus_independent_two_stage_gpt-5.4": 325,
+    "deterministic_plus_independent_two_stage_gemini-3.5-flash-lite": 84
+  },
+  "generation_packages": {
+    "source_review": 257,
+    "judged": 146,
+    "failed_structured_output": 21
+  },
+  "cloud_generation_launched": false,
+  "blocked_on": [
+    "Notebook secrets not configured"
+  ],
+  "insufficiency_target_new_batches_percent": [
+    20,
+    25
+  ],
+  "deadline": "2026-11-18",
+  "milestones_remaining": {
+    "500": 91,
+    "1000": 591,
+    "2000": 1591
+  }
+}
