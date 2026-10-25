@@ -26,7 +26,7 @@ One exact Gemini request was marked uncertain after the known HTTP 503 rejection
 ## Actual private cloud locations
 
 - Original immutable [409-row display/training snapshot, version 1](https://www.kaggle.com/datasets/scarletthe0116/uk-motor-interim-20261020-409/versions/1) stays unchanged.
-- [Private production checkpoint](https://www.kaggle.com/datasets/scarletthe0116/uk-motor-qa-production-v1) stores `checkpoint.tar.gz` and `migration_manifest.json`. Subsequent versions also contain `progress.json`. The archive retains accepted/pending/rejected records, reasons, state, evidence, historical response caches, quota ledgers, frozen protected data and pinned production code. It grants no redistribution rights.
+- [Private production checkpoint](https://www.kaggle.com/datasets/scarletthe0116/uk-motor-qa-production-v1) stores `checkpoint.bin` and `migration_manifest.json`. Subsequent versions also contain `progress.json`. The archive retains accepted/pending/rejected records, reasons, state, evidence, historical response caches, quota ledgers, frozen protected data and pinned production code. It grants no redistribution rights.
 - [Prepared private resumption notebook](https://www.kaggle.com/code/scarletthe0116/uk-motor-qa-resume) is saved **without execution**.
 - [Provider-free migration check](https://www.kaggle.com/code/scarletthe0116/uk-motor-qa-checkpoint-check) validates archive/file hashes, 409 IDs, accepted decisions and the frozen-gold hash inside Kaggle. Only its aggregate receipt is retained as notebook output.
 

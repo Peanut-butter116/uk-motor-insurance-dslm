@@ -60,7 +60,7 @@ def prepare(source, local, legacy, output):
     with (run/'process.lock').open('r') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         hashes = {name: sha(path) for name, path in files.items()}
-        with tarfile.open(output/'checkpoint.tar.gz', 'w:gz') as tar:
+        with tarfile.open(output/'checkpoint.bin', 'w:gz') as tar:
             for name, path in sorted(files.items()):
                 tar.add(path, arcname=name, recursive=False)
             link = tarfile.TarInfo('uk-insurance-QA-data-local/production-v1/data/final')
@@ -71,7 +71,7 @@ def prepare(source, local, legacy, output):
             raise ValueError('Checkpoint changed during migration')
     manifest = {'source_commit': PIN, 'files': hashes, 'baseline_count': len(baseline),
                 'baseline_train_sha256': sha(final/'train.jsonl'),
-                'archive_sha256': sha(output/'checkpoint.tar.gz'), 'format': 1}
+                'archive_sha256': sha(output/'checkpoint.bin'), 'format': 1}
     (output/'migration_manifest.json').write_text(json.dumps(manifest, indent=2)+'\n')
     (output/'dataset-metadata.json').write_text(json.dumps({
         'id': 'scarletthe0116/uk-motor-qa-production-v1',

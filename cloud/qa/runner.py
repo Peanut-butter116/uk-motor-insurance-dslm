@@ -53,7 +53,7 @@ def snapshot(session, output):
              and not {'__pycache__', '.git'}.intersection(p.parts)
              and p.name != '.env' and p.suffix != '.lock']
     hashes = {str(p.relative_to(session)): sha(p) for p in paths}
-    archive = output/'checkpoint.tar.gz'
+    archive = output/'checkpoint.bin'
     with tarfile.open(archive, 'w:gz') as tar:
         for path in sorted(paths):
             tar.add(path, arcname=str(path.relative_to(session)), recursive=False)
@@ -99,7 +99,7 @@ def persist(session, api):
                     return redirected
             token = os.environ['KAGGLE_API_TOKEN']
             version = info.current_version_number
-            for name in ('checkpoint.tar.gz', 'migration_manifest.json', 'progress.json'):
+            for name in ('checkpoint.bin', 'migration_manifest.json', 'progress.json'):
                 expected = sha(stage/name)
                 url = 'https://www.kaggle.com/api/v1/datasets/download/'+DATASET+'/'+name+'?datasetVersionNumber='+str(version)
                 request = Request(url, headers={'Authorization': 'Bearer '+token})
@@ -171,7 +171,7 @@ def main(max_packages=1, target=500):
     # Select the latest persistent state, not a potentially stale notebook attachment.
     incoming = Path('/kaggle/working/incoming'); incoming.mkdir(exist_ok=True)
     version = info.current_version_number
-    for name in ('migration_manifest.json', 'checkpoint.tar.gz'):
+    for name in ('migration_manifest.json', 'checkpoint.bin'):
         api.dataset_download_file(DATASET+'/'+str(version), name, path=str(incoming), quiet=True, force=True)
         zipped = incoming/(name+'.zip')
         if zipped.exists():
@@ -188,7 +188,7 @@ def main(max_packages=1, target=500):
         raise RuntimeError('Session directory already exists; restart in a fresh Kaggle session')
     session.mkdir()
     manifest = json.loads((incoming/'migration_manifest.json').read_text())
-    load_archive(incoming/'checkpoint.tar.gz', manifest, session)
+    load_archive(incoming/'checkpoint.bin', manifest, session)
     adapter = session/'cloud-adapter'
     adapter.mkdir(exist_ok=True)
     for name in ('runner.py', 'state.py'):

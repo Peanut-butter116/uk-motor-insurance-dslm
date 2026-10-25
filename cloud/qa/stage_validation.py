@@ -19,7 +19,7 @@ if not root.exists():
     assert len(matches) == 1
     root = matches[0].parent
 manifest = json.loads((root/'migration_manifest.json').read_text())
-archive = root/'checkpoint.tar.gz'
+archive = root/'checkpoint.bin'
 assert hashlib.sha256(archive.read_bytes()).hexdigest() == manifest['archive_sha256']
 dest = Path('/kaggle/working/checked'); dest.mkdir()
 with tarfile.open(archive) as tar:
