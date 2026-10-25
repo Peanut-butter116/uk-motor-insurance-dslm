@@ -92,3 +92,36 @@ def test_exact_inherited_http_recovery_keeps_audit_and_quota(tmp_path, monkeypat
     (tmp_path/'state.json').write_text(json.dumps({'stop_reason':'gemini transport timeout'}))
     with pytest.raises(RuntimeError, match='no longer matches'):
         runner.recover_inherited_503(tmp_path)
+
+
+def test_migration_with_relative_paths_includes_current_export(tmp_path, monkeypatch):
+    import prepare
+    import state
+    source = tmp_path/'source'; source.mkdir()
+    (source/'requirements.txt').write_text('jsonschema\n')
+    local = tmp_path/'local'; run = local/'production-v1'; final = run/'data/export_versions/fictional-version'
+    final.mkdir(parents=True)
+    content = ''.join(json.dumps(row(i))+'\n' for i in range(409))
+    (final/'train.jsonl').write_text(content)
+    (final/'dataset_manifest.json').write_text('{}')
+    (run/'data/final').symlink_to('export_versions/fictional-version', target_is_directory=True)
+    (run/'process.lock').write_text('')
+    for path, text in {
+        run/'before_provider_migration/final/train.jsonl': content,
+        local/'runs/20261017-motor-v1/legacy_motor_candidates.jsonl': '',
+        local/'kelly/cost_ledger.json': '[]',
+        tmp_path/'legacy/data/documents.jsonl': '',
+        tmp_path/'legacy/data/gold/gold_v2.jsonl': '',
+        tmp_path/'legacy/data/gold/clusters.json': '{}',
+    }.items():
+        path.parent.mkdir(parents=True, exist_ok=True); path.write_text(text)
+    monkeypatch.setattr(prepare.subprocess, 'check_output', lambda cmd, **kw: prepare.PIN if 'rev-parse' in cmd else '')
+    real_sha = state.sha
+    # Fictional baseline stands in for the explicitly pinned real baseline.
+    monkeypatch.setattr(state, 'sha', lambda path: '6ec5b3728bd6b25cae09d97c81974f371c76a47ce61d2d2795a6919257b44a8f' if Path(path).name == 'train.jsonl' else real_sha(path))
+    monkeypatch.chdir(tmp_path)
+    prepare.prepare('source', 'local', 'legacy', 'out')
+    with tarfile.open(tmp_path/'out/checkpoint.bin') as tar:
+        name = 'uk-insurance-QA-data-local/production-v1/data/export_versions/fictional-version/train.jsonl'
+        assert tar.extractfile(name).read().decode() == content
+        assert tar.getmember('uk-insurance-QA-data-local/production-v1/data/final').issym()

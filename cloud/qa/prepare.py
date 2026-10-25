@@ -16,7 +16,7 @@ SKIP = {'__pycache__', '.git', '.venv'}
 
 
 def prepare(source, local, legacy, output):
-    source, local, legacy, output = map(Path, (source, local, legacy, output))
+    source, local, legacy, output = (Path(p).resolve() for p in (source, local, legacy, output))
     if subprocess.check_output(['git', '-C', str(source), 'rev-parse', 'HEAD'], text=True).strip() != PIN:
         raise ValueError('Unexpected production code revision')
     if subprocess.check_output(['git', '-C', str(source), 'status', '--porcelain'], text=True).strip():
@@ -54,6 +54,9 @@ def prepare(source, local, legacy, output):
     files['uk-insurance-QA-data-local/kelly/cost_ledger.json'] = local/'kelly/cost_ledger.json'
     for name in ('documents.jsonl', 'gold/gold_v2.jsonl', 'gold/clusters.json'):
         files['uk-insurance-dslm-data/data/'+name] = legacy/'data'/name
+    current_train = 'uk-insurance-QA-data-local/production-v1/data/export_versions/'+final.name+'/train.jsonl'
+    if current_train not in files or files[current_train].resolve() != (final/'train.jsonl').resolve():
+        raise ValueError('Current immutable export was omitted from migration')
     output.mkdir(parents=True, exist_ok=True)
     # Lock out the original writer while reading its multi-file checkpoint.
     import fcntl

@@ -40,11 +40,18 @@ def report(run):
     decisions = state['decisions']
     reasons = collections.Counter(reason for key in ids for reason in decisions.get(key, {}).get('reasons', []))
     labels = collections.Counter(r['answerability'] for r in records)
+    baseline_path = run/'cloud_baseline.jsonl'
+    baseline_ids = {r['example_id'] for r in read_rows(baseline_path)} if baseline_path.exists() else {r['example_id'] for r in records}
+    new_records = [r for r in records if r['example_id'] not in baseline_ids]
+    new_labels = collections.Counter(r['answerability'] for r in new_records)
     generated_accepted = sum(decisions.get(key, {}).get('status') == 'accepted' for key in ids)
     return {
         'total_accepted': len(records), 'target': 2000, 'remaining_to_target': max(0, 2000-len(records)),
         'answerability': dict(labels),
         'answerability_percent': {k: round(100*v/len(records), 2) for k, v in labels.items()} if records else {},
+        'new_cloud_accepted': len(new_records), 'new_cloud_answerability': dict(new_labels),
+        'new_cloud_insufficiency_percent': round(100*new_labels['unanswerable']/len(new_records), 2) if new_records else None,
+        'new_cloud_insufficiency_target_percent': [20, 25],
         'candidates_generated': len(generated), 'generated_accepted': generated_accepted,
         'generated_acceptance_rate': generated_accepted/len(generated) if generated else None,
         'generated_dispositions': dict(collections.Counter(decisions.get(k, {}).get('status', 'pending') for k in ids)),

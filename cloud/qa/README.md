@@ -2,7 +2,7 @@
 
 Prepared 25 October 2026. Dataset freeze deadline: **18 November 2026**.
 
-**Generation has not been launched.** The owner chose to configure notebook secrets later. A separate provider-free Kaggle job checks the migrated checkpoint. Its receipt is recorded separately; it is not a generation success.
+**Generation has not been launched.** The owner chose to configure notebook secrets later. The separate provider-free Kaggle integrity check passed: 5,058 files, 409 accepted IDs/decisions, and the frozen benchmark hash verified. [Cloud validation receipt](migration_validation.json). This is not a generation success.
 
 ## Authoritative pipeline and audit
 
@@ -32,7 +32,7 @@ One exact Gemini request was marked uncertain after the known HTTP 503 rejection
 
 The old Kaggle dataset contains a training/display snapshot, not enough state to resume generation. The separate production dataset on the same private platform preserves that immutable snapshot and avoids mixing its display files with operational caches. Only existing data was temporarily archived for one-way migration; no new QA was generated or downloaded locally. Migration scratch is removed after validation.
 
-Privacy was checked through authenticated Kaggle metadata. GitHub reports the data-production repository private and this research repository public. Public files contain code, schemas, hashes and aggregates only. Existing source-permission owner attestations remain private, scoped to the already staged material and provider transfers; no new source rights, public redistribution, provider plan or training clearance is inferred.
+The current usable production checkpoint is **version 3**. Versions 1–2 are retained for migration history and must not be used: archive expansion and an omitted symlink target were detected and corrected before any generation. Privacy was checked through authenticated Kaggle metadata. [Setup receipt](cloud_receipt.json). GitHub reports the data-production repository private and this research repository public. Public files contain code, schemas, hashes and aggregates only. Existing source-permission owner attestations remain private, scoped to the already staged material and provider transfers; no new source rights, public redistribution, provider plan or training clearance is inferred.
 
 ## Enable and run the first cloud batch
 

@@ -219,6 +219,8 @@ def main(max_packages=1, target=500):
         probe.main()
     finally:
         sys.argv = argv
+        # Retain reservations even when readiness fails part way through.
+        persist(session, api)
     original_transport = providers.transport
     def reliable_transport(*args, **kwargs):
         for attempt in range(4):
@@ -253,6 +255,9 @@ def main(max_packages=1, target=500):
 
         def validate_batch(self, batch):
             super().validate_batch(batch)
+            self.supplemental_checks(batch)
+
+        def supplemental_checks(self, batch):
             # Repeat the SAME evidence-only independent solve over the complete
             # extracted policy, solely to screen false absence labels.
             constants = [n.value for n in ast.walk(ast.parse((source/'src/production.py').read_text()))
@@ -261,7 +266,7 @@ def main(max_packages=1, target=500):
             pages = read_rows(self.run/'corpus/pages.jsonl')
             for row in batch:
                 decision = self.state['decisions'].get(row['example_id'], {})
-                if row['example_id'] in initial_ids or row['answerability'] != 'unanswerable' or decision.get('status') != 'semantically_validated':
+                if row['example_id'] in initial_ids or row['answerability'] != 'unanswerable' or decision.get('status') != 'semantically_validated' or decision.get('full_document_absence_verified'):
                     continue
                 policy = [p for p in pages if p['source_id'] == row['source_id']]
                 if not policy or any(p['status'] != 'extracted_not_human_reviewed' for p in policy):
@@ -295,7 +300,7 @@ def main(max_packages=1, target=500):
             comparison = [r for r in self.candidates if self.state['decisions'].get(r['example_id'], {}).get('status') == 'accepted']
             for row in batch:
                 decision = self.state['decisions'].get(row['example_id'], {})
-                if decision.get('status') != 'semantically_validated':
+                if decision.get('status') != 'semantically_validated' or decision.get('training_semantic_screen'):
                     continue
                 data = {'protected_questions': [{'index': i, 'question': r['question']} for i, r in enumerate(comparison)],
                         'candidates': [{'id': row['example_id'], 'question': row['question']}]}
@@ -365,8 +370,14 @@ def main(max_packages=1, target=500):
         build.state['cloud_has_more_packages'] = len(eligible) > max_packages
         return eligible[:max_packages]
     namespace['packages'] = bounded_packages
-    # Preserve queues/usage and readiness recovery before first production request.
-    persist(session, api)
+    original_screen = namespace['screen']
+    def checked_screen(build, records):
+        # The inherited resume path screens already-validated provisional rows
+        # directly. Finish interrupted extra checks before that path can accept.
+        build.supplemental_checks(records)
+        return original_screen(build, records)
+    namespace['screen'] = checked_screen
+    # Readiness reservations and audited recovery are already durable.
     namespace['run']()
     status = json.loads((run/'state.json').read_text())['status']
     print(json.dumps({'finished_status': status, 'note': 'bounded session; source exhaustion may mean configured package cap'}))
