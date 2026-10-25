@@ -1,78 +1,80 @@
 {
-  "total_accepted": 412,
+  "total_accepted": 414,
   "target": 1000,
-  "remaining_to_target": 588,
+  "remaining_to_target": 586,
   "answerability": {
-    "answerable": 338,
+    "answerable": 340,
     "unanswerable": 74
   },
   "answerability_percent": {
-    "answerable": 82.04,
-    "unanswerable": 17.96
+    "answerable": 82.13,
+    "unanswerable": 17.87
   },
-  "new_cloud_accepted": 3,
+  "new_cloud_accepted": 5,
   "new_cloud_answerability": {
-    "answerable": 3
+    "answerable": 5
   },
   "new_cloud_insufficiency_percent": 0.0,
   "new_cloud_insufficiency_target_percent": [
     20,
     25
   ],
-  "candidates_generated": 608,
-  "generated_accepted": 277,
-  "generated_acceptance_rate": 0.4555921052631579,
+  "candidates_generated": 612,
+  "generated_accepted": 279,
+  "generated_acceptance_rate": 0.45588235294117646,
   "generated_dispositions": {
-    "accepted": 277,
-    "needs_review": 267,
+    "accepted": 279,
     "rejected": 49,
+    "needs_review": 269,
     "failed_structured_output": 15
   },
   "verification_reasons": {
     "judge_answer_supported": 82,
     "judge_citations_support_claims": 54,
-    "judge_context_complete": 115,
-    "judge_label_correct": 35,
     "judge_no_material_contradiction": 54,
     "judge_numbers_conditions_correct": 79,
-    "judge_review": 83,
-    "unsupported_or_unresolved_claim": 181,
-    "independent_answerability_disagrees": 46,
-    "no_answer_citations": 40,
     "judge_reject": 49,
+    "unsupported_or_unresolved_claim": 182,
+    "independent_answerability_disagrees": 46,
+    "judge_label_correct": 35,
+    "no_answer_citations": 40,
+    "judge_context_complete": 115,
     "near_duplicate_question": 12,
-    "missing_answer_quote": 1,
+    "judge_review": 83,
     "full_protected_semantic_screen_failed_or_uncertain": 41,
     "persistent_retry_limit_exhausted": 15,
+    "full_document_extraction_incomplete": 1,
     "judge_question_useful": 1,
-    "full_document_extraction_incomplete": 1
+    "training_semantic_duplicate_or_uncertain": 1,
+    "missing_answer_quote": 1
   },
-  "duplicate_removals": 12,
+  "duplicate_removals": 13,
   "leakage_exclusions": 41,
   "by_insurer": {
     "Admiral": 35,
     "Aviva": 57,
     "AA": 43,
-    "Hastings Direct": 167,
+    "Hastings Direct": 169,
     "Ageas": 29,
     "AXA": 81
   },
-  "last_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p42",
-  "last_checkpoint_utc": "2026-10-25T17:52:32Z",
+  "last_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p43",
+  "last_checkpoint_utc": "2026-10-25T18:24:13Z",
   "status": "paused_cloud_batch_limit",
-  "train_sha256": "1ec1916bd5ceb5173e8a3540584085811584042810849d060aa1b66d3a5af8d9",
+  "train_sha256": "621ff3e869ea98e29f993ee1c77b74ae135dcb9fbbec20dea029c28f560c4164",
   "human_review_completed": 0,
   "training_ready": false,
   "statistics_scope": "All recorded generated candidates, including historical providers; reasons may overlap. No package completion timestamp exists in inherited state.",
   "remaining_source_queue": {
-    "packages": 536,
+    "packages": 535,
     "insurers": {
-      "Hastings Direct": 536
+      "Hastings Direct": 535
     },
-    "max_new_candidates": 2144,
+    "max_new_candidates": 2140,
     "historical_all_provider_additional_estimate": 419,
     "historical_free_workflow_additional_estimate": 549,
-    "limitation": "Pre-test historical package yields, not forecasts; additional exclusions and ordered overlapping pages limit extrapolation."
+    "limitation": "Pre-test historical package yields, not forecasts; additional exclusions and ordered overlapping pages limit extrapolation.",
+    "scope": "After confirmed p43 completion; the running batch may have advanced further since this observation."
   },
   "audited_on": "2026-10-25",
   "production_commit": "aef4d8c947750bb2fe1b10530c7060e2ab5cbda6",
@@ -84,27 +86,25 @@
   "model_visible_duplicates": 0,
   "validation_methods": {
     "deterministic_plus_independent_two_stage_gpt-5.4": 325,
-    "deterministic_plus_independent_two_stage_gemini-3.5-flash-lite": 87
+    "deterministic_plus_independent_two_stage_gemini-3.5-flash-lite": 89
   },
   "generation_packages": {
     "source_review": 257,
-    "judged": 147,
+    "judged": 148,
     "failed_structured_output": 21
   },
   "cloud_generation_launched": true,
-  "blocked_on": [
-    "Kaggle editor Save & Run All required to attach existing secrets; API-start cannot attach secrets"
-  ],
+  "blocked_on": [],
   "insufficiency_target_new_batches_percent": [
     20,
     25
   ],
   "deadline": "2026-11-18",
   "milestones_remaining": {
-    "500": 88,
-    "750": 338,
-    "1000": 588,
-    "2000": 1588
+    "500": 86,
+    "750": 336,
+    "1000": 586,
+    "2000": 1586
   },
   "cloud_batch_completed": true,
   "last_controlled_batch": {
@@ -133,22 +133,45 @@
   },
   "controlled_batch_verified_at_utc": "2026-10-25T17:55:54.687805+00:00",
   "dataset_private": true,
-  "dataset_version": 10,
-  "archive_sha256": "dad0ab797bb97a3f3f522014fdd11f8db6627e7abd83e5cc8e8b647c72ae89b6",
+  "dataset_version": 17,
   "future_packages_authorised": true,
   "main_research_target": 2000,
   "authorised_accepted_target": 1000,
   "campaign": {
     "notebook": "scarletthe0116/uk-motor-qa-resume",
     "saved_version": 7,
-    "execution_confirmed": false,
-    "fresh_generation_test": "not started",
+    "execution_confirmed": true,
+    "fresh_generation_test": "passed",
     "same_session_continuation": true,
     "batch_package_cap_after_test": 5,
     "session_limit_hours": 4,
     "cross_session_scheduler": false,
     "starting_checkpoint": 10,
     "starting_accepted": 412,
-    "verified_at_utc": "2026-10-25T18:13:50.751815+00:00"
-  }
+    "verified_at_utc": "2026-10-25T18:13:50.751815+00:00",
+    "execution_status": "RUNNING",
+    "latest_observed_checkpoint": 17,
+    "execution_version": 8,
+    "new_candidates_generated": 4,
+    "new_accepted": 2,
+    "new_review": 2,
+    "new_rejections": 0,
+    "first_fresh_acceptance_rate": 0.5,
+    "first_fresh_failure_reasons": {
+      "unsupported_or_unresolved_claim": 1,
+      "training_semantic_duplicate_or_uncertain": 1
+    },
+    "automatic_continuation_confirmed": true,
+    "progress_monitor": "uk-motor-qa-cloud-progress",
+    "progress_monitor_interval_minutes": 15,
+    "remaining_to_target": 586,
+    "confirmed_first_package_completed": true
+  },
+  "last_observed_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p43",
+  "latest_observation_utc": "2026-10-25T18:27:15.876218+00:00",
+  "latest_dataset_privacy_verified": true,
+  "v10_archive_sha256": "dad0ab797bb97a3f3f522014fdd11f8db6627e7abd83e5cc8e8b647c72ae89b6",
+  "latest_checkpoint_archive_sha256": null,
+  "last_external_full_restore_audit_version": 10,
+  "current_checkpoint_qc": "Provider-free acceptance audit and authenticated streaming persistence checks run inside each campaign export"
 }
