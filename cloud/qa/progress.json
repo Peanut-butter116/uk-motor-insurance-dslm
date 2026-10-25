@@ -117,5 +117,13 @@
     "dataset_private": true,
     "restored_and_verified": true
   },
-  "cloud_batch_quality_verified": false
+  "cloud_batch_quality_verified": false,
+  "pending_repair": {
+    "notebook_version_saved": 7,
+    "executed": false,
+    "missing_semantic_comparisons": 2,
+    "last_ui_error": "ConcurrencyViolation: expected sequence 13, actual sequence 12",
+    "minimum_user_action": "Reopen the saved notebook in a fresh editor draft; Save Version -> Save & Run All with existing secrets enabled",
+    "provider_calls_observed": 0
+  }
 }
