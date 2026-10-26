@@ -1,80 +1,80 @@
 {
-  "total_accepted": 449,
+  "total_accepted": 450,
   "target": 1000,
-  "remaining_to_target": 551,
+  "remaining_to_target": 550,
   "answerability": {
-    "answerable": 375,
+    "answerable": 376,
     "unanswerable": 74
   },
   "answerability_percent": {
-    "answerable": 83.52,
-    "unanswerable": 16.48
+    "answerable": 83.56,
+    "unanswerable": 16.44
   },
-  "new_cloud_accepted": 40,
+  "new_cloud_accepted": 41,
   "new_cloud_answerability": {
-    "answerable": 40
+    "answerable": 41
   },
   "new_cloud_insufficiency_percent": 0.0,
   "new_cloud_insufficiency_target_percent": [
     20,
     25
   ],
-  "candidates_generated": 732,
-  "generated_accepted": 314,
-  "generated_acceptance_rate": 0.42896174863387976,
+  "candidates_generated": 744,
+  "generated_accepted": 315,
+  "generated_acceptance_rate": 0.42338709677419356,
   "generated_dispositions": {
-    "needs_review": 341,
-    "accepted": 314,
+    "needs_review": 351,
     "rejected": 61,
-    "failed_structured_output": 16
+    "accepted": 315,
+    "failed_structured_output": 17
   },
   "verification_reasons": {
     "full_protected_semantic_screen_failed_or_uncertain": 44,
-    "unsupported_or_unresolved_claim": 202,
-    "missing_answer_quote": 1,
-    "no_answer_citations": 62,
+    "no_answer_citations": 68,
     "judge_answer_supported": 93,
     "judge_citations_support_claims": 63,
+    "judge_context_complete": 122,
     "judge_label_correct": 48,
     "judge_no_material_contradiction": 62,
     "judge_numbers_conditions_correct": 86,
     "judge_reject": 61,
-    "independent_answerability_disagrees": 62,
-    "full_document_extraction_incomplete": 23,
-    "judge_context_complete": 122,
+    "unsupported_or_unresolved_claim": 202,
+    "independent_answerability_disagrees": 63,
+    "near_duplicate_question": 17,
     "judge_review": 83,
     "training_semantic_duplicate_or_uncertain": 12,
-    "near_duplicate_question": 14,
-    "persistent_retry_limit_exhausted": 16,
-    "judge_question_useful": 3
+    "persistent_retry_limit_exhausted": 17,
+    "judge_question_useful": 3,
+    "full_document_extraction_incomplete": 25,
+    "missing_answer_quote": 1
   },
-  "duplicate_removals": 26,
+  "duplicate_removals": 29,
   "leakage_exclusions": 44,
   "by_insurer": {
     "Admiral": 35,
     "Aviva": 57,
     "AA": 43,
-    "Hastings Direct": 204,
+    "Hastings Direct": 205,
     "Ageas": 29,
     "AXA": 81
   },
-  "last_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p80",
-  "last_checkpoint_utc": "2026-10-25T21:37:24Z",
-  "status": "generating",
-  "train_sha256": "f5dc3cfd8659ddbf1cd1511ac6cf59537b98f92bee890e7508f0b86634a63e52",
+  "last_completed_package": "d91f8be4c3d271a9a811bca81a4dfcbdee1305ec9659e4b70e3fd3205a1081d6:p15",
+  "last_checkpoint_utc": "2026-10-25T22:18:44Z",
+  "status": "paused_provider_quota",
+  "train_sha256": "fbefdc7a54baf9e89a0994a17270c237daa62e1d0d2b857dacdb051ed7763e86",
   "human_review_completed": 0,
   "training_ready": false,
   "statistics_scope": "All recorded generated candidates, including historical providers; reasons may overlap. No package completion timestamp exists in inherited state.",
   "remaining_source_queue": {
-    "packages": null,
+    "packages": 484,
     "insurers": {
-      "Hastings Direct": null
+      "Hastings Direct": 484
     },
-    "max_new_candidates": null,
+    "max_new_candidates": 1936,
     "historical_all_provider_additional_estimate": 419,
     "historical_free_workflow_additional_estimate": 549,
     "limitation": "Pre-test historical package yields, not forecasts; additional exclusions and ordered overlapping pages limit extrapolation.",
-    "scope": "Last confirmed queue count after p43; subsequent processing is active and exact remaining count will be refreshed from the campaign receipt."
+    "scope": "Exact final campaign receipt: 52 of the initial 536 packages completed; 484 remain"
   },
   "audited_on": "2026-10-25",
   "production_commit": "aef4d8c947750bb2fe1b10530c7060e2ab5cbda6",
@@ -86,21 +86,23 @@
   "model_visible_duplicates": 0,
   "validation_methods": {
     "deterministic_plus_independent_two_stage_gpt-5.4": 325,
-    "deterministic_plus_independent_two_stage_gemini-3.5-flash-lite": 124
+    "deterministic_plus_independent_two_stage_gemini-3.5-flash-lite": 125
   },
   "generation_packages": null,
   "cloud_generation_launched": true,
-  "blocked_on": [],
+  "blocked_on": [
+    "Completed four-hour cloud session requires a fresh Kaggle editor Save & Run All to attach existing secrets; recorded Groq quota restart time has elapsed"
+  ],
   "insufficiency_target_new_batches_percent": [
     20,
     25
   ],
   "deadline": "2026-11-18",
   "milestones_remaining": {
-    "500": 51,
-    "750": 301,
-    "1000": 551,
-    "2000": 1551
+    "500": 50,
+    "750": 300,
+    "1000": 550,
+    "2000": 1550
   },
   "cloud_batch_completed": true,
   "last_controlled_batch": {
@@ -129,7 +131,7 @@
   },
   "controlled_batch_verified_at_utc": "2026-10-25T17:55:54.687805+00:00",
   "dataset_private": true,
-  "dataset_version": 134,
+  "dataset_version": 154,
   "future_packages_authorised": true,
   "main_research_target": 2000,
   "authorised_accepted_target": 1000,
@@ -145,12 +147,12 @@
     "starting_checkpoint": 10,
     "starting_accepted": 412,
     "verified_at_utc": "2026-10-25T18:13:50.751815+00:00",
-    "execution_status": "RUNNING",
-    "latest_observed_checkpoint": 134,
+    "execution_status": "COMPLETE",
+    "latest_observed_checkpoint": 154,
     "execution_version": 8,
-    "new_candidates_generated": 124,
-    "new_accepted": 37,
-    "new_review": 74,
+    "new_candidates_generated": 136,
+    "new_accepted": 38,
+    "new_review": 84,
     "new_rejections": 12,
     "first_fresh_acceptance_rate": 0.5,
     "first_fresh_failure_reasons": {
@@ -160,41 +162,59 @@
     "automatic_continuation_confirmed": true,
     "progress_monitor": "uk-motor-qa-cloud-progress",
     "progress_monitor_interval_minutes": 15,
-    "remaining_to_target": 551,
+    "remaining_to_target": 550,
     "confirmed_first_package_completed": true,
-    "current_api_status": "generating; notebook RUNNING",
+    "current_api_status": "Groq quota pause saved; session ended safely; recorded restart time has elapsed",
     "new_candidate_failure_reasons": {
-      "full_protected_semantic_screen_failed_or_uncertain": 3,
+      "training_semantic_duplicate_or_uncertain": 12,
       "unsupported_or_unresolved_claim": 21,
-      "no_answer_citations": 22,
+      "no_answer_citations": 28,
+      "judge_context_complete": 7,
+      "judge_label_correct": 13,
+      "judge_reject": 12,
+      "independent_answerability_disagrees": 17,
+      "full_document_extraction_incomplete": 24,
       "judge_answer_supported": 11,
       "judge_citations_support_claims": 9,
-      "judge_label_correct": 13,
-      "judge_no_material_contradiction": 8,
       "judge_numbers_conditions_correct": 7,
-      "judge_reject": 12,
-      "independent_answerability_disagrees": 16,
-      "full_document_extraction_incomplete": 22,
-      "judge_context_complete": 7,
-      "training_semantic_duplicate_or_uncertain": 12,
-      "near_duplicate_question": 2,
-      "persistent_retry_limit_exhausted": 1,
-      "judge_question_useful": 2
+      "full_protected_semantic_screen_failed_or_uncertain": 3,
+      "judge_no_material_contradiction": 8,
+      "judge_question_useful": 2,
+      "near_duplicate_question": 5,
+      "persistent_retry_limit_exhausted": 2
     },
     "new_provisional": 0,
     "last_monitor_check": {
-      "checked_at_utc": "2026-10-25T21:42:00.399928+00:00",
+      "checked_at_utc": "2026-10-26T00:23:57.900156+00:00",
       "monitor_check_succeeded": true,
-      "transient_connection_failure_recovered_on_retry": true,
-      "cloud_execution_status": "RUNNING"
+      "cloud_execution_status": "COMPLETE",
+      "scope": "Exact completed-notebook aggregate receipts; a separate aggregate progress fetch failed intermittently"
     },
-    "new_structured_failures": 1
+    "new_structured_failures": 2,
+    "packages_completed_since_start": 52,
+    "packages_remaining": 484,
+    "finished_at_utc": "2026-10-25T22:20:47.031531+00:00",
+    "stop_reason": "Quota wait exceeds remaining session; restart from newest checkpoint after resume_after_epoch",
+    "resume_after_epoch": 1792966782.769088,
+    "quota_provider": "groq",
+    "fresh_test_passed": true,
+    "progress_monitor_status": "PAUSED",
+    "latest_verified_receipt": {
+      "dataset": "scarletthe0116/uk-motor-qa-production-v1",
+      "version": 154,
+      "is_private": true,
+      "archive_sha256": "97c6e2f90893367242b987492230fa77e009afa098fabe4967c36af68d1bcb19",
+      "verified_at_utc": "2026-10-25T22:22:34.581559+00:00",
+      "accepted": 450
+    },
+    "new_candidate_acceptance_rate": 0.27941176470588236,
+    "automatic_continuation_currently_running": false
   },
   "last_observed_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p80",
-  "latest_observation_utc": "2026-10-25T21:42:00.399928+00:00",
+  "latest_observation_utc": "2026-10-26T00:23:57.900156+00:00",
   "latest_dataset_privacy_verified": true,
   "v10_archive_sha256": "dad0ab797bb97a3f3f522014fdd11f8db6627e7abd83e5cc8e8b647c72ae89b6",
-  "latest_checkpoint_archive_sha256": null,
+  "latest_checkpoint_archive_sha256": "97c6e2f90893367242b987492230fa77e009afa098fabe4967c36af68d1bcb19",
   "last_external_full_restore_audit_version": 10,
   "current_checkpoint_qc": "Provider-free acceptance audit and authenticated streaming persistence checks run inside each campaign export",
   "last_external_unique_question_count": {
