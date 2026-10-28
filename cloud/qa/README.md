@@ -1,5 +1,14 @@
 # Resume the existing QA pipeline in Kaggle
 
+**28 October: owner-authorised methodology change.** The opt-in
+[parallel generation-only campaign](FAST_GENERATION.md) preserves the verified
+export and writes new **unverified** Groq/Gemini records to a separate private
+partition. The legacy writer was stopped at private checkpoint v217, with 462
+verified records. Accelerated code is saved as notebook v11 but has not executed:
+Kaggle's editor remains on Loading. See the
+[actual setup status](reports/fast-campaign-setup-20261028.json). The verified
+workflow below remains available; its historical completion figures are retained.
+
 Prepared 25 October 2026. Dataset freeze deadline: **18 November 2026**.
 
 **Controlled p42 resumption completed and independently audited.** Private checkpoint **v10** contains **412 accepted records: 338 answerable and 74 insufficient evidence**. The four cached Groq candidates were resumed without regeneration: three accepted, one held for review. All 409 originals and the frozen benchmark are unchanged. [Final aggregate progress](progress.json) · [Independent v10 restore/QC audit](reports/post-batch-audit-v10.json). The owner has now authorised free-tier continuation to 1,000, beginning with a fresh package. **Execution v8 is COMPLETE.** Verified private **v154** contains **450 accepted (376 answerable / 74 insufficient)** and 744 cumulative candidates. The session processed 52 source packages and generated 136 fresh candidates: 38 accepted, 84 review, 12 rejected and two structured-output failures. There are 484 packages left. The Groq quota wait exceeded the remaining four-hour session window; it was saved and has now elapsed. A fresh editor start is required to continue; the completed-session monitor is paused. Paid fallback and QLoRA training remain excluded.

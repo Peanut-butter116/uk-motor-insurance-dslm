@@ -19,37 +19,38 @@
     20,
     25
   ],
-  "candidates_generated": 788,
+  "candidates_generated": 796,
   "generated_accepted": 327,
-  "generated_acceptance_rate": 0.4149746192893401,
+  "generated_acceptance_rate": 0.4108040201005025,
   "generated_dispositions": {
     "accepted": 327,
-    "needs_review": 379,
     "failed_structured_output": 19,
-    "rejected": 63
+    "needs_review": 386,
+    "rejected": 63,
+    "semantically_validated": 1
   },
   "verification_reasons": {
+    "persistent_retry_limit_exhausted": 19,
+    "full_document_extraction_incomplete": 29,
+    "unsupported_or_unresolved_claim": 208,
+    "no_answer_citations": 83,
     "judge_answer_supported": 95,
     "judge_citations_support_claims": 63,
-    "judge_review": 83,
-    "unsupported_or_unresolved_claim": 207,
-    "no_answer_citations": 82,
-    "persistent_retry_limit_exhausted": 19,
-    "full_protected_semantic_screen_failed_or_uncertain": 44,
     "judge_context_complete": 122,
-    "judge_reject": 63,
-    "judge_label_correct": 50,
-    "independent_answerability_disagrees": 66,
-    "judge_question_useful": 3,
-    "full_document_extraction_incomplete": 28,
     "judge_no_material_contradiction": 63,
     "judge_numbers_conditions_correct": 87,
+    "judge_review": 83,
+    "training_semantic_duplicate_or_uncertain": 21,
     "near_duplicate_question": 21,
-    "missing_answer_quote": 1,
-    "training_semantic_duplicate_or_uncertain": 18
+    "judge_label_correct": 50,
+    "judge_reject": 63,
+    "independent_answerability_disagrees": 66,
+    "full_protected_semantic_screen_failed_or_uncertain": 45,
+    "judge_question_useful": 3,
+    "missing_answer_quote": 1
   },
-  "duplicate_removals": 39,
-  "leakage_exclusions": 44,
+  "duplicate_removals": 42,
+  "leakage_exclusions": 45,
   "by_insurer": {
     "Admiral": 35,
     "Aviva": 57,
@@ -58,9 +59,9 @@
     "Ageas": 29,
     "AXA": 81
   },
-  "last_completed_package": "d91f8be4c3d271a9a811bca81a4dfcbdee1305ec9659e4b70e3fd3205a1081d6:p40",
-  "last_checkpoint_utc": "2026-10-28T18:03:46Z",
-  "status": "generating",
+  "last_completed_package": "d91f8be4c3d271a9a811bca81a4dfcbdee1305ec9659e4b70e3fd3205a1081d6:p41",
+  "last_checkpoint_utc": "2026-10-28T18:20:33Z",
+  "status": "paused_provider_quota",
   "train_sha256": "9946b87682442ab0948639e80c57a3179059cd563331f1d58fcb8b4ee39448c3",
   "human_review_completed": 0,
   "training_ready": false,
@@ -90,7 +91,9 @@
   },
   "generation_packages": null,
   "cloud_generation_launched": true,
-  "blocked_on": [],
+  "blocked_on": [
+    "Kaggle editor stays Loading; Run All disabled; UI Save & Run All did not create execution12"
+  ],
   "insufficiency_target_new_batches_percent": [
     20,
     25
@@ -129,7 +132,7 @@
   },
   "controlled_batch_verified_at_utc": "2026-10-25T17:55:54.687805+00:00",
   "dataset_private": true,
-  "dataset_version": 212,
+  "dataset_version": 217,
   "future_packages_authorised": true,
   "main_research_target": 2000,
   "authorised_accepted_target": 1000,
@@ -146,7 +149,7 @@
     "starting_accepted": 412,
     "verified_at_utc": "2026-10-25T18:13:50.751815+00:00",
     "execution_status": "COMPLETE",
-    "latest_observed_checkpoint": 212,
+    "latest_observed_checkpoint": 217,
     "execution_version": 8,
     "new_candidates_generated": 136,
     "new_accepted": 38,
@@ -162,7 +165,7 @@
     "progress_monitor_interval_minutes": 15,
     "remaining_to_target": 538,
     "confirmed_first_package_completed": true,
-    "current_api_status": "Latest persisted state generating; notebook RUNNING",
+    "current_api_status": "Legacy writer stopped for authorised switch; accelerated code saved but not running",
     "new_candidate_failure_reasons": {
       "training_semantic_duplicate_or_uncertain": 12,
       "unsupported_or_unresolved_claim": 21,
@@ -196,7 +199,7 @@
     "resume_after_epoch": 1792966782.769088,
     "quota_provider": "groq",
     "fresh_test_passed": true,
-    "progress_monitor_status": "ACTIVE",
+    "progress_monitor_status": "PAUSED",
     "latest_verified_receipt": {
       "dataset": "scarletthe0116/uk-motor-qa-production-v1",
       "version": 154,
@@ -206,9 +209,9 @@
       "accepted": 450
     },
     "new_candidate_acceptance_rate": 0.27941176470588236,
-    "automatic_continuation_currently_running": true,
+    "automatic_continuation_currently_running": false,
     "latest_execution_version": 10,
-    "latest_execution_status": "RUNNING",
+    "latest_execution_status": "CANCEL_ACKNOWLEDGED",
     "current_execution_progress": {
       "checked_at_utc": "2026-10-28T18:06:26.067741+00:00",
       "execution_version": 10,
@@ -239,10 +242,10 @@
     }
   },
   "last_observed_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p80",
-  "latest_observation_utc": "2026-10-28T18:06:26.067741+00:00",
+  "latest_observation_utc": "2026-10-28T18:30:41.041783+00:00",
   "latest_dataset_privacy_verified": true,
   "v10_archive_sha256": "dad0ab797bb97a3f3f522014fdd11f8db6627e7abd83e5cc8e8b647c72ae89b6",
-  "latest_checkpoint_archive_sha256": null,
+  "latest_checkpoint_archive_sha256": "40d8ef9c8475ee84b2507f990a95dbd2e4b5e0fddf6d134a65256e144f9cbc7a",
   "last_external_full_restore_audit_version": 10,
   "current_checkpoint_qc": "Provider-free acceptance audit and authenticated streaming persistence checks run inside each campaign export",
   "last_external_unique_question_count": {
@@ -278,7 +281,7 @@
     "inherited_progress_timestamp": "2026-10-25T22:18:44Z",
     "note": "New ready private checkpoint observed. Provider progress timestamp and paused status remain inherited; fresh model calls or acceptances not yet confirmed. Campaign cumulative counters originate at 412 accepted/608 candidates."
   },
-  "current_status": "RUNNING",
+  "current_status": "ACCELERATED_START_BLOCKED",
   "previous_restart_attempt": {
     "checked_at_utc": "2026-10-28T15:23:39.966978+00:00",
     "notebook": "scarletthe0116/uk-motor-qa-resume",
@@ -299,5 +302,38 @@
     "progress_monitor": "PAUSED",
     "automatic_cross_session_restart": false,
     "next_action": "Use the existing Kaggle editor Save Version -> Save & Run All once the editor and secrets service load successfully; no repeated API retries"
+  },
+  "accelerated_campaign": {
+    "checked_at_utc": "2026-10-28T18:30:41.041783+00:00",
+    "mode": "dual_generator_unverified_v1",
+    "owner_authorised_methodology_change": true,
+    "legacy_writer_execution": 10,
+    "legacy_writer_stopped": true,
+    "latest_private_checkpoint": 217,
+    "dataset_private": true,
+    "verified_count": 462,
+    "verified_answerability": {
+      "answerable": 388,
+      "unanswerable": 74
+    },
+    "verified_train_sha256": "9946b87682442ab0948639e80c57a3179059cd563331f1d58fcb8b4ee39448c3",
+    "archive_sha256": "40d8ef9c8475ee84b2507f990a95dbd2e4b5e0fddf6d134a65256e144f9cbc7a",
+    "original409_and_frozen_gold_hashes_present": true,
+    "fast_groq_count": 0,
+    "fast_gemini_count": 0,
+    "combined_total": 462,
+    "remaining_to_target": 538,
+    "saved_notebook_version": 11,
+    "save_only_not_executed": true,
+    "accelerated_execution_started": false,
+    "editor_save_run_attempt_created_execution": false,
+    "blocker": "Kaggle editor stays Loading; Run All disabled; UI Save & Run All did not create execution12",
+    "tests_passed": 284,
+    "test_scope": "Fictional local tests; concurrent workers, independent quota pause, deterministic duplicate/benchmark checks, preservation, target cap and legacy regressions",
+    "actual_cloud_smoke_passed": false,
+    "measured_cloud_throughput": null,
+    "cross_session_scheduler": false,
+    "monitor_status": "PAUSED",
+    "required_action": "Open fresh editor, confirm Parallel Groq + Gemini generation \u2014 UNVERIFIED heading and existing secrets; Save Version -> Save & Run All. Report running version."
   }
 }
