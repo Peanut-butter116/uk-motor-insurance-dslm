@@ -91,7 +91,8 @@
   "generation_packages": null,
   "cloud_generation_launched": true,
   "blocked_on": [
-    "Completed four-hour cloud session requires a fresh Kaggle editor Save & Run All to attach existing secrets; recorded Groq quota restart time has elapsed"
+    "Kaggle secrets retrieval ConnectionError in execution v9",
+    "Kaggle editor stuck loading; fresh editor Save & Run All required once service recovers"
   ],
   "insufficiency_target_new_batches_percent": [
     20,
@@ -208,7 +209,9 @@
       "accepted": 450
     },
     "new_candidate_acceptance_rate": 0.27941176470588236,
-    "automatic_continuation_currently_running": false
+    "automatic_continuation_currently_running": false,
+    "latest_execution_version": 9,
+    "latest_execution_status": "ERROR"
   },
   "last_observed_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p80",
   "latest_observation_utc": "2026-10-26T00:23:57.900156+00:00",
@@ -220,5 +223,27 @@
   "last_external_unique_question_count": {
     "dataset_version": 10,
     "count": 387
-  }
+  },
+  "latest_restart_attempt": {
+    "checked_at_utc": "2026-10-28T15:23:39.966978+00:00",
+    "notebook": "scarletthe0116/uk-motor-qa-resume",
+    "execution_version": 9,
+    "state": "ERROR",
+    "restart_requested_by_owner": true,
+    "code_modified": false,
+    "source_sha256": "fc928e430e97f2f4d5e85d9f787000100e11b942d1ad57c3dd6a518e5244270d",
+    "failure_stage": "Kaggle secrets retrieval before campaign/model calls",
+    "error_type": "ConnectionError",
+    "error_message": "Connection error trying to communicate with service.",
+    "browser_editor_state": "Loading; cells unavailable",
+    "new_generation_confirmed": false,
+    "new_provider_calls": 0,
+    "dataset_version": 154,
+    "accepted": 450,
+    "dataset_private": true,
+    "progress_monitor": "PAUSED",
+    "automatic_cross_session_restart": false,
+    "next_action": "Use the existing Kaggle editor Save Version -> Save & Run All once the editor and secrets service load successfully; no repeated API retries"
+  },
+  "current_status": "BLOCKED"
 }
