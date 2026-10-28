@@ -1,62 +1,62 @@
 {
-  "checked_at_utc": "2026-10-28T19:35:09.032690+00:00",
+  "checked_at_utc": "2026-10-28T19:50:41.626593+00:00",
   "execution_version": 14,
   "execution_status": "RUNNING",
-  "private_checkpoint_version": 238,
+  "private_checkpoint_version": 245,
   "dataset_private": true,
   "dataset_status": "ready",
   "fast_campaign": {
     "mode": "dual_generator_unverified_v1",
     "verification_status": "unverified",
     "verified_count": 462,
-    "fast_unverified_count": 58,
+    "fast_unverified_count": 81,
     "fast_by_generator": {
-      "gemini": 35,
-      "groq": 23
+      "gemini": 50,
+      "groq": 31
     },
     "fast_answerability": {
-      "answerable": 43,
-      "unanswerable": 15
+      "answerable": 60,
+      "unanswerable": 21
     },
-    "combined_total": 520,
-    "remaining_to_target": 480,
-    "fast_generated_candidates": 64,
+    "combined_total": 543,
+    "remaining_to_target": 457,
+    "fast_generated_candidates": 87,
     "technical_exclusions": 6,
-    "packages_completed": 16,
+    "packages_completed": 22,
     "provider_state": {
       "groq": {
-        "resume_after_epoch": 1793215791.7217817,
+        "resume_after_epoch": 1793216884.240313,
         "status": "quota_wait"
       },
       "gemini": {
-        "resume_after_epoch": 1793215791.7181227,
+        "resume_after_epoch": 1793216884.2371504,
         "status": "quota_wait"
       }
     },
     "independent_llm_verification_calls": 0,
-    "measured_fast_records_per_hour": 79.1229118981658,
+    "measured_fast_records_per_hour": 80.91922951358491,
     "measurement_scope": "Since first accelerated campaign start; includes quota/persistence waits",
     "smoke_passed": true,
     "concurrent_request_overlap_observed": true,
     "started_at_utc": "2026-10-28T18:48:50.901448+00:00",
-    "updated_at_utc": "2026-10-28T19:32:49.833675+00:00",
+    "updated_at_utc": "2026-10-28T19:48:54.494857+00:00",
     "status": "running",
     "training_ready": false,
     "limitations": "No independent factual, answerability or semantic-paraphrase verification; deterministic exclusions only.",
-    "eligible_packages_remaining": 426
+    "eligible_packages_remaining": 419
   },
   "preservation_checks": {
-    "version": 238,
-    "archive_sha256": "b82c58e15b32b9dd5c67b7b745214ff3b5cf78320a7dd43fa272cc6a482c5d19",
+    "version": 245,
+    "archive_sha256": "2befc47d9984a537d2ab0adfca02ec1dbd4d54bfbb27a59300b41eefe854fdc3",
     "verified462_hash_preserved": true,
     "original409_hash_preserved": true,
     "frozen_gold_hash_preserved": true,
-    "fast_partition_train_sha256": "02d97d784d18e6b60d52f5a31a87a4335e92f2484a33227f5bc215734cd7f56e"
+    "fast_partition_train_sha256": "37cc5f38a061c6aee2daa82e30daa6b44271ac8f96b7000622800f175c99c946"
   },
   "monitor_status": "ACTIVE",
   "cloud_smoke_passed": true,
   "independent_verification_claimed": false,
-  "same_session_scaling": "Sixteen packages completed; automatic same-session continuation active",
+  "same_session_scaling": "Twenty-two packages completed; automatic same-session continuation active",
   "combined_500_threshold_reached": true,
   "verified_D500_reached": false,
   "training_ready": false,
