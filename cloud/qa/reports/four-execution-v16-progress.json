@@ -1,37 +1,178 @@
 {
-  "checked_at_utc": "2026-10-28T20:13:56.841834+00:00",
+  "checked_at_utc": "2026-10-28T20:16:59.557874+00:00",
   "saved_version": 15,
   "execution_version": 16,
   "execution_status": "RUNNING",
   "predecessor_execution": 14,
   "predecessor_status": "COMPLETE",
   "predecessor_cancelled": false,
-  "handoff_private_checkpoint": 254,
+  "private_checkpoint": 255,
   "verified_count": 462,
   "unverified_count": 82,
   "combined_total": 544,
   "remaining_to_target": 456,
-  "planned_workers": {
-    "groq": "openai/gpt-oss-120b",
-    "gemini": "gemini-3.5-flash-lite",
-    "groq_extra": "openai/gpt-oss-20b",
-    "gemini_extra": "gemini-3.1-flash-lite"
+  "actual_worker_specs": {
+    "groq": {
+      "provider": "groq",
+      "model": "openai/gpt-oss-120b"
+    },
+    "gemini": {
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite"
+    },
+    "groq_extra": {
+      "provider": "groq",
+      "model": "openai/gpt-oss-20b"
+    },
+    "gemini_extra": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite"
+    }
   },
-  "authenticated_model_selection_receipt_observed": false,
+  "authenticated_model_selection_receipt_observed": true,
   "four_model_cloud_smoke_passed": false,
   "four_model_generation_confirmed": false,
-  "measured_upgrade_records_per_hour": null,
+  "measured_upgrade_records_per_hour": 0.0,
   "previous_comparison_baseline_records_per_hour": 81,
-  "previous_final_cumulative_records_per_hour": 60.7213549517292,
   "preservation_checks": {
-    "version": 254,
-    "archive_sha256": "b87d7e48279352731e8c10327ee309a943d1ffb24a981ad31210a931bf363e93",
+    "version": 255,
+    "archive_sha256": "543f387bcecef435aa69f240acd2a7bc9938397f6c1a8f4f2566c3a02be56726",
     "verified462_hash_preserved": true,
     "original409_hash_preserved": true,
     "frozen_gold_hash_preserved": true,
-    "fast_partition_train_sha256": "16123015b5b969a68016527dceb6a109d2fae0fa404269d603c85bd96b62ff71"
+    "prior82_unverified_hash_preserved": true,
+    "scoped503_audits": 2,
+    "catalogue_receipt_present": true
+  },
+  "fast_campaign": {
+    "mode": "four_generator_unverified_v1",
+    "verification_status": "unverified",
+    "verified_count": 462,
+    "fast_unverified_count": 82,
+    "fast_by_generator": {
+      "gemini": 50,
+      "groq": 32
+    },
+    "fast_answerability": {
+      "answerable": 60,
+      "unanswerable": 22
+    },
+    "combined_total": 544,
+    "remaining_to_target": 456,
+    "fast_generated_candidates": 91,
+    "technical_exclusions": 9,
+    "packages_completed": 23,
+    "provider_state": {
+      "groq": {
+        "resume_after_epoch": 1793218373.3068416,
+        "status": "quota_wait"
+      },
+      "gemini": {
+        "resume_after_epoch": 1793218373.3074224,
+        "status": "quota_wait"
+      }
+    },
+    "independent_llm_verification_calls": 0,
+    "measured_fast_records_per_hour": 57.71938492768644,
+    "measurement_scope": "Since first accelerated campaign start; includes quota/persistence waits",
+    "smoke_passed": true,
+    "concurrent_request_overlap_observed": true,
+    "started_at_utc": "2026-10-28T18:48:50.901448+00:00",
+    "updated_at_utc": "2026-10-28T20:14:05.301075+00:00",
+    "status": "running",
+    "training_ready": false,
+    "limitations": "No independent factual, answerability or semantic-paraphrase verification; deterministic exclusions only.",
+    "worker_metrics": {
+      "groq": {
+        "generated": 0,
+        "admitted": 0,
+        "failed": 0,
+        "requests": 0,
+        "request_seconds": 0,
+        "quota_pauses": 0
+      },
+      "gemini": {
+        "generated": 0,
+        "admitted": 0,
+        "failed": 0,
+        "requests": 0,
+        "request_seconds": 0,
+        "quota_pauses": 0
+      },
+      "groq_extra": {
+        "generated": 0,
+        "admitted": 0,
+        "failed": 0,
+        "requests": 0,
+        "request_seconds": 0,
+        "quota_pauses": 0
+      },
+      "gemini_extra": {
+        "generated": 0,
+        "admitted": 0,
+        "failed": 0,
+        "requests": 0,
+        "request_seconds": 0,
+        "quota_pauses": 0
+      }
+    },
+    "worker_specs": {
+      "groq": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b"
+      },
+      "gemini": {
+        "provider": "gemini",
+        "model": "gemini-3.5-flash-lite"
+      },
+      "groq_extra": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-20b"
+      },
+      "gemini_extra": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite"
+      }
+    },
+    "provider_concurrency": {
+      "groq": 2,
+      "gemini": 2
+    },
+    "four_smoke_passed": false,
+    "quota_wait_seconds": {
+      "groq": 14.759113073348999,
+      "gemini": 14.759692192077637
+    },
+    "fast_by_model": {
+      "gemini-3.5-flash-lite": 50,
+      "openai/gpt-oss-120b": 32
+    },
+    "upgrade_records_per_hour": 0.0,
+    "eligible_packages_remaining": 413,
+    "quota_usage": {
+      "groq": {
+        "60": {
+          "requests": 0,
+          "tokens": 0
+        },
+        "86400": {
+          "requests": 33,
+          "tokens": 83708
+        }
+      },
+      "gemini": {
+        "60": {
+          "requests": 0,
+          "tokens": 0
+        },
+        "86400": {
+          "requests": 152,
+          "tokens": 1097249
+        }
+      }
+    }
   },
   "tests_passed": 295,
   "monitor_status": "ACTIVE",
-  "note": "Cloud execution confirmed; first four-worker checkpoint/actual selected models not yet visible. Known HTTP503 recovery retains original attempts and quota reservations; no unknown transports cleared."
+  "note": "Four-model configuration authenticated and privately checkpointed; all544handoff records/hash checks preserved. First smoke cohort has not yet produced a results checkpoint; no speed improvement claimed."
 }
