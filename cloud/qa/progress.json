@@ -90,10 +90,7 @@
   },
   "generation_packages": null,
   "cloud_generation_launched": true,
-  "blocked_on": [
-    "Kaggle secrets retrieval ConnectionError in execution v9",
-    "Kaggle editor stuck loading; fresh editor Save & Run All required once service recovers"
-  ],
+  "blocked_on": [],
   "insufficiency_target_new_batches_percent": [
     20,
     25
@@ -132,7 +129,7 @@
   },
   "controlled_batch_verified_at_utc": "2026-10-25T17:55:54.687805+00:00",
   "dataset_private": true,
-  "dataset_version": 154,
+  "dataset_version": 155,
   "future_packages_authorised": true,
   "main_research_target": 2000,
   "authorised_accepted_target": 1000,
@@ -149,7 +146,7 @@
     "starting_accepted": 412,
     "verified_at_utc": "2026-10-25T18:13:50.751815+00:00",
     "execution_status": "COMPLETE",
-    "latest_observed_checkpoint": 154,
+    "latest_observed_checkpoint": 155,
     "execution_version": 8,
     "new_candidates_generated": 136,
     "new_accepted": 38,
@@ -165,7 +162,7 @@
     "progress_monitor_interval_minutes": 15,
     "remaining_to_target": 550,
     "confirmed_first_package_completed": true,
-    "current_api_status": "Groq quota pause saved; session ended safely; recorded restart time has elapsed",
+    "current_api_status": "Fresh provider activity not yet confirmed; checkpoint progress timestamp inherited from previous session",
     "new_candidate_failure_reasons": {
       "training_semantic_duplicate_or_uncertain": 12,
       "unsupported_or_unresolved_claim": 21,
@@ -186,10 +183,10 @@
     },
     "new_provisional": 0,
     "last_monitor_check": {
-      "checked_at_utc": "2026-10-26T00:23:57.900156+00:00",
+      "checked_at_utc": "2026-10-28T15:34:55.549785+00:00",
       "monitor_check_succeeded": true,
-      "cloud_execution_status": "COMPLETE",
-      "scope": "Exact completed-notebook aggregate receipts; a separate aggregate progress fetch failed intermittently"
+      "cloud_execution_status": "RUNNING",
+      "scope": "Private ready checkpoint aggregate counts and in-memory manifest preservation hashes"
     },
     "new_structured_failures": 2,
     "packages_completed_since_start": 52,
@@ -199,7 +196,7 @@
     "resume_after_epoch": 1792966782.769088,
     "quota_provider": "groq",
     "fresh_test_passed": true,
-    "progress_monitor_status": "PAUSED",
+    "progress_monitor_status": "ACTIVE",
     "latest_verified_receipt": {
       "dataset": "scarletthe0116/uk-motor-qa-production-v1",
       "version": 154,
@@ -209,15 +206,15 @@
       "accepted": 450
     },
     "new_candidate_acceptance_rate": 0.27941176470588236,
-    "automatic_continuation_currently_running": false,
-    "latest_execution_version": 9,
-    "latest_execution_status": "ERROR"
+    "automatic_continuation_currently_running": true,
+    "latest_execution_version": 10,
+    "latest_execution_status": "RUNNING"
   },
   "last_observed_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p80",
-  "latest_observation_utc": "2026-10-26T00:23:57.900156+00:00",
+  "latest_observation_utc": "2026-10-28T15:34:55.549785+00:00",
   "latest_dataset_privacy_verified": true,
   "v10_archive_sha256": "dad0ab797bb97a3f3f522014fdd11f8db6627e7abd83e5cc8e8b647c72ae89b6",
-  "latest_checkpoint_archive_sha256": "97c6e2f90893367242b987492230fa77e009afa098fabe4967c36af68d1bcb19",
+  "latest_checkpoint_archive_sha256": "d5bf21e08f6a3260add5b0185d34661e651d8c1aecd2a12049b6024f26fb5f9a",
   "last_external_full_restore_audit_version": 10,
   "current_checkpoint_qc": "Provider-free acceptance audit and authenticated streaming persistence checks run inside each campaign export",
   "last_external_unique_question_count": {
@@ -225,6 +222,36 @@
     "count": 387
   },
   "latest_restart_attempt": {
+    "checked_at_utc": "2026-10-28T15:34:55.549785+00:00",
+    "notebook": "scarletthe0116/uk-motor-qa-resume",
+    "execution_version": 10,
+    "state": "RUNNING",
+    "starting_dataset_version": 154,
+    "starting_accepted": 450,
+    "starting_candidates": 744,
+    "latest_dataset_version": 155,
+    "dataset_private": true,
+    "dataset_status": "ready",
+    "accepted": 450,
+    "answerability": {
+      "answerable": 376,
+      "unanswerable": 74
+    },
+    "candidates_generated": 744,
+    "new_accepted_this_execution": 0,
+    "new_candidates_this_execution": 0,
+    "new_generation_confirmed": false,
+    "manifest_preservation_hashes_verified": true,
+    "archive_sha256": "d5bf21e08f6a3260add5b0185d34661e651d8c1aecd2a12049b6024f26fb5f9a",
+    "same_session_continuation_configured": true,
+    "session_limit_hours": 4,
+    "cross_session_scheduler": false,
+    "progress_monitor": "ACTIVE",
+    "inherited_progress_timestamp": "2026-10-25T22:18:44Z",
+    "note": "New ready private checkpoint observed. Provider progress timestamp and paused status remain inherited; fresh model calls or acceptances not yet confirmed. Campaign cumulative counters originate at 412 accepted/608 candidates."
+  },
+  "current_status": "RUNNING",
+  "previous_restart_attempt": {
     "checked_at_utc": "2026-10-28T15:23:39.966978+00:00",
     "notebook": "scarletthe0116/uk-motor-qa-resume",
     "execution_version": 9,
@@ -244,6 +271,5 @@
     "progress_monitor": "PAUSED",
     "automatic_cross_session_restart": false,
     "next_action": "Use the existing Kaggle editor Save Version -> Save & Run All once the editor and secrets service load successfully; no repeated API retries"
-  },
-  "current_status": "BLOCKED"
+  }
 }
