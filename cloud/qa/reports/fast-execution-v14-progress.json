@@ -1,0 +1,15 @@
+{
+  "checked_at_utc": "2026-10-28T18:49:49.054860+00:00",
+  "execution_version": 14,
+  "execution_status": "RUNNING",
+  "latest_private_checkpoint": 217,
+  "verified_count": 462,
+  "fast_groq_count": 0,
+  "fast_gemini_count": 0,
+  "combined_total": 462,
+  "smoke_passed": false,
+  "new_fast_checkpoint_observed": false,
+  "measured_cloud_throughput": null,
+  "monitor_status": "ACTIVE",
+  "note": "Confirmed notebook execution only; generation and persistence not yet evidenced. Saved13 contains async notebook entry repair."
+}
