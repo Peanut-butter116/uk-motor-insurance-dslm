@@ -5,8 +5,16 @@ the two existing models, adds Groq20B and a distinct free Gemini selected from
 authenticated model listings, and adapts shared provider concurrency. Saved
 version15 was owner-started as execution16. Execution14 finished naturally at
 private v254 (462 verified +82 unverified =544); execution16 is RUNNING after the
-safe handoff. Four-model cloud smoke/throughput are not yet confirmed. All295
-tests pass. No prior records or benchmark were changed.
+safe handoff.
+All four workers now pass the cloud smoke gate. Private v264 contains616 records
+(462 verified +154 unverified); the upgrade has admitted72:120B24,20B20,
+Gemini3.5 four, Gemini3.1 twenty-four. Gemini3.5 initially failed five packages;
+a provider-free cloud audit identified empty/null answers, which remained
+excluded. Later valid output passed the unchanged schema. Measured upgrade rate
+is138.4 admissions/hour over the initial sample versus the81/hour reference;
+this is not a sustained-speed guarantee. Automatic larger cohorts are now
+enabled. All295 tests pass; prior rows and benchmark remain intact.
+[Current evidence](reports/four-execution-v16-progress.json).
 
 **28 October: owner-authorised methodology change.** The opt-in
 [parallel generation-only campaign](FAST_GENERATION.md) preserves the verified
