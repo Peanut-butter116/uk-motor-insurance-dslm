@@ -313,7 +313,7 @@ async def campaign(session, api, input_version, session_seconds=4*3600):
     print(json.dumps(save_local(), indent=2))
 
 
-def run():
+async def run():
     require_cloud()
     from kaggle_secrets import UserSecretsClient
     secrets = UserSecretsClient()
@@ -326,8 +326,8 @@ def run():
     # Retain the exact accelerated adapter in the private provenance archive.
     dest = session/'cloud-adapter'; dest.mkdir(exist_ok=True)
     shutil.copyfile(__file__, dest/'fast_campaign.py')
-    asyncio.run(campaign(session, api, version))
+    await campaign(session, api, version)
 
 
 if __name__ == '__main__':
-    run()
+    asyncio.run(run())

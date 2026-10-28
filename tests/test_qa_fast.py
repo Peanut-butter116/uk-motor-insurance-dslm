@@ -1,5 +1,6 @@
 """Generation-only concurrency and preservation contracts with fictional records."""
 import asyncio
+import ast
 import importlib.util
 import json
 from pathlib import Path
@@ -29,12 +30,33 @@ def test_staged_fast_mode_leaves_legacy_available(tmp_path):
     stage_fast.main(tmp_path)
     nb = json.loads((tmp_path/'resume.ipynb').read_text())
     code = ''.join(nb['cells'][-1]['source'])
-    assert 'from fast_campaign import run\nrun()' in code
+    assert 'from fast_campaign import run\nawait run()' in code
     assert 'UNVERIFIED' in ''.join(nb['cells'][0]['source'])
     assert 'main(max_packages=1, target=500)' not in code
     assert 'from campaign import run' not in code
     assert (QA/'campaign.py').exists()
-    compile(code, 'staged-fast', 'exec')
+    compile(code, 'staged-fast', 'exec', flags=ast.PyCF_ALLOW_TOP_LEVEL_AWAIT)
+
+
+def test_notebook_entry_uses_existing_event_loop(monkeypatch, tmp_path):
+    """Kaggle/IPython already runs an event loop; the entry must be awaitable."""
+    import inspect
+    assert inspect.iscoroutinefunction(fast.run)
+    monkeypatch.setattr(fast, 'require_cloud', lambda: None)
+    monkeypatch.setitem(sys.modules, 'kaggle_secrets', types.SimpleNamespace(
+        UserSecretsClient=lambda:types.SimpleNamespace(get_secret=lambda key:'fictional')))
+    monkeypatch.setitem(sys.modules, 'kaggle', types.SimpleNamespace(api=object()))
+    session = tmp_path/'session';session.mkdir()
+    monkeypatch.setattr(fast, 'restore', lambda api:(session,217))
+    calls=[]
+    async def fake_campaign(*args):calls.append(args)
+    monkeypatch.setattr(fast, 'campaign', fake_campaign)
+    monkeypatch.setattr(fast.shutil, 'copyfile', lambda *args:None)
+    for key in ('GROQ_API_KEY','GEMINI_API_KEY','KAGGLE_API_TOKEN'):
+        monkeypatch.setenv(key, 'fictional')
+    async def existing_notebook_loop():await fast.run()
+    asyncio.run(existing_notebook_loop())
+    assert calls and calls[0][2] == 217
 
 
 @pytest.mark.parametrize('quota_on_groq', [False, True])

@@ -13,7 +13,7 @@ def main(output):
     old = 'from runner import main\nmain(max_packages=1, target=500)\n'
     assert code.count(old) == 1
     source = (Path(__file__).parent/'fast_campaign.py').read_text()
-    code = code.replace(old, '(p / "fast_campaign.py").write_text('+repr(source)+')\nfrom fast_campaign import run\nrun()\n')
+    code = code.replace(old, '(p / "fast_campaign.py").write_text('+repr(source)+')\nfrom fast_campaign import run\nawait run()\n')
     nb['cells'][-1]['source'] = code.splitlines(True)
     nb['cells'][0]['source'] = ['# Parallel Groq + Gemini generation — UNVERIFIED\n',
         'Owner-authorised generation-only campaign to 1,000 combined records. ',

@@ -92,7 +92,7 @@
   "generation_packages": null,
   "cloud_generation_launched": true,
   "blocked_on": [
-    "Kaggle editor stays Loading; Run All disabled; UI Save & Run All did not create execution12"
+    "Execution12 notebook event-loop entry failed; corrected code saved as13, needs editor execution"
   ],
   "insufficiency_target_new_batches_percent": [
     20,
@@ -242,7 +242,7 @@
     }
   },
   "last_observed_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p80",
-  "latest_observation_utc": "2026-10-28T18:30:41.041783+00:00",
+  "latest_observation_utc": "2026-10-28T18:46:18.720007+00:00",
   "latest_dataset_privacy_verified": true,
   "v10_archive_sha256": "dad0ab797bb97a3f3f522014fdd11f8db6627e7abd83e5cc8e8b647c72ae89b6",
   "latest_checkpoint_archive_sha256": "40d8ef9c8475ee84b2507f990a95dbd2e4b5e0fddf6d134a65256e144f9cbc7a",
@@ -281,7 +281,7 @@
     "inherited_progress_timestamp": "2026-10-25T22:18:44Z",
     "note": "New ready private checkpoint observed. Provider progress timestamp and paused status remain inherited; fresh model calls or acceptances not yet confirmed. Campaign cumulative counters originate at 412 accepted/608 candidates."
   },
-  "current_status": "ACCELERATED_START_BLOCKED",
+  "current_status": "ACCELERATED_RESTART_REQUIRED",
   "previous_restart_attempt": {
     "checked_at_utc": "2026-10-28T15:23:39.966978+00:00",
     "notebook": "scarletthe0116/uk-motor-qa-resume",
@@ -323,17 +323,43 @@
     "fast_gemini_count": 0,
     "combined_total": 462,
     "remaining_to_target": 538,
-    "saved_notebook_version": 11,
+    "saved_notebook_version": 13,
     "save_only_not_executed": true,
     "accelerated_execution_started": false,
     "editor_save_run_attempt_created_execution": false,
-    "blocker": "Kaggle editor stays Loading; Run All disabled; UI Save & Run All did not create execution12",
-    "tests_passed": 284,
+    "blocker": "Execution12 notebook event-loop entry failed; corrected code saved as13, needs editor execution",
+    "tests_passed": 285,
     "test_scope": "Fictional local tests; concurrent workers, independent quota pause, deterministic duplicate/benchmark checks, preservation, target cap and legacy regressions",
     "actual_cloud_smoke_passed": false,
     "measured_cloud_throughput": null,
     "cross_session_scheduler": false,
     "monitor_status": "PAUSED",
-    "required_action": "Open fresh editor, confirm Parallel Groq + Gemini generation \u2014 UNVERIFIED heading and existing secrets; Save Version -> Save & Run All. Report running version."
+    "required_action": "Open fresh editor, confirm Parallel Groq + Gemini generation \u2014 UNVERIFIED heading and existing secrets; Save Version -> Save & Run All. Report running version.",
+    "latest_execution_version": 12,
+    "latest_execution_status": "ERROR",
+    "latest_failure": {
+      "checked_at_utc": "2026-10-28T18:46:18.720007+00:00",
+      "notebook_execution_version": 12,
+      "execution_status": "ERROR",
+      "error_type": "RuntimeError",
+      "error_message": "asyncio.run() cannot be called from a running event loop",
+      "failure_stage": "Notebook async entry before campaign execution",
+      "generation_calls": 0,
+      "checkpoint_writes": 0,
+      "private_checkpoint": 217,
+      "verified_count": 462,
+      "fast_groq_count": 0,
+      "fast_gemini_count": 0,
+      "combined_total": 462,
+      "remaining_to_target": 538,
+      "fix": "Notebook top-level await run(); synchronous CLI alone uses asyncio.run(run())",
+      "regression_test": "test_notebook_entry_uses_existing_event_loop",
+      "tests_passed": 285,
+      "corrected_saved_notebook_version": 13,
+      "corrected_version_executed": false,
+      "editor_state": "Loading; Run All disabled",
+      "required_action": "Open saved version13 in fresh editor with existing secrets, Save Version -> Save & Run All; report new execution version",
+      "monitor_status": "PAUSED"
+    }
   }
 }

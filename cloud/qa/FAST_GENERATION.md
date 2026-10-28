@@ -63,3 +63,11 @@ Cloud execution emits only aggregate `fast_campaign_report.json` and
 `fast_persistence_receipt.json` as monitoring receipts. Root private checkpoint
 `progress.json.fast_campaign` supplies live monitoring without downloading rows.
 Do not infer execution, smoke success or throughput from code upload alone.
+
+Execution v12 exposed an IPython entry-point error before any generation:
+`asyncio.run()` cannot run inside the notebook's existing event loop. Corrected
+saved version v13 uses top-level `await run()`; only standalone CLI execution
+creates an event loop. A regression test executes the async entry from an
+already-running loop. All 285 tests pass. This repair does not change generation
+instructions, model requests, admission rules or storage. Version v13 is saved
+only until a secret-enabled editor execution is confirmed.
