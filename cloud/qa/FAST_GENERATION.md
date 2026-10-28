@@ -69,5 +69,14 @@ Execution v12 exposed an IPython entry-point error before any generation:
 saved version v13 uses top-level `await run()`; only standalone CLI execution
 creates an event loop. A regression test executes the async entry from an
 already-running loop. All 285 tests pass. This repair does not change generation
-instructions, model requests, admission rules or storage. Version v13 is saved
-only until a secret-enabled editor execution is confirmed.
+instructions, model requests, admission rules or storage.
+
+The owner started corrected execution v14: its concurrent smoke test passed,
+and private checkpoint v219 contains seven unverified additions (three Groq,
+four Gemini), one technical exclusion and all 462 verified records unchanged.
+The benchmark and verified hashes were checked in the new manifest. Initial
+measured yield was about 103.5 unverified admissions/hour over only seven rows,
+including startup/persistence time; it is not a sustained-throughput forecast.
+Both provider states were running without a recorded quota pause at that check.
+The code continues into batches of five packages per provider within the same
+session; progress and provenance remain separate from the verified population.

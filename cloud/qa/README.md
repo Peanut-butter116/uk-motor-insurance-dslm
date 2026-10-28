@@ -4,9 +4,15 @@
 [parallel generation-only campaign](FAST_GENERATION.md) preserves the verified
 export and writes new **unverified** Groq/Gemini records to a separate private
 partition. The legacy writer was stopped at private checkpoint v217, with 462
-verified records. Accelerated execution v12 failed before generation because of
-the notebook event-loop entry; corrected code is saved as v13 with 285 tests
-passing, but has not executed. Kaggle's editor remains on Loading. See the
+verified records. Corrected accelerated execution v14 is RUNNING and passed its
+concurrent smoke test: private v219 contains 462 verified plus seven unverified
+records (three Groq, four Gemini), combined 469. Eight candidates produced one
+technical exclusion; no LLM judging occurred. Historical and benchmark hashes
+are preserved. Same-session scaling to five packages/provider is configured;
+the aggregate monitor is active. See
+[live accelerated progress](reports/fast-execution-v14-progress.json).
+Earlier execution v12 failed before generation because of the notebook
+event-loop entry; saved v13 fixed it, with 285 tests passing. See the
 [entry failure and repair](reports/fast-execution-v12-entry-failure.json) and
 [actual setup status](reports/fast-campaign-setup-20261028.json). The verified
 workflow below remains available; its historical completion figures are retained.
