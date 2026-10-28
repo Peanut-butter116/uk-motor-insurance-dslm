@@ -1,8 +1,8 @@
 {
-  "checked_at_utc": "2026-10-28T15:50:35.473862+00:00",
+  "checked_at_utc": "2026-10-28T16:36:30.980624+00:00",
   "execution_version": 10,
   "notebook_status": "RUNNING",
-  "dataset_version": 162,
+  "dataset_version": 181,
   "dataset_private": true,
   "dataset_status": "ready",
   "accepted": 450,
@@ -10,18 +10,19 @@
     "answerable": 376,
     "unanswerable": 74
   },
-  "candidates_generated": 752,
-  "new_candidates_this_execution": 8,
+  "candidates_generated": 760,
+  "new_candidates_this_execution": 16,
   "new_accepted_this_execution": 0,
-  "new_review_this_execution": 7,
-  "new_structured_failures_this_execution": 1,
+  "new_review_this_execution": 11,
+  "new_structured_failures_this_execution": 2,
   "new_rejected_this_execution": 0,
+  "provisional_candidates": 3,
   "new_duplicate_flags_this_execution": 4,
-  "new_missing_citation_flags_this_execution": 6,
+  "new_missing_citation_flags_this_execution": 9,
   "reason_counts_overlap": true,
-  "last_checkpoint_utc": "2026-10-28T15:47:58Z",
-  "cloud_state": "generating",
+  "last_checkpoint_utc": "2026-10-28T16:31:22Z",
+  "cloud_state": "paused_provider_quota",
   "train_sha256": "fbefdc7a54baf9e89a0994a17270c237daa62e1d0d2b857dacdb051ed7763e86",
   "remaining_source_packages": null,
-  "note": "Fresh generation confirmed by eight additional candidates; no newly accepted records. Seven review cases and one structured-output failure account for the new candidate dispositions. Exact remaining package count awaits completed campaign receipt."
+  "note": "Three semantically_validated candidates remain provisional, not accepted. Notebook still running during saved quota pause; no restart launched. Exact package count awaits completed receipt."
 }
