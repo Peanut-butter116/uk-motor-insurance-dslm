@@ -130,7 +130,7 @@
   },
   "controlled_batch_verified_at_utc": "2026-10-25T17:55:54.687805+00:00",
   "dataset_private": true,
-  "dataset_version": 276,
+  "dataset_version": 281,
   "future_packages_authorised": true,
   "main_research_target": 2000,
   "authorised_accepted_target": 1000,
@@ -240,10 +240,10 @@
     }
   },
   "last_observed_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p80",
-  "latest_observation_utc": "2026-10-28T21:25:33.718698+00:00",
+  "latest_observation_utc": "2026-10-28T21:40:30.979172+00:00",
   "latest_dataset_privacy_verified": true,
   "v10_archive_sha256": "dad0ab797bb97a3f3f522014fdd11f8db6627e7abd83e5cc8e8b647c72ae89b6",
-  "latest_checkpoint_archive_sha256": "870e74a77e5093cdc4e095efa1209b7481dc4a7c46dbbe8248d06e46a3ac1968",
+  "latest_checkpoint_archive_sha256": "7149f2a32a3fe7f1b4aa7296821357a97760f8fa9c61fddba9903cd942b1b11c",
   "last_external_full_restore_audit_version": 10,
   "current_checkpoint_qc": "Provider-free acceptance audit and authenticated streaming persistence checks run inside each campaign export",
   "last_external_unique_question_count": {
@@ -317,10 +317,10 @@
     "verified_train_sha256": "9946b87682442ab0948639e80c57a3179059cd563331f1d58fcb8b4ee39448c3",
     "archive_sha256": "40d8ef9c8475ee84b2507f990a95dbd2e4b5e0fddf6d134a65256e144f9cbc7a",
     "original409_and_frozen_gold_hashes_present": true,
-    "fast_groq_count": 129,
-    "fast_gemini_count": 151,
-    "combined_total": 742,
-    "remaining_to_target": 258,
+    "fast_groq_count": 142,
+    "fast_gemini_count": 175,
+    "combined_total": 779,
+    "remaining_to_target": 221,
     "saved_notebook_version": 13,
     "save_only_not_executed": false,
     "accelerated_execution_started": true,
@@ -435,20 +435,20 @@
     "mode": "four_generator_unverified_v1",
     "verification_status": "unverified",
     "verified_count": 462,
-    "fast_unverified_count": 280,
+    "fast_unverified_count": 317,
     "fast_by_generator": {
-      "gemini": 151,
-      "groq": 129
+      "gemini": 175,
+      "groq": 142
     },
     "fast_answerability": {
-      "answerable": 209,
-      "unanswerable": 71
+      "answerable": 237,
+      "unanswerable": 80
     },
-    "combined_total": 742,
-    "remaining_to_target": 258,
-    "fast_generated_candidates": 299,
-    "technical_exclusions": 19,
-    "packages_completed": 75,
+    "combined_total": 779,
+    "remaining_to_target": 221,
+    "fast_generated_candidates": 339,
+    "technical_exclusions": 22,
+    "packages_completed": 85,
     "provider_state": {
       "groq": {
         "resume_after_epoch": 0,
@@ -456,60 +456,60 @@
         "error": "Uncertain free request requires raw-response recovery"
       },
       "gemini": {
-        "resume_after_epoch": 1793222493.700966,
-        "status": "quota_wait"
+        "resume_after_epoch": 0,
+        "status": "running"
       }
     },
     "independent_llm_verification_calls": 0,
-    "measured_fast_records_per_hour": 109.05292852218736,
+    "measured_fast_records_per_hour": 112.55441394807802,
     "measurement_scope": "Since first accelerated campaign start; includes quota/persistence waits",
     "smoke_passed": true,
     "concurrent_request_overlap_observed": true,
     "started_at_utc": "2026-10-28T18:48:50.901448+00:00",
-    "updated_at_utc": "2026-10-28T21:22:54.119575+00:00",
+    "updated_at_utc": "2026-10-28T21:37:49.997415+00:00",
     "status": "running",
     "training_ready": false,
     "limitations": "No independent factual, answerability or semantic-paraphrase verification; deterministic exclusions only.",
     "worker_metrics": {
       "groq": {
-        "generated": 72,
-        "admitted": 69,
-        "failed": 3,
-        "requests": 18,
-        "request_seconds": 1029.882128238678,
-        "quota_pauses": 16,
-        "admitted_per_hour": 60.00280863667817,
-        "quota_wait_seconds": 940.8923115730286
+        "generated": 88,
+        "admitted": 82,
+        "failed": 6,
+        "requests": 22,
+        "request_seconds": 1220.8187460899353,
+        "quota_pauses": 19,
+        "admitted_per_hour": 60.31524799072434,
+        "quota_wait_seconds": 1118.3700203895569
       },
       "gemini": {
-        "generated": 32,
-        "admitted": 32,
-        "failed": 10,
-        "requests": 18,
-        "request_seconds": 115.17581415176392,
-        "quota_pauses": 5,
-        "admitted_per_hour": 27.82738951266234,
-        "quota_wait_seconds": 171.4563548564911
+        "generated": 40,
+        "admitted": 40,
+        "failed": 12,
+        "requests": 22,
+        "request_seconds": 178.95808100700378,
+        "quota_pauses": 7,
+        "admitted_per_hour": 29.42207219059724,
+        "quota_wait_seconds": 268.30884861946106
       },
       "groq_extra": {
         "generated": 32,
         "admitted": 28,
-        "failed": 9,
-        "requests": 13,
+        "failed": 11,
+        "requests": 15,
         "request_seconds": 457.6331582069397,
         "quota_pauses": 7,
         "quota_wait_seconds": 414.2462058067322,
-        "admitted_per_hour": 24.348965823579547
+        "admitted_per_hour": 20.595450533418067
       },
       "gemini_extra": {
-        "generated": 72,
-        "admitted": 69,
+        "generated": 88,
+        "admitted": 85,
         "failed": 3,
-        "requests": 18,
-        "request_seconds": 235.19396948814392,
-        "quota_pauses": 2,
-        "admitted_per_hour": 60.00280863667817,
-        "quota_wait_seconds": 74.8896894454956
+        "requests": 22,
+        "request_seconds": 320.3070969581604,
+        "quota_pauses": 3,
+        "admitted_per_hour": 62.52190340501913,
+        "quota_wait_seconds": 123.68361830711365
       }
     },
     "worker_specs": {
@@ -540,13 +540,13 @@
       "gemini": 14.759692192077637
     },
     "fast_by_model": {
-      "gemini-3.5-flash-lite": 82,
-      "openai/gpt-oss-120b": 101,
-      "gemini-3.1-flash-lite": 69,
+      "gemini-3.5-flash-lite": 90,
+      "openai/gpt-oss-120b": 114,
+      "gemini-3.1-flash-lite": 85,
       "openai/gpt-oss-20b": 28
     },
-    "upgrade_records_per_hour": 169.08525833475892,
-    "eligible_packages_remaining": 361,
+    "upgrade_records_per_hour": 165.50906233600668,
+    "eligible_packages_remaining": 343,
     "quota_usage": {
       "groq": {
         "60": {
@@ -554,8 +554,8 @@
           "tokens": 0
         },
         "86400": {
-          "requests": 64,
-          "tokens": 168643
+          "requests": 69,
+          "tokens": 180642
         }
       },
       "gemini": {
@@ -564,25 +564,25 @@
           "tokens": 0
         },
         "86400": {
-          "requests": 213,
-          "tokens": 1228200
+          "requests": 227,
+          "tokens": 1253962
         }
       }
     }
   },
   "four_model_campaign": {
-    "checked_at_utc": "2026-10-28T21:25:33.718698+00:00",
+    "checked_at_utc": "2026-10-28T21:40:30.979172+00:00",
     "saved_version": 15,
     "execution_version": 16,
     "execution_status": "RUNNING",
     "predecessor_execution": 14,
     "predecessor_status": "COMPLETE",
     "predecessor_cancelled": false,
-    "private_checkpoint": 276,
+    "private_checkpoint": 281,
     "verified_count": 462,
-    "unverified_count": 280,
-    "combined_total": 742,
-    "remaining_to_target": 258,
+    "unverified_count": 317,
+    "combined_total": 779,
+    "remaining_to_target": 221,
     "actual_worker_specs": {
       "groq": {
         "provider": "groq",
@@ -604,46 +604,46 @@
     "authenticated_model_selection_receipt_observed": true,
     "four_model_cloud_smoke_passed": true,
     "four_model_generation_confirmed": true,
-    "new_upgrade_admissions": 198,
-    "new_upgrade_generated_candidates": 208,
-    "new_upgrade_technical_exclusions": 10,
-    "new_upgrade_failed_packages": 15,
-    "measured_upgrade_records_per_hour": 169.08525833475892,
+    "new_upgrade_admissions": 235,
+    "new_upgrade_generated_candidates": 248,
+    "new_upgrade_technical_exclusions": 13,
+    "new_upgrade_failed_packages": 19,
+    "measured_upgrade_records_per_hour": 165.50906233600668,
     "report_clock_worker_admissions_per_hour": {
-      "groq": 58.92365063180993,
-      "gemini": 27.326910437940835,
-      "groq_extra": 23.911046633198232,
-      "gemini_extra": 58.92365063180993
+      "groq": 57.75209834703212,
+      "gemini": 28.17175529123518,
+      "groq_extra": 19.720228703864624,
+      "gemini_extra": 59.86497999387476
     },
     "previous_comparison_baseline_records_per_hour": 81,
     "speed_comparison_limitation": "Initial sample includes smoke retries/wait/persistence; not a sustained or causal speedup claim",
     "preservation_checks": {
-      "version": 276,
-      "archive_sha256": "870e74a77e5093cdc4e095efa1209b7481dc4a7c46dbbe8248d06e46a3ac1968",
+      "version": 281,
+      "archive_sha256": "7149f2a32a3fe7f1b4aa7296821357a97760f8fa9c61fddba9903cd942b1b11c",
       "verified462_hash_preserved": true,
       "original409_hash_preserved": true,
       "frozen_gold_hash_preserved": true,
-      "fast_partition_train_sha256": "0c440b778ef2164a80963d9a120da07a074e95aa537a546e359da3c41f7d5fe2"
+      "fast_partition_train_sha256": "21c777b0fc8b79c3497f688453f8afb98f9224d21eb58b8bd4d514f1a40a0ace"
     },
     "prior82_preservation": "All82 starting unverified rows checked by coordinator at every save; initial bytehash independently matched in255",
     "fast_campaign": {
       "mode": "four_generator_unverified_v1",
       "verification_status": "unverified",
       "verified_count": 462,
-      "fast_unverified_count": 280,
+      "fast_unverified_count": 317,
       "fast_by_generator": {
-        "gemini": 151,
-        "groq": 129
+        "gemini": 175,
+        "groq": 142
       },
       "fast_answerability": {
-        "answerable": 209,
-        "unanswerable": 71
+        "answerable": 237,
+        "unanswerable": 80
       },
-      "combined_total": 742,
-      "remaining_to_target": 258,
-      "fast_generated_candidates": 299,
-      "technical_exclusions": 19,
-      "packages_completed": 75,
+      "combined_total": 779,
+      "remaining_to_target": 221,
+      "fast_generated_candidates": 339,
+      "technical_exclusions": 22,
+      "packages_completed": 85,
       "provider_state": {
         "groq": {
           "resume_after_epoch": 0,
@@ -651,60 +651,60 @@
           "error": "Uncertain free request requires raw-response recovery"
         },
         "gemini": {
-          "resume_after_epoch": 1793222493.700966,
-          "status": "quota_wait"
+          "resume_after_epoch": 0,
+          "status": "running"
         }
       },
       "independent_llm_verification_calls": 0,
-      "measured_fast_records_per_hour": 109.05292852218736,
+      "measured_fast_records_per_hour": 112.55441394807802,
       "measurement_scope": "Since first accelerated campaign start; includes quota/persistence waits",
       "smoke_passed": true,
       "concurrent_request_overlap_observed": true,
       "started_at_utc": "2026-10-28T18:48:50.901448+00:00",
-      "updated_at_utc": "2026-10-28T21:22:54.119575+00:00",
+      "updated_at_utc": "2026-10-28T21:37:49.997415+00:00",
       "status": "running",
       "training_ready": false,
       "limitations": "No independent factual, answerability or semantic-paraphrase verification; deterministic exclusions only.",
       "worker_metrics": {
         "groq": {
-          "generated": 72,
-          "admitted": 69,
-          "failed": 3,
-          "requests": 18,
-          "request_seconds": 1029.882128238678,
-          "quota_pauses": 16,
-          "admitted_per_hour": 60.00280863667817,
-          "quota_wait_seconds": 940.8923115730286
+          "generated": 88,
+          "admitted": 82,
+          "failed": 6,
+          "requests": 22,
+          "request_seconds": 1220.8187460899353,
+          "quota_pauses": 19,
+          "admitted_per_hour": 60.31524799072434,
+          "quota_wait_seconds": 1118.3700203895569
         },
         "gemini": {
-          "generated": 32,
-          "admitted": 32,
-          "failed": 10,
-          "requests": 18,
-          "request_seconds": 115.17581415176392,
-          "quota_pauses": 5,
-          "admitted_per_hour": 27.82738951266234,
-          "quota_wait_seconds": 171.4563548564911
+          "generated": 40,
+          "admitted": 40,
+          "failed": 12,
+          "requests": 22,
+          "request_seconds": 178.95808100700378,
+          "quota_pauses": 7,
+          "admitted_per_hour": 29.42207219059724,
+          "quota_wait_seconds": 268.30884861946106
         },
         "groq_extra": {
           "generated": 32,
           "admitted": 28,
-          "failed": 9,
-          "requests": 13,
+          "failed": 11,
+          "requests": 15,
           "request_seconds": 457.6331582069397,
           "quota_pauses": 7,
           "quota_wait_seconds": 414.2462058067322,
-          "admitted_per_hour": 24.348965823579547
+          "admitted_per_hour": 20.595450533418067
         },
         "gemini_extra": {
-          "generated": 72,
-          "admitted": 69,
+          "generated": 88,
+          "admitted": 85,
           "failed": 3,
-          "requests": 18,
-          "request_seconds": 235.19396948814392,
-          "quota_pauses": 2,
-          "admitted_per_hour": 60.00280863667817,
-          "quota_wait_seconds": 74.8896894454956
+          "requests": 22,
+          "request_seconds": 320.3070969581604,
+          "quota_pauses": 3,
+          "admitted_per_hour": 62.52190340501913,
+          "quota_wait_seconds": 123.68361830711365
         }
       },
       "worker_specs": {
@@ -735,13 +735,13 @@
         "gemini": 14.759692192077637
       },
       "fast_by_model": {
-        "gemini-3.5-flash-lite": 82,
-        "openai/gpt-oss-120b": 101,
-        "gemini-3.1-flash-lite": 69,
+        "gemini-3.5-flash-lite": 90,
+        "openai/gpt-oss-120b": 114,
+        "gemini-3.1-flash-lite": 85,
         "openai/gpt-oss-20b": 28
       },
-      "upgrade_records_per_hour": 169.08525833475892,
-      "eligible_packages_remaining": 361,
+      "upgrade_records_per_hour": 165.50906233600668,
+      "eligible_packages_remaining": 343,
       "quota_usage": {
         "groq": {
           "60": {
@@ -749,8 +749,8 @@
             "tokens": 0
           },
           "86400": {
-            "requests": 64,
-            "tokens": 168643
+            "requests": 69,
+            "tokens": 180642
           }
         },
         "gemini": {
@@ -759,8 +759,8 @@
             "tokens": 0
           },
           "86400": {
-            "requests": 213,
-            "tokens": 1228200
+            "requests": 227,
+            "tokens": 1253962
           }
         }
       }
