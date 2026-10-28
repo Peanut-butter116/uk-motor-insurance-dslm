@@ -1,61 +1,64 @@
 {
-  "checked_at_utc": "2026-10-28T19:04:49.904263+00:00",
+  "checked_at_utc": "2026-10-28T19:20:22.228284+00:00",
   "execution_version": 14,
   "execution_status": "RUNNING",
-  "private_checkpoint_version": 223,
+  "private_checkpoint_version": 232,
   "dataset_private": true,
   "dataset_status": "ready",
   "fast_campaign": {
     "mode": "dual_generator_unverified_v1",
     "verification_status": "unverified",
     "verified_count": 462,
-    "fast_unverified_count": 30,
+    "fast_unverified_count": 42,
     "fast_by_generator": {
-      "gemini": 23,
-      "groq": 7
+      "gemini": 27,
+      "groq": 15
     },
     "fast_answerability": {
-      "answerable": 23,
-      "unanswerable": 7
+      "answerable": 32,
+      "unanswerable": 10
     },
-    "combined_total": 492,
-    "remaining_to_target": 508,
-    "fast_generated_candidates": 32,
+    "combined_total": 504,
+    "remaining_to_target": 496,
+    "fast_generated_candidates": 44,
     "technical_exclusions": 2,
-    "packages_completed": 8,
+    "packages_completed": 11,
     "provider_state": {
       "groq": {
-        "resume_after_epoch": 1793214112.7113268,
+        "resume_after_epoch": 1793214947.0505128,
         "status": "quota_wait"
       },
       "gemini": {
-        "resume_after_epoch": 1793214112.6978588,
+        "resume_after_epoch": 1793214947.048149,
         "status": "quota_wait"
       }
     },
     "independent_llm_verification_calls": 0,
-    "measured_fast_records_per_hour": 128.87469564983292,
+    "measured_fast_records_per_hour": 82.98225613476457,
     "measurement_scope": "Since first accelerated campaign start; includes quota/persistence waits",
     "smoke_passed": true,
     "concurrent_request_overlap_observed": true,
     "started_at_utc": "2026-10-28T18:48:50.901448+00:00",
-    "updated_at_utc": "2026-10-28T19:02:48.924807+00:00",
+    "updated_at_utc": "2026-10-28T19:19:12.977751+00:00",
     "status": "running",
     "training_ready": false,
     "limitations": "No independent factual, answerability or semantic-paraphrase verification; deterministic exclusions only.",
-    "eligible_packages_remaining": 446
+    "eligible_packages_remaining": 435
   },
   "preservation_checks": {
-    "version": 223,
-    "archive_sha256": "41155ecf051932dd28a0c193ed0ff5441299464c4569274d4697ca69f18d974c",
+    "version": 232,
+    "archive_sha256": "5567f84abb5d9d7097f4eed5fae1c33eb929ad0e115ad2363a7c7156dfbd84c0",
     "verified462_hash_preserved": true,
     "original409_hash_preserved": true,
     "frozen_gold_hash_preserved": true,
-    "fast_partition_train_sha256": "c035ac75c685964a673d9e6731d844858e8a5f86f16ea56710fd6916cd75eb59"
+    "fast_partition_train_sha256": "9211e2c6f6f9e852c021129c139607660df5fb700b6027701223bbe4d832ea3c"
   },
   "monitor_status": "ACTIVE",
-  "same_session_scaling": "Eight packages completed, beyond two-package smoke test; five-package provider waves configured",
   "cloud_smoke_passed": true,
   "independent_verification_claimed": false,
-  "quota_note": "Both provider quota waits recorded; retry timestamps19:01:52UTC have elapsed at this check. Notebook still running; no manual restart."
+  "same_session_scaling": "Eleven packages completed; automatic same-session continuation active",
+  "combined_500_threshold_reached": true,
+  "verified_D500_reached": false,
+  "training_ready": false,
+  "quota_note": "Both providers have saved quota waits; notebook remains running with existing wait/retry scheduling."
 }
