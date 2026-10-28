@@ -130,7 +130,7 @@
   },
   "controlled_batch_verified_at_utc": "2026-10-25T17:55:54.687805+00:00",
   "dataset_private": true,
-  "dataset_version": 232,
+  "dataset_version": 238,
   "future_packages_authorised": true,
   "main_research_target": 2000,
   "authorised_accepted_target": 1000,
@@ -240,10 +240,10 @@
     }
   },
   "last_observed_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p80",
-  "latest_observation_utc": "2026-10-28T19:20:22.228284+00:00",
+  "latest_observation_utc": "2026-10-28T19:35:09.032690+00:00",
   "latest_dataset_privacy_verified": true,
   "v10_archive_sha256": "dad0ab797bb97a3f3f522014fdd11f8db6627e7abd83e5cc8e8b647c72ae89b6",
-  "latest_checkpoint_archive_sha256": "5567f84abb5d9d7097f4eed5fae1c33eb929ad0e115ad2363a7c7156dfbd84c0",
+  "latest_checkpoint_archive_sha256": "b82c58e15b32b9dd5c67b7b745214ff3b5cf78320a7dd43fa272cc6a482c5d19",
   "last_external_full_restore_audit_version": 10,
   "current_checkpoint_qc": "Provider-free acceptance audit and authenticated streaming persistence checks run inside each campaign export",
   "last_external_unique_question_count": {
@@ -317,10 +317,10 @@
     "verified_train_sha256": "9946b87682442ab0948639e80c57a3179059cd563331f1d58fcb8b4ee39448c3",
     "archive_sha256": "40d8ef9c8475ee84b2507f990a95dbd2e4b5e0fddf6d134a65256e144f9cbc7a",
     "original409_and_frozen_gold_hashes_present": true,
-    "fast_groq_count": 15,
-    "fast_gemini_count": 27,
-    "combined_total": 504,
-    "remaining_to_target": 496,
+    "fast_groq_count": 23,
+    "fast_gemini_count": 35,
+    "combined_total": 520,
+    "remaining_to_target": 480,
     "saved_notebook_version": 13,
     "save_only_not_executed": false,
     "accelerated_execution_started": true,
@@ -330,9 +330,9 @@
     "test_scope": "Fictional local tests; concurrent workers, independent quota pause, deterministic duplicate/benchmark checks, preservation, target cap and legacy regressions",
     "actual_cloud_smoke_passed": true,
     "measured_cloud_throughput": {
-      "records_per_hour": 82.98225613476457,
+      "records_per_hour": 79.1229118981658,
       "scope": "Since first accelerated campaign start; includes quota/persistence waits",
-      "sample_unverified_records": 42,
+      "sample_unverified_records": 58,
       "small_sample": true
     },
     "cross_session_scheduler": false,
@@ -365,64 +365,64 @@
       "monitor_status": "PAUSED"
     },
     "latest_observation": {
-      "checked_at_utc": "2026-10-28T19:20:22.228284+00:00",
+      "checked_at_utc": "2026-10-28T19:35:09.032690+00:00",
       "execution_version": 14,
       "execution_status": "RUNNING",
-      "private_checkpoint_version": 232,
+      "private_checkpoint_version": 238,
       "dataset_private": true,
       "dataset_status": "ready",
       "fast_campaign": {
         "mode": "dual_generator_unverified_v1",
         "verification_status": "unverified",
         "verified_count": 462,
-        "fast_unverified_count": 42,
+        "fast_unverified_count": 58,
         "fast_by_generator": {
-          "gemini": 27,
-          "groq": 15
+          "gemini": 35,
+          "groq": 23
         },
         "fast_answerability": {
-          "answerable": 32,
-          "unanswerable": 10
+          "answerable": 43,
+          "unanswerable": 15
         },
-        "combined_total": 504,
-        "remaining_to_target": 496,
-        "fast_generated_candidates": 44,
-        "technical_exclusions": 2,
-        "packages_completed": 11,
+        "combined_total": 520,
+        "remaining_to_target": 480,
+        "fast_generated_candidates": 64,
+        "technical_exclusions": 6,
+        "packages_completed": 16,
         "provider_state": {
           "groq": {
-            "resume_after_epoch": 1793214947.0505128,
+            "resume_after_epoch": 1793215791.7217817,
             "status": "quota_wait"
           },
           "gemini": {
-            "resume_after_epoch": 1793214947.048149,
+            "resume_after_epoch": 1793215791.7181227,
             "status": "quota_wait"
           }
         },
         "independent_llm_verification_calls": 0,
-        "measured_fast_records_per_hour": 82.98225613476457,
+        "measured_fast_records_per_hour": 79.1229118981658,
         "measurement_scope": "Since first accelerated campaign start; includes quota/persistence waits",
         "smoke_passed": true,
         "concurrent_request_overlap_observed": true,
         "started_at_utc": "2026-10-28T18:48:50.901448+00:00",
-        "updated_at_utc": "2026-10-28T19:19:12.977751+00:00",
+        "updated_at_utc": "2026-10-28T19:32:49.833675+00:00",
         "status": "running",
         "training_ready": false,
         "limitations": "No independent factual, answerability or semantic-paraphrase verification; deterministic exclusions only.",
-        "eligible_packages_remaining": 435
+        "eligible_packages_remaining": 426
       },
       "preservation_checks": {
-        "version": 232,
-        "archive_sha256": "5567f84abb5d9d7097f4eed5fae1c33eb929ad0e115ad2363a7c7156dfbd84c0",
+        "version": 238,
+        "archive_sha256": "b82c58e15b32b9dd5c67b7b745214ff3b5cf78320a7dd43fa272cc6a482c5d19",
         "verified462_hash_preserved": true,
         "original409_hash_preserved": true,
         "frozen_gold_hash_preserved": true,
-        "fast_partition_train_sha256": "9211e2c6f6f9e852c021129c139607660df5fb700b6027701223bbe4d832ea3c"
+        "fast_partition_train_sha256": "02d97d784d18e6b60d52f5a31a87a4335e92f2484a33227f5bc215734cd7f56e"
       },
       "monitor_status": "ACTIVE",
       "cloud_smoke_passed": true,
       "independent_verification_claimed": false,
-      "same_session_scaling": "Eleven packages completed; automatic same-session continuation active",
+      "same_session_scaling": "Sixteen packages completed; automatic same-session continuation active",
       "combined_500_threshold_reached": true,
       "verified_D500_reached": false,
       "training_ready": false,
@@ -435,40 +435,40 @@
     "mode": "dual_generator_unverified_v1",
     "verification_status": "unverified",
     "verified_count": 462,
-    "fast_unverified_count": 42,
+    "fast_unverified_count": 58,
     "fast_by_generator": {
-      "gemini": 27,
-      "groq": 15
+      "gemini": 35,
+      "groq": 23
     },
     "fast_answerability": {
-      "answerable": 32,
-      "unanswerable": 10
+      "answerable": 43,
+      "unanswerable": 15
     },
-    "combined_total": 504,
-    "remaining_to_target": 496,
-    "fast_generated_candidates": 44,
-    "technical_exclusions": 2,
-    "packages_completed": 11,
+    "combined_total": 520,
+    "remaining_to_target": 480,
+    "fast_generated_candidates": 64,
+    "technical_exclusions": 6,
+    "packages_completed": 16,
     "provider_state": {
       "groq": {
-        "resume_after_epoch": 1793214947.0505128,
+        "resume_after_epoch": 1793215791.7217817,
         "status": "quota_wait"
       },
       "gemini": {
-        "resume_after_epoch": 1793214947.048149,
+        "resume_after_epoch": 1793215791.7181227,
         "status": "quota_wait"
       }
     },
     "independent_llm_verification_calls": 0,
-    "measured_fast_records_per_hour": 82.98225613476457,
+    "measured_fast_records_per_hour": 79.1229118981658,
     "measurement_scope": "Since first accelerated campaign start; includes quota/persistence waits",
     "smoke_passed": true,
     "concurrent_request_overlap_observed": true,
     "started_at_utc": "2026-10-28T18:48:50.901448+00:00",
-    "updated_at_utc": "2026-10-28T19:19:12.977751+00:00",
+    "updated_at_utc": "2026-10-28T19:32:49.833675+00:00",
     "status": "running",
     "training_ready": false,
     "limitations": "No independent factual, answerability or semantic-paraphrase verification; deterministic exclusions only.",
-    "eligible_packages_remaining": 435
+    "eligible_packages_remaining": 426
   }
 }
