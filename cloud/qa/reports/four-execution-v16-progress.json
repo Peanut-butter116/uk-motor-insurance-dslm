@@ -1,0 +1,37 @@
+{
+  "checked_at_utc": "2026-10-28T20:13:56.841834+00:00",
+  "saved_version": 15,
+  "execution_version": 16,
+  "execution_status": "RUNNING",
+  "predecessor_execution": 14,
+  "predecessor_status": "COMPLETE",
+  "predecessor_cancelled": false,
+  "handoff_private_checkpoint": 254,
+  "verified_count": 462,
+  "unverified_count": 82,
+  "combined_total": 544,
+  "remaining_to_target": 456,
+  "planned_workers": {
+    "groq": "openai/gpt-oss-120b",
+    "gemini": "gemini-3.5-flash-lite",
+    "groq_extra": "openai/gpt-oss-20b",
+    "gemini_extra": "gemini-3.1-flash-lite"
+  },
+  "authenticated_model_selection_receipt_observed": false,
+  "four_model_cloud_smoke_passed": false,
+  "four_model_generation_confirmed": false,
+  "measured_upgrade_records_per_hour": null,
+  "previous_comparison_baseline_records_per_hour": 81,
+  "previous_final_cumulative_records_per_hour": 60.7213549517292,
+  "preservation_checks": {
+    "version": 254,
+    "archive_sha256": "b87d7e48279352731e8c10327ee309a943d1ffb24a981ad31210a931bf363e93",
+    "verified462_hash_preserved": true,
+    "original409_hash_preserved": true,
+    "frozen_gold_hash_preserved": true,
+    "fast_partition_train_sha256": "16123015b5b969a68016527dceb6a109d2fae0fa404269d603c85bd96b62ff71"
+  },
+  "tests_passed": 295,
+  "monitor_status": "ACTIVE",
+  "note": "Cloud execution confirmed; first four-worker checkpoint/actual selected models not yet visible. Known HTTP503 recovery retains original attempts and quota reservations; no unknown transports cleared."
+}

@@ -4,15 +4,17 @@ from pathlib import Path
 from runner import DATASET,dataset_info
 
 
-def fetch(output):
+def fetch(output,execution_version=None):
     from kaggle import api
     output=Path(output);output.mkdir(parents=True,exist_ok=True)
     kernel='scarletthe0116/uk-motor-qa-resume'
+    if execution_version is not None:kernel+='/'+str(execution_version)
     status=api.kernels_status(kernel).status.name
     info=dataset_info(api)
     if info.is_private is not True:raise RuntimeError('Private storage requirement failed')
     dataset_status=api.dataset_status(DATASET)
     result={'notebook_status':status,'latest_dataset_version':info.current_version_number,'dataset_private':True,'dataset_status':dataset_status}
+    if execution_version is not None:result['execution_version']=execution_version
     if dataset_status=='ready':
         folder=output/('v'+str(info.current_version_number));folder.mkdir(exist_ok=True)
         api.dataset_download_file(DATASET+'/'+str(info.current_version_number),'progress.json',path=str(folder),quiet=True,force=True,unzip=True)
@@ -35,4 +37,5 @@ def fetch(output):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--output',required=True);fetch(**vars(p.parse_args()))
+    p=argparse.ArgumentParser();p.add_argument('--output',required=True)
+    p.add_argument('--execution-version',type=int);fetch(**vars(p.parse_args()))

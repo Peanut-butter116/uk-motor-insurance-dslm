@@ -130,7 +130,7 @@
   },
   "controlled_batch_verified_at_utc": "2026-10-25T17:55:54.687805+00:00",
   "dataset_private": true,
-  "dataset_version": 245,
+  "dataset_version": 254,
   "future_packages_authorised": true,
   "main_research_target": 2000,
   "authorised_accepted_target": 1000,
@@ -240,10 +240,10 @@
     }
   },
   "last_observed_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p80",
-  "latest_observation_utc": "2026-10-28T19:50:41.626593+00:00",
+  "latest_observation_utc": "2026-10-28T20:13:56.841834+00:00",
   "latest_dataset_privacy_verified": true,
   "v10_archive_sha256": "dad0ab797bb97a3f3f522014fdd11f8db6627e7abd83e5cc8e8b647c72ae89b6",
-  "latest_checkpoint_archive_sha256": "2befc47d9984a537d2ab0adfca02ec1dbd4d54bfbb27a59300b41eefe854fdc3",
+  "latest_checkpoint_archive_sha256": "b87d7e48279352731e8c10327ee309a943d1ffb24a981ad31210a931bf363e93",
   "last_external_full_restore_audit_version": 10,
   "current_checkpoint_qc": "Provider-free acceptance audit and authenticated streaming persistence checks run inside each campaign export",
   "last_external_unique_question_count": {
@@ -279,7 +279,7 @@
     "inherited_progress_timestamp": "2026-10-25T22:18:44Z",
     "note": "New ready private checkpoint observed. Provider progress timestamp and paused status remain inherited; fresh model calls or acceptances not yet confirmed. Campaign cumulative counters originate at 412 accepted/608 candidates."
   },
-  "current_status": "ACCELERATED_RUNNING",
+  "current_status": "FOUR_MODEL_STARTING",
   "previous_restart_attempt": {
     "checked_at_utc": "2026-10-28T15:23:39.966978+00:00",
     "notebook": "scarletthe0116/uk-motor-qa-resume",
@@ -317,10 +317,10 @@
     "verified_train_sha256": "9946b87682442ab0948639e80c57a3179059cd563331f1d58fcb8b4ee39448c3",
     "archive_sha256": "40d8ef9c8475ee84b2507f990a95dbd2e4b5e0fddf6d134a65256e144f9cbc7a",
     "original409_and_frozen_gold_hashes_present": true,
-    "fast_groq_count": 31,
+    "fast_groq_count": 32,
     "fast_gemini_count": 50,
-    "combined_total": 543,
-    "remaining_to_target": 457,
+    "combined_total": 544,
+    "remaining_to_target": 456,
     "saved_notebook_version": 13,
     "save_only_not_executed": false,
     "accelerated_execution_started": true,
@@ -338,7 +338,7 @@
     "cross_session_scheduler": false,
     "monitor_status": "ACTIVE",
     "required_action": "Open fresh editor, confirm Parallel Groq + Gemini generation \u2014 UNVERIFIED heading and existing secrets; Save Version -> Save & Run All. Report running version.",
-    "latest_execution_version": 14,
+    "latest_execution_version": 16,
     "latest_execution_status": "RUNNING",
     "latest_failure": {
       "checked_at_utc": "2026-10-28T18:46:18.720007+00:00",
@@ -435,40 +435,79 @@
     "mode": "dual_generator_unverified_v1",
     "verification_status": "unverified",
     "verified_count": 462,
-    "fast_unverified_count": 81,
+    "fast_unverified_count": 82,
     "fast_by_generator": {
       "gemini": 50,
-      "groq": 31
+      "groq": 32
     },
     "fast_answerability": {
       "answerable": 60,
-      "unanswerable": 21
+      "unanswerable": 22
     },
-    "combined_total": 543,
-    "remaining_to_target": 457,
-    "fast_generated_candidates": 87,
-    "technical_exclusions": 6,
-    "packages_completed": 22,
+    "combined_total": 544,
+    "remaining_to_target": 456,
+    "fast_generated_candidates": 91,
+    "technical_exclusions": 9,
+    "packages_completed": 23,
     "provider_state": {
       "groq": {
-        "resume_after_epoch": 1793216884.240313,
-        "status": "quota_wait"
+        "resume_after_epoch": 1793217706.8552501,
+        "status": "blocked",
+        "error": "groq HTTP 503"
       },
       "gemini": {
         "resume_after_epoch": 1793216884.2371504,
-        "status": "quota_wait"
+        "status": "blocked",
+        "error": "gemini HTTP 503"
       }
     },
     "independent_llm_verification_calls": 0,
-    "measured_fast_records_per_hour": 80.91922951358491,
+    "measured_fast_records_per_hour": 60.7213549517292,
     "measurement_scope": "Since first accelerated campaign start; includes quota/persistence waits",
     "smoke_passed": true,
     "concurrent_request_overlap_observed": true,
     "started_at_utc": "2026-10-28T18:48:50.901448+00:00",
-    "updated_at_utc": "2026-10-28T19:48:54.494857+00:00",
-    "status": "running",
+    "updated_at_utc": "2026-10-28T20:09:52.453078+00:00",
+    "status": "blocked_provider",
     "training_ready": false,
     "limitations": "No independent factual, answerability or semantic-paraphrase verification; deterministic exclusions only.",
-    "eligible_packages_remaining": 419
+    "eligible_packages_remaining": 415
+  },
+  "four_model_campaign": {
+    "checked_at_utc": "2026-10-28T20:13:56.841834+00:00",
+    "saved_version": 15,
+    "execution_version": 16,
+    "execution_status": "RUNNING",
+    "predecessor_execution": 14,
+    "predecessor_status": "COMPLETE",
+    "predecessor_cancelled": false,
+    "handoff_private_checkpoint": 254,
+    "verified_count": 462,
+    "unverified_count": 82,
+    "combined_total": 544,
+    "remaining_to_target": 456,
+    "planned_workers": {
+      "groq": "openai/gpt-oss-120b",
+      "gemini": "gemini-3.5-flash-lite",
+      "groq_extra": "openai/gpt-oss-20b",
+      "gemini_extra": "gemini-3.1-flash-lite"
+    },
+    "authenticated_model_selection_receipt_observed": false,
+    "four_model_cloud_smoke_passed": false,
+    "four_model_generation_confirmed": false,
+    "measured_upgrade_records_per_hour": null,
+    "previous_comparison_baseline_records_per_hour": 81,
+    "previous_final_cumulative_records_per_hour": 60.7213549517292,
+    "preservation_checks": {
+      "version": 254,
+      "archive_sha256": "b87d7e48279352731e8c10327ee309a943d1ffb24a981ad31210a931bf363e93",
+      "verified462_hash_preserved": true,
+      "original409_hash_preserved": true,
+      "frozen_gold_hash_preserved": true,
+      "fast_partition_train_sha256": "16123015b5b969a68016527dceb6a109d2fae0fa404269d603c85bd96b62ff71"
+    },
+    "tests_passed": 295,
+    "monitor_status": "ACTIVE",
+    "note": "Cloud execution confirmed; first four-worker checkpoint/actual selected models not yet visible. Known HTTP503 recovery retains original attempts and quota reservations; no unknown transports cleared."
   }
 }

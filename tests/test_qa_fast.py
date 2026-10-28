@@ -59,17 +59,22 @@ def test_notebook_entry_uses_existing_event_loop(monkeypatch, tmp_path):
     assert calls and calls[0][2] == 217
 
 
-@pytest.mark.parametrize('quota_on_groq', [False, True])
-def test_two_workers_overlap_preserve_verified_and_cap_target(tmp_path, monkeypatch, quota_on_groq):
+@pytest.mark.parametrize('quota_on_groq,four_mode', [(False,False),(True,False),(False,True)])
+def test_two_workers_overlap_preserve_verified_and_cap_target(tmp_path, monkeypatch, quota_on_groq, four_mode):
     import runner
     from state import sha
     session = tmp_path/'session'
     run = session/'uk-insurance-QA-data-local/production-v1';run.mkdir(parents=True)
     final = run/'data/final'; final.mkdir(parents=True)
-    verified = [{'example_id': 'old'+str(i), 'question': 'old question '+str(i)} for i in range(996)]
+    verified = [{'example_id': 'old'+str(i), 'question': 'old question '+str(i)} for i in range(990 if four_mode else 996)]
     train = final/'train.jsonl'; train.write_text(''.join(json.dumps(r)+'\n' for r in verified))
     gold = session/'uk-insurance-dslm-data/data/gold/gold_v2.jsonl';gold.parent.mkdir(parents=True);gold.write_text('')
     (run/'state.json').write_text(json.dumps({'generation': []}))
+    if four_mode:
+        prior = run/'fast_unverified_v1';prior.mkdir()
+        old_fast=[{'example_id':'prior-'+p,'question':'prior '+p,'answerability':'answerable',
+                   'generation_model':m,'provenance':{'teacher_provider':p}} for p,m in fast.MODELS.items()]
+        (prior/'train.jsonl').write_text(''.join(json.dumps(r)+'\n' for r in old_fast))
     before = sha(train), sha(gold)
     working = tmp_path/'working';working.mkdir()
     monkeypatch.setattr(fast, 'Path', lambda p: working/str(p).removeprefix('/kaggle/working').lstrip('/')
@@ -88,7 +93,7 @@ def test_two_workers_overlap_preserve_verified_and_cap_target(tmp_path, monkeypa
         if quota_on_groq and provider == 'groq':
             raise Quota(provider, time.time()+3600)
         return {'provider': provider, 'model': model, 'request_sha256': provider+'req',
-                'response_sha256': provider+'resp', 'answer': {'records': [{'question': provider+str(i)} for i in range(4 if quota_on_groq else 2)]}}
+                'response_sha256': provider+'resp', 'answer': {'records': [{'question': model+str(i)} for i in range(4 if quota_on_groq else 2)]}}
     providers = types.ModuleType('src.providers')
     providers.verify_receipt = lambda *args: {}
     providers.complete = complete;providers.QuotaPause = Quota
@@ -102,35 +107,46 @@ def test_two_workers_overlap_preserve_verified_and_cap_target(tmp_path, monkeypa
     packages = [{'id': str(i), 'document': {'insurer': 'Hastings Direct'}, 'context': 'fictional evidence'} for i in range(4)]
     gen = types.SimpleNamespace(packages=lambda _: packages, TEACHER_PROMPT='original teacher prompt',
         candidate=lambda package, item, result: {'example_id': item['question'], 'question': item['question'],
-            'answerability': 'answerable', 'provenance': {'teacher_provider': result['provider']}})
+            'answerability': 'answerable', 'generation_model':result['model'],
+            'provenance': {'teacher_provider': result['provider']}})
     monkeypatch.setattr(fast.importlib.util, 'spec_from_file_location',
         lambda *args: types.SimpleNamespace(loader=types.SimpleNamespace(exec_module=lambda _: None)))
     monkeypatch.setattr(fast.importlib.util, 'module_from_spec', lambda _: gen)
     monkeypatch.setattr(fast, 'ReusedTransport', lambda *args: types.SimpleNamespace(close=lambda: None))
     version = [1];published = []
     monkeypatch.setattr(fast, 'dataset_info', lambda _: types.SimpleNamespace(current_version_number=version[0]))
-    monkeypatch.setattr(runner, 'report', lambda _: {'total_accepted': 996})
+    monkeypatch.setattr(runner, 'report', lambda _: {'total_accepted': len(verified)})
     def persist(*args):
         version[0] += 1
         assert (sha(train), sha(gold)) == before
         measured = runner.report(run)['fast_campaign']
         published.append(measured)
-        (working/'persistence_receipt.json').write_text(json.dumps({'version': version[0], 'accepted':996}))
+        (working/'persistence_receipt.json').write_text(json.dumps({'version': version[0], 'accepted':len(verified)}))
     monkeypatch.setattr(runner, 'persist', persist)
     for key in ('GROQ_API_KEY', 'GEMINI_API_KEY'):monkeypatch.setenv(key, 'fictional')
-    asyncio.run(fast.campaign(session, object(), 1))
+    specs={p:{'provider':p,'model':m} for p,m in fast.MODELS.items()} if four_mode else None
+    if four_mode:
+        specs.update(groq_extra={'provider':'groq','model':'openai/gpt-oss-20b'},
+                     gemini_extra={'provider':'gemini','model':'gemini-3.1-flash-lite'})
+    asyncio.run(fast.campaign(session, object(), 1, worker_specs=specs))
     report = json.loads((working/'fast_campaign_report.json').read_text())
-    assert sorted(calls) == ['gemini', 'groq']
+    assert sorted(calls) == (['gemini','gemini','groq','groq'] if four_mode else ['gemini', 'groq'])
     assert report['combined_total'] == 1000
     if quota_on_groq:
         assert report['fast_by_generator'] == {'gemini':4}
         assert report['provider_state']['groq']['status'] == 'quota_wait'
+    elif four_mode:
+        assert report['fast_by_generator']=={'groq':5,'gemini':5}
+        assert report['four_smoke_passed']
+        assert all(m['admitted']==2 for m in report['worker_metrics'].values())
+        current=json.loads((run/'fast_unverified_v1/train.jsonl').read_text().splitlines()[0])
+        assert current==old_fast[0]
     else:
         assert report['fast_by_generator'] == {'groq':2, 'gemini':2}
         assert report['smoke_passed'] and report['concurrent_request_overlap_observed']
     assert report['independent_llm_verification_calls'] == 0
     assert report['status'] == 'target_reached'
-    assert published[0]['fast_unverified_count'] == 0  # Assignments durable before dispatch.
+    assert published[0]['fast_unverified_count'] == (2 if four_mode else 0)
     assert (sha(train), sha(gold)) == before
 
 

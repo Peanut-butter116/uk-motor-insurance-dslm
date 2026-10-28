@@ -1,5 +1,13 @@
 # Resume the existing QA pipeline in Kaggle
 
+**Four-distinct-model upgrade:** [guarded implementation](FOUR_MODELS.md) retains
+the two existing models, adds Groq20B and a distinct free Gemini selected from
+authenticated model listings, and adapts shared provider concurrency. Saved
+version15 was owner-started as execution16. Execution14 finished naturally at
+private v254 (462 verified +82 unverified =544); execution16 is RUNNING after the
+safe handoff. Four-model cloud smoke/throughput are not yet confirmed. All295
+tests pass. No prior records or benchmark were changed.
+
 **28 October: owner-authorised methodology change.** The opt-in
 [parallel generation-only campaign](FAST_GENERATION.md) preserves the verified
 export and writes new **unverified** Groq/Gemini records to a separate private
