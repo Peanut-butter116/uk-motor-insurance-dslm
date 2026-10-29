@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-10-29T12:58:28.096631+00:00",
+  "checked_at_utc": "2026-10-29T19:42:16.911894+00:00",
   "dataset": {
     "url": "https://www.kaggle.com/datasets/scarletthe0116/uk-motor-qa-d1000-training/versions/1",
     "private": true,
@@ -98,7 +98,7 @@
     "required_action": null,
     "launched": true
   },
-  "responses_completed": 0,
+  "responses_completed": 43,
   "groq_judgements_completed": 0,
   "gemini_judgements_completed": 0,
   "trained_adapters_confirmed": 0,
@@ -124,7 +124,7 @@
   },
   "output_storage": {
     "dataset": "scarletthe0116/uk-motor-d1000-models-results",
-    "version": 5,
+    "version": 44,
     "private": true,
     "bootstrap_only": false,
     "actual_trained_adapters": 0,
@@ -151,18 +151,18 @@
         "status": "queued"
       }
     },
-    "responses_completed": 0,
+    "responses_completed": 43,
     "judge_counts": {
       "groq": 0,
       "gemini": 0
     },
     "last_persistence": {
       "dataset": "scarletthe0116/uk-motor-d1000-models-results",
-      "version": 4,
+      "version": 43,
       "private": true,
       "readback_verified": true
     },
-    "artifacts_sha256": "093cb9d772e2d2d4f1475f22d50b39bffe632c65033787ef3cf4c657d3434131",
+    "artifacts_sha256": "60d572f5f3b1c0a4782e1e2cfae936cc6ac1a09ba59fa1c9e610e9832df6d583",
     "bootstrap_contains_models_or_data": false,
     "artifact_format": "gzip tar bytes with opaque .bin suffix to prevent automatic extraction",
     "code_fingerprint": "d348d461dd1d603dfda0c25ae285bfe08deba244a460606378cc679e0c438609",
@@ -213,5 +213,6 @@
         "reason": "Restricted outputs must be outside Git repository"
       }
     }
-  }
+  },
+  "inference_started_confirmed": true
 }
