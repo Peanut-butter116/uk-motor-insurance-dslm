@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-10-29T12:47:02.367017+00:00",
+  "checked_at_utc": "2026-10-29T12:58:28.096631+00:00",
   "dataset": {
     "url": "https://www.kaggle.com/datasets/scarletthe0116/uk-motor-qa-d1000-training/versions/1",
     "private": true,
@@ -110,7 +110,8 @@
     "Full campaign protected-page filtering may reduce eligibility below standalone smoke 893 rows (804 train/89 validation)",
     "Smoke speeds include validation overhead and are not full-training runtime estimates",
     "Four-way sharing of two GPUs not benchmarked",
-    "Free judge quotas may require multiple sessions; no cross-session scheduler configured"
+    "Free judge quotas may require multiple sessions; no cross-session scheduler configured",
+    "Both judges calibration-blocked by copied production source-root guard. Nested source/runtime separation repair tested locally, NOT deployed to active6; wait safe terminal boundary before audited code-bound recovery. No judge calls confirmed."
   ],
   "previous_campaign": {
     "execution_version": 5,
@@ -123,10 +124,94 @@
   },
   "output_storage": {
     "dataset": "scarletthe0116/uk-motor-d1000-models-results",
-    "version": 2,
+    "version": 5,
     "private": true,
-    "bootstrap_only": true,
+    "bootstrap_only": false,
     "actual_trained_adapters": 0,
     "opaque_archive_readback_passed": true
+  },
+  "private_campaign_progress": {
+    "protocol": "d1000-mixed-quality-qlora-dual-judge/1",
+    "status": "gpu_smoke_then_training",
+    "models": {
+      "qwen3b": {
+        "status": "smoke_training_inference",
+        "gpu": 0,
+        "pid": 103
+      },
+      "ministral3b": {
+        "status": "smoke_training_inference",
+        "gpu": 1,
+        "pid": 104
+      },
+      "deepseek1b5": {
+        "status": "tokenisation_failed"
+      },
+      "smollm1b7": {
+        "status": "queued"
+      }
+    },
+    "responses_completed": 0,
+    "judge_counts": {
+      "groq": 0,
+      "gemini": 0
+    },
+    "last_persistence": {
+      "dataset": "scarletthe0116/uk-motor-d1000-models-results",
+      "version": 4,
+      "private": true,
+      "readback_verified": true
+    },
+    "artifacts_sha256": "093cb9d772e2d2d4f1475f22d50b39bffe632c65033787ef3cf4c657d3434131",
+    "bootstrap_contains_models_or_data": false,
+    "artifact_format": "gzip tar bytes with opaque .bin suffix to prevent automatic extraction",
+    "code_fingerprint": "d348d461dd1d603dfda0c25ae285bfe08deba244a460606378cc679e0c438609",
+    "gpus": [
+      {
+        "index": 0,
+        "name": "Tesla T4",
+        "total_memory": 15636037632
+      },
+      {
+        "index": 1,
+        "name": "Tesla T4",
+        "total_memory": 15636037632
+      }
+    ],
+    "export": {
+      "dataset": "scarletthe0116/uk-motor-qa-d1000-training",
+      "version": 1,
+      "records": 1000,
+      "csv_sha256": "faec491822ce60758d1705fe0f1b71621eaf8dd34f9f9b8168eca001b1acd6b3",
+      "readback_verified": true
+    },
+    "dataset_conversion": {
+      "source_rows": 1000,
+      "eligible_rows": 834,
+      "model_preflight_failures": {
+        "deepseek1b5": {
+          "type": "ValueError",
+          "reason": "Chat template does not preserve the prompt prefix; refuse unsafe masking"
+        }
+      }
+    },
+    "train_rows": 751,
+    "validation_rows": 83,
+    "judges": {
+      "groq": {
+        "completed": 0,
+        "model": "openai/gpt-oss-120b",
+        "catalogue_verified": true,
+        "status": "calibration_blocked",
+        "reason": "Restricted outputs must be outside Git repository"
+      },
+      "gemini": {
+        "completed": 0,
+        "model": "gemini-3.5-flash-lite",
+        "catalogue_verified": true,
+        "status": "calibration_blocked",
+        "reason": "Restricted outputs must be outside Git repository"
+      }
+    }
   }
 }

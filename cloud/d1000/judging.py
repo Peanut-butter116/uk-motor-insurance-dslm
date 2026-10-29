@@ -75,12 +75,19 @@ def tasks(root):
     return pairs
 
 
+def transport_paths(root):
+    # Copied production common.py protects its source parent. Keep caches in
+    # a sibling tree, preserving that guard rather than disabling it.
+    root=Path(root)
+    return root/'production_transport'/'production_transport',root/'judge_runtime'
+
+
 def provider_runtime(root):
     """Pinned existing transport, independent caches, inherited account reservations."""
     mount=next(p.parent for p in Path('/kaggle/input').rglob('migration_manifest.json') if json.loads(p.read_text()).get('archive_sha256')==ARCHIVE)
     m=json.loads((mount/'migration_manifest.json').read_text());assert sha(mount/'checkpoint.bin')==ARCHIVE
-    runtime=root/'judge_runtime';runtime.mkdir(exist_ok=True)
-    code=root/'production_transport';code.mkdir(exist_ok=True);(code/'__init__.py').touch()
+    code,runtime=transport_paths(root);runtime.mkdir(exist_ok=True)
+    code.mkdir(parents=True,exist_ok=True);(code/'__init__.py').touch()
     with tarfile.open(mount/'checkpoint.bin') as tar:
         def read(name):
             b=tar.extractfile(name).read();assert __import__('hashlib').sha256(b).hexdigest()==m['files'][name];return b
@@ -91,7 +98,7 @@ def provider_runtime(root):
         for provider in ('groq','gemini'):
             dest=runtime/'provider_usage'/(provider+'.json');dest.parent.mkdir(exist_ok=True)
             if not dest.exists():dest.write_bytes(read(prefix+'provider_usage/'+provider+'.json'))
-    sys.path.insert(0,str(root));return importlib.import_module('production_transport.providers'),runtime
+    sys.path.insert(0,str(code.parent));return importlib.import_module('production_transport.providers'),runtime
 
 
 async def run(root,stop,state):

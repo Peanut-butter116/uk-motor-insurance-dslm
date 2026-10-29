@@ -71,3 +71,12 @@ def test_private_readback_uses_sdk_and_checks_exact_bytes(monkeypatch):
         verify_file('fictional/private',2,'progress.json','0'*64)
     with pytest.raises(AssertionError,match='cloud-only'):
         verify_file('fictional/private',2,'private-training.csv','0'*64)
+
+
+def test_provider_runtime_outside_copied_source_guard(tmp_path):
+    from cloud.d1000.judging import transport_paths
+    code,runtime=transport_paths(tmp_path/'campaign')
+    source_root=code.parent.resolve()
+    assert runtime.resolve()!=source_root and source_root not in runtime.resolve().parents
+    assert code.parent.name=='production_transport'
+    assert runtime.parent==tmp_path/'campaign'
