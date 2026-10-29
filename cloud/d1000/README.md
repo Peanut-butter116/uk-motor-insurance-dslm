@@ -139,3 +139,9 @@ Validation: 301 local regression tests passed, including unchanged historical
 loader hashes, grouped split determinism, preserved targets, exact checkpoint
 identities, frozen judge schema and missing/degenerate agreement cases. CPU tests
 are not substitutes for the running cloud CUDA smoke.
+
+### 29 October smoke completion and private readback repair
+
+Standalone GPU smoke 2 completed: Qwen, Ministral and SmolLM passed two-step training with finite loss and reload gates. Peak allocated GPU memory was 7,168,736,256 / 9,259,468,800 / 3,584,092,160 bytes respectively. DeepSeek failed the unchanged prompt-prefix masking safety guard during tokenisation; no checkpoint substitution or unsafe masking was applied. Standalone eligibility was 893/1,000 rows (804 train, 89 validation); full protected-support-page exclusions still apply separately. The recorded smoke timing includes evaluation overhead and is not a full training estimate.
+
+Campaign 5 stopped with HTTP404 after its smoke guard and before training, responses or judge calls. Its restore used the SDK successfully, but the legacy private-file hash readback URL was unsupported. The repair uses the authenticated Kaggle SDK for temporary cloud readback, including server ZIP envelope unwrapping, then hashes the exact file and removes the temporary copy. Research-artifact readback is explicitly cloud-only. Empty private bootstrap v2 and every historical dataset remain intact. Repaired private campaign 6 is confirmed RUNNING with exact code hash `5c544a287b007e4da3dd5abc341821bdecc54b458186b1861d0f1962e48b2249`, T4 x2, existing secrets. It independently repeats fresh gates and continues supported models to fixed-epoch training; successful full training/adapters/inference/judging are not yet confirmed.

@@ -52,3 +52,22 @@ def test_judge_extension_does_not_replace_frozen_rubric():
     s=schema(task)['properties']['evaluations']['items']['properties']
     assert 'correctness' in s and 'reference_span_ids' in s and 'citation_assessments' in s
     assert 'correctness' in indexed.schema([task])['properties']['evaluations']['items']['properties']
+
+
+def test_private_readback_uses_sdk_and_checks_exact_bytes(monkeypatch):
+    import sys,types
+    import pytest
+    from cloud.d1000.storage import verify_file
+    payload=b'{"status":"synthetic"}\n';calls=[]
+    def download(dataset,name,**kwargs):
+        calls.append((dataset,name,kwargs))
+        (Path(kwargs['path'])/name).write_bytes(payload)
+    monkeypatch.setitem(sys.modules,'kaggle',types.SimpleNamespace(api=types.SimpleNamespace(dataset_download_file=download)))
+    verify_file('fictional/private',2,'progress.json',hashlib.sha256(payload).hexdigest())
+    assert calls[0][0:2]==('fictional/private/2','progress.json')
+    assert calls[0][2]['unzip'] is True
+    assert not Path(calls[0][2]['path']).exists()
+    with pytest.raises(AssertionError,match='Remote artifact hash mismatch'):
+        verify_file('fictional/private',2,'progress.json','0'*64)
+    with pytest.raises(AssertionError,match='cloud-only'):
+        verify_file('fictional/private',2,'private-training.csv','0'*64)

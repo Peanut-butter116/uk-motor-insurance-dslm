@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-10-29T12:21:52.019607+00:00",
+  "checked_at_utc": "2026-10-29T12:47:02.367017+00:00",
   "dataset": {
     "url": "https://www.kaggle.com/datasets/scarletthe0116/uk-motor-qa-d1000-training/versions/1",
     "private": true,
@@ -14,15 +14,71 @@
   "smoke": {
     "notebook": "scarletthe0116/uk-motor-d1000-gpu-smoke",
     "execution_version": 2,
-    "status": "RUNNING",
-    "hardware_observed": [
-      "Tesla T4",
-      "Tesla T4"
+    "status": "smoke_finished",
+    "gpus": [
+      {
+        "index": 0,
+        "name": "Tesla T4",
+        "total_memory": 15636037632
+      },
+      {
+        "index": 1,
+        "name": "Tesla T4",
+        "total_memory": 15636037632
+      }
     ],
-    "gpu_memory_bytes_each": 15636037632,
-    "training_success_confirmed": false,
-    "measured_training_speed": null,
-    "estimated_remaining_runtime": null
+    "models": {
+      "qwen3b": {
+        "status": "smoke_passed",
+        "gpu": 0,
+        "exit_code": 0,
+        "metrics": {
+          "loss": 0.8764175772666931,
+          "seconds": 1570.2367143689999,
+          "samples_per_second": 0.014,
+          "peak_gpu_bytes": 7168736256,
+          "steps": 2
+        }
+      },
+      "ministral3b": {
+        "status": "smoke_passed",
+        "gpu": 1,
+        "exit_code": 0,
+        "metrics": {
+          "loss": 0.7540242075920105,
+          "seconds": 1823.849106981,
+          "samples_per_second": 0.012,
+          "peak_gpu_bytes": 9259468800,
+          "steps": 2
+        }
+      },
+      "smollm1b7": {
+        "status": "smoke_passed",
+        "gpu": 0,
+        "exit_code": 0,
+        "metrics": {
+          "loss": 0.8682875335216522,
+          "seconds": 1056.445613035,
+          "samples_per_second": 0.021,
+          "peak_gpu_bytes": 3584092160,
+          "steps": 2
+        }
+      }
+    },
+    "full_training_started": false,
+    "model_calls": 0,
+    "conversion": {
+      "source_rows": 1000,
+      "eligible_rows": 893,
+      "model_preflight_failures": {
+        "deepseek1b5": {
+          "type": "ValueError",
+          "reason": "Chat template does not preserve the prompt prefix; refuse unsafe masking"
+        }
+      }
+    },
+    "train_rows": 804,
+    "validation_rows": 89
   },
   "previous_smoke": {
     "execution_version": 1,
@@ -32,15 +88,15 @@
   },
   "full_campaign": {
     "notebook": "scarletthe0116/uk-motor-d1000-train-eval",
-    "saved_version": 3,
-    "launched": true,
-    "status": "RUNNING_WAITING_FOR_GPU_SMOKE",
-    "code_sha256": "5dfd45d97e5f2b3b6778bea7bf1076f7c88be576de3395c20285907b7c93c27b",
+    "execution_version": 6,
+    "status": "RUNNING",
+    "private": true,
+    "code_sha256": "5c544a287b007e4da3dd5abc341821bdecc54b458186b1861d0f1962e48b2249",
+    "matches_repaired_code": true,
+    "gpu_enabled": true,
+    "machine_shape": "NvidiaTeslaT4",
     "required_action": null,
-    "execution_version": 5,
-    "owner_confirmed_secrets_enabled": true,
-    "code_hash_verified_against_saved3": false,
-    "code_hash_verified_against_repair": true
+    "launched": true
   },
   "responses_completed": 0,
   "groq_judgements_completed": 0,
@@ -50,17 +106,20 @@
   "historical_loader_unchanged": true,
   "generation_restarted": false,
   "limitations": [
-    "GPU smoke/training throughput not yet confirmed",
+    "DeepSeek tokenisation preflight blocked by prompt-prefix masking safety guard; other three models passed standalone GPU smoke",
+    "Full campaign protected-page filtering may reduce eligibility below standalone smoke 893 rows (804 train/89 validation)",
+    "Smoke speeds include validation overhead and are not full-training runtime estimates",
     "Four-way sharing of two GPUs not benchmarked",
-    "Actual train count depends on common complete-record tokenisation and protected-page checks",
     "Free judge quotas may require multiple sessions; no cross-session scheduler configured"
   ],
   "previous_campaign": {
-    "execution_version": 4,
-    "status": "CANCEL_ACKNOWLEDGED",
-    "last_stage": "waiting_for_gpu_smoke",
+    "execution_version": 5,
+    "status": "ERROR",
+    "last_stage": "after_smoke_guard_before_training",
     "models_started": 0,
-    "reason": "Archive retention repair before model loading"
+    "responses": 0,
+    "judge_calls": 0,
+    "failure": "Legacy private readback URL returned HTTP404; replaced with authenticated SDK download and ZIP-envelope handling"
   },
   "output_storage": {
     "dataset": "scarletthe0116/uk-motor-d1000-models-results",

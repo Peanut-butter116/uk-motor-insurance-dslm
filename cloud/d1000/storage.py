@@ -14,16 +14,17 @@ def info(api,dataset):
 
 
 def verify_file(dataset,version,name,expected):
-    url=f'https://www.kaggle.com/api/v1/datasets/download/{dataset}/{name}?datasetVersionNumber={version}'
-    # urllib strips Authorization on cross-host download redirects explicitly.
-    class Redirect(urllib.request.HTTPRedirectHandler):
-        def redirect_request(self,req,fp,code,msg,headers,newurl):
-            if not newurl.startswith('https://'):raise RuntimeError('Insecure download redirect')
-            r=super().redirect_request(req,fp,code,msg,headers,newurl);r.remove_header('Authorization');return r
-    req=urllib.request.Request(url,headers={'Authorization':'Bearer '+os.environ['KAGGLE_API_TOKEN']})
-    with urllib.request.build_opener(Redirect()).open(req,timeout=120) as stream:
+    # SDK resolves authenticated private URLs and unwraps server ZIP envelopes.
+    # Research files are read back only inside Kaggle's temporary runtime.
+    from kaggle import api
+    import tempfile
+    if name!='progress.json':assert Path('/kaggle/working').is_dir(),'Research artifact readback is cloud-only'
+    with tempfile.TemporaryDirectory(prefix='d1000-readback-') as tmp:
+        api.dataset_download_file(dataset+'/'+str(version),name,path=tmp,
+                                  quiet=True,force=True,unzip=True)
         h=hashlib.sha256()
-        for b in iter(lambda:stream.read(1024*1024),b''):h.update(b)
+        with (Path(tmp)/name).open('rb') as stream:
+            for chunk in iter(lambda:stream.read(1024*1024),b''):h.update(chunk)
     assert h.hexdigest()==expected,'Remote artifact hash mismatch'
 
 
