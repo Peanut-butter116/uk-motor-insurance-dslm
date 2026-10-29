@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-10-29T21:27:17.585523+00:00",
+  "checked_at_utc": "2026-10-29T21:42:13.247108+00:00",
   "dataset": {
     "url": "https://www.kaggle.com/datasets/scarletthe0116/uk-motor-qa-d1000-training/versions/1",
     "private": true,
@@ -124,7 +124,7 @@
   },
   "output_storage": {
     "dataset": "scarletthe0116/uk-motor-d1000-models-results",
-    "version": 49,
+    "version": 50,
     "private": true,
     "bootstrap_only": false,
     "actual_trained_adapters": 0,
@@ -141,15 +141,18 @@
         "exit_code": 0
       },
       "ministral3b": {
-        "status": "smoke_training_inference",
+        "status": "complete",
         "gpu": 1,
-        "pid": 104
+        "pid": 104,
+        "exit_code": 0
       },
       "deepseek1b5": {
         "status": "tokenisation_failed"
       },
       "smollm1b7": {
-        "status": "queued"
+        "status": "smoke_training_inference",
+        "gpu": 0,
+        "pid": 254
       }
     },
     "responses_completed": 599,
@@ -159,11 +162,11 @@
     },
     "last_persistence": {
       "dataset": "scarletthe0116/uk-motor-d1000-models-results",
-      "version": 48,
+      "version": 49,
       "private": true,
       "readback_verified": true
     },
-    "artifacts_sha256": "f837a1354626dd7feb5765fa2c63df5e96476416da4654bb5ef100d6bce2c520",
+    "artifacts_sha256": "d62d09eaa19085ccf79f80b00752d7e463f1a65a532a0d51cf7268f7c01a429a",
     "bootstrap_contains_models_or_data": false,
     "artifact_format": "gzip tar bytes with opaque .bin suffix to prevent automatic extraction",
     "code_fingerprint": "d348d461dd1d603dfda0c25ae285bfe08deba244a460606378cc679e0c438609",
@@ -217,7 +220,8 @@
   },
   "inference_started_confirmed": true,
   "completed_model_workers": [
-    "qwen3b"
+    "qwen3b",
+    "ministral3b"
   ],
-  "adapter_verification_note": "Qwen worker exited successfully after required train/reload/inference gates; exact adapter hash and detailed training metrics not independently retrieved by aggregate-only monitor"
+  "adapter_verification_note": "Qwen and Ministral workers exited successfully after required train/reload/inference gates; exact adapter hashes and detailed training metrics not independently retrieved by aggregate-only monitor"
 }
