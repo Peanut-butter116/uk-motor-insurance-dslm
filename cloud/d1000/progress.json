@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-10-29T20:42:11.755279+00:00",
+  "checked_at_utc": "2026-10-29T21:12:20.417776+00:00",
   "dataset": {
     "url": "https://www.kaggle.com/datasets/scarletthe0116/uk-motor-qa-d1000-training/versions/1",
     "private": true,
@@ -124,7 +124,7 @@
   },
   "output_storage": {
     "dataset": "scarletthe0116/uk-motor-d1000-models-results",
-    "version": 47,
+    "version": 48,
     "private": true,
     "bootstrap_only": false,
     "actual_trained_adapters": 0,
@@ -135,9 +135,10 @@
     "status": "gpu_smoke_then_training",
     "models": {
       "qwen3b": {
-        "status": "smoke_training_inference",
+        "status": "complete",
         "gpu": 0,
-        "pid": 103
+        "pid": 103,
+        "exit_code": 0
       },
       "ministral3b": {
         "status": "smoke_training_inference",
@@ -158,11 +159,11 @@
     },
     "last_persistence": {
       "dataset": "scarletthe0116/uk-motor-d1000-models-results",
-      "version": 46,
+      "version": 47,
       "private": true,
       "readback_verified": true
     },
-    "artifacts_sha256": "5a1ef548f44a4c1abb44bcf54126edf7abecaff1446e690401eebe3cc0de4dc0",
+    "artifacts_sha256": "aab584da72296fc6c0a1355d5cc8e66455f2e9f7d8288bcbb4fe981d90dbe873",
     "bootstrap_contains_models_or_data": false,
     "artifact_format": "gzip tar bytes with opaque .bin suffix to prevent automatic extraction",
     "code_fingerprint": "d348d461dd1d603dfda0c25ae285bfe08deba244a460606378cc679e0c438609",
@@ -214,5 +215,9 @@
       }
     }
   },
-  "inference_started_confirmed": true
+  "inference_started_confirmed": true,
+  "completed_model_workers": [
+    "qwen3b"
+  ],
+  "adapter_verification_note": "Qwen worker exited successfully after required train/reload/inference gates; exact adapter hash and detailed training metrics not independently retrieved by aggregate-only monitor"
 }
