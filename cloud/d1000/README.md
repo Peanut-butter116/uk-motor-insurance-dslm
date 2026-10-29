@@ -104,15 +104,24 @@ Figures contain accessible markers/line styles and missing values remain missing
 ## Storage, starting and restart
 
 Full campaign notebook: `scarletthe0116/uk-motor-d1000-train-eval`.
+Execution5 is confirmed RUNNING with verified repaired code hash
+`5dfd45d97e5f2b3b6778bea7bf1076f7c88be576de3395c20285907b7c93c27b`.
+The agent started it through the owner's loaded editor with existing secrets.
+Execution4 was safely stopped at its read-only guard before any model loading;
+its receipt confirms zero models/responses/judge calls. An independent private
+CPU storage probe proved `.bin` retention/readback before execution5 started.
+The current private models/results version2 is an empty metadata bootstrap,
+not evidence of successful training or saved adapters.
 It requires the existing three Kaggle secrets and an actual editor **Save Version →
 Save & Run All** with T4 x2. API saves do not attach secrets; a saved/COMPLETE empty
 version is not evidence of training. Read exact aggregate receipts before claims.
 
 The coordinator waits for GPU smoke execution2 to terminate before loading models.
 It verifies private dataset v1 by authenticated cloud readback. One coordinator
-publishes private `uk-motor-d1000-models-results` stages and verifies every top-level
-artifact hash by cloud-memory streaming before more work. This dataset is created
-only after secret attachment/preflight, so a URL is not proof it already exists.
+publishes private `uk-motor-d1000-models-results` stages as an opaque `artifacts.bin`
+archive (Kaggle otherwise unpacks `.tar.gz` uploads) and verifies every top-level
+artifact hash by cloud-memory streaming before more work. The bootstrap alone
+does not establish that any model artifacts have been produced.
 
 Immutable completed optimizer checkpoints have completion markers; they are never
 deleted while snapshots are read. Stable adapters/stages, complete response journal

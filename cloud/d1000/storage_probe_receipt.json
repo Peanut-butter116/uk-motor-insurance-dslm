@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "dataset": "scarletthe0116/uk-motor-d1000-models-results",
+  "version": 2,
+  "opaque_artifact_retained": true,
+  "archive_sha256_verified": true,
+  "bootstrap_only": true,
+  "trained_adapters": 0,
+  "records": 0
+}

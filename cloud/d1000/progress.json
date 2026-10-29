@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-10-29T12:01:38.511476+00:00",
+  "checked_at_utc": "2026-10-29T12:21:52.019607+00:00",
   "dataset": {
     "url": "https://www.kaggle.com/datasets/scarletthe0116/uk-motor-qa-d1000-training/versions/1",
     "private": true,
@@ -33,10 +33,14 @@
   "full_campaign": {
     "notebook": "scarletthe0116/uk-motor-d1000-train-eval",
     "saved_version": 3,
-    "launched": false,
-    "status": "AWAITING_EDITOR_SECRET_ATTACHMENT",
-    "code_sha256": "6a57d435129f1c70d26f47e85bcf04e541719aa4e52301c550609c2eabdebb84",
-    "required_action": "Fresh Edit of saved3, enable three existing secrets, Save Version -> Save & Run All; guard waits for smoke2 to terminate"
+    "launched": true,
+    "status": "RUNNING_WAITING_FOR_GPU_SMOKE",
+    "code_sha256": "5dfd45d97e5f2b3b6778bea7bf1076f7c88be576de3395c20285907b7c93c27b",
+    "required_action": null,
+    "execution_version": 5,
+    "owner_confirmed_secrets_enabled": true,
+    "code_hash_verified_against_saved3": false,
+    "code_hash_verified_against_repair": true
   },
   "responses_completed": 0,
   "groq_judgements_completed": 0,
@@ -49,7 +53,21 @@
     "GPU smoke/training throughput not yet confirmed",
     "Four-way sharing of two GPUs not benchmarked",
     "Actual train count depends on common complete-record tokenisation and protected-page checks",
-    "Full training/judging requires editor-attached secrets",
     "Free judge quotas may require multiple sessions; no cross-session scheduler configured"
-  ]
+  ],
+  "previous_campaign": {
+    "execution_version": 4,
+    "status": "CANCEL_ACKNOWLEDGED",
+    "last_stage": "waiting_for_gpu_smoke",
+    "models_started": 0,
+    "reason": "Archive retention repair before model loading"
+  },
+  "output_storage": {
+    "dataset": "scarletthe0116/uk-motor-d1000-models-results",
+    "version": 2,
+    "private": true,
+    "bootstrap_only": true,
+    "actual_trained_adapters": 0,
+    "opaque_archive_readback_passed": true
+  }
 }

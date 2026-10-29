@@ -25,7 +25,9 @@ def checkpoint(state):
     stage=Path('/kaggle/working/publish');stage.mkdir(exist_ok=True)
     state['judge_counts']={p:sum(1 for _ in (ROOT/'judging'/f'{p}.jsonl').open())
                           if (ROOT/'judging'/f'{p}.jsonl').exists() else 0 for p in ('groq','gemini')}
-    with tarfile.open(stage/'artifacts.tar.gz','w:gz') as tar:
+    # Kaggle automatically extracts recognised archive extensions. An opaque
+    # suffix preserves exact bytes, as in production checkpoint.bin.
+    with tarfile.open(stage/'artifacts.bin','w:gz') as tar:
         for name in ('config.json','bundle','evaluation','production_transport'):
             if (ROOT/name).exists():tar.add(ROOT/name,arcname=name)
         for directory in ('judging','judge_runtime'):
@@ -50,7 +52,7 @@ def checkpoint(state):
                     import io
                     item=tarfile.TarInfo(str(p.relative_to(ROOT)));item.size=len(payload);tar.addfile(item,io.BytesIO(payload))
                 else:tar.add(p,arcname=str(p.relative_to(ROOT)),recursive=False)
-    state['artifacts_sha256']=sha(stage/'artifacts.tar.gz')
+    state['artifacts_sha256']=sha(stage/'artifacts.bin')
     write(stage/'progress.json',state)
     if state.get('last_persistence'):
         from kaggle import api
@@ -119,11 +121,11 @@ def main():
     if previous is not None:
         assert previous.is_private is True
         dest=Path('/kaggle/working/resume');dest.mkdir(exist_ok=True)
-        for name in ('progress.json','artifacts.tar.gz'):
+        for name in ('progress.json','artifacts.bin'):
             api.dataset_download_file(STORE+'/'+str(previous.current_version_number),name,path=str(dest),quiet=True,force=True,unzip=True)
         saved=json.loads((dest/'progress.json').read_text())
-        assert sha(dest/'artifacts.tar.gz')==saved['artifacts_sha256']
-        with tarfile.open(dest/'artifacts.tar.gz') as tar:tar.extractall(ROOT,filter='data')
+        assert sha(dest/'artifacts.bin')==saved['artifacts_sha256']
+        with tarfile.open(dest/'artifacts.bin') as tar:tar.extractall(ROOT,filter='data')
         state=saved;state['last_persistence']={'dataset':STORE,'version':previous.current_version_number,'private':True,'readback_verified':True}
     dataset='scarletthe0116/uk-motor-qa-d1000-training';d=info(api,dataset)
     assert d.is_private is True and d.current_version_number==1
