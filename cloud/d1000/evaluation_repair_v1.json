@@ -17,12 +17,12 @@
   },
   "destination_hashes": {
     "cloud/d1000/campaign.py": "d885d8694dc8b0ec0b1e3c482de877df970e52611b084539b3aa3414956ab5bd",
-    "cloud/d1000/evaluation_only.py": "3546d4435a260b94cfad159c3a9294ca30d11ee2da8bf3190401b31d4b0f6f2a",
+    "cloud/d1000/evaluation_only.py": "c90bd4872ee68d2d4bc87d056aee425ec964c42dcd85b0683aa4da2bf78a0a8e",
     "cloud/d1000/export.py": "cf8ed84ad525ae311ba093292e3137edab87d14469df73f0c08d433ceba43e8a",
     "cloud/d1000/fetch_progress.py": "876afecad2312ea6d0ec061503a502dc63ba36a23415d7b17e2b9d7ab96bf4a4",
     "cloud/d1000/gpu_probe.py": "f8e4f42e8df3a3f97bb68672a0471c5569e8dce6bc1e55db2e97675f17064e4f",
     "cloud/d1000/groq_schema_probe.py": "cee89953e5158dbf6d5ddfaa01bb0bd27d9baec83654e45929fadd477517bfc1",
-    "cloud/d1000/judge_recovery.py": "cb2c32fbb486d3d574da0304f77ee63288aa28a9f4fde7b3146bdffabeeca72f",
+    "cloud/d1000/judge_recovery.py": "6926b0c59234413ab1354cd0999b50e3de27a8cfa9e809bff7b86139db1368da",
     "cloud/d1000/judging.py": "e9f2559872810d930dafec1b36321b0203feb6633cbdb4cde774ae040c169881",
     "cloud/d1000/metrics.py": "22f264da70001a3b42066815400f6a7920ce20e1b776dea0bd928c8a5d51bb6c",
     "cloud/d1000/research_diagnostics.py": "b31656418201fd99a5d49f9a0f3223814859c99a1825ff50da687ddc737ee57f",
@@ -31,7 +31,7 @@
     "cloud/d1000/storage_probe.py": "0a5b64580a4487a5abb3193e53032349da19a8a85571b2ab79a1e720e5fea944",
     "cloud/d1000/train_worker.py": "153654444ed5189bd7f0dfba8bb7d003c1770b855286cd2241ba4557b2ee03ab"
   },
-  "destination_fingerprint": "cef364555a09a50a7ab09fc64fe6cfe4b84ce382fcbf02d16aeb122b844265d6",
+  "destination_fingerprint": "6f0173312e9996a952f5c7cdd88e36b373f5e2c5291bf1f783cdcf7151ede24d",
   "immutable_method": "Training worker, model/data config, benchmark, rubric and912source responses unchanged; new CPU-only coordinator/transport; schema on wire; bounded validation retries without label feedback.",
   "prior_evaluation_transitions": [
     {
@@ -71,6 +71,26 @@
         "cloud/d1000/train_worker.py": "153654444ed5189bd7f0dfba8bb7d003c1770b855286cd2241ba4557b2ee03ab"
       },
       "reason": "Execution16 terminal; add private Groq error capture only, terminal receipt pagination and exact prior-writer guard. No semantic or retry-budget changes."
+    },
+    {
+      "source_fingerprint": "cef364555a09a50a7ab09fc64fe6cfe4b84ce382fcbf02d16aeb122b844265d6",
+      "source_hashes": {
+        "cloud/d1000/campaign.py": "d885d8694dc8b0ec0b1e3c482de877df970e52611b084539b3aa3414956ab5bd",
+        "cloud/d1000/evaluation_only.py": "3546d4435a260b94cfad159c3a9294ca30d11ee2da8bf3190401b31d4b0f6f2a",
+        "cloud/d1000/export.py": "cf8ed84ad525ae311ba093292e3137edab87d14469df73f0c08d433ceba43e8a",
+        "cloud/d1000/fetch_progress.py": "876afecad2312ea6d0ec061503a502dc63ba36a23415d7b17e2b9d7ab96bf4a4",
+        "cloud/d1000/gpu_probe.py": "f8e4f42e8df3a3f97bb68672a0471c5569e8dce6bc1e55db2e97675f17064e4f",
+        "cloud/d1000/groq_schema_probe.py": "cee89953e5158dbf6d5ddfaa01bb0bd27d9baec83654e45929fadd477517bfc1",
+        "cloud/d1000/judge_recovery.py": "cb2c32fbb486d3d574da0304f77ee63288aa28a9f4fde7b3146bdffabeeca72f",
+        "cloud/d1000/judging.py": "e9f2559872810d930dafec1b36321b0203feb6633cbdb4cde774ae040c169881",
+        "cloud/d1000/metrics.py": "22f264da70001a3b42066815400f6a7920ce20e1b776dea0bd928c8a5d51bb6c",
+        "cloud/d1000/research_diagnostics.py": "b31656418201fd99a5d49f9a0f3223814859c99a1825ff50da687ddc737ee57f",
+        "cloud/d1000/stage.py": "f2432ff0da2f44a546f4fc843c0ba38af88226168b7a066e8e4711ceca56b8cd",
+        "cloud/d1000/storage.py": "67ec82627cd7bac9de4766deb5aa934117f26afeb57e78705400347a8c179b65",
+        "cloud/d1000/storage_probe.py": "0a5b64580a4487a5abb3193e53032349da19a8a85571b2ab79a1e720e5fea944",
+        "cloud/d1000/train_worker.py": "153654444ed5189bd7f0dfba8bb7d003c1770b855286cd2241ba4557b2ee03ab"
+      },
+      "reason": "Execution17 terminal; known Groq json_validate_failed rejected replies enter bounded same-judge repair path without ever counting HTTP400 as a vote. Revision4 preserves unknown blocking and original validators."
     }
   ],
   "quota_deltas_sha256": "1f31f162650a7fe0d88ee16214670700b52d2ba0e09ad6e62d4afe9e391c8b0f",

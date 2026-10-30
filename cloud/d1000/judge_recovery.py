@@ -6,7 +6,7 @@ import asyncio
 from cloud.d1000 import judging
 
 PROTOCOL='d1000-evaluation-only-schema-v2'
-TRANSPORT_REVISION=3
+TRANSPORT_REVISION=4
 INVARIANTS='''
 Transport clarification of the unchanged rubric (not extra grading labels):
 Return exactly the evaluations wrapper and all required item fields, including
@@ -106,6 +106,38 @@ def groq_error_category(error):
     return 'other_request_rejection'
 
 
+class GroqInvalidJSON(Exception):
+    def __init__(self,error):self.error=error
+
+
+def reply_text(raw):
+    content=raw.get('choices',[{}])[0].get('message',{}).get('content')
+    if content:return content
+    error=raw.get('provider_error',{});error=error.get('error',error) if isinstance(error,dict) else {}
+    value=error.get('failed_generation')
+    return value if isinstance(value,str) else None
+
+
+def recover_rejected_json(history,task,model,folder,runtime,providers):
+    """Recover the exact saved rejection; never promote it to a valid vote."""
+    if not history or history[-1]['status']!='request_rejected':return
+    entry=history[-1]
+    if 'json_generation_validation_failed' not in entry.get('error_category',''):return
+    prior=history[-2] if len(history)>1 else {}
+    previous_path=folder/(prior.get('request_sha256','')+'.raw.json')
+    previous=reply_text(json.loads(previous_path.read_text())) if previous_path.exists() else None
+    assert entry['task_sha256']==judging.core.digest(task),'Rejected task identity changed'
+    # Enum ordering may differ between processes; restore the exact saved wire
+    # configuration instead of rebuilding its semantically equivalent schema.
+    actual={**entry['generation_config'],'messages':body('groq',model,task,prior.get('validation_error'),previous)['messages']}
+    assert actual['model']==model
+    error_file=Path(runtime)/'private_provider_errors'/(judging.core.digest(actual)+'.json')
+    error=json.loads(error_file.read_text())
+    assert error['http_status']==400 and groq_error_category(error['body'])=='json_generation_validation_failed'
+    providers.atomic_private(folder/(entry['request_sha256']+'.raw.json'),{'http_status':400,'provider_error':error['body']})
+    entry.update(status='known_invalid',validation_error='Groq rejected the generated JSON as schema-invalid; return a complete schema-compliant JSON reply')
+
+
 def observed_transport(values,provider,actual,runtime,providers):
     """Keep exact Groq error bodies private; export only fixed error categories."""
     if provider!='groq':return providers.transport(values,provider,actual)
@@ -122,6 +154,7 @@ def observed_transport(values,provider,actual,runtime,providers):
         ident=judging.core.digest(actual)
         folder=Path(runtime)/'private_provider_errors';folder.mkdir(exist_ok=True)
         providers.atomic_private(folder/(ident+'.json'),{'http_status':e.status_code,'body':e.body})
+        if e.status_code==400 and category=='json_generation_validation_failed':raise GroqInvalidJSON(e.body) from None
         raise RuntimeError('groq HTTP '+str(e.status_code)+' '+category) from None
     except APIConnectionError as e:
         raise RuntimeError('groq transport '+type(e).__name__+'; details suppressed') from None
@@ -143,6 +176,9 @@ def complete(values,provider,model,task,runtime,providers,transport=None):
         return record
 
     history=json.loads(history_path.read_text()) if history_path.exists() else []
+    if provider=='groq':
+        recover_rejected_json(history,task,model,folder,runtime,providers)
+        if history:providers.atomic_private(history_path,history)
     quota=providers.Quotas(Path(runtime)/'provider_usage'/(provider+'.json'),provider,limits)
     while True:
         unknown=bool(history and history[-1]['status'] in ('in_flight','transport_uncertain','response_saved'))
@@ -156,7 +192,7 @@ def complete(values,provider,model,task,runtime,providers,transport=None):
             previous=None
             if feedback:
                 oldraw=folder/(history[-1]['request_sha256']+'.raw.json')
-                if oldraw.exists():previous=json.loads(oldraw.read_text()).get('choices',[{}])[0].get('message',{}).get('content')
+                if oldraw.exists():previous=reply_text(json.loads(oldraw.read_text()))
             actual=body(provider,model,task,feedback,previous)
             # Include on-wire schema tokens in the conservative account reservation.
             counted=actual['messages']+[{'role':'user','content':json.dumps(actual['response_format'])}]
@@ -167,6 +203,12 @@ def complete(values,provider,model,task,runtime,providers,transport=None):
             history.append(entry);providers.atomic_private(history_path,history)
             raw=folder/(request_hash+'.raw.json')
             try:result,_=(transport or providers.transport)(values,provider,actual)
+            except GroqInvalidJSON as e:
+                # HTTP400 is a known invalid reply, never an accepted vote. Keep
+                # the original conservative quota reservation (usage unknown).
+                providers.atomic_private(raw,{'http_status':400,'provider_error':e.error})
+                entry.update(status='known_invalid',validation_error='Groq rejected the generated JSON as schema-invalid; return a complete schema-compliant JSON reply')
+                providers.atomic_private(history_path,history);continue
             except providers.QuotaPause as e:
                 history.pop();providers.atomic_private(history_path,history);quota.pause(e.until);raise
             except Exception as e:

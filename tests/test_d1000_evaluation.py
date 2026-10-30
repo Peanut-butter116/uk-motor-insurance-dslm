@@ -208,3 +208,44 @@ def test_terminal_receipt_pagination_filters_raw_files_and_ignores_logs():
     request=types.SimpleNamespace(page_token=None)
     assert [e.file_name for e in receipt_entries(client,request,{'evaluation_receipt.json'})]==['evaluation_receipt.json']
     assert calls==[None,'second'] and request.page_size==100
+
+
+def test_groq_rejected_json_is_bounded_invalid_never_a_vote(tmp_path):
+    import types,jsonschema
+    from cloud.d1000 import judge_recovery as jr
+    task,_=fixtures()[4];calls=[];reconciled=[]
+    bad='{"invalid":"synthetic prior reply"}'
+    class Quotas:
+        def __init__(self,*args):pass
+        def reserve(self,*args):return len(calls)
+        def reconcile(self,*args):reconciled.append(args)
+    def transport(*args):
+        calls.append(args[-1])
+        if len(calls)==1:raise jr.GroqInvalidJSON({'error':{'code':'json_validate_failed','failed_generation':bad}})
+        return {'choices':[{'finish_reason':'stop','message':{'content':json.dumps({'evaluations':[refusal(task,1)]})}}],'usage':{}},{}
+    fake=types.SimpleNamespace(verify_receipt=lambda *a:{},Quotas=Quotas,atomic_private=lambda p,v:p.write_text(json.dumps(v)),transport=transport,token_reservation=lambda *a:1,QuotaPause=type('QuotaPause',(Exception,),{}),parse_json_content=json.loads,validate_answer=lambda v,s:(jsonschema.validate(v,s) or v))
+    record=jr.complete({},'groq','openai/gpt-oss-120b',task,tmp_path,fake)
+    assert len(calls)==2 and len(reconciled)==1
+    assert calls[1]['messages'][1]=={'role':'assistant','content':bad}
+    assert record['answer']['correctness']==1
+    h=json.loads(next((tmp_path/'evaluation_cache_v2/groq').glob('*.attempts.json')).read_text())
+    assert [e['status'] for e in h]==['known_invalid','success']
+    assert jr.reply_text({'http_status':400,'provider_error':{'error':{'failed_generation':bad}}})==bad
+
+
+def test_groq_rejection_recovery_uses_exact_saved_wire_config(tmp_path):
+    import types
+    from cloud.d1000 import judge_recovery as jr
+    task,_=fixtures()[0];actual=jr.body('groq','openai/gpt-oss-120b',task)
+    props=actual['response_format']['json_schema']['schema']['properties']['evaluations']['items']['properties']
+    props['uncertainty_flags']['items']['enum'].reverse()
+    folder=tmp_path/'cache';folder.mkdir();errors=tmp_path/'private_provider_errors';errors.mkdir()
+    error={'error':{'code':'json_validate_failed','failed_generation':'{"synthetic":"invalid"}'}}
+    (errors/(jr.judging.core.digest(actual)+'.json')).write_text(json.dumps({'http_status':400,'body':error}))
+    history=[{'status':'request_rejected','error_category':'groq HTTP 400 json_generation_validation_failed','request_sha256':'synthetic-request','task_sha256':jr.judging.core.digest(task),'generation_config':{k:v for k,v in actual.items() if k!='messages'}}]
+    fake=types.SimpleNamespace(atomic_private=lambda p,v:p.write_text(json.dumps(v)))
+    jr.recover_rejected_json(history,task,actual['model'],folder,tmp_path,fake)
+    assert history[0]['status']=='known_invalid'
+    raw=json.loads((folder/'synthetic-request.raw.json').read_text())
+    assert raw=={'http_status':400,'provider_error':error}
+    assert 'choices' not in raw # no fabricated successful completion envelope

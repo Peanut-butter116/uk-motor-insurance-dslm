@@ -189,6 +189,18 @@ Read-only diagnostic15 found research rejections concentrated in citation assert
 The prepared next evaluation coordinator refuses to start while writer11 is active. After its verified terminal boundary, it restores the newest private checkpoint, preserves Gemini journals/caches and the source93 immutable inventory, adopts Groq's actual calibration14 receipt and merges all real diagnostic quota reservations without resets. It never trains or regenerates candidate responses. It may require multiple free-quota windows; incomplete votes stay missing. Code currently prepared in GitHub intentionally differs from immutable active11 source.
 
 Stage the next CPU notebook with `python -m cloud.d1000.stage --output /private/tmp/d1000-dual-next --mode evaluation-only --recovery-receipts /private/tmp/motor-d1000-private-recovery-receipts`. The receipt directory is private staging metadata, not Git content. Do not publish individual quota ledger entries. Update the mounted models/results dataset to the newest verified private version, confirm old writer termination and no overlapping provider caller, then use the existing secret-enabled editor. Publish only safe aggregates and code. Exact source and audit hashes must be checked again after launch.
+# Evaluation recovery18
+
+Execution17 completed with private checkpoint134 readback verified:2 Groq,
+173 Gemini and2 paired judgements. The actual Groq research error is
+`json_validate_failed`, a server rejection of generated JSON, rather than the
+earlier schema compiler error. Transport revision4 records these replies as
+known-invalid and allows at most3 attempts per audited revision with the same
+judge's own invalid reply as repair context. An HTTP400 never counts as a vote;
+only a later200 reply passing every original validator can be accepted. Unknown
+outcomes remain blocked. Exact private error bodies and reservations are kept.
+55 targeted tests pass. Gemini's recorded quota reset is unchanged.
+
 # Evaluation recovery17
 
 Execution16 completed with both calibration gates PASS,173 saved Gemini votes,
