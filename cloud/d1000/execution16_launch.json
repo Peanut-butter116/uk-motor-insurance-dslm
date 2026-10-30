@@ -12,9 +12,23 @@
   "prior_execution": 11,
   "prior_status": "ERROR",
   "prior_failure": "Kaggle GetDataset HTTP 503 Service Unavailable",
-  "prior_ready_judge_counts": {"groq": 0, "gemini": 172},
+  "prior_ready_judge_counts": {
+    "groq": 0,
+    "gemini": 172
+  },
   "prior_readback_verified_version": 124,
   "restore_and_new_judgements_confirmed": false,
   "retraining_performed": false,
-  "candidate_inference_performed": false
+  "candidate_inference_performed": false,
+  "restore_confirmed": true,
+  "startup_private_checkpoint": 126,
+  "startup_artifacts_sha256": "c48a0dbbcdfefc71771bc97a923a24b538d85d77bddb59da8015faf7f494f038",
+  "python_fingerprint": "8a3caed6605aecd302efee2e46da373667fb252e1e2d44997c83492c3ed80dce",
+  "restored_responses": 912,
+  "immutable_files_verified": 80,
+  "adapter_hashes_verified": true,
+  "groq_calibration14_adopted": true,
+  "probe_quota_deltas_merged": 13,
+  "source125_readback_verified": true,
+  "secrets_accessible": true
 }
