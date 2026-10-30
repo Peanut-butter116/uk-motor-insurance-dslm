@@ -339,12 +339,12 @@
   "overall_complete": false,
   "restart_needs": "Evaluation-only supported recovery after diagnosing Groq structured output retry exhaustion and Gemini refusal-support validation. Preserve completed models and912responses; no retraining, no blind unknown request replay.",
   "evaluation_pipeline": {
-    "execution_version": 10,
+    "execution_version": 11,
     "mode": "evaluation-only",
     "status": "RUNNING",
     "cpu_only": true,
     "private": true,
-    "code_sha256": "8b6f55db4d50525ad9b52afa055ba08ee2ffd04ae38e91f4139383d71e75bc5c",
+    "code_sha256": "2af4b53b81549c605ef648fba4e334783747b8596fda8c6fe74c204eb5db8bdf",
     "source_checkpoint": 93,
     "groq_completed": 0,
     "gemini_completed": 0,
@@ -352,6 +352,7 @@
     "calibration": "awaiting new receipt",
     "expected_per_provider": 912,
     "diagnostic_execution": 9,
-    "diagnostic_passed": true
+    "diagnostic_passed": true,
+    "prior_execution10": "Audit guard rejected staged source before calls; corrected and retested"
   }
 }

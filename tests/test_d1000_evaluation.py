@@ -53,6 +53,10 @@ def test_cpu_diagnostics_staging_has_no_training_dispatch(tmp_path):
     assert meta['enable_gpu'] is False and meta['machine_shape']=='None'
     assert '\nfrom cloud.d1000.evaluation_only import diagnostics as main\n' in code
     assert '\nfrom cloud.d1000.campaign import main\n' not in code
+    import ast,hashlib
+    files=next(ast.literal_eval(x.value) for x in ast.parse(code).body if isinstance(x,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='files' for t in x.targets))
+    for name,text in files.items():
+        assert hashlib.sha256(text.encode()).hexdigest()==hashlib.sha256(Path(name).read_bytes()).hexdigest()
 
 
 def test_schema_transport_retries_known_invalid_but_cache_avoids_replay(tmp_path):

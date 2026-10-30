@@ -151,15 +151,17 @@ def main():
     state.update(code_fingerprint=audit['destination_fingerprint'],evaluation_repair=audit,
                  evaluation_only=True,status='evaluation_only_calibration',preservation=preservation,responses_completed=912,gpus=[])
     checkpoint(state) # Persistence/resume smoke before any new judge call.
-    ready=threading.Event()
+    ready={p:threading.Event() for p in ('groq','gemini')}
     def worker():
         try:asyncio.run(run(ROOT,state,ready))
         except Exception as e:state['judging_failure']={'type':type(e).__name__,'reason':str(e)[:300]}
     thread=threading.Thread(target=worker,daemon=True);thread.start();last=time.monotonic()
     while thread.is_alive():
-        statuses=list(state.get('judges',{}).values())
-        if not ready.is_set() and any(s.get('status')=='calibration_passed_waiting_persistence' for s in statuses):
-            checkpoint(state);ready.set();state['status']='evaluation_only_running'
+        passed=[p for p,s in state.get('judges',{}).items() if s.get('status')=='calibration_passed_waiting_persistence' and not ready[p].is_set()]
+        if passed:
+            checkpoint(state)
+            for p in passed:ready[p].set()
+            state['status']='evaluation_only_running'
         elif time.monotonic()-last>=120:checkpoint(state);last=time.monotonic()
         thread.join(timeout=5)
     verify_unchanged();state['results']=summarise(ROOT)

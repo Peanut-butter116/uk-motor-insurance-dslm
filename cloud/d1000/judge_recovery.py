@@ -77,8 +77,9 @@ def complete(values,provider,model,task,runtime,providers):
             try:result,_=providers.transport(values,provider,actual)
             except providers.QuotaPause as e:
                 history.pop();providers.atomic_private(history_path,history);quota.pause(e.until);raise
-            except Exception:
-                entry['status']='transport_uncertain';providers.atomic_private(history_path,history);raise
+            except Exception as e:
+                entry['status']='request_rejected' if any(' HTTP '+str(code) in str(e) for code in (400,401,403,404,422)) else 'transport_uncertain'
+                entry['error_category']=str(e)[:120];providers.atomic_private(history_path,history);raise
             providers.atomic_private(raw,result);entry['status']='response_saved';providers.atomic_private(history_path,history)
         usage=result.get('usage',{});quota.reconcile(entry['reservation'],usage)
         try:
@@ -143,7 +144,7 @@ async def run(root,state,calibration_ready):
             if not calibration['passed']:status['status']='calibration_failed';return
             status['status']='calibration_passed_waiting_persistence'
             # Coordinator verifies a private checkpoint before permitting research calls.
-            while not calibration_ready.is_set():await asyncio.sleep(1)
+            while not calibration_ready[provider].is_set():await asyncio.sleep(1)
             journal=out/(provider+'.jsonl')
             done={r['evaluation_id'] for r in core.rows(journal)} if journal.exists() else set()
             assert len(done)<=912

@@ -42,7 +42,7 @@ except Exception as e:
         start=bootstrap.index("    subprocess.run([sys.executable,'-m','pip'")
         end=bootstrap.index('sys.path.insert',start)
         bootstrap=bootstrap[:start]+"    subprocess.run([sys.executable,'-m','pip','install','kaggle==2.2.5','matplotlib','groq==1.7.0','tiktoken==0.14.0','jsonschema'],stdout=log,stderr=subprocess.STDOUT,check=True)\n"+bootstrap[end:]
-        bootstrap=bootstrap.replace('from cloud.d1000.campaign import main','from cloud.d1000.evaluation_only import '+('diagnostics as main' if mode=='evaluation-diagnostics' else 'main'))
+        bootstrap=bootstrap.replace('\nfrom cloud.d1000.campaign import main\n','\nfrom cloud.d1000.evaluation_only import '+('diagnostics as main' if mode=='evaluation-diagnostics' else 'main')+'\n')
     nb={'nbformat':4,'nbformat_minor':5,'metadata':{'kernelspec':{'name':'python3','language':'python','display_name':'Python 3'}},
         'cells':[{'cell_type':'markdown','metadata':{},'source':['# D1000 QLoRA training and dual-judge evaluation\n',
             'Private cloud export v1; original verified data preserved. Enable existing KAGGLE_API_TOKEN, GROQ_API_KEY, GEMINI_API_KEY. ',
