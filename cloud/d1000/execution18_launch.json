@@ -18,6 +18,11 @@
   },
   "paired_before_start": 2,
   "gemini_quota_resume_epoch": 1793452709.1494133,
-  "startup_confirmed": false,
-  "no_retraining_or_candidate_inference": true
+  "startup_confirmed": true,
+  "no_retraining_or_candidate_inference": true,
+  "startup_private_checkpoint": 135,
+  "startup_artifacts_sha256": "fc33e6cb08a036940804c6b9513170bdec7c30b3fb227c409103588f7ff338d9",
+  "immutable_manifest_sha256": "dcf1ac6708449d6aefa8dab36110adcb15a2193267c4111790c432ee3bfe3dd5",
+  "adapter_hashes_verified": true,
+  "source134_readback_verified": true
 }
