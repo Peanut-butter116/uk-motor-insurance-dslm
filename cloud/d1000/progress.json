@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-10-30T11:11:17.566779+00:00",
+  "checked_at_utc": "2026-10-30T11:20:09.090883+00:00",
   "dataset": {
     "url": "https://www.kaggle.com/datasets/scarletthe0116/uk-motor-qa-d1000-training/versions/1",
     "private": true,
@@ -103,7 +103,7 @@
   "responses_completed": 912,
   "groq_judgements_completed": 0,
   "gemini_judgements_completed": 0,
-  "trained_adapters_confirmed": 0,
+  "trained_adapters_confirmed": 3,
   "tests_passed": 301,
   "historical_loader_unchanged": true,
   "generation_restarted": false,
@@ -127,10 +127,10 @@
   },
   "output_storage": {
     "dataset": "scarletthe0116/uk-motor-d1000-models-results",
-    "version": 93,
+    "version": 94,
     "private": true,
     "bootstrap_only": false,
-    "actual_trained_adapters": null,
+    "actual_trained_adapters": 3,
     "opaque_archive_readback_passed": true,
     "terminal_readback_verified": true
   },
@@ -286,7 +286,7 @@
     "ministral3b",
     "smollm1b7"
   ],
-  "adapter_verification_note": "Three supported model workers completed code-required training/reload/inference gates. Detailed training metrics and exact adapter hashes not independently retrieved by aggregate-only monitor.",
+  "adapter_verification_note": "CPU recovery independently hashes all three full adapters against saved full receipt and COMPLETE hashes; exact hashes recorded in preservation audit.",
   "recovery": {
     "source": 58,
     "code_audit": "resume_repair_v1.json",
@@ -349,10 +349,39 @@
     "groq_completed": 0,
     "gemini_completed": 0,
     "paired": 0,
-    "calibration": "awaiting new receipt",
+    "calibration": "New calibration outcome pending; startup snapshot carries inherited old judge statuses",
     "expected_per_provider": 912,
     "diagnostic_execution": 9,
     "diagnostic_passed": true,
-    "prior_execution10": "Audit guard rejected staged source before calls; corrected and retested"
+    "prior_execution10": "Audit guard rejected staged source before calls; corrected and retested",
+    "latest_private_checkpoint": 94,
+    "preservation": {
+      "source_version": 93,
+      "archive_hash_verified": true,
+      "response_count": 912,
+      "condition_counts": {
+        "ministral3b/base": 76,
+        "ministral3b/base-rag": 76,
+        "ministral3b/sft": 76,
+        "ministral3b/sft-rag": 76,
+        "qwen3b/base": 76,
+        "qwen3b/base-rag": 76,
+        "qwen3b/sft": 76,
+        "qwen3b/sft-rag": 76,
+        "smollm1b7/base": 76,
+        "smollm1b7/base-rag": 76,
+        "smollm1b7/sft": 76,
+        "smollm1b7/sft-rag": 76
+      },
+      "immutable_files": 80,
+      "immutable_manifest_sha256": "dcf1ac6708449d6aefa8dab36110adcb15a2193267c4111790c432ee3bfe3dd5",
+      "adapter_hashes_verified": {
+        "qwen3b": "3f96854635a8b74b30585dd5b17587818be71346690b7c61628c49b04c05cf24",
+        "ministral3b": "7347f3709600d50dc94efd543fa73710a0d901397da2e283c037667df09453cb",
+        "smollm1b7": "f20459860f6bc7af704fa3a34192ce80510ee2f6b6da1d3a471468f12fe9071d"
+      },
+      "secrets_accessible": true,
+      "previous_execution_complete": true
+    }
   }
 }
