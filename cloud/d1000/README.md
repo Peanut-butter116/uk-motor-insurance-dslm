@@ -191,6 +191,14 @@ The prepared next evaluation coordinator refuses to start while writer11 is acti
 Stage the next CPU notebook with `python -m cloud.d1000.stage --output /private/tmp/d1000-dual-next --mode evaluation-only --recovery-receipts /private/tmp/motor-d1000-private-recovery-receipts`. The receipt directory is private staging metadata, not Git content. Do not publish individual quota ledger entries. Update the mounted models/results dataset to the newest verified private version, confirm old writer termination and no overlapping provider caller, then use the existing secret-enabled editor. Publish only safe aggregates and code. Exact source and audit hashes must be checked again after launch.
 # Evaluation recovery18
 
+Execution18 is now COMPLETE for this session, with exact terminal receipt and
+private checkpoint146 readback verified:13 Groq,173 Gemini and11 paired votes.
+Both calibration gates remain PASS. The remaining provider waits exceeded the
+session budget: Groq resumes no earlier than31October2026 01:38:56UTC and Gemini
+no earlier than31October2026 13:18:29UTC, from their actual quota ledgers.
+Partial metrics/figure hashes are persisted privately; they are not final
+evaluation results. Monitoring remains active for supported quota recovery.
+
 Execution17 completed with private checkpoint134 readback verified:2 Groq,
 173 Gemini and2 paired judgements. The actual Groq research error is
 `json_validate_failed`, a server rejection of generated JSON, rather than the
