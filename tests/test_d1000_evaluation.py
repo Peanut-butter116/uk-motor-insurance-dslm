@@ -80,6 +80,8 @@ def test_schema_transport_retries_known_invalid_but_cache_avoids_replay(tmp_path
     assert r['answer']['evidence_support'] is None and len(calls)==2
     assert calls[0]['response_format']['type']=='json_schema'
     assert 'Refusal support must be N/A' in calls[1]['messages'][-1]['content']
+    assert calls[1]['messages'][1]['role']=='assistant'
+    assert '"evidence_support": 1' in calls[1]['messages'][1]['content']
     complete({},'groq','openai/gpt-oss-120b',task,tmp_path,fake)
     assert len(calls)==2
     history=next((tmp_path/'evaluation_cache_v2/groq').glob('*.attempts.json'))
@@ -100,3 +102,83 @@ def test_truncated_and_malformed_responses_fail_closed():
     fake=types.SimpleNamespace(parse_json_content=json.loads)
     with pytest.raises(json.JSONDecodeError):
         validate({'choices':[{'finish_reason':'stop','message':{'content':'{"broken"'}}]},task,fake)
+
+
+def test_groq_wire_numeric_enum_workaround_preserves_local_score_validation():
+    from cloud.d1000.judge_recovery import wire_schema
+    from cloud.d1000.judging import schema
+    task,_=fixtures()[0]
+    original=schema(task)['properties']['evaluations']['items']['properties']
+    wire=wire_schema('groq',task)['properties']['evaluations']['items']['properties']
+    assert 'enum' not in wire['correctness'] and wire['correctness']['type']==['number','null']
+    assert original['correctness']['enum']==[0,.5,1,None]
+    assert 'enum' not in wire['citation_assessments']['items']['properties']['support']
+    assert all(type(x) is int for x in wire['fact_scores']['items']['enum'])
+    gemini=wire_schema('gemini',task)['properties']['evaluations']['items']['properties']
+    assert gemini['correctness']['enum']==original['correctness']['enum']
+    assert gemini['fact_scores']['minItems']==gemini['fact_scores']['maxItems']==len(task['key_facts'])
+    assert gemini['answer_span_ids']['maxItems']==len(task['key_facts'])
+    import jsonschema
+    bad=refusal(fixtures()[4][0],.25)
+    with pytest.raises(jsonschema.ValidationError):
+        jsonschema.validate({'evaluations':[bad]},schema(fixtures()[4][0]))
+
+
+def test_known_invalid_retries_bounded_per_audited_revision(tmp_path,monkeypatch):
+    import types
+    from cloud.d1000 import judge_recovery as jr
+    calls=[];task,_=fixtures()[4]
+    class Quotas:
+        def __init__(self,*args):pass
+        def reserve(self,*args):return len(calls)
+        def reconcile(self,*args):pass
+    def transport(*args):
+        calls.append(1)
+        return {'choices':[{'finish_reason':'stop','message':{'content':'{}'}}],'usage':{}},{}
+    fake=types.SimpleNamespace(verify_receipt=lambda *a:{},Quotas=Quotas,atomic_private=lambda p,v:p.write_text(json.dumps(v)),transport=transport,token_reservation=lambda *a:1,QuotaPause=type('QuotaPause',(Exception,),{}))
+    monkeypatch.setattr(jr,'validate',lambda *a:(_ for _ in ()).throw(ValueError('Synthetic known invalid reply')))
+    for _ in range(2):
+        with pytest.raises(RuntimeError,match='three bounded attempts'):jr.complete({},'gemini','gemini-3.5-flash-lite',task,tmp_path,fake)
+    assert len(calls)==3
+    path=next((tmp_path/'evaluation_cache_v2/gemini').glob('*.attempts.json'))
+    history=json.loads(path.read_text())
+    for h in history:h['transport_revision']=2
+    path.write_text(json.dumps(history))
+    for _ in range(2):
+        with pytest.raises(RuntimeError,match='three bounded attempts'):jr.complete({},'gemini','gemini-3.5-flash-lite',task,tmp_path,fake)
+    assert len(calls)==6
+
+
+def test_citation_feedback_preserves_verbatim_requirement():
+    import types,jsonschema
+    from cloud.d1000.judge_recovery import validate
+    task,_=fixtures()[4];task=dict(task,citations=['[C1]'],student_evidence_available=True)
+    v=refusal(task,1);v['citation_assessments']=[{'citation':'[C1]','answer_span':'Invented claim','evidence_span':'','support':None}]
+    result={'choices':[{'finish_reason':'stop','message':{'content':json.dumps({'evaluations':[v]})}}]}
+    fake=types.SimpleNamespace(parse_json_content=json.loads,validate_answer=lambda v,s:(jsonschema.validate(v,s) or v))
+    with pytest.raises(ValueError,match='answer_span must be verbatim'):validate(result,task,fake)
+
+
+def test_adopted_calibration_rechecks_unchanged_labels_and_refusals():
+    import copy
+    from cloud.d1000.judge_recovery import verify_calibration
+    calibration=json.loads(Path('cloud/d1000/groq_calibration14_summary.json').read_text())['calibration']
+    verify_calibration(calibration)
+    bad=copy.deepcopy(calibration);bad['results'][0].update(correctness=0,expected=0)
+    with pytest.raises(AssertionError):verify_calibration(bad)
+    bad=copy.deepcopy(calibration);bad['results'][3]['evidence_support']=1
+    with pytest.raises(AssertionError):verify_calibration(bad)
+    bad=copy.deepcopy(calibration);bad['results'][1]=copy.deepcopy(bad['results'][0])
+    with pytest.raises(AssertionError):verify_calibration(bad)
+
+
+def test_citation_claim_and_evidence_must_both_be_verbatim():
+    import types,jsonschema
+    from cloud.d1000.judge_recovery import validate
+    task,_=fixtures()[0];task=dict(task,model_answer='The replacement excess is £150. [C1]',citations=['[C1]'],student_evidence_available=True,student_evidence=task['reference_evidence'])
+    v=refusal(task,1);v.update(abstention_category='correct_answer',evidence_support=1,fact_scores=[2],answer_span_ids=['A0'],reference_span_ids=['R0S0'],citation_assessments=[{'citation':'[C1]','answer_span':'The replacement excess is £150.','evidence_span':'Windscreen replacement has a £150 excess.','support':1}])
+    fake=types.SimpleNamespace(parse_json_content=json.loads,validate_answer=lambda v,s:(jsonschema.validate(v,s) or v))
+    def result():return {'choices':[{'finish_reason':'stop','message':{'content':json.dumps({'evaluations':[v]})}}]}
+    assert validate(result(),task,fake)['citation_assessments'][0]['support']==1
+    v['citation_assessments'][0]['evidence_span']='Invented tyre cover.'
+    with pytest.raises(ValueError,match='evidence_span must be verbatim'):validate(result(),task,fake)

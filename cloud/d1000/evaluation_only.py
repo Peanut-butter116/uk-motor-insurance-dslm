@@ -137,17 +137,49 @@ def diagnostics():
 
 def main():
     import threading,asyncio,time
-    from cloud.d1000.judge_recovery import run,PROTOCOL
+    from cloud.d1000.judge_recovery import run,PROTOCOL,verify_calibration
     from cloud.d1000.metrics import summarise
     from experiments import core
     state,preservation=restore()
+    from kaggle import api
+    assert api.kernels_status('scarletthe0116/uk-motor-d1000-train-eval/11').status.name in ('COMPLETE','ERROR','CANCEL_ACKNOWLEDGED'),'Existing evaluation writer11 is still active'
+    assert api.kernels_status('scarletthe0116/uk-motor-d1000-train-eval/14').status.name=='COMPLETE','Groq calibration14 must have completed'
     audit=json.loads(Path('cloud/d1000/evaluation_repair_v1.json').read_text())
+    assert preservation['immutable_manifest_sha256']==audit['immutable_manifest_sha256'],'Source93 immutable inventory changed'
+    assert all(sha(Path(p))==h for p,h in audit['immutable_code_hashes'].items()),'Frozen rubric/fixtures/reference assembly changed'
     actual={str(p):sha(p) for p in Path('cloud/d1000').glob('*.py')}
     assert actual==audit['destination_hashes'],'Unaudited evaluation code'
-    assert state['code_fingerprint'] in (audit['source_fingerprint'],audit['destination_fingerprint'])
+    allowed=[audit['source_fingerprint'],audit['destination_fingerprint']]
+    for prior in audit.get('prior_evaluation_transitions',[]):
+        assert hashlib.sha256(''.join(prior['source_hashes'][p] for p in sorted(prior['source_hashes'])).encode()).hexdigest()==prior['source_fingerprint']
+        allowed.append(prior['source_fingerprint'])
+    assert state['code_fingerprint'] in allowed
     old=json.loads(Path('cloud/d1000/resume_repair_v1.json').read_text())['destination_hashes']
     for name in ('train_worker.py','export.py','campaign.py','judging.py','gpu_probe.py','storage.py'):
         assert actual['cloud/d1000/'+name]==old['cloud/d1000/'+name],'Forbidden training/data/transport change'
+    from cloud.d1000.judging import provider_runtime
+    providers,runtime=provider_runtime(ROOT)
+    delta_file=Path('cloud/d1000/groq_probe_quota_deltas.json')
+    assert sha(delta_file)==audit['quota_deltas_sha256']
+    deltas=json.loads(delta_file.read_text())
+    limits=providers.verify_receipt(runtime,'groq','openai/gpt-oss-120b')
+    def merge(s):
+        known={r['request_sha256'] for r in s['entries']}
+        for r in deltas:
+            if r['request_sha256'] not in known:s['entries'].append(r);known.add(r['request_sha256'])
+    providers.Quotas(runtime/'provider_usage/groq.json','groq',limits).update(merge)
+    calibration_file=Path('cloud/d1000/groq_calibration14_receipt.json')
+    assert sha(calibration_file)==audit['groq_calibration_receipt_sha256']
+    observed=json.loads(calibration_file.read_text());calibration=observed['calibration']
+    from eval.semantic_fixtures import fixtures
+    assert observed['status']=='calibration_passed' and calibration['passed'] is True
+    verify_calibration(calibration)
+    destination=ROOT/'judging/groq-calibration-v2.json';destination.parent.mkdir(exist_ok=True)
+    if destination.exists() and json.loads(destination.read_text())!=calibration:
+        history=destination.parent/'history';history.mkdir(exist_ok=True)
+        (history/('groq-calibration-'+sha(destination)+'.json')).write_bytes(destination.read_bytes())
+    write(destination,calibration)
+    state['adopted_groq_calibration']={'source_execution':14,'receipt_sha256':sha(calibration_file),'quota_deltas_merged':len(deltas),'passed':True}
     state.update(code_fingerprint=audit['destination_fingerprint'],evaluation_repair=audit,
                  evaluation_only=True,status='evaluation_only_calibration',preservation=preservation,responses_completed=912,gpus=[])
     checkpoint(state) # Persistence/resume smoke before any new judge call.

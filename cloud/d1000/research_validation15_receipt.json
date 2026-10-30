@@ -1,0 +1,49 @@
+{
+  "kind": "research_validation_categories",
+  "source_archive_sha256": "e59a0332b9750f105e3d95dd5e3451da8f33166a6802356ec36a95d43f8b855f",
+  "source_judge_counts": {
+    "groq": 0,
+    "gemini": 35
+  },
+  "new_judge_calls": 0,
+  "results_dataset_writes": 0,
+  "providers": {
+    "groq": {
+      "tasks_with_attempts": 1,
+      "attempt_states": {
+        "request_rejected": 1
+      },
+      "validation_categories": {},
+      "exhausted_task_categories": {},
+      "requests_reserved_24h": 4,
+      "conservative_reserved_tokens_24h": 16053
+    },
+    "gemini": {
+      "tasks_with_attempts": 64,
+      "attempt_states": {
+        "known_invalid": 70,
+        "in_flight": 1,
+        "success": 43
+      },
+      "validation_categories": {
+        "AssertionError": 37,
+        "Invalid evidence span arity": 7,
+        "Ungrounded model-answer span": 17,
+        "Contradicted claims cannot be supported": 3,
+        "Invented or cross-source span ID": 2,
+        "Incomplete output must be flagged": 2,
+        "Uncertainty needs review": 1,
+        "Invalid legacy fact arity/scores": 1
+      },
+      "exhausted_task_categories": {
+        "AssertionError": 12,
+        "Ungrounded model-answer span": 5,
+        "Invented or cross-source span ID": 1,
+        "Incomplete output must be flagged": 1,
+        "Invalid evidence span arity": 1
+      },
+      "requests_reserved_24h": 121,
+      "conservative_reserved_tokens_24h": 3164821
+    }
+  }
+}

@@ -6,6 +6,7 @@ import asyncio
 from cloud.d1000 import judging
 
 PROTOCOL='d1000-evaluation-only-schema-v2'
+TRANSPORT_REVISION=3
 INVARIANTS='''
 Transport clarification of the unchanged rubric (not extra grading labels):
 Return exactly the evaluations wrapper and all required item fields, including
@@ -19,11 +20,56 @@ Use only supplied indexed IDs; do not invent or silently coerce values.
 '''
 
 
-def body(provider,model,task,feedback=None):
+def verify_calibration(calibration):
+    """Adopt only actual complete receipts matching the unchanged nine anchors."""
+    from eval.semantic_fixtures import fixtures
+    anchors={t['evaluation_id']:(t,score) for t,score in fixtures()}
+    rows=calibration['results']
+    assert calibration['protocol']==PROTOCOL and calibration['fixtures_sha256']==judging.core.digest(fixtures())
+    assert calibration['passed'] is True and len(rows)==9 and {r['id'] for r in rows}==set(anchors)
+    for row in rows:
+        task,expected=anchors[row['id']]
+        assert row['passed'] is True and row['expected']==expected and row['correctness']==expected
+        assert row['correctness'] is None or type(row['correctness']) in (int,float)
+        if task['deterministic_abstention']:
+            assert row['evidence_support'] is None
+            assert row['abstention_category']==('incorrect_abstention' if task['gold_answerable'] else 'correct_abstention')
+        else:assert row['abstention_category'] not in ('correct_abstention','incorrect_abstention')
+    return calibration
+
+
+def wire_schema(provider,task):
+    schema=judging.schema(task)
+    if provider=='gemini':
+        props=schema['properties']['evaluations']['items']['properties']
+        for name in ('fact_scores','answer_span_ids'):
+            props[name].update(minItems=len(task['key_facts']),maxItems=len(task['key_facts']))
+        n=len(task['citations']) if task['student_evidence_available'] else 0
+        props['citation_assessments'].update(minItems=n,maxItems=n)
+    if provider=='groq':
+        # Groq's compiler rejects mixed integral/fractional numeric enums,
+        # including all-float literals. Send number/null on wire and enforce
+        # the ORIGINAL exact score enumeration locally before accepting votes.
+        def visit(node):
+            if isinstance(node,dict):
+                types=node.get('type',[])
+                if (types=='number' or 'number' in types) and 'enum' in node:
+                    del node['enum']
+                    node['description']=node.get('description','')+' Allowed rubric scores are exactly 0, 0.5, 1 or JSON null; all other values fail local validation.'
+                for value in node.values():visit(value)
+            elif isinstance(node,list):
+                for value in node:visit(value)
+        visit(schema)
+    return schema
+
+
+def body(provider,model,task,feedback=None,previous=None):
     messages=[{'role':'user','content':judging.indexed.prompt([task])+judging.EXTENSION+INVARIANTS}]
-    if feedback:messages.append({'role':'user','content':'The previous response was invalid: '+feedback+'. Return a fresh complete JSON judgement under the same rubric; do not change facts to satisfy a score.'})
+    if feedback:
+        if previous:messages.append({'role':'assistant','content':previous})
+        messages.append({'role':'user','content':'The previous response was invalid: '+feedback+'. Repair the identified format/grounding violation using the supplied text. Return a fresh complete JSON judgement under the same rubric; no expected grading label is supplied.'})
     result={'model':model,'messages':messages,'temperature':0,'stream':False,
-        'response_format':{'type':'json_schema','json_schema':{'name':'motor_semantic_judgement','strict':True,'schema':judging.schema(task)}}}
+        'response_format':{'type':'json_schema','json_schema':{'name':'motor_semantic_judgement','strict':True,'schema':wire_schema(provider,task)}}}
     if provider=='groq':result.update(max_completion_tokens=2048,reasoning_effort='low')
     else:result.update(max_tokens=2048,reasoning_effort='low')
     return result
@@ -36,7 +82,17 @@ def validate(result,task,providers):
     value=providers.parse_json_content(message.get('content'))
     providers.validate_answer(value,judging.schema(task))
     if len(value['evaluations'])!=1:raise ValueError('Expected exactly one evaluation')
-    return judging.normalise(value['evaluations'][0],task)
+    v=value['evaluations'][0]
+    expected=task['citations'] if task['student_evidence_available'] else []
+    citations=v['citation_assessments']
+    if len(citations)!=len(expected):raise ValueError('citation_assessments must have exactly one item per supplied citation occurrence')
+    if sorted(c['citation'] for c in citations)!=sorted(expected):raise ValueError('citation_assessments citation IDs must match the supplied citation occurrences')
+    evidence='\n'.join(c['text'] for c in task['student_evidence'])
+    for i,c in enumerate(citations):
+        if not c['answer_span'].strip() or c['answer_span'] not in task['model_answer']:raise ValueError(f'citation_assessments[{i}].answer_span must be verbatim from model_answer')
+        if c['evidence_span'] not in evidence:raise ValueError(f'citation_assessments[{i}].evidence_span must be verbatim from student_evidence')
+        if c['support'] in (.5,1) and not c['evidence_span'].strip():raise ValueError(f'citation_assessments[{i}] positive support needs a nonempty verbatim evidence_span')
+    return judging.normalise(v,task)
 
 
 def complete(values,provider,model,task,runtime,providers):
@@ -63,15 +119,19 @@ def complete(values,provider,model,task,runtime,providers):
             if not raw.exists():raise RuntimeError('Unknown request outcome; no automatic replay')
             result=json.loads(raw.read_text());actual=entry['generation_config']
         else:
-            if len(history)>=3:raise RuntimeError('Known-invalid judgement exhausted three bounded attempts')
+            if sum(h.get('transport_revision',2)==TRANSPORT_REVISION for h in history)>=3:raise RuntimeError('Known-invalid judgement exhausted three bounded attempts for this audited transport revision')
             feedback=history[-1].get('validation_error') if history else None
-            actual=body(provider,model,task,feedback)
+            previous=None
+            if feedback:
+                oldraw=folder/(history[-1]['request_sha256']+'.raw.json')
+                if oldraw.exists():previous=json.loads(oldraw.read_text()).get('choices',[{}])[0].get('message',{}).get('content')
+            actual=body(provider,model,task,feedback,previous)
             # Include on-wire schema tokens in the conservative account reservation.
             counted=actual['messages']+[{'role':'user','content':json.dumps(actual['response_format'])}]
             request_hash=digest({'provider':provider,'body':actual,'attempt':len(history),'protocol':PROTOCOL})
             reservation=quota.reserve(request_hash,providers.token_reservation(provider,model,counted,2048))
             entry={'request_sha256':request_hash,'status':'in_flight','reservation':reservation,
-                   'generation_config':{k:v for k,v in actual.items() if k!='messages'},'task_sha256':digest(task)}
+                   'generation_config':{k:v for k,v in actual.items() if k!='messages'},'task_sha256':digest(task),'transport_revision':TRANSPORT_REVISION}
             history.append(entry);providers.atomic_private(history_path,history)
             raw=folder/(request_hash+'.raw.json')
             try:result,_=providers.transport(values,provider,actual)
@@ -93,7 +153,7 @@ def complete(values,provider,model,task,runtime,providers):
             continue
         indexed_answer=providers.parse_json_content(result['choices'][0]['message']['content'])['evaluations'][0]
         record={'answer':canonical,'indexed_answer':indexed_answer,'usage':usage,'request_sha256':entry['request_sha256'],
-                'input_sha256':digest(task),'generation_config':entry['generation_config'],'protocol':PROTOCOL}
+                'input_sha256':digest(task),'generation_config':entry['generation_config'],'protocol':PROTOCOL,'transport_revision':TRANSPORT_REVISION}
         providers.atomic_private(path,record);entry.update(status='success',usage=usage);providers.atomic_private(history_path,history)
         return record
 
@@ -136,12 +196,14 @@ async def run(root,state,calibration_ready):
                     passed=v['correctness']==expected
                     if task['deterministic_abstention']:
                         passed=passed and v['evidence_support'] is None and v['abstention_category']==('incorrect_abstention' if task['gold_answerable'] else 'correct_abstention')
+                    else:passed=passed and v['abstention_category'] not in ('correct_abstention','incorrect_abstention')
                     results.append({'id':task['evaluation_id'],'passed':passed,'correctness':v['correctness'],'expected':expected,'evidence_support':v['evidence_support'],'abstention_category':v['abstention_category'],'request_sha256':record['request_sha256']})
                     status['calibration_cases_completed']=len(results)
                 calibration={'protocol':PROTOCOL,'fixtures_sha256':fixture_hash,'passed':len(results)==9 and all(v['passed'] for v in results),'results':results}
                 providers.atomic_private(receipt,calibration)
             status['calibration']='PASS' if calibration['passed'] else 'FAIL'
             if not calibration['passed']:status['status']='calibration_failed';return
+            verify_calibration(calibration)
             status['status']='calibration_passed_waiting_persistence'
             # Coordinator verifies a private checkpoint before permitting research calls.
             while not calibration_ready[provider].is_set():await asyncio.sleep(1)

@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 
-def stage(output,mode='campaign'):
+def stage(output,mode='campaign',recovery_receipts=None):
     output=Path(output);output.mkdir(parents=True,exist_ok=True)
     code={}
     for directory in ('experiments','src','eval','cloud/d1000'):
@@ -15,6 +15,9 @@ def stage(output,mode='campaign'):
     code['cloud/d1000/frozen_evaluation_hashes.json']=Path('cloud/d1000/frozen_evaluation_hashes.json').read_text()
     code['scripts/run_semantic_judge.py']=Path('scripts/run_semantic_judge.py').read_text()
     if mode=='evaluation-only':code['cloud/d1000/evaluation_repair_v1.json']=Path('cloud/d1000/evaluation_repair_v1.json').read_text()
+    private=Path(recovery_receipts or '/private/tmp/motor-d1000-private-recovery-receipts')
+    if mode=='evaluation-only':code['cloud/d1000/groq_calibration14_receipt.json']=(private/'groq_calibration14_receipt.json').read_text()
+    if mode in ('evaluation-only','groq-schema-probe'):code['cloud/d1000/groq_probe_quota_deltas.json']=(private/'groq_probe_quota_deltas.json').read_text()
     code['configs/insurance_3b.json']=Path('configs/insurance_3b.json').read_text()
     bootstrap='''from pathlib import Path
 import json,subprocess,sys
@@ -38,11 +41,13 @@ except Exception as e:
     raise
 '''
     if mode!='campaign':
-        assert mode in ('evaluation-diagnostics','evaluation-only')
+        assert mode in ('evaluation-diagnostics','evaluation-only','groq-schema-probe','research-diagnostics')
         start=bootstrap.index("    subprocess.run([sys.executable,'-m','pip'")
         end=bootstrap.index('sys.path.insert',start)
         bootstrap=bootstrap[:start]+"    subprocess.run([sys.executable,'-m','pip','install','kaggle==2.2.5','matplotlib','groq==1.7.0','tiktoken==0.14.0','jsonschema'],stdout=log,stderr=subprocess.STDOUT,check=True)\n"+bootstrap[end:]
         bootstrap=bootstrap.replace('\nfrom cloud.d1000.campaign import main\n','\nfrom cloud.d1000.evaluation_only import '+('diagnostics as main' if mode=='evaluation-diagnostics' else 'main')+'\n')
+        if mode=='groq-schema-probe':bootstrap=bootstrap.replace('\nfrom cloud.d1000.evaluation_only import main\n','\nfrom cloud.d1000.groq_schema_probe import main\n')
+        if mode=='research-diagnostics':bootstrap=bootstrap.replace('\nfrom cloud.d1000.evaluation_only import main\n','\nfrom cloud.d1000.research_diagnostics import main\n')
     nb={'nbformat':4,'nbformat_minor':5,'metadata':{'kernelspec':{'name':'python3','language':'python','display_name':'Python 3'}},
         'cells':[{'cell_type':'markdown','metadata':{},'source':['# D1000 QLoRA training and dual-judge evaluation\n',
             'Private cloud export v1; original verified data preserved. Enable existing KAGGLE_API_TOKEN, GROQ_API_KEY, GEMINI_API_KEY. ',
@@ -65,4 +70,4 @@ except Exception as e:
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--output',required=True);p.add_argument('--mode',default='campaign',choices=['campaign','evaluation-diagnostics','evaluation-only']);print(json.dumps(stage(**vars(p.parse_args()))))
+    p=argparse.ArgumentParser();p.add_argument('--output',required=True);p.add_argument('--mode',default='campaign',choices=['campaign','evaluation-diagnostics','evaluation-only','groq-schema-probe','research-diagnostics']);p.add_argument('--recovery-receipts');print(json.dumps(stage(**vars(p.parse_args()))))

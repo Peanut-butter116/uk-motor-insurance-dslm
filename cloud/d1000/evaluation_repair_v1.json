@@ -17,18 +17,50 @@
   },
   "destination_hashes": {
     "cloud/d1000/campaign.py": "d885d8694dc8b0ec0b1e3c482de877df970e52611b084539b3aa3414956ab5bd",
-    "cloud/d1000/evaluation_only.py": "9e00c69c1f42646724b78e0b860b65fc5c234626b59dbcbee60eb20dd44fb28a",
+    "cloud/d1000/evaluation_only.py": "3b31b21fc08f5de0a102c57717fd7551ba3e3dc45f93e5c929fb8799b2b5ca36",
     "cloud/d1000/export.py": "cf8ed84ad525ae311ba093292e3137edab87d14469df73f0c08d433ceba43e8a",
-    "cloud/d1000/fetch_progress.py": "7160425c8978effac947c4ce8d32f192b3c27b1be09697a85e96feb756078f75",
+    "cloud/d1000/fetch_progress.py": "d90c93b3c2b75629aacc3467377cb555d13d8972921e801f94fd6a6fd6b19f41",
     "cloud/d1000/gpu_probe.py": "f8e4f42e8df3a3f97bb68672a0471c5569e8dce6bc1e55db2e97675f17064e4f",
-    "cloud/d1000/judge_recovery.py": "598032e482468312c778c2eddb45b24c3a174870b18e8b2e3f321db4ad4db945",
+    "cloud/d1000/groq_schema_probe.py": "cee89953e5158dbf6d5ddfaa01bb0bd27d9baec83654e45929fadd477517bfc1",
+    "cloud/d1000/judge_recovery.py": "6b777b9a476ba405c211d906154e8410da1f4790ffe7f13cb04b7728a871be01",
     "cloud/d1000/judging.py": "e9f2559872810d930dafec1b36321b0203feb6633cbdb4cde774ae040c169881",
     "cloud/d1000/metrics.py": "22f264da70001a3b42066815400f6a7920ce20e1b776dea0bd928c8a5d51bb6c",
-    "cloud/d1000/stage.py": "a787c1d00057f480f8d781c6885ec2307df1834994c27bbe0195bd3f156e6d4e",
+    "cloud/d1000/research_diagnostics.py": "b31656418201fd99a5d49f9a0f3223814859c99a1825ff50da687ddc737ee57f",
+    "cloud/d1000/stage.py": "f2432ff0da2f44a546f4fc843c0ba38af88226168b7a066e8e4711ceca56b8cd",
     "cloud/d1000/storage.py": "67ec82627cd7bac9de4766deb5aa934117f26afeb57e78705400347a8c179b65",
     "cloud/d1000/storage_probe.py": "0a5b64580a4487a5abb3193e53032349da19a8a85571b2ab79a1e720e5fea944",
     "cloud/d1000/train_worker.py": "153654444ed5189bd7f0dfba8bb7d003c1770b855286cd2241ba4557b2ee03ab"
   },
-  "destination_fingerprint": "205e5ee7ab99c3f4917486d43749e5fe85f7dbc9ffb4f2042df2d7f4ec1f3863",
-  "immutable_method": "Training worker, model/data config, benchmark, rubric and912source responses unchanged; new CPU-only coordinator/transport; schema on wire; bounded validation retries without label feedback."
+  "destination_fingerprint": "8a3caed6605aecd302efee2e46da373667fb252e1e2d44997c83492c3ed80dce",
+  "immutable_method": "Training worker, model/data config, benchmark, rubric and912source responses unchanged; new CPU-only coordinator/transport; schema on wire; bounded validation retries without label feedback.",
+  "prior_evaluation_transitions": [
+    {
+      "source_fingerprint": "205e5ee7ab99c3f4917486d43749e5fe85f7dbc9ffb4f2042df2d7f4ec1f3863",
+      "source_hashes": {
+        "cloud/d1000/campaign.py": "d885d8694dc8b0ec0b1e3c482de877df970e52611b084539b3aa3414956ab5bd",
+        "cloud/d1000/evaluation_only.py": "9e00c69c1f42646724b78e0b860b65fc5c234626b59dbcbee60eb20dd44fb28a",
+        "cloud/d1000/export.py": "cf8ed84ad525ae311ba093292e3137edab87d14469df73f0c08d433ceba43e8a",
+        "cloud/d1000/fetch_progress.py": "7160425c8978effac947c4ce8d32f192b3c27b1be09697a85e96feb756078f75",
+        "cloud/d1000/gpu_probe.py": "f8e4f42e8df3a3f97bb68672a0471c5569e8dce6bc1e55db2e97675f17064e4f",
+        "cloud/d1000/judge_recovery.py": "598032e482468312c778c2eddb45b24c3a174870b18e8b2e3f321db4ad4db945",
+        "cloud/d1000/judging.py": "e9f2559872810d930dafec1b36321b0203feb6633cbdb4cde774ae040c169881",
+        "cloud/d1000/metrics.py": "22f264da70001a3b42066815400f6a7920ce20e1b776dea0bd928c8a5d51bb6c",
+        "cloud/d1000/stage.py": "a787c1d00057f480f8d781c6885ec2307df1834994c27bbe0195bd3f156e6d4e",
+        "cloud/d1000/storage.py": "67ec82627cd7bac9de4766deb5aa934117f26afeb57e78705400347a8c179b65",
+        "cloud/d1000/storage_probe.py": "0a5b64580a4487a5abb3193e53032349da19a8a85571b2ab79a1e720e5fea944",
+        "cloud/d1000/train_worker.py": "153654444ed5189bd7f0dfba8bb7d003c1770b855286cd2241ba4557b2ee03ab"
+      },
+      "reason": "Groq numeric score enum wire compatibility; no semantic or immutable data/model changes."
+    }
+  ],
+  "quota_deltas_sha256": "1f31f162650a7fe0d88ee16214670700b52d2ba0e09ad6e62d4afe9e391c8b0f",
+  "immutable_manifest_sha256": "dcf1ac6708449d6aefa8dab36110adcb15a2193267c4111790c432ee3bfe3dd5",
+  "immutable_code_hashes": {
+    "eval/semantic_judge.py": "129b0f3667d7c61afb0ca7dd9d684d3e448b348807a8bd1e3660cae45cb0bdb4",
+    "eval/semantic_fixtures.py": "14638f0abdda365af254ab8c34d2e47b438ded1a4ea734812e58973a6e57b15a",
+    "eval/judge_span_ids.py": "e3e3be736bbff2a48c7cc77e2e397ecd15fd31e8161cf6dc68ff78d6b5c747d9",
+    "scripts/run_semantic_judge.py": "6c4df231c7c957d02a8ef32e3ee50838727d193c7313192a0fa2b8f467b0ed64",
+    "cloud/d1000/config.json": "7e47642acb91e3d811a75bce81fe6a4413ccffe4bb19b39480d8bb6d94554913"
+  },
+  "groq_calibration_receipt_sha256": "5f077cff841db2f4ec6556b8363b29f9b652396ac7c5835524354d0f4aca6bd6"
 }

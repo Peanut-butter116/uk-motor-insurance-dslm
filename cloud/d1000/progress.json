@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-10-30T11:26:05.669354+00:00",
+  "checked_at_utc": "2026-10-30T12:01:43.750631+00:00",
   "dataset": {
     "url": "https://www.kaggle.com/datasets/scarletthe0116/uk-motor-qa-d1000-training/versions/1",
     "private": true,
@@ -102,7 +102,7 @@
   },
   "responses_completed": 912,
   "groq_judgements_completed": 0,
-  "gemini_judgements_completed": 0,
+  "gemini_judgements_completed": 60,
   "trained_adapters_confirmed": 3,
   "tests_passed": 301,
   "historical_loader_unchanged": true,
@@ -127,7 +127,7 @@
   },
   "output_storage": {
     "dataset": "scarletthe0116/uk-motor-d1000-models-results",
-    "version": 97,
+    "version": 108,
     "private": true,
     "bootstrap_only": false,
     "actual_trained_adapters": 3,
@@ -157,15 +157,15 @@
     "responses_completed": 912,
     "judge_counts": {
       "groq": 0,
-      "gemini": 3
+      "gemini": 60
     },
     "last_persistence": {
       "dataset": "scarletthe0116/uk-motor-d1000-models-results",
-      "version": 96,
+      "version": 107,
       "private": true,
       "readback_verified": true
     },
-    "artifacts_sha256": "a5d86e1509e98fa87965ed857c549edebb632d4fc5a8e121f9a4183e7403d8b4",
+    "artifacts_sha256": "69e3f0b6d601e3aa9d18b002dfff20be420332bb9326054f6eca97d925c0994a",
     "bootstrap_contains_models_or_data": false,
     "artifact_format": "gzip tar bytes with opaque .bin suffix to prevent automatic extraction",
     "code_fingerprint": "205e5ee7ab99c3f4917486d43749e5fe85f7dbc9ffb4f2042df2d7f4ec1f3863",
@@ -201,12 +201,12 @@
       "gemini": {
         "model": "gemini-3.5-flash-lite",
         "status": "quota_wait",
-        "completed": 3,
+        "completed": 60,
         "calibration": "PASS",
         "catalogue_verified": true,
         "calibration_cases_completed": 9,
-        "resume_after_epoch": 1793359391.5582116,
-        "missing_failures": 2
+        "resume_after_epoch": 1793361624.0731223,
+        "missing_failures": 40
       }
     },
     "restore_audit": {
@@ -377,7 +377,7 @@
     "logs_read": false,
     "replacement": "List output metadata and fetch only exact permitted aggregate JSON; empty receipts reported individually"
   },
-  "tests_targeted_passed": 16,
+  "tests_targeted_passed": 21,
   "worker_required_reload_gates_completed": 3,
   "results": {
     "conditions": 16,
@@ -401,17 +401,25 @@
     "code_sha256": "2af4b53b81549c605ef648fba4e334783747b8596fda8c6fe74c204eb5db8bdf",
     "source_checkpoint": 93,
     "groq_completed": 0,
-    "gemini_completed": 3,
+    "gemini_completed": 60,
     "paired": 0,
     "calibration": {
-      "groq": "PENDING",
-      "gemini": "PASS"
+      "groq": {
+        "status": "PASS",
+        "cases": 9,
+        "execution": 14
+      },
+      "gemini": {
+        "status": "PASS",
+        "cases": 9,
+        "execution": 11
+      }
     },
     "expected_per_provider": 912,
     "diagnostic_execution": 9,
     "diagnostic_passed": true,
     "prior_execution10": "Audit guard rejected staged source before calls; corrected and retested",
-    "latest_private_checkpoint": 97,
+    "latest_private_checkpoint": 108,
     "preservation": {
       "source_version": 93,
       "archive_hash_verified": true,
@@ -440,6 +448,13 @@
       "secrets_accessible": true,
       "previous_execution_complete": true
     },
-    "groq_new_blocker": "HTTP400 on schema-on-wire request; isolated fictional-only probe12 pending, no results-dataset writer"
-  }
+    "current_runtime_blocker": "Active writer11 has old Groq wire schema; corrected Groq and richer retry transport are prepared for its safe terminal boundary",
+    "prepared_next_source_sha256": "6775c7218a67922c68a5200d947265efe000adefee425a0590733f81314f3897",
+    "prepared_next_launched": false,
+    "prepared_next_mode": "evaluation-only CPU",
+    "candidate_inference_repeated": false,
+    "training_repeated": false
+  },
+  "inherited_results_note": "The private results field is an older summary until summarise runs at terminal; live judge_counts are authoritative.",
+  "tests_recovery_and_semantic_passed": 51
 }
