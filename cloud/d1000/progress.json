@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-10-30T03:42:40.281699+00:00",
+  "checked_at_utc": "2026-10-30T04:16:53.076858+00:00",
   "dataset": {
     "url": "https://www.kaggle.com/datasets/scarletthe0116/uk-motor-qa-d1000-training/versions/1",
     "private": true,
@@ -89,7 +89,7 @@
   "full_campaign": {
     "notebook": "scarletthe0116/uk-motor-d1000-train-eval",
     "execution_version": 8,
-    "status": "RUNNING",
+    "status": "COMPLETE",
     "private": true,
     "code_sha256": "5cf037b5d255dd1b0ea81986bb488fb1f1d37f564b5a1487c53403a52cecefdb",
     "matches_recovery_code": true,
@@ -97,9 +97,10 @@
     "machine_shape": "NvidiaTeslaT4",
     "source_checkpoint": 58,
     "private_checkpoint_input_attached": true,
-    "required_action": null
+    "required_action": null,
+    "terminal_stage": "finished_or_documented_partial"
   },
-  "responses_completed": 831,
+  "responses_completed": 912,
   "groq_judgements_completed": 0,
   "gemini_judgements_completed": 0,
   "trained_adapters_confirmed": 0,
@@ -126,15 +127,16 @@
   },
   "output_storage": {
     "dataset": "scarletthe0116/uk-motor-d1000-models-results",
-    "version": 87,
+    "version": 93,
     "private": true,
     "bootstrap_only": false,
-    "actual_trained_adapters": 0,
-    "opaque_archive_readback_passed": true
+    "actual_trained_adapters": null,
+    "opaque_archive_readback_passed": true,
+    "terminal_readback_verified": true
   },
   "private_campaign_progress": {
     "protocol": "d1000-mixed-quality-qlora-dual-judge/1",
-    "status": "gpu_smoke_then_training",
+    "status": "finished_or_documented_partial",
     "models": {
       "qwen3b": {
         "status": "complete"
@@ -146,23 +148,24 @@
         "status": "tokenisation_failed"
       },
       "smollm1b7": {
-        "status": "smoke_training_inference",
+        "status": "complete",
         "gpu": 0,
-        "pid": 77
+        "pid": 77,
+        "exit_code": 0
       }
     },
-    "responses_completed": 831,
+    "responses_completed": 912,
     "judge_counts": {
       "groq": 0,
       "gemini": 0
     },
     "last_persistence": {
       "dataset": "scarletthe0116/uk-motor-d1000-models-results",
-      "version": 86,
+      "version": 92,
       "private": true,
       "readback_verified": true
     },
-    "artifacts_sha256": "0de85c78b4ab7c6c2f0fc4053cc478da71829f4baeffabc2ce2f8e8f7c8499a3",
+    "artifacts_sha256": "96639cb1a40dd6ec3939b1ee99bf88fc8f94ffba29add61da95a6dcceec3dac1",
     "bootstrap_contains_models_or_data": false,
     "artifact_format": "gzip tar bytes with opaque .bin suffix to prevent automatic extraction",
     "code_fingerprint": "fcb5183d9bae43079570ee5f03194c3d18e0e79500f89702813c23a5a4b6a72f",
@@ -264,14 +267,26 @@
         ],
         "reason": "Nest judge transport source; include exact historical reference-package module; mounted immutable archive restore selects latest unfinished optimizer state to fit cloud working disk; receipt-only monitoring avoids SDK log side effect. Training/data/prompts/models/rubric unchanged."
       }
-    ]
+    ],
+    "results": {
+      "conditions": 16,
+      "responses": 912,
+      "judge_votes": {
+        "groq": 0,
+        "gemini": 0
+      },
+      "disagreements": 0,
+      "human_reviews_completed": 0,
+      "primary_three_vote_results": false
+    }
   },
   "inference_started_confirmed": true,
   "completed_model_workers": [
     "qwen3b",
-    "ministral3b"
+    "ministral3b",
+    "smollm1b7"
   ],
-  "adapter_verification_note": "Qwen and Ministral workers exited successfully after required train/reload/inference gates; exact adapter hashes and detailed training metrics not independently retrieved by aggregate-only monitor",
+  "adapter_verification_note": "Three supported model workers completed code-required training/reload/inference gates. Detailed training metrics and exact adapter hashes not independently retrieved by aggregate-only monitor.",
   "recovery": {
     "source": 58,
     "code_audit": "resume_repair_v1.json",
@@ -299,7 +314,7 @@
         "smollm1b7/smoke": 2
       }
     },
-    "current_worker_and_judge_status_note": "v87 confirms831 aggregate responses, up724. Smol worker remains active; final completion/reload receipt not yet confirmed. Both judges remain calibration blocked with zero judgements."
+    "current_worker_and_judge_status_note": "Execution8 COMPLETE; terminal receipt confirms private93 readback_verified and912responses. Three model workers complete, DeepSeek documented failure. Both judges calibration blocked; zero evaluation votes. No recovery execution launched."
   },
   "monitor_log_side_effect": {
     "issue": "Kaggle kernels_output saves notebook log despite file_pattern",
@@ -308,6 +323,19 @@
     "logs_read": false,
     "replacement": "List output metadata and fetch only exact permitted aggregate JSON; empty receipts reported individually"
   },
-  "tests_targeted_passed": 10
+  "tests_targeted_passed": 10,
+  "worker_required_reload_gates_completed": 3,
+  "results": {
+    "conditions": 16,
+    "responses": 912,
+    "judge_votes": {
+      "groq": 0,
+      "gemini": 0
+    },
+    "disagreements": 0,
+    "human_reviews_completed": 0,
+    "primary_three_vote_results": false
+  },
+  "overall_complete": false,
+  "restart_needs": "Evaluation-only supported recovery after diagnosing Groq structured output retry exhaustion and Gemini refusal-support validation. Preserve completed models and912responses; no retraining, no blind unknown request replay."
 }
-
