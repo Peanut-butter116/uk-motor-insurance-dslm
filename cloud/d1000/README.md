@@ -189,3 +189,18 @@ Read-only diagnostic15 found research rejections concentrated in citation assert
 The prepared next evaluation coordinator refuses to start while writer11 is active. After its verified terminal boundary, it restores the newest private checkpoint, preserves Gemini journals/caches and the source93 immutable inventory, adopts Groq's actual calibration14 receipt and merges all real diagnostic quota reservations without resets. It never trains or regenerates candidate responses. It may require multiple free-quota windows; incomplete votes stay missing. Code currently prepared in GitHub intentionally differs from immutable active11 source.
 
 Stage the next CPU notebook with `python -m cloud.d1000.stage --output /private/tmp/d1000-dual-next --mode evaluation-only --recovery-receipts /private/tmp/motor-d1000-private-recovery-receipts`. The receipt directory is private staging metadata, not Git content. Do not publish individual quota ledger entries. Update the mounted models/results dataset to the newest verified private version, confirm old writer termination and no overlapping provider caller, then use the existing secret-enabled editor. Publish only safe aggregates and code. Exact source and audit hashes must be checked again after launch.
+# Evaluation recovery17
+
+Execution16 completed with both calibration gates PASS,173 saved Gemini votes,
+zero Groq research votes and zero paired votes. Private checkpoint129 and its
+archive readback were verified. Groq research stopped on a suppressed HTTP400;
+Gemini's actual free-quota ledger pauses until31October2026 13:18:29UTC.
+
+CPU/private execution17 reuses checkpoint129 and adds error observation without
+changing schema, scoring or bounded retry counts. Full Groq error bodies remain
+private; only fixed structural categories may appear in aggregate progress.
+Unknown outcomes still cannot be replayed. The next permitted known-rejected
+attempt remains within transport revision3's existing bound.53 targeted tests
+pass. Terminal monitoring now paginates metadata with100 entries per page to
+find exact aggregate receipts while ignoring logs and raw artifacts.
+

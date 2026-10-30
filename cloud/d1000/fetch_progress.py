@@ -5,6 +5,19 @@ from pathlib import Path
 from cloud.d1000.storage import info
 
 
+def receipt_entries(client,request,allowed):
+    """Paginate filenames without retaining raw-output links or reading logs."""
+    seen=set();request.page_size=100
+    while True:
+        listing=client.kernels.kernels_api_client.list_kernel_session_output(request)
+        for entry in listing.files or []:
+            if entry.file_name in allowed:yield entry
+        token=listing.next_page_token
+        if not token:return
+        assert token not in seen,'Repeated output-list page token'
+        seen.add(token);request.page_token=token
+
+
 def fetch(output,execution_version=None):
     from kaggle import api
     api.authenticate();out=Path(output);out.mkdir(exist_ok=True,parents=True)
@@ -23,17 +36,15 @@ def fetch(output,execution_version=None):
                 request.user_name='scarletthe0116'
                 parts=slug.split('/');request.kernel_slug=parts[0]
                 if len(parts)>1:request.version_label='v'+parts[1]
-                with api.build_kaggle_client() as client:
-                    listing=client.kernels.kernels_api_client.list_kernel_session_output(request)
                 allowed={'gpu_probe_receipt.json','gpu_probe_failure.json','campaign_receipt.json','FAILED.json','evaluation_diagnostic_receipt.json','evaluation_receipt.json','groq_probe_receipt.json'}
-                for entry in listing.files or []:
-                    if entry.file_name not in allowed:continue
-                    response=requests.get(entry.url,timeout=60)
-                    response.raise_for_status()
-                    if not response.content.strip():
-                        item.setdefault('empty_receipts',[]).append(entry.file_name);continue
-                    value=response.json();item[entry.file_name]=value
-                    (folder/entry.file_name).write_text(json.dumps(value,indent=2)+'\n')
+                with api.build_kaggle_client() as client:
+                    for entry in receipt_entries(client,request,allowed):
+                        response=requests.get(entry.url,timeout=60)
+                        response.raise_for_status()
+                        if not response.content.strip():
+                            item.setdefault('empty_receipts',[]).append(entry.file_name);continue
+                        value=response.json();item[entry.file_name]=value
+                        (folder/entry.file_name).write_text(json.dumps(value,indent=2)+'\n')
             except Exception as e:item['receipt_fetch_error']=type(e).__name__
         result[kind]=item
         if kind=='campaign':

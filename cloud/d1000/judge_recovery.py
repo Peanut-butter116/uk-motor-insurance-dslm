@@ -95,7 +95,39 @@ def validate(result,task,providers):
     return judging.normalise(v,task)
 
 
-def complete(values,provider,model,task,runtime,providers):
+def groq_error_category(error):
+    """Fixed categories only: provider messages may contain protected output."""
+    detail=error.get('error',error) if isinstance(error,dict) else {}
+    code=detail.get('code');message=str(detail.get('message','')).lower()
+    if code=='json_validate_failed':return 'json_generation_validation_failed'
+    if 'invalid json schema' in message:return 'schema_compiler_rejected'
+    if 'context' in message and ('length' in message or 'token' in message):return 'context_capacity_rejected'
+    if 'max_completion_tokens' in message or 'max_tokens' in message:return 'output_token_setting_rejected'
+    return 'other_request_rejection'
+
+
+def observed_transport(values,provider,actual,runtime,providers):
+    """Keep exact Groq error bodies private; export only fixed error categories."""
+    if provider!='groq':return providers.transport(values,provider,actual)
+    from groq import Groq,APIStatusError,APIConnectionError
+    import httpx
+    try:
+        with Groq(api_key=values['GROQ_API_KEY'],max_retries=0,timeout=300,
+                  http_client=httpx.Client(follow_redirects=False)) as client:
+            raw=client.chat.completions.with_raw_response.create(**actual)
+            return raw.parse().model_dump(mode='json'),dict(raw.headers)
+    except APIStatusError as e:
+        if e.status_code==429:raise providers.QuotaPause(provider,providers.retry_after(e.response.headers)) from None
+        category=groq_error_category(e.body)
+        ident=judging.core.digest(actual)
+        folder=Path(runtime)/'private_provider_errors';folder.mkdir(exist_ok=True)
+        providers.atomic_private(folder/(ident+'.json'),{'http_status':e.status_code,'body':e.body})
+        raise RuntimeError('groq HTTP '+str(e.status_code)+' '+category) from None
+    except APIConnectionError as e:
+        raise RuntimeError('groq transport '+type(e).__name__+'; details suppressed') from None
+
+
+def complete(values,provider,model,task,runtime,providers,transport=None):
     """Cache identity binds the opaque task, model and exact transport protocol.
 
     Unknown requests are recovered from durable raw replies or blocked; never
@@ -134,7 +166,7 @@ def complete(values,provider,model,task,runtime,providers):
                    'generation_config':{k:v for k,v in actual.items() if k!='messages'},'task_sha256':digest(task),'transport_revision':TRANSPORT_REVISION}
             history.append(entry);providers.atomic_private(history_path,history)
             raw=folder/(request_hash+'.raw.json')
-            try:result,_=providers.transport(values,provider,actual)
+            try:result,_=(transport or providers.transport)(values,provider,actual)
             except providers.QuotaPause as e:
                 history.pop();providers.atomic_private(history_path,history);quota.pause(e.until);raise
             except Exception as e:
@@ -172,7 +204,8 @@ async def run(root,state,calibration_ready):
         status=state.setdefault('judges',{})[provider]={'model':model,'status':'preflight','completed':0,'calibration':'PENDING'}
         async def call(task):
             while True:
-                try:return await asyncio.to_thread(complete,values,provider,model,task,runtime,providers)
+                try:return await asyncio.to_thread(complete,values,provider,model,task,runtime,providers,
+                    transport=lambda v,p,a:observed_transport(v,p,a,runtime,providers))
                 except providers.QuotaPause as e:
                     status.update(status='quota_wait',resume_after_epoch=e.until)
                     if time.monotonic()+max(0,e.until-time.time())>deadline:raise RuntimeError('Verified free quota exceeds this session; resume from cache')

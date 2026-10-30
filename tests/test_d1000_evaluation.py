@@ -182,3 +182,29 @@ def test_citation_claim_and_evidence_must_both_be_verbatim():
     assert validate(result(),task,fake)['citation_assessments'][0]['support']==1
     v['citation_assessments'][0]['evidence_span']='Invented tyre cover.'
     with pytest.raises(ValueError,match='evidence_span must be verbatim'):validate(result(),task,fake)
+
+
+def test_groq_error_diagnostics_never_export_provider_text():
+    from cloud.d1000.judge_recovery import groq_error_category
+    assert groq_error_category({'error':{'code':'json_validate_failed','message':'PRIVATE RESPONSE'}})=='json_generation_validation_failed'
+    assert groq_error_category({'error':{'message':'invalid JSON schema at /properties/example'}})=='schema_compiler_rejected'
+    assert groq_error_category({'error':{'message':'context length token limit exceeded'}})=='context_capacity_rejected'
+    assert groq_error_category({'error':{'message':'PRIVATE POLICY TEXT'}})=='other_request_rejection'
+
+
+def test_terminal_receipt_pagination_filters_raw_files_and_ignores_logs():
+    import types
+    from cloud.d1000.fetch_progress import receipt_entries
+    calls=[]
+    class Page:
+        def __init__(self,names,token):
+            self.files=[types.SimpleNamespace(file_name=n) for n in names];self.next_page_token=token
+        @property
+        def log(self):raise AssertionError('Must never read notebook logs')
+    def listing(request):
+        calls.append(request.page_token)
+        return Page(['artifacts.bin','raw.json'],'second') if len(calls)==1 else Page(['evaluation_receipt.json','checkpoint.bin'],'')
+    client=types.SimpleNamespace(kernels=types.SimpleNamespace(kernels_api_client=types.SimpleNamespace(list_kernel_session_output=listing)))
+    request=types.SimpleNamespace(page_token=None)
+    assert [e.file_name for e in receipt_entries(client,request,{'evaluation_receipt.json'})]==['evaluation_receipt.json']
+    assert calls==[None,'second'] and request.page_size==100

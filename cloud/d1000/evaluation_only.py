@@ -142,7 +142,7 @@ def main():
     from experiments import core
     state,preservation=restore()
     from kaggle import api
-    assert api.kernels_status('scarletthe0116/uk-motor-d1000-train-eval/11').status.name in ('COMPLETE','ERROR','CANCEL_ACKNOWLEDGED'),'Existing evaluation writer11 is still active'
+    assert api.kernels_status('scarletthe0116/uk-motor-d1000-train-eval/16').status.name in ('COMPLETE','ERROR','CANCEL_ACKNOWLEDGED'),'Existing evaluation writer16 is still active'
     assert api.kernels_status('scarletthe0116/uk-motor-d1000-train-eval/14').status.name=='COMPLETE','Groq calibration14 must have completed'
     audit=json.loads(Path('cloud/d1000/evaluation_repair_v1.json').read_text())
     assert preservation['immutable_manifest_sha256']==audit['immutable_manifest_sha256'],'Source93 immutable inventory changed'
