@@ -82,10 +82,18 @@ def test_provider_runtime_outside_copied_source_guard(tmp_path):
     assert runtime.parent==tmp_path/'campaign'
 
 
-def test_exact_audited_resume_repair_rejects_unrelated_code(monkeypatch):
+def test_exact_audited_resume_repair_rejects_unrelated_code(monkeypatch,tmp_path):
     import pytest
     from cloud.d1000 import campaign
     audit=json.loads(Path('cloud/d1000/resume_repair_v1.json').read_text())
+    # Replay the immutable execution8 audit in its own source tree. New CPU
+    # evaluation modules must not be authorised by this historical migration.
+    module=tmp_path/'cloud/d1000/campaign.py';module.parent.mkdir(parents=True)
+    for name in audit['destination_hashes']:
+        p=tmp_path/name;p.parent.mkdir(parents=True,exist_ok=True);p.touch()
+    (module.parent/'resume_repair_v1.json').write_text(json.dumps(audit))
+    monkeypatch.setattr(campaign,'__file__',str(module))
+    monkeypatch.setattr(campaign,'sha',lambda p:audit['destination_hashes'][str(p.relative_to(tmp_path))])
     destination=hashlib.sha256(''.join(audit['destination_hashes'][p] for p in sorted(audit['destination_hashes'])).encode()).hexdigest()
     state={'code_fingerprint':audit['source_fingerprint']}
     campaign.audited_resume_repair(state,destination)

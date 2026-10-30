@@ -25,7 +25,7 @@ def fetch(output,execution_version=None):
                 if len(parts)>1:request.version_label='v'+parts[1]
                 with api.build_kaggle_client() as client:
                     listing=client.kernels.kernels_api_client.list_kernel_session_output(request)
-                allowed={'gpu_probe_receipt.json','gpu_probe_failure.json','campaign_receipt.json','FAILED.json'}
+                allowed={'gpu_probe_receipt.json','gpu_probe_failure.json','campaign_receipt.json','FAILED.json','evaluation_diagnostic_receipt.json','evaluation_receipt.json'}
                 for entry in listing.files or []:
                     if entry.file_name not in allowed:continue
                     response=requests.get(entry.url,timeout=60)
@@ -37,7 +37,7 @@ def fetch(output,execution_version=None):
             except Exception as e:item['receipt_fetch_error']=type(e).__name__
         result[kind]=item
         if kind=='campaign':
-            item['stage_receipt_observed']='campaign_receipt.json' in item
+            item['stage_receipt_observed']=any(k in item for k in ('campaign_receipt.json','evaluation_diagnostic_receipt.json','evaluation_receipt.json'))
             item['execution_confirmed']=status=='RUNNING' or item['stage_receipt_observed']
             if status=='COMPLETE' and not item['execution_confirmed']:item['interpretation']='saved_only_no_execution_receipt'
     dataset='scarletthe0116/uk-motor-d1000-models-results'

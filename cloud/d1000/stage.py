@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 
-def stage(output):
+def stage(output,mode='campaign'):
     output=Path(output);output.mkdir(parents=True,exist_ok=True)
     code={}
     for directory in ('experiments','src','eval','cloud/d1000'):
@@ -14,6 +14,7 @@ def stage(output):
     code['cloud/d1000/resume_repair_v1.json']=Path('cloud/d1000/resume_repair_v1.json').read_text()
     code['cloud/d1000/frozen_evaluation_hashes.json']=Path('cloud/d1000/frozen_evaluation_hashes.json').read_text()
     code['scripts/run_semantic_judge.py']=Path('scripts/run_semantic_judge.py').read_text()
+    if mode=='evaluation-only':code['cloud/d1000/evaluation_repair_v1.json']=Path('cloud/d1000/evaluation_repair_v1.json').read_text()
     code['configs/insurance_3b.json']=Path('configs/insurance_3b.json').read_text()
     bootstrap='''from pathlib import Path
 import json,subprocess,sys
@@ -36,6 +37,12 @@ except Exception as e:
     Path('/kaggle/working/FAILED.json').write_text(json.dumps({'type':type(e).__name__,'reason':str(e)[:1000]}))
     raise
 '''
+    if mode!='campaign':
+        assert mode in ('evaluation-diagnostics','evaluation-only')
+        start=bootstrap.index("    subprocess.run([sys.executable,'-m','pip'")
+        end=bootstrap.index('sys.path.insert',start)
+        bootstrap=bootstrap[:start]+"    subprocess.run([sys.executable,'-m','pip','install','kaggle==2.2.5','matplotlib','groq==1.7.0','tiktoken==0.14.0','jsonschema'],stdout=log,stderr=subprocess.STDOUT,check=True)\n"+bootstrap[end:]
+        bootstrap=bootstrap.replace('from cloud.d1000.campaign import main','from cloud.d1000.evaluation_only import '+('diagnostics as main' if mode=='evaluation-diagnostics' else 'main'))
     nb={'nbformat':4,'nbformat_minor':5,'metadata':{'kernelspec':{'name':'python3','language':'python','display_name':'Python 3'}},
         'cells':[{'cell_type':'markdown','metadata':{},'source':['# D1000 QLoRA training and dual-judge evaluation\n',
             'Private cloud export v1; original verified data preserved. Enable existing KAGGLE_API_TOKEN, GROQ_API_KEY, GEMINI_API_KEY. ',
@@ -49,9 +56,13 @@ except Exception as e:
         'dataset_sources':['scarletthe0116/uk-motor-qa-d1000-training','scarletthe0116/uk-motor-qa-production-v1',
                            'scarletthe0116/uk-insurance-base-eval-qwen3b-private','scarletthe0116/uk-motor-frozen-evaluation-v2','scarletthe0116/uk-motor-d1000-models-results'],
         'competition_sources':[],'kernel_sources':[],'model_sources':[]}
+    if mode!='campaign':
+        meta.update(enable_gpu=False,machine_shape='None')
+        nb['cells'][0]['source']=['# D1000 CPU-only '+mode+'\nNo training, inference or data generation. Existing secrets and immutable private checkpoint only.']
+        (output/'campaign.ipynb').write_text(json.dumps(nb,indent=2)+'\n')
     (output/'kernel-metadata.json').write_text(json.dumps(meta,indent=2)+'\n')
     return {'notebook':meta['id'],'code_sha256':hashlib.sha256(bootstrap.encode()).hexdigest()}
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--output',required=True);print(json.dumps(stage(**vars(p.parse_args()))))
+    p=argparse.ArgumentParser();p.add_argument('--output',required=True);p.add_argument('--mode',default='campaign',choices=['campaign','evaluation-diagnostics','evaluation-only']);print(json.dumps(stage(**vars(p.parse_args()))))

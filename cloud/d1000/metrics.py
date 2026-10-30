@@ -58,6 +58,8 @@ def summarise(root):
                 'parsed_responses':nparse,'parse_rate':nparse/76,'final_answer_failures':failures,
                 'answerable_denominator':67,'unanswerable_denominator':9,
                 'unnecessary_refusals':abstain['answerable'],'appropriate_refusals':abstain['unanswerable'],
+                'false_refusal_rate':abstain['answerable']/67 if len(responses)==76 else None,
+                'deterministic_refusal_correctness':abstain['unanswerable']/(abstain['answerable']+abstain['unanswerable']) if abstain['answerable']+abstain['unanswerable'] else None,
                 'balanced_abstention':.5*((67-abstain['answerable'])/67+abstain['unanswerable']/9) if len(responses)==76 else None,
                 'citation_resolution':resolved/ncite if rag and ncite else None,'citation_denominator':ncite if rag else None,
                 'groq_correctness':mean(values['groq']),'gemini_correctness':mean(values['gemini']),

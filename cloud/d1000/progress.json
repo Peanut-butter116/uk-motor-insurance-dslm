@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-10-30T04:16:53.076858+00:00",
+  "checked_at_utc": "2026-10-30T11:11:17.566779+00:00",
   "dataset": {
     "url": "https://www.kaggle.com/datasets/scarletthe0116/uk-motor-qa-d1000-training/versions/1",
     "private": true,
@@ -323,7 +323,7 @@
     "logs_read": false,
     "replacement": "List output metadata and fetch only exact permitted aggregate JSON; empty receipts reported individually"
   },
-  "tests_targeted_passed": 10,
+  "tests_targeted_passed": 16,
   "worker_required_reload_gates_completed": 3,
   "results": {
     "conditions": 16,
@@ -337,5 +337,21 @@
     "primary_three_vote_results": false
   },
   "overall_complete": false,
-  "restart_needs": "Evaluation-only supported recovery after diagnosing Groq structured output retry exhaustion and Gemini refusal-support validation. Preserve completed models and912responses; no retraining, no blind unknown request replay."
+  "restart_needs": "Evaluation-only supported recovery after diagnosing Groq structured output retry exhaustion and Gemini refusal-support validation. Preserve completed models and912responses; no retraining, no blind unknown request replay.",
+  "evaluation_pipeline": {
+    "execution_version": 10,
+    "mode": "evaluation-only",
+    "status": "RUNNING",
+    "cpu_only": true,
+    "private": true,
+    "code_sha256": "8b6f55db4d50525ad9b52afa055ba08ee2ffd04ae38e91f4139383d71e75bc5c",
+    "source_checkpoint": 93,
+    "groq_completed": 0,
+    "gemini_completed": 0,
+    "paired": 0,
+    "calibration": "awaiting new receipt",
+    "expected_per_provider": 912,
+    "diagnostic_execution": 9,
+    "diagnostic_passed": true
+  }
 }

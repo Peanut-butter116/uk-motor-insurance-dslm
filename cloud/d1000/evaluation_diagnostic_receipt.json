@@ -1,0 +1,422 @@
+{
+  "preservation": {
+    "source_version": 93,
+    "archive_hash_verified": true,
+    "response_count": 912,
+    "condition_counts": {
+      "ministral3b/base": 76,
+      "ministral3b/base-rag": 76,
+      "ministral3b/sft": 76,
+      "ministral3b/sft-rag": 76,
+      "qwen3b/base": 76,
+      "qwen3b/base-rag": 76,
+      "qwen3b/sft": 76,
+      "qwen3b/sft-rag": 76,
+      "smollm1b7/base": 76,
+      "smollm1b7/base-rag": 76,
+      "smollm1b7/sft": 76,
+      "smollm1b7/sft-rag": 76
+    },
+    "immutable_files": 80,
+    "immutable_manifest_sha256": "dcf1ac6708449d6aefa8dab36110adcb15a2193267c4111790c432ee3bfe3dd5",
+    "secrets_accessible": true,
+    "previous_execution_complete": true
+  },
+  "providers": {
+    "groq": {
+      "cached_attempts": [
+        {
+          "attempt_status": "structured_failure",
+          "kind": "schema_validation_failed",
+          "finish_reason": "stop",
+          "usage": {
+            "completion_tokens": 777,
+            "prompt_tokens": 1216,
+            "total_tokens": 1993,
+            "completion_time": 1.608249715,
+            "completion_tokens_details": {
+              "reasoning_tokens": 623
+            },
+            "prompt_time": 0.059177348,
+            "prompt_tokens_details": null,
+            "queue_time": 0.079054688,
+            "total_time": 1.6674270629999999
+          },
+          "content_characters": 634,
+          "reasoning_characters": 2795,
+          "fixture_ids": [
+            "fictional-0"
+          ],
+          "schema_errors": [
+            {
+              "validator": "required",
+              "path": [
+                "evaluations",
+                0
+              ]
+            },
+            {
+              "validator": "additionalProperties",
+              "path": []
+            }
+          ],
+          "semantic_errors": [
+            {
+              "type": "KeyError",
+              "reason": "'citation_assessments'"
+            }
+          ],
+          "refusal_support_values": []
+        },
+        {
+          "attempt_status": "structured_failure",
+          "kind": "schema_validation_failed",
+          "finish_reason": "stop",
+          "usage": {
+            "completion_tokens": 832,
+            "prompt_tokens": 1233,
+            "total_tokens": 2065,
+            "completion_time": 1.725263333,
+            "completion_tokens_details": {
+              "reasoning_tokens": 691
+            },
+            "prompt_time": 0.054616729,
+            "prompt_tokens_details": null,
+            "queue_time": 0.230603736,
+            "total_time": 1.7798800620000002
+          },
+          "content_characters": 549,
+          "reasoning_characters": 3155,
+          "fixture_ids": [
+            "fictional-0"
+          ],
+          "schema_errors": [
+            {
+              "validator": "required",
+              "path": [
+                "evaluations",
+                0
+              ]
+            },
+            {
+              "validator": "additionalProperties",
+              "path": []
+            }
+          ],
+          "semantic_errors": [
+            {
+              "type": "KeyError",
+              "reason": "'citation_assessments'"
+            }
+          ],
+          "refusal_support_values": []
+        },
+        {
+          "attempt_status": "structured_failure",
+          "kind": "schema_validation_failed",
+          "finish_reason": "stop",
+          "usage": {
+            "completion_tokens": 853,
+            "prompt_tokens": 1233,
+            "total_tokens": 2086,
+            "completion_time": 1.778209956,
+            "completion_tokens_details": {
+              "reasoning_tokens": 712
+            },
+            "prompt_time": 0.054620794,
+            "prompt_tokens_details": null,
+            "queue_time": 0.138000671,
+            "total_time": 1.8328307499999998
+          },
+          "content_characters": 549,
+          "reasoning_characters": 3264,
+          "fixture_ids": [
+            "fictional-0"
+          ],
+          "schema_errors": [
+            {
+              "validator": "required",
+              "path": [
+                "evaluations",
+                0
+              ]
+            },
+            {
+              "validator": "additionalProperties",
+              "path": []
+            }
+          ],
+          "semantic_errors": [
+            {
+              "type": "KeyError",
+              "reason": "'citation_assessments'"
+            }
+          ],
+          "refusal_support_values": []
+        }
+      ],
+      "verified_free_quotas": {
+        "rpm": 30,
+        "rpd": 1000,
+        "tpm": 8000,
+        "tpd": 200000
+      }
+    },
+    "gemini": {
+      "cached_attempts": [
+        {
+          "attempt_status": "success",
+          "kind": null,
+          "finish_reason": "stop",
+          "usage": {
+            "completion_tokens": 174,
+            "prompt_tokens": 1200,
+            "total_tokens": 1374
+          },
+          "content_characters": 603,
+          "reasoning_characters": 0,
+          "fixture_ids": [
+            "fictional-0"
+          ],
+          "schema_errors": [],
+          "semantic_errors": [],
+          "refusal_support_values": []
+        },
+        {
+          "attempt_status": "structured_failure",
+          "kind": "schema_validation_failed",
+          "finish_reason": "stop",
+          "usage": {
+            "completion_tokens": 276,
+            "prompt_tokens": 1214,
+            "total_tokens": 1490
+          },
+          "content_characters": 997,
+          "reasoning_characters": 0,
+          "fixture_ids": [
+            "fictional-2"
+          ],
+          "schema_errors": [
+            {
+              "validator": "type",
+              "path": [
+                "evaluations",
+                0,
+                "fact_scores",
+                0
+              ]
+            },
+            {
+              "validator": "enum",
+              "path": [
+                "evaluations",
+                0,
+                "fact_scores",
+                0
+              ]
+            },
+            {
+              "validator": "type",
+              "path": [
+                "evaluations",
+                0,
+                "fact_scores",
+                1
+              ]
+            },
+            {
+              "validator": "enum",
+              "path": [
+                "evaluations",
+                0,
+                "fact_scores",
+                1
+              ]
+            }
+          ],
+          "semantic_errors": [
+            {
+              "type": "ValueError",
+              "reason": "Invalid legacy fact arity/scores"
+            }
+          ],
+          "refusal_support_values": []
+        },
+        {
+          "attempt_status": "structured_failure",
+          "kind": "schema_validation_failed",
+          "finish_reason": "stop",
+          "usage": {
+            "completion_tokens": 265,
+            "prompt_tokens": 1228,
+            "total_tokens": 1493
+          },
+          "content_characters": 974,
+          "reasoning_characters": 0,
+          "fixture_ids": [
+            "fictional-2"
+          ],
+          "schema_errors": [
+            {
+              "validator": "type",
+              "path": [
+                "evaluations",
+                0,
+                "fact_scores",
+                0
+              ]
+            },
+            {
+              "validator": "enum",
+              "path": [
+                "evaluations",
+                0,
+                "fact_scores",
+                0
+              ]
+            },
+            {
+              "validator": "type",
+              "path": [
+                "evaluations",
+                0,
+                "fact_scores",
+                1
+              ]
+            },
+            {
+              "validator": "enum",
+              "path": [
+                "evaluations",
+                0,
+                "fact_scores",
+                1
+              ]
+            },
+            {
+              "validator": "required",
+              "path": [
+                "evaluations",
+                0
+              ]
+            },
+            {
+              "validator": "additionalProperties",
+              "path": []
+            }
+          ],
+          "semantic_errors": [
+            {
+              "type": "KeyError",
+              "reason": "'citation_assessments'"
+            }
+          ],
+          "refusal_support_values": []
+        },
+        {
+          "attempt_status": "success",
+          "kind": null,
+          "finish_reason": "stop",
+          "usage": {
+            "completion_tokens": 213,
+            "prompt_tokens": 1228,
+            "total_tokens": 1441
+          },
+          "content_characters": 842,
+          "reasoning_characters": 0,
+          "fixture_ids": [
+            "fictional-2"
+          ],
+          "schema_errors": [],
+          "semantic_errors": [],
+          "refusal_support_values": []
+        },
+        {
+          "attempt_status": "success",
+          "kind": null,
+          "finish_reason": "stop",
+          "usage": {
+            "completion_tokens": 163,
+            "prompt_tokens": 1193,
+            "total_tokens": 1356
+          },
+          "content_characters": 587,
+          "reasoning_characters": 0,
+          "fixture_ids": [
+            "fictional-3"
+          ],
+          "schema_errors": [],
+          "semantic_errors": [
+            {
+              "type": "ValueError",
+              "reason": "Refusal support must be N/A"
+            }
+          ],
+          "refusal_support_values": [
+            1
+          ]
+        },
+        {
+          "attempt_status": "structured_failure",
+          "kind": "schema_validation_failed",
+          "finish_reason": "stop",
+          "usage": {
+            "completion_tokens": 195,
+            "prompt_tokens": 1196,
+            "total_tokens": 1391
+          },
+          "content_characters": 720,
+          "reasoning_characters": 0,
+          "fixture_ids": [
+            "fictional-1"
+          ],
+          "schema_errors": [
+            {
+              "validator": "required",
+              "path": [
+                "evaluations",
+                0
+              ]
+            },
+            {
+              "validator": "additionalProperties",
+              "path": []
+            }
+          ],
+          "semantic_errors": [
+            {
+              "type": "KeyError",
+              "reason": "'citation_assessments'"
+            }
+          ],
+          "refusal_support_values": []
+        },
+        {
+          "attempt_status": "success",
+          "kind": null,
+          "finish_reason": "stop",
+          "usage": {
+            "completion_tokens": 188,
+            "prompt_tokens": 1210,
+            "total_tokens": 1398
+          },
+          "content_characters": 687,
+          "reasoning_characters": 0,
+          "fixture_ids": [
+            "fictional-1"
+          ],
+          "schema_errors": [],
+          "semantic_errors": [],
+          "refusal_support_values": []
+        }
+      ],
+      "verified_free_quotas": {
+        "rpm": 5,
+        "rpd": 500,
+        "tpm": 250000,
+        "tpd": 125000000
+      }
+    }
+  },
+  "new_api_calls": 0
+}
