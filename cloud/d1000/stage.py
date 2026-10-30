@@ -13,6 +13,7 @@ def stage(output):
     code['cloud/d1000/config.json']=Path('cloud/d1000/config.json').read_text()
     code['cloud/d1000/resume_repair_v1.json']=Path('cloud/d1000/resume_repair_v1.json').read_text()
     code['cloud/d1000/frozen_evaluation_hashes.json']=Path('cloud/d1000/frozen_evaluation_hashes.json').read_text()
+    code['scripts/run_semantic_judge.py']=Path('scripts/run_semantic_judge.py').read_text()
     code['configs/insurance_3b.json']=Path('configs/insurance_3b.json').read_text()
     bootstrap='''from pathlib import Path
 import json,subprocess,sys
@@ -46,7 +47,7 @@ except Exception as e:
         'code_file':'campaign.ipynb','language':'python','kernel_type':'notebook','is_private':True,
         'enable_gpu':True,'enable_internet':True,'machine_shape':'NvidiaTeslaT4',
         'dataset_sources':['scarletthe0116/uk-motor-qa-d1000-training','scarletthe0116/uk-motor-qa-production-v1',
-                           'scarletthe0116/uk-insurance-base-eval-qwen3b-private','scarletthe0116/uk-motor-frozen-evaluation-v2'],
+                           'scarletthe0116/uk-insurance-base-eval-qwen3b-private','scarletthe0116/uk-motor-frozen-evaluation-v2','scarletthe0116/uk-motor-d1000-models-results'],
         'competition_sources':[],'kernel_sources':[],'model_sources':[]}
     (output/'kernel-metadata.json').write_text(json.dumps(meta,indent=2)+'\n')
     return {'notebook':meta['id'],'code_sha256':hashlib.sha256(bootstrap.encode()).hexdigest()}

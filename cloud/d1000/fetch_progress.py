@@ -14,13 +14,26 @@ def fetch(output,execution_version=None):
         kernel='scarletthe0116/'+slug;status=api.kernels_status(kernel).status.name
         item={'notebook':kernel,'status':status};folder=out/kind;folder.mkdir(exist_ok=True)
         if status in ('COMPLETE','ERROR','CANCEL_ACKNOWLEDGED'):
-            pattern=r'^(gpu_probe_receipt|gpu_probe_failure|campaign_receipt|FAILED)\.json$'
             try:
-                paths,_=api.kernels_output(kernel,str(folder),force=True,quiet=True,file_pattern=pattern)
-                for p in paths:
-                    p=Path(p)
-                    if p.name in ('gpu_probe_receipt.json','gpu_probe_failure.json','campaign_receipt.json','FAILED.json'):
-                        item[p.name]=json.loads(p.read_text())
+                # Do not use kernels_output: it saves response.log even when
+                # file_pattern excludes logs. Select exact aggregate files only.
+                from kagglesdk.kernels.types.kernels_api_service import ApiListKernelSessionOutputRequest
+                import requests
+                request=ApiListKernelSessionOutputRequest()
+                request.user_name='scarletthe0116'
+                parts=slug.split('/');request.kernel_slug=parts[0]
+                if len(parts)>1:request.version_label='v'+parts[1]
+                with api.build_kaggle_client() as client:
+                    listing=client.kernels.kernels_api_client.list_kernel_session_output(request)
+                allowed={'gpu_probe_receipt.json','gpu_probe_failure.json','campaign_receipt.json','FAILED.json'}
+                for entry in listing.files or []:
+                    if entry.file_name not in allowed:continue
+                    response=requests.get(entry.url,timeout=60)
+                    response.raise_for_status()
+                    if not response.content.strip():
+                        item.setdefault('empty_receipts',[]).append(entry.file_name);continue
+                    value=response.json();item[entry.file_name]=value
+                    (folder/entry.file_name).write_text(json.dumps(value,indent=2)+'\n')
             except Exception as e:item['receipt_fetch_error']=type(e).__name__
         result[kind]=item
         if kind=='campaign':

@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-10-30T01:15:23.845109+00:00",
+  "checked_at_utc": "2026-10-30T01:32:45.015497+00:00",
   "dataset": {
     "url": "https://www.kaggle.com/datasets/scarletthe0116/uk-motor-qa-d1000-training/versions/1",
     "private": true,
@@ -88,14 +88,15 @@
   },
   "full_campaign": {
     "notebook": "scarletthe0116/uk-motor-d1000-train-eval",
-    "execution_version": 7,
+    "execution_version": 8,
     "status": "RUNNING",
     "private": true,
-    "code_sha256": "8ada4766fea2e506e7c1745810a76ab6447f951469ef60648fc867eeeb4ab75f",
+    "code_sha256": "5cf037b5d255dd1b0ea81986bb488fb1f1d37f564b5a1487c53403a52cecefdb",
     "matches_recovery_code": true,
     "gpu_enabled": true,
     "machine_shape": "NvidiaTeslaT4",
     "source_checkpoint": 58,
+    "private_checkpoint_input_attached": true,
     "required_action": null
   },
   "responses_completed": 608,
@@ -114,12 +115,14 @@
     "Both judges calibration-blocked by copied production source-root guard. Nested source/runtime separation repair tested locally, NOT deployed to active6; wait safe terminal boundary before audited code-bound recovery. No judge calls confirmed."
   ],
   "previous_campaign": {
-    "execution_version": 6,
-    "status": "CANCEL_ACKNOWLEDGED",
-    "exact_terminal_receipt_verified": true,
-    "last_private_readback_version": 58,
-    "responses_completed": 608,
-    "reason": "Terminal cancellation status reported by Kaggle after approximately 12h; actor/cause not established"
+    "execution_version": 7,
+    "status": "ERROR",
+    "stage": "preflight_restore",
+    "models_started": 0,
+    "responses_completed": 0,
+    "judge_calls": 0,
+    "failure": "OSError Errno28 No space left on device",
+    "failure_source": "Specific startup error shown in Kaggle UI; FAILED.json empty on full disk"
   },
   "output_storage": {
     "dataset": "scarletthe0116/uk-motor-d1000-models-results",
@@ -232,6 +235,16 @@
       "ministral3b"
     ],
     "judge_directory_repair_deployed_in7": true,
-    "resumption_and_new_judge_results_confirmed": false
-  }
+    "resumption_and_new_judge_results_confirmed": false,
+    "mounted_input": "scarletthe0116/uk-motor-d1000-models-results/58",
+    "runtime_restore_policy": "Preserve completed adapters, receipts and inference journals; skip their optimizer copies; restore only latest unfinished optimizer per phase; original v58 unchanged"
+  },
+  "monitor_log_side_effect": {
+    "issue": "Kaggle kernels_output saves notebook log despite file_pattern",
+    "corrected": true,
+    "unintended_local_log_copies_removed": 3,
+    "logs_read": false,
+    "replacement": "List output metadata and fetch only exact permitted aggregate JSON; empty receipts reported individually"
+  },
+  "tests_targeted_passed": 10
 }

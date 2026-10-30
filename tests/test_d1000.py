@@ -97,3 +97,23 @@ def test_exact_audited_resume_repair_rejects_unrelated_code(monkeypatch):
     monkeypatch.setattr(campaign,'sha',lambda p:'0'*64 if p.name=='train_worker.py' else original(p))
     with pytest.raises(AssertionError,match='audited destination'):
         campaign.audited_resume_repair({'code_fingerprint':audit['source_fingerprint']},destination)
+
+
+def test_restore_keeps_latest_unfinished_optimizer_without_altering_archive(tmp_path):
+    import io,tarfile
+    from cloud.d1000.campaign import restore_runtime
+    archive=tmp_path/'artifacts.bin'
+    names=['runs/qwen3b/full/checkpoints/checkpoint-25/optimizer.pt',
+           'runs/qwen3b/full/adapter/adapter.safetensors',
+           'runs/smollm1b7/full/checkpoints/checkpoint-25/optimizer.pt',
+           'runs/smollm1b7/full/checkpoints/checkpoint-50/optimizer.pt',
+           'runs/qwen3b/base-responses.jsonl']
+    with tarfile.open(archive,'w:gz') as t:
+        for name in names:
+            m=tarfile.TarInfo(name);m.size=1;t.addfile(m,io.BytesIO(b'x'))
+    h=hashlib.sha256(archive.read_bytes()).hexdigest();root=tmp_path/'restore'
+    audit=restore_runtime(archive,root,{'models':{'qwen3b':{'status':'complete'}},'artifacts_sha256':h})
+    assert (root/names[1]).exists() and (root/names[4]).exists()
+    assert (root/names[3]).exists() and not (root/names[2]).exists() and not (root/names[0]).exists()
+    assert audit['optimizer_members_not_extracted']==2
+    assert hashlib.sha256(archive.read_bytes()).hexdigest()==h

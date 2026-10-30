@@ -28,7 +28,7 @@ def checkpoint(state):
     # Kaggle automatically extracts recognised archive extensions. An opaque
     # suffix preserves exact bytes, as in production checkpoint.bin.
     with tarfile.open(stage/'artifacts.bin','w:gz') as tar:
-        for name in ('config.json','bundle','evaluation','production_transport'):
+        for name in ('config.json','bundle','evaluation','production_transport','restore_audit.json'):
             if (ROOT/name).exists():tar.add(ROOT/name,arcname=name)
         for directory in ('judging','judge_runtime'):
             for p in (ROOT/directory).rglob('*') if (ROOT/directory).exists() else []:
@@ -92,6 +92,35 @@ def evaluation():
         'tasks_sha256':sha(output/'tasks.jsonl'),'selection_permitted':False})
 
 
+def restore_runtime(archive,root,saved):
+    """Read immutable mounted archive; retain only needed optimizer state locally."""
+    root=Path(root)
+    complete={k for k,v in saved.get('models',{}).items() if v.get('status')=='complete'}
+    with tarfile.open(archive) as tar:
+        members=tar.getmembers();latest={}
+        def checkpoint_key(member):
+            parts=Path(member.name).parts
+            if len(parts)<5 or parts[0]!='runs' or 'checkpoints' not in parts:return None
+            i=parts.index('checkpoints')
+            if i+1>=len(parts) or not parts[i+1].startswith('checkpoint-'):return None
+            return (parts[1],parts[2]),int(parts[i+1].split('-')[-1])
+        for m in members:
+            c=checkpoint_key(m)
+            if c:latest[c[0]]=max(latest.get(c[0],-1),c[1])
+        selected=[];excluded=0
+        for m in members:
+            c=checkpoint_key(m)
+            if c and (c[0][0] in complete or c[1]!=latest[c[0]]):excluded+=1;continue
+            selected.append(m)
+        tar.extractall(root,members=selected,filter='data')
+    audit={'source_archive_sha256':saved['artifacts_sha256'],'original_archive_unchanged':True,
+           'optimizer_members_not_extracted':excluded,
+           'completed_workers_skipped_optimizer_restore':sorted(complete),
+           'latest_optimizer_steps':{'/'.join(k):v for k,v in latest.items() if k[0] not in complete}}
+    write(root/'restore_audit.json',audit)
+    return audit
+
+
 def audited_resume_repair(state,fingerprint):
     """Allow only the shipped exact source/destination hash map repair."""
     audit=json.loads((Path(__file__).parent/'resume_repair_v1.json').read_text())
@@ -103,7 +132,7 @@ def audited_resume_repair(state,fingerprint):
     assert actual==new,'Recovery code does not match audited destination'
     assert digest(''.join(new[p] for p in sorted(new)).encode()).hexdigest()==fingerprint
     changed={p for p in old.keys()|new.keys() if old.get(p)!=new.get(p)}
-    assert changed==set(audit['changed_files'])=={'cloud/d1000/judging.py','cloud/d1000/campaign.py','cloud/d1000/stage.py'}
+    assert changed==set(audit['changed_files'])=={'cloud/d1000/judging.py','cloud/d1000/campaign.py','cloud/d1000/stage.py','cloud/d1000/fetch_progress.py'}
     state.setdefault('resume_repairs',[]).append(audit)
 
 
@@ -135,13 +164,23 @@ def main():
         previous=None
     if previous is not None:
         assert previous.is_private is True
-        dest=Path('/kaggle/working/resume');dest.mkdir(exist_ok=True)
-        for name in ('progress.json','artifacts.bin'):
-            api.dataset_download_file(STORE+'/'+str(previous.current_version_number),name,path=str(dest),quiet=True,force=True,unzip=True)
-        saved=json.loads((dest/'progress.json').read_text())
-        assert sha(dest/'artifacts.bin')==saved['artifacts_sha256']
-        with tarfile.open(dest/'artifacts.bin') as tar:tar.extractall(ROOT,filter='data')
-        state=saved;state['last_persistence']={'dataset':STORE,'version':previous.current_version_number,'private':True,'readback_verified':True}
+        # Mounted Kaggle inputs are read-only and do not consume working disk.
+        matches=[]
+        for archive in Path('/kaggle/input').rglob('artifacts.bin'):
+            progress=archive.parent/'progress.json'
+            if progress.exists():
+                candidate=json.loads(progress.read_text())
+                if candidate.get('protocol')==state['protocol']:matches.append((archive,candidate))
+        assert len(matches)==1,'Attach latest private models/results dataset as notebook input'
+        archive,saved=matches[0]
+        assert sha(archive)==saved['artifacts_sha256']
+        # Reject a stale mount before restoring or making provider calls.
+        temp=Path('/kaggle/working/resume');temp.mkdir(exist_ok=True)
+        api.dataset_download_file(STORE+'/'+str(previous.current_version_number),'progress.json',path=str(temp),quiet=True,force=True,unzip=True)
+        remote=json.loads((temp/'progress.json').read_text())
+        assert remote==saved,'Mounted checkpoint is stale; reattach latest private input'
+        restore_audit=restore_runtime(archive,ROOT,saved)
+        state=saved;state['restore_audit']=restore_audit;state['last_persistence']={'dataset':STORE,'version':previous.current_version_number,'private':True,'readback_verified':True}
     dataset='scarletthe0116/uk-motor-qa-d1000-training';d=info(api,dataset)
     assert d.is_private is True and d.current_version_number==1
     manifest=next(Path('/kaggle/input').rglob('uk_motor_qa_d1000_manifest.json'))
