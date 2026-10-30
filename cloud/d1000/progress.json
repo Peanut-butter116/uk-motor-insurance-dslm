@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-10-30T01:46:29.304587+00:00",
+  "checked_at_utc": "2026-10-30T03:27:40.261477+00:00",
   "dataset": {
     "url": "https://www.kaggle.com/datasets/scarletthe0116/uk-motor-qa-d1000-training/versions/1",
     "private": true,
@@ -99,7 +99,7 @@
     "private_checkpoint_input_attached": true,
     "required_action": null
   },
-  "responses_completed": 608,
+  "responses_completed": 724,
   "groq_judgements_completed": 0,
   "gemini_judgements_completed": 0,
   "trained_adapters_confirmed": 0,
@@ -126,7 +126,7 @@
   },
   "output_storage": {
     "dataset": "scarletthe0116/uk-motor-d1000-models-results",
-    "version": 60,
+    "version": 84,
     "private": true,
     "bootstrap_only": false,
     "actual_trained_adapters": 0,
@@ -151,18 +151,18 @@
         "pid": 77
       }
     },
-    "responses_completed": 608,
+    "responses_completed": 724,
     "judge_counts": {
       "groq": 0,
       "gemini": 0
     },
     "last_persistence": {
       "dataset": "scarletthe0116/uk-motor-d1000-models-results",
-      "version": 59,
+      "version": 83,
       "private": true,
       "readback_verified": true
     },
-    "artifacts_sha256": "4ac5e81209336b8199304820549929fc32ca5e75209f3b33e5ba3d1d71361634",
+    "artifacts_sha256": "c5f22f05fc3df70583f5b54d960761c7ce9234e74ddf46343741001b446560bb",
     "bootstrap_contains_models_or_data": false,
     "artifact_format": "gzip tar bytes with opaque .bin suffix to prevent automatic extraction",
     "code_fingerprint": "fcb5183d9bae43079570ee5f03194c3d18e0e79500f89702813c23a5a4b6a72f",
@@ -299,7 +299,7 @@
         "smollm1b7/smoke": 2
       }
     },
-    "current_worker_and_judge_status_note": "v60 confirms new Smol worker pid77 on GPU0; optimizer advancement not yet confirmed. Both judges now report new calibration failures, not the old privacy-directory error."
+    "current_worker_and_judge_status_note": "v84 confirms 724 aggregate responses, increased from608. Smol worker remains active; its final completion/reload receipt not yet confirmed. Both judges remain calibration blocked with zero judgements."
   },
   "monitor_log_side_effect": {
     "issue": "Kaggle kernels_output saves notebook log despite file_pattern",
