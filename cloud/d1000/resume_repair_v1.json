@@ -1,0 +1,34 @@
+{
+  "source_fingerprint": "d348d461dd1d603dfda0c25ae285bfe08deba244a460606378cc679e0c438609",
+  "source_hashes": {
+    "cloud/d1000/metrics.py": "d7d0b1eab8a05f11f2290569d9f0785b1ebf6f5601b2539ed72ccaadb04b02e8",
+    "cloud/d1000/train_worker.py": "153654444ed5189bd7f0dfba8bb7d003c1770b855286cd2241ba4557b2ee03ab",
+    "cloud/d1000/export.py": "cf8ed84ad525ae311ba093292e3137edab87d14469df73f0c08d433ceba43e8a",
+    "cloud/d1000/judging.py": "6a0060272b39dca61de7bcdbbf2a9f732d0fd8d51c0b094d9c9e6cb88c8448d4",
+    "cloud/d1000/gpu_probe.py": "f8e4f42e8df3a3f97bb68672a0471c5569e8dce6bc1e55db2e97675f17064e4f",
+    "cloud/d1000/campaign.py": "004675ffeac7dbb3d7b4d021aa1096c7c4046b5d8f496e10d7a2e62dc412dd46",
+    "cloud/d1000/storage.py": "67ec82627cd7bac9de4766deb5aa934117f26afeb57e78705400347a8c179b65",
+    "cloud/d1000/fetch_progress.py": "836c223a705869e85b90bcd83e6bde6e2ec5129aa8fa789f9829b71ff597bd13",
+    "cloud/d1000/storage_probe.py": "0a5b64580a4487a5abb3193e53032349da19a8a85571b2ab79a1e720e5fea944",
+    "cloud/d1000/stage.py": "bb2682f4b6dacfa05c97bcca17982a99a6a490498353d599a7f2051b4202ac68"
+  },
+  "source_notebook_sha256": "5c544a287b007e4da3dd5abc341821bdecc54b458186b1861d0f1962e48b2249",
+  "destination_hashes": {
+    "cloud/d1000/campaign.py": "15bc2ed08cfb68f0fb213faa2e90310bf686e41c1f9d95eb9ecc3e72f3e32b10",
+    "cloud/d1000/export.py": "cf8ed84ad525ae311ba093292e3137edab87d14469df73f0c08d433ceba43e8a",
+    "cloud/d1000/fetch_progress.py": "836c223a705869e85b90bcd83e6bde6e2ec5129aa8fa789f9829b71ff597bd13",
+    "cloud/d1000/gpu_probe.py": "f8e4f42e8df3a3f97bb68672a0471c5569e8dce6bc1e55db2e97675f17064e4f",
+    "cloud/d1000/judging.py": "e9f2559872810d930dafec1b36321b0203feb6633cbdb4cde774ae040c169881",
+    "cloud/d1000/metrics.py": "d7d0b1eab8a05f11f2290569d9f0785b1ebf6f5601b2539ed72ccaadb04b02e8",
+    "cloud/d1000/stage.py": "57e144ec872e68f1ec821a2ec556d8d303e3210c8a53f6e1dcd5bab6197ac6ea",
+    "cloud/d1000/storage.py": "67ec82627cd7bac9de4766deb5aa934117f26afeb57e78705400347a8c179b65",
+    "cloud/d1000/storage_probe.py": "0a5b64580a4487a5abb3193e53032349da19a8a85571b2ab79a1e720e5fea944",
+    "cloud/d1000/train_worker.py": "153654444ed5189bd7f0dfba8bb7d003c1770b855286cd2241ba4557b2ee03ab"
+  },
+  "changed_files": [
+    "cloud/d1000/judging.py",
+    "cloud/d1000/campaign.py",
+    "cloud/d1000/stage.py"
+  ],
+  "reason": "Preserve source privacy guard by nesting copied transport source; ship exact code-bound recovery audit. Training, data, prompts, model checkpoints and judging rubric unchanged."
+}

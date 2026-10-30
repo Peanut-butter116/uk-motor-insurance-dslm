@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-10-29T21:42:13.247108+00:00",
+  "checked_at_utc": "2026-10-30T01:15:23.845109+00:00",
   "dataset": {
     "url": "https://www.kaggle.com/datasets/scarletthe0116/uk-motor-qa-d1000-training/versions/1",
     "private": true,
@@ -88,17 +88,17 @@
   },
   "full_campaign": {
     "notebook": "scarletthe0116/uk-motor-d1000-train-eval",
-    "execution_version": 6,
+    "execution_version": 7,
     "status": "RUNNING",
     "private": true,
-    "code_sha256": "5c544a287b007e4da3dd5abc341821bdecc54b458186b1861d0f1962e48b2249",
-    "matches_repaired_code": true,
+    "code_sha256": "8ada4766fea2e506e7c1745810a76ab6447f951469ef60648fc867eeeb4ab75f",
+    "matches_recovery_code": true,
     "gpu_enabled": true,
     "machine_shape": "NvidiaTeslaT4",
-    "required_action": null,
-    "launched": true
+    "source_checkpoint": 58,
+    "required_action": null
   },
-  "responses_completed": 599,
+  "responses_completed": 608,
   "groq_judgements_completed": 0,
   "gemini_judgements_completed": 0,
   "trained_adapters_confirmed": 0,
@@ -114,17 +114,16 @@
     "Both judges calibration-blocked by copied production source-root guard. Nested source/runtime separation repair tested locally, NOT deployed to active6; wait safe terminal boundary before audited code-bound recovery. No judge calls confirmed."
   ],
   "previous_campaign": {
-    "execution_version": 5,
-    "status": "ERROR",
-    "last_stage": "after_smoke_guard_before_training",
-    "models_started": 0,
-    "responses": 0,
-    "judge_calls": 0,
-    "failure": "Legacy private readback URL returned HTTP404; replaced with authenticated SDK download and ZIP-envelope handling"
+    "execution_version": 6,
+    "status": "CANCEL_ACKNOWLEDGED",
+    "exact_terminal_receipt_verified": true,
+    "last_private_readback_version": 58,
+    "responses_completed": 608,
+    "reason": "Terminal cancellation status reported by Kaggle after approximately 12h; actor/cause not established"
   },
   "output_storage": {
     "dataset": "scarletthe0116/uk-motor-d1000-models-results",
-    "version": 50,
+    "version": 58,
     "private": true,
     "bootstrap_only": false,
     "actual_trained_adapters": 0,
@@ -155,18 +154,18 @@
         "pid": 254
       }
     },
-    "responses_completed": 599,
+    "responses_completed": 608,
     "judge_counts": {
       "groq": 0,
       "gemini": 0
     },
     "last_persistence": {
       "dataset": "scarletthe0116/uk-motor-d1000-models-results",
-      "version": 49,
+      "version": 57,
       "private": true,
       "readback_verified": true
     },
-    "artifacts_sha256": "d62d09eaa19085ccf79f80b00752d7e463f1a65a532a0d51cf7268f7c01a429a",
+    "artifacts_sha256": "8548bcbcd05c7584359f1744f2f963c46323026071f0abbd0cc4073852fb0cd7",
     "bootstrap_contains_models_or_data": false,
     "artifact_format": "gzip tar bytes with opaque .bin suffix to prevent automatic extraction",
     "code_fingerprint": "d348d461dd1d603dfda0c25ae285bfe08deba244a460606378cc679e0c438609",
@@ -223,5 +222,16 @@
     "qwen3b",
     "ministral3b"
   ],
-  "adapter_verification_note": "Qwen and Ministral workers exited successfully after required train/reload/inference gates; exact adapter hashes and detailed training metrics not independently retrieved by aggregate-only monitor"
+  "adapter_verification_note": "Qwen and Ministral workers exited successfully after required train/reload/inference gates; exact adapter hashes and detailed training metrics not independently retrieved by aggregate-only monitor",
+  "recovery": {
+    "source": 58,
+    "code_audit": "resume_repair_v1.json",
+    "training_worker_unchanged": true,
+    "completed_workers_skipped": [
+      "qwen3b",
+      "ministral3b"
+    ],
+    "judge_directory_repair_deployed_in7": true,
+    "resumption_and_new_judge_results_confirmed": false
+  }
 }

@@ -11,6 +11,7 @@ def stage(output):
     for directory in ('experiments','src','eval','cloud/d1000'):
         for p in Path(directory).glob('*.py'):code[str(p)]=p.read_text()
     code['cloud/d1000/config.json']=Path('cloud/d1000/config.json').read_text()
+    code['cloud/d1000/resume_repair_v1.json']=Path('cloud/d1000/resume_repair_v1.json').read_text()
     code['cloud/d1000/frozen_evaluation_hashes.json']=Path('cloud/d1000/frozen_evaluation_hashes.json').read_text()
     code['configs/insurance_3b.json']=Path('configs/insurance_3b.json').read_text()
     bootstrap='''from pathlib import Path

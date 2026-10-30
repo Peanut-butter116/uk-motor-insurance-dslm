@@ -92,6 +92,21 @@ def evaluation():
         'tasks_sha256':sha(output/'tasks.jsonl'),'selection_permitted':False})
 
 
+def audited_resume_repair(state,fingerprint):
+    """Allow only the shipped exact source/destination hash map repair."""
+    audit=json.loads((Path(__file__).parent/'resume_repair_v1.json').read_text())
+    old=audit['source_hashes'];new=audit['destination_hashes']
+    digest=__import__('hashlib').sha256
+    assert state['code_fingerprint']==audit['source_fingerprint']
+    assert digest(''.join(old[p] for p in sorted(old)).encode()).hexdigest()==state['code_fingerprint']
+    actual={str(p.relative_to(Path(__file__).parents[2])):sha(p) for p in Path(__file__).parent.glob('*.py')}
+    assert actual==new,'Recovery code does not match audited destination'
+    assert digest(''.join(new[p] for p in sorted(new)).encode()).hexdigest()==fingerprint
+    changed={p for p in old.keys()|new.keys() if old.get(p)!=new.get(p)}
+    assert changed==set(audit['changed_files'])=={'cloud/d1000/judging.py','cloud/d1000/campaign.py','cloud/d1000/stage.py'}
+    state.setdefault('resume_repairs',[]).append(audit)
+
+
 def main():
     assert Path('/kaggle/working').is_dir(),'Cloud only'
     ROOT.mkdir(exist_ok=True)
@@ -135,7 +150,8 @@ def main():
     verify_file(dataset,1,'export/uk_motor_qa_d1000.csv',m['files']['uk_motor_qa_d1000.csv'])
     cfg=json.loads((Path(__file__).parent/'config.json').read_text())
     fingerprint=__import__('hashlib').sha256(''.join(sha(p) for p in sorted(Path(__file__).parent.glob('*.py'))).encode()).hexdigest()
-    if state.get('code_fingerprint'):assert state['code_fingerprint']==fingerprint,'Resume code differs; require a separately audited repair'
+    if state.get('code_fingerprint') and state['code_fingerprint']!=fingerprint:
+        audited_resume_repair(state,fingerprint)
     state['code_fingerprint']=fingerprint
     if (ROOT/'config.json').exists():assert json.loads((ROOT/'config.json').read_text())==cfg,'Restored experiment config differs; use separate versioned campaign'
     write(ROOT/'config.json',cfg)

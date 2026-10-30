@@ -80,3 +80,20 @@ def test_provider_runtime_outside_copied_source_guard(tmp_path):
     assert runtime.resolve()!=source_root and source_root not in runtime.resolve().parents
     assert code.parent.name=='production_transport'
     assert runtime.parent==tmp_path/'campaign'
+
+
+def test_exact_audited_resume_repair_rejects_unrelated_code(monkeypatch):
+    import pytest
+    from cloud.d1000 import campaign
+    audit=json.loads(Path('cloud/d1000/resume_repair_v1.json').read_text())
+    destination=hashlib.sha256(''.join(audit['destination_hashes'][p] for p in sorted(audit['destination_hashes'])).encode()).hexdigest()
+    state={'code_fingerprint':audit['source_fingerprint']}
+    campaign.audited_resume_repair(state,destination)
+    assert state['resume_repairs']==[audit]
+    assert audit['source_hashes']['cloud/d1000/train_worker.py']==audit['destination_hashes']['cloud/d1000/train_worker.py']
+    with pytest.raises(AssertionError):
+        campaign.audited_resume_repair({'code_fingerprint':'0'*64},destination)
+    original=campaign.sha
+    monkeypatch.setattr(campaign,'sha',lambda p:'0'*64 if p.name=='train_worker.py' else original(p))
+    with pytest.raises(AssertionError,match='audited destination'):
+        campaign.audited_resume_repair({'code_fingerprint':audit['source_fingerprint']},destination)
