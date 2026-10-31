@@ -1,0 +1,90 @@
+{
+  "status": "evaluation_partial_or_blocked",
+  "judge_counts": {
+    "groq": 36,
+    "gemini": 345
+  },
+  "paired_judgements": 32,
+  "last_persistence": {
+    "dataset": "scarletthe0116/uk-motor-d1000-models-results",
+    "version": 239,
+    "private": true,
+    "readback_verified": true
+  },
+  "artifacts_sha256": "aa9e5eba75d908c13da03c0c64ce47c55794e9aaeb74d16a25312fd90f86a604",
+  "code_fingerprint": "6f0173312e9996a952f5c7cdd88e36b373f5e2c5291bf1f783cdcf7151ede24d",
+  "preservation": {
+    "source_version": 150,
+    "archive_hash_verified": true,
+    "response_count": 912,
+    "condition_counts": {
+      "ministral3b/base": 76,
+      "ministral3b/base-rag": 76,
+      "ministral3b/sft": 76,
+      "ministral3b/sft-rag": 76,
+      "qwen3b/base": 76,
+      "qwen3b/base-rag": 76,
+      "qwen3b/sft": 76,
+      "qwen3b/sft-rag": 76,
+      "smollm1b7/base": 76,
+      "smollm1b7/base-rag": 76,
+      "smollm1b7/sft": 76,
+      "smollm1b7/sft-rag": 76
+    },
+    "immutable_files": 80,
+    "immutable_manifest_sha256": "dcf1ac6708449d6aefa8dab36110adcb15a2193267c4111790c432ee3bfe3dd5",
+    "adapter_hashes_verified": {
+      "qwen3b": "3f96854635a8b74b30585dd5b17587818be71346690b7c61628c49b04c05cf24",
+      "ministral3b": "7347f3709600d50dc94efd543fa73710a0d901397da2e283c037667df09453cb",
+      "smollm1b7": "f20459860f6bc7af704fa3a34192ce80510ee2f6b6da1d3a471468f12fe9071d"
+    },
+    "secrets_accessible": true,
+    "previous_execution_complete": true
+  },
+  "judges": {
+    "groq": {
+      "model": "openai/gpt-oss-120b",
+      "status": "blocked",
+      "completed": 36,
+      "calibration": "PASS",
+      "catalogue_verified": true,
+      "missing_failures": 43,
+      "resume_after_epoch": 1793497662.8456523,
+      "reason": "Verified free quota exceeds this session; resume from cache"
+    },
+    "gemini": {
+      "model": "gemini-3.5-flash-lite",
+      "status": "blocked",
+      "completed": 345,
+      "calibration": "PASS",
+      "catalogue_verified": true,
+      "resume_after_epoch": 1793457702.4191413,
+      "missing_failures": 41,
+      "reason": "gemini HTTP 503"
+    }
+  },
+  "metric_artifacts": {
+    "results/citation_resolution.svg": "e1bf4b508612b694c4032385a5bbb22f2ddddd7e34f9f0fa6275c05096cfb724",
+    "results/gemini_correctness.png": "31d04ec832744c18bd4b31bbded2e762b5bf23ca32eb1101dbcb85d1273a14a0",
+    "results/gemini_correctness.svg": "d3bb84938a6d964515a371ae8c7fc11eae330d947a98134771f103446615cc38",
+    "results/balanced_abstention.svg": "5f5d011b97704f18b217f27bff49db5ecddb286e9c87b17d35d1417119bf3639",
+    "results/disagreements.json": "cbf41f7ab3db4fb87c223966fafdea0dc0ff1b0ff809665979c3d9b0feb88c1b",
+    "results/human_review_sample.json": "bce3f6eacc66bd8b9ae400b2d6665d72bc474ea3fafe278a2b9f1a0ce5e51d19",
+    "results/groq_correctness.svg": "2f7c5287b17bc04ce8870cc7ea10c250ebca76e2151e44bb26a1d6056e536ed6",
+    "results/correctness_agreement.png": "a1a6de5613a7af09eccd87a46da030a7bef526cc49ce53d47fd87733d6306450",
+    "results/groq_citation_support.png": "d997baf9b33a83eade9a3373a9c096d9445c83b0250be764f46f0cd39f023dc0",
+    "results/groq_correctness.png": "ef987ab4d811eeaa142546854c5d4bb9f30bccac5f00524a45a0626747ecff13",
+    "results/balanced_abstention.png": "4cc56970e64e500a3bae4a45cc4135139ee3e0ae72ff650cac259870bf310902",
+    "results/parse_rate.svg": "eb0c5473eaa2d6f2642dbfc1e81b852a2dbf1bb97f412d28bbe788b54abdc05d",
+    "results/correctness_agreement.svg": "238d8e138f689448cc583f61ba8c5a24b411cc6b1e3b9cf42e2e4865de94de8f",
+    "results/inter_judge_agreement.json": "7dc7e35ed7f7e93b9d8060d18ede4debc607d09ddf985d77bf6aff675ab272f0",
+    "results/groq_citation_support.svg": "7b0d3af64810d9c9a0bbf8dbc15cfa0b29623f611d79e924ec88646fa713e133",
+    "results/training_time.png": "af18646296ebb2bfa6549c0bec3eeb8575af4db9a379658ef5422c6e87b9f1f8",
+    "results/results.json": "d1edb2bed5dfd9290bfbf28750dacfab601aae0ce32f6aff36bc5f95893dca6f",
+    "results/results.csv": "04046ada6e99d592ecd840c9564001545259c9c1035dd24ec6e331987868bc26",
+    "results/citation_resolution.png": "ba957db5a04bedf9df5024087b0809b8fe0fcff0c3d0b8b6ccd45cdd0f520fff",
+    "results/gemini_citation_support.png": "85115c4755122a4780212089819911eb3409f252c382da5d535bba2678e5a1dd",
+    "results/parse_rate.png": "5e3f252081f4237e703ae2e2a14874212f73e85609fb25256d86ad8b9b862995",
+    "results/gemini_citation_support.svg": "e13ac6596851d02b53d390356150e937c0ba7b88ed569142784ebb1fc2f973dd"
+  }
+}
