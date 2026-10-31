@@ -1,0 +1,24 @@
+{
+  "execution": 19,
+  "status_at_verification": "RUNNING",
+  "mode": "evaluation-only",
+  "source_sha256": "35e54432a06d06285699d8e9096cabd1bf2811693515934a092b1ea2c09d7133",
+  "python_fingerprint": "6f0173312e9996a952f5c7cdd88e36b373f5e2c5291bf1f783cdcf7151ede24d",
+  "unchanged_executed_source_from": 18,
+  "private": true,
+  "enable_gpu": false,
+  "machine_shape": "None",
+  "source_version": 146,
+  "source_readback_previously_verified": true,
+  "prior_writer_terminal": true,
+  "clock_at_preflight_utc": "2026-10-31 01:41:28 UTC",
+  "groq_resume_after_epoch": 1793410736.6608193,
+  "gemini_resume_after_epoch": 1793452709.1494133,
+  "judge_counts_before_start": {
+    "groq": 13,
+    "gemini": 173
+  },
+  "paired_before_start": 11,
+  "startup_confirmed": false,
+  "no_retraining_or_candidate_inference": true
+}
