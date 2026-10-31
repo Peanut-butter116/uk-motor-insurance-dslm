@@ -1,0 +1,33 @@
+{
+  "checked_at_utc": "2026-10-28T18:30:41.041783+00:00",
+  "mode": "dual_generator_unverified_v1",
+  "owner_authorised_methodology_change": true,
+  "legacy_writer_execution": 10,
+  "legacy_writer_stopped": true,
+  "latest_private_checkpoint": 217,
+  "dataset_private": true,
+  "verified_count": 462,
+  "verified_answerability": {
+    "answerable": 388,
+    "unanswerable": 74
+  },
+  "verified_train_sha256": "9946b87682442ab0948639e80c57a3179059cd563331f1d58fcb8b4ee39448c3",
+  "archive_sha256": "40d8ef9c8475ee84b2507f990a95dbd2e4b5e0fddf6d134a65256e144f9cbc7a",
+  "original409_and_frozen_gold_hashes_present": true,
+  "fast_groq_count": 0,
+  "fast_gemini_count": 0,
+  "combined_total": 462,
+  "remaining_to_target": 538,
+  "saved_notebook_version": 11,
+  "save_only_not_executed": true,
+  "accelerated_execution_started": false,
+  "editor_save_run_attempt_created_execution": false,
+  "blocker": "Kaggle editor stays Loading; Run All disabled; UI Save & Run All did not create execution12",
+  "tests_passed": 284,
+  "test_scope": "Fictional local tests; concurrent workers, independent quota pause, deterministic duplicate/benchmark checks, preservation, target cap and legacy regressions",
+  "actual_cloud_smoke_passed": false,
+  "measured_cloud_throughput": null,
+  "cross_session_scheduler": false,
+  "monitor_status": "PAUSED",
+  "required_action": "Open fresh editor, confirm Parallel Groq + Gemini generation \u2014 UNVERIFIED heading and existing secrets; Save Version -> Save & Run All. Report running version."
+}

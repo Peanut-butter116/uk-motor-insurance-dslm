@@ -1,0 +1,22 @@
+{
+  "checked_at_utc": "2026-10-25T16:38:50.836444+00:00",
+  "dataset": "scarletthe0116/uk-motor-qa-production-v1",
+  "dataset_version": 3,
+  "is_private": true,
+  "stored_files": {
+    "checkpoint.bin": 14302643,
+    "migration_manifest.json": 1019749
+  },
+  "expected_archive_sha256": "fda603188f26038eb44302e4bf7de8abad92d3771c8ef804e52fd8b814ec3117",
+  "notebook": "scarletthe0116/uk-motor-qa-resume",
+  "notebook_version_saved": 5,
+  "notebook_private": true,
+  "notebook_source_roundtrip_verified": true,
+  "notebook_executed": false,
+  "integrity_check_status": "COMPLETE",
+  "generation_launched": false,
+  "blocker": "Owner will configure notebook secrets later",
+  "integrity_check_version": 3,
+  "integrity_check_files_verified": 5058,
+  "integrity_check_accepted": 409
+}

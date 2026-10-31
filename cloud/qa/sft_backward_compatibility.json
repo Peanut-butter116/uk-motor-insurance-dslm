@@ -1,0 +1,12 @@
+{
+  "historical_files_byte_identical_to_head": true,
+  "sha256": {
+    "experiments/prepare_sft.py": "604cd50693d174ddfc80f6f50d5acadc17b36314bcee27ddd654a567a72fc4fe",
+    "experiments/tokenise.py": "ba035a86d228ce00a207cc76e89d03748981e63481166c58a5be35dfc716a8ea",
+    "experiments/train.py": "a7601e43896f543f1ff70f802eb28b28985650073c3bd3b718569203d7e7df9a"
+  },
+  "milestone_loader_implemented": false,
+  "training_launched": false,
+  "regression_tests_passed": 279,
+  "regression_scope": "Existing research suite plus controlled package, nested D750 and fictional continuation safety tests; no milestone loader path implemented"
+}

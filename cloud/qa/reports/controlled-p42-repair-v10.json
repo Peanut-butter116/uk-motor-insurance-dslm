@@ -1,0 +1,84 @@
+{
+  "repair_success": true,
+  "input_version": 9,
+  "source_package": "p42",
+  "new_candidates_generated": 0,
+  "missing_pairs_before": 2,
+  "teacher_api_calls": 0,
+  "total_accepted": 412,
+  "target": 2000,
+  "remaining_to_target": 1588,
+  "answerability": {
+    "answerable": 338,
+    "unanswerable": 74
+  },
+  "answerability_percent": {
+    "answerable": 82.04,
+    "unanswerable": 17.96
+  },
+  "new_cloud_accepted": 3,
+  "new_cloud_answerability": {
+    "answerable": 3
+  },
+  "new_cloud_insufficiency_percent": 0.0,
+  "new_cloud_insufficiency_target_percent": [
+    20,
+    25
+  ],
+  "candidates_generated": 608,
+  "generated_accepted": 277,
+  "generated_acceptance_rate": 0.4555921052631579,
+  "generated_dispositions": {
+    "accepted": 277,
+    "needs_review": 267,
+    "rejected": 49,
+    "failed_structured_output": 15
+  },
+  "verification_reasons": {
+    "judge_answer_supported": 82,
+    "judge_citations_support_claims": 54,
+    "judge_context_complete": 115,
+    "judge_label_correct": 35,
+    "judge_no_material_contradiction": 54,
+    "judge_numbers_conditions_correct": 79,
+    "judge_review": 83,
+    "unsupported_or_unresolved_claim": 181,
+    "independent_answerability_disagrees": 46,
+    "no_answer_citations": 40,
+    "judge_reject": 49,
+    "near_duplicate_question": 12,
+    "missing_answer_quote": 1,
+    "full_protected_semantic_screen_failed_or_uncertain": 41,
+    "persistent_retry_limit_exhausted": 15,
+    "judge_question_useful": 1,
+    "full_document_extraction_incomplete": 1
+  },
+  "duplicate_removals": 12,
+  "leakage_exclusions": 41,
+  "by_insurer": {
+    "Admiral": 35,
+    "Aviva": 57,
+    "AA": 43,
+    "Hastings Direct": 167,
+    "Ageas": 29,
+    "AXA": 81
+  },
+  "last_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p42",
+  "last_checkpoint_utc": "2026-10-25T17:52:32Z",
+  "status": "paused_cloud_batch_limit",
+  "train_sha256": "1ec1916bd5ceb5173e8a3540584085811584042810849d060aa1b66d3a5af8d9",
+  "human_review_completed": 0,
+  "training_ready": false,
+  "statistics_scope": "All recorded generated candidates, including historical providers; reasons may overlap. No package completion timestamp exists in inherited state.",
+  "missing_pairs_after": 0,
+  "baseline_409_preserved": true,
+  "frozen_benchmark_unchanged": true,
+  "changed_candidate_dispositions": {
+    "accepted": 3
+  },
+  "changed_candidate_failure_reasons": {},
+  "original_qa_fields_preserved": true,
+  "persisted_dataset_version": 10,
+  "dataset_private": true,
+  "persisted_archive_sha256": "dad0ab797bb97a3f3f522014fdd11f8db6627e7abd83e5cc8e8b647c72ae89b6"
+}

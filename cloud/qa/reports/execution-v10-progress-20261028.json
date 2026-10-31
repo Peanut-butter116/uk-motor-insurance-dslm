@@ -1,0 +1,28 @@
+{
+  "checked_at_utc": "2026-10-28T18:06:26.067741+00:00",
+  "execution_version": 10,
+  "notebook_status": "RUNNING",
+  "dataset_version": 212,
+  "dataset_private": true,
+  "dataset_status": "ready",
+  "accepted": 462,
+  "answerability": {
+    "answerable": 388,
+    "unanswerable": 74
+  },
+  "candidates_generated": 788,
+  "new_candidates_this_execution": 44,
+  "new_accepted_this_execution": 12,
+  "new_answerable_this_execution": 12,
+  "new_insufficient_this_execution": 0,
+  "new_review_this_execution": 28,
+  "new_structured_failures_this_execution": 2,
+  "new_rejected_this_execution": 2,
+  "provisional_candidates": 0,
+  "reason_counts_overlap": true,
+  "last_checkpoint_utc": "2026-10-28T18:03:46Z",
+  "cloud_state": "generating",
+  "train_sha256": "9946b87682442ab0948639e80c57a3179059cd563331f1d58fcb8b4ee39448c3",
+  "remaining_source_packages": null,
+  "note": "Twelve additional accepted records since execution10 restart. No provisional candidates in latest saved progress. Exact package count awaits completed receipt."
+}

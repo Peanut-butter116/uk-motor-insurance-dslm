@@ -1,0 +1,146 @@
+{
+  "protocol": "d1000-mixed-quality-qlora-dual-judge/1",
+  "status": "finished_or_documented_partial",
+  "models": {
+    "qwen3b": {
+      "status": "complete"
+    },
+    "ministral3b": {
+      "status": "complete"
+    },
+    "deepseek1b5": {
+      "status": "tokenisation_failed"
+    },
+    "smollm1b7": {
+      "status": "complete",
+      "gpu": 0,
+      "pid": 77,
+      "exit_code": 0
+    }
+  },
+  "responses_completed": 912,
+  "judge_counts": {
+    "groq": 0,
+    "gemini": 0
+  },
+  "last_persistence": {
+    "dataset": "scarletthe0116/uk-motor-d1000-models-results",
+    "version": 93,
+    "private": true,
+    "readback_verified": true
+  },
+  "artifacts_sha256": "96639cb1a40dd6ec3939b1ee99bf88fc8f94ffba29add61da95a6dcceec3dac1",
+  "bootstrap_contains_models_or_data": false,
+  "artifact_format": "gzip tar bytes with opaque .bin suffix to prevent automatic extraction",
+  "code_fingerprint": "fcb5183d9bae43079570ee5f03194c3d18e0e79500f89702813c23a5a4b6a72f",
+  "gpus": [
+    {
+      "index": 0,
+      "name": "Tesla T4",
+      "total_memory": 15636037632
+    },
+    {
+      "index": 1,
+      "name": "Tesla T4",
+      "total_memory": 15636037632
+    }
+  ],
+  "export": {
+    "dataset": "scarletthe0116/uk-motor-qa-d1000-training",
+    "version": 1,
+    "records": 1000,
+    "csv_sha256": "faec491822ce60758d1705fe0f1b71621eaf8dd34f9f9b8168eca001b1acd6b3",
+    "readback_verified": true
+  },
+  "dataset_conversion": {
+    "source_rows": 1000,
+    "eligible_rows": 834,
+    "model_preflight_failures": {
+      "deepseek1b5": {
+        "type": "ValueError",
+        "reason": "Chat template does not preserve the prompt prefix; refuse unsafe masking"
+      }
+    }
+  },
+  "train_rows": 751,
+  "validation_rows": 83,
+  "judges": {
+    "groq": {
+      "completed": 0,
+      "model": "openai/gpt-oss-120b",
+      "catalogue_verified": true,
+      "status": "calibration_blocked",
+      "reason": "Structured output failure: persistent_retry_limit_exhausted",
+      "resume_after_epoch": 1793324396.6608193
+    },
+    "gemini": {
+      "completed": 0,
+      "model": "gemini-3.5-flash-lite",
+      "catalogue_verified": true,
+      "status": "calibration_blocked",
+      "reason": "Refusal support must be N/A",
+      "resume_after_epoch": 1793324398.2735775
+    }
+  },
+  "restore_audit": {
+    "source_archive_sha256": "8548bcbcd05c7584359f1744f2f963c46323026071f0abbd0cc4073852fb0cd7",
+    "original_archive_unchanged": true,
+    "optimizer_members_not_extracted": 198,
+    "completed_workers_skipped_optimizer_restore": [
+      "ministral3b",
+      "qwen3b"
+    ],
+    "latest_optimizer_steps": {
+      "smollm1b7/full": 125,
+      "smollm1b7/smoke": 2
+    }
+  },
+  "resume_repairs": [
+    {
+      "source_fingerprint": "d348d461dd1d603dfda0c25ae285bfe08deba244a460606378cc679e0c438609",
+      "source_hashes": {
+        "cloud/d1000/metrics.py": "d7d0b1eab8a05f11f2290569d9f0785b1ebf6f5601b2539ed72ccaadb04b02e8",
+        "cloud/d1000/train_worker.py": "153654444ed5189bd7f0dfba8bb7d003c1770b855286cd2241ba4557b2ee03ab",
+        "cloud/d1000/export.py": "cf8ed84ad525ae311ba093292e3137edab87d14469df73f0c08d433ceba43e8a",
+        "cloud/d1000/judging.py": "6a0060272b39dca61de7bcdbbf2a9f732d0fd8d51c0b094d9c9e6cb88c8448d4",
+        "cloud/d1000/gpu_probe.py": "f8e4f42e8df3a3f97bb68672a0471c5569e8dce6bc1e55db2e97675f17064e4f",
+        "cloud/d1000/campaign.py": "004675ffeac7dbb3d7b4d021aa1096c7c4046b5d8f496e10d7a2e62dc412dd46",
+        "cloud/d1000/storage.py": "67ec82627cd7bac9de4766deb5aa934117f26afeb57e78705400347a8c179b65",
+        "cloud/d1000/fetch_progress.py": "836c223a705869e85b90bcd83e6bde6e2ec5129aa8fa789f9829b71ff597bd13",
+        "cloud/d1000/storage_probe.py": "0a5b64580a4487a5abb3193e53032349da19a8a85571b2ab79a1e720e5fea944",
+        "cloud/d1000/stage.py": "bb2682f4b6dacfa05c97bcca17982a99a6a490498353d599a7f2051b4202ac68"
+      },
+      "source_notebook_sha256": "5c544a287b007e4da3dd5abc341821bdecc54b458186b1861d0f1962e48b2249",
+      "destination_hashes": {
+        "cloud/d1000/campaign.py": "d885d8694dc8b0ec0b1e3c482de877df970e52611b084539b3aa3414956ab5bd",
+        "cloud/d1000/export.py": "cf8ed84ad525ae311ba093292e3137edab87d14469df73f0c08d433ceba43e8a",
+        "cloud/d1000/fetch_progress.py": "a80101fd5c24158638266b6ae4e772999dbd348292ab19acf0c7254ae5f83bb1",
+        "cloud/d1000/gpu_probe.py": "f8e4f42e8df3a3f97bb68672a0471c5569e8dce6bc1e55db2e97675f17064e4f",
+        "cloud/d1000/judging.py": "e9f2559872810d930dafec1b36321b0203feb6633cbdb4cde774ae040c169881",
+        "cloud/d1000/metrics.py": "d7d0b1eab8a05f11f2290569d9f0785b1ebf6f5601b2539ed72ccaadb04b02e8",
+        "cloud/d1000/stage.py": "033e8c3e8d72f0a4f2b53a38ac1eca654d1218176e99106f911aa1e79852672c",
+        "cloud/d1000/storage.py": "67ec82627cd7bac9de4766deb5aa934117f26afeb57e78705400347a8c179b65",
+        "cloud/d1000/storage_probe.py": "0a5b64580a4487a5abb3193e53032349da19a8a85571b2ab79a1e720e5fea944",
+        "cloud/d1000/train_worker.py": "153654444ed5189bd7f0dfba8bb7d003c1770b855286cd2241ba4557b2ee03ab"
+      },
+      "changed_files": [
+        "cloud/d1000/judging.py",
+        "cloud/d1000/campaign.py",
+        "cloud/d1000/fetch_progress.py",
+        "cloud/d1000/stage.py"
+      ],
+      "reason": "Nest judge transport source; include exact historical reference-package module; mounted immutable archive restore selects latest unfinished optimizer state to fit cloud working disk; receipt-only monitoring avoids SDK log side effect. Training/data/prompts/models/rubric unchanged."
+    }
+  ],
+  "results": {
+    "conditions": 16,
+    "responses": 912,
+    "judge_votes": {
+      "groq": 0,
+      "gemini": 0
+    },
+    "disagreements": 0,
+    "human_reviews_completed": 0,
+    "primary_three_vote_results": false
+  }
+}

@@ -178,6 +178,8 @@ Check job state before submitting anything. The actual run already exists: **do 
 
 Reach **2,000 accepted examples**, with **3,000** as a stretch. Complete review and freeze the dataset by **18 November**. Finish reviewed dev-based model selection and the full SFT/RAG comparison, then deliver the model, reproducible repository and final research report by **18 December 2026**. [Roadmap](docs/project_roadmap.md).
 
+**25 October controlled QA resumption:** verified private checkpoint v10 contains **412 accepted records** (338 answerable / 74 insufficient evidence), preserving all 409 originals and the frozen benchmark. Four cached p42 candidates were independently checked: three accepted, one retained for review; none regenerated. An independent restore audit passed after repairing two missing within-batch duplicate comparisons across a quota restart. The Groq GPT-OSS → Gemini workflow remains unchanged. The remaining 536 Hastings packages historically imply roughly 420–550 further acceptances; more eligible evidence is likely needed for 2,000. Free-tier continuation to 1,000 is now authorised; Kaggle execution v8 passed fresh generation and verification, finished its first session at **450 accepted**; verified private checkpoint v154 contains 744 cumulative candidates. The session stopped safely at its time/quota boundary; a fresh Kaggle editor Save & Run All resumes from the latest checkpoint. [Audit, receipts and restart instructions](cloud/qa/README.md) · [Progress](cloud/qa/progress.json) · [Opt-in SFT loader proposal](cloud/qa/SFT_LOADER_PROPOSAL.md).
+
 ## 11. Archived experiments
 
 [Historical research, reproduction notes, figures and earlier presentation materials](archive/README.md).

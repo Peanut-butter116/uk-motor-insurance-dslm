@@ -1,0 +1,29 @@
+{
+  "checked_at_utc": "2026-10-28T15:34:55.549785+00:00",
+  "notebook": "scarletthe0116/uk-motor-qa-resume",
+  "execution_version": 10,
+  "state": "RUNNING",
+  "starting_dataset_version": 154,
+  "starting_accepted": 450,
+  "starting_candidates": 744,
+  "latest_dataset_version": 155,
+  "dataset_private": true,
+  "dataset_status": "ready",
+  "accepted": 450,
+  "answerability": {
+    "answerable": 376,
+    "unanswerable": 74
+  },
+  "candidates_generated": 744,
+  "new_accepted_this_execution": 0,
+  "new_candidates_this_execution": 0,
+  "new_generation_confirmed": false,
+  "manifest_preservation_hashes_verified": true,
+  "archive_sha256": "d5bf21e08f6a3260add5b0185d34661e651d8c1aecd2a12049b6024f26fb5f9a",
+  "same_session_continuation_configured": true,
+  "session_limit_hours": 4,
+  "cross_session_scheduler": false,
+  "progress_monitor": "ACTIVE",
+  "inherited_progress_timestamp": "2026-10-25T22:18:44Z",
+  "note": "New ready private checkpoint observed. Provider progress timestamp and paused status remain inherited; fresh model calls or acceptances not yet confirmed. Campaign cumulative counters originate at 412 accepted/608 candidates."
+}

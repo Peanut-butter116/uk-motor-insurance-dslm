@@ -1,0 +1,17 @@
+{
+  "protocol": "d1000-mixed-quality-qlora-dual-judge/1",
+  "seed": 0,
+  "models": {
+    "qwen3b": {"id":"Qwen/Qwen2.5-3B-Instruct","revision":"aa8e72537993ba99e69dfaafa59ed015b17504d1","class":"causal"},
+    "ministral3b": {"id":"unsloth/Ministral-3-3B-Instruct-2512-bnb-4bit","revision":"8491af399e7ad92759da849790a5f7e6c2fdfbc4","class":"mistral3"},
+    "deepseek1b5": {"id":"deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B","revision":"ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562","class":"causal"},
+    "smollm1b7": {"id":"HuggingFaceTB/SmolLM2-1.7B-Instruct","revision":"31b70e2e869a7173562077fd711b654946d38674","class":"causal"}
+  },
+  "training":{"r":16,"alpha":32,"dropout":0.05,"learning_rate":0.0001,"epochs":2,"max_length":2048,"gradient_accumulation_steps":8,"smoke_steps":2},
+  "evaluation":{"max_new_tokens":700,"max_total_tokens":8192,"do_sample":false},
+  "validation_fraction":0.1,
+  "selection_permitted":false,
+  "judges":{"groq":"openai/gpt-oss-120b","gemini":"gemini-3.5-flash-lite"},
+  "judge_protocol":"independent-one-vote-per-provider/descriptive-v1",
+  "historical_three_vote_protocol_replaced":false
+}
