@@ -92,16 +92,29 @@ def test_stage_bundle_rejects_unexpected_executable(tmp_path):
     with pytest.raises(RuntimeError,match='Unexpected'):runtime.stage_bundle(tmp_path,{})
 
 
-def test_scratch_is_unique_private_create_only_without_lookup(tmp_path):
-    calls=[]
-    def publish(folder,dataset,create=False):
-        calls.append((dataset,create))
-        assert (folder/'nonce.txt').read_text()=='a'*32
-        return {'dataset':dataset,'version':1,'private':True,'readback_verified':True}
-    result=runtime.scratch_persistence(publish,'a'*32)
-    assert calls==[('scarletthe0116/uk-motor-d1000-scratch-'+'a'*12,True)]
-    assert result['readback_verified']
-    with pytest.raises(ValueError):runtime.scratch_persistence(publish,'invalid')
+def test_scratch_creates_once_then_waits_for_private_readback(monkeypatch):
+    import types
+    calls=[];ready=[]
+    def create(folder,**kwargs):
+        assert kwargs['public'] is False
+        assert Path(folder,'nonce.txt').read_text()=='a'*32
+        calls.append('create');return types.SimpleNamespace(error=None)
+    def info(api,dataset):
+        calls.append('info')
+        if calls.count('info')==1:
+            import requests
+            response=requests.Response();response.status_code=403
+            raise requests.HTTPError(response=response)
+        return types.SimpleNamespace(is_private=True,current_version_number=1)
+    api=types.SimpleNamespace(dataset_create_new=create,dataset_status=lambda dataset:'ready')
+    monkeypatch.setattr(runtime.time,'sleep',lambda seconds:None)
+    receipt=runtime.scratch_persistence(api,info,lambda *args:ready.append(args),'a'*32,attempts=2)
+    assert calls==['create','info','info'] and receipt['readback_verified']
+    assert ready[0][3]==hashlib.sha256(('a'*32).encode()).hexdigest()
+    calls.clear()
+    runtime.scratch_persistence(api,lambda *a:types.SimpleNamespace(is_private=True,current_version_number=1),lambda *a:None,'a'*32,resume_created=True)
+    assert calls==[]
+    with pytest.raises(ValueError):runtime.scratch_persistence(api,info,lambda *a:None,'invalid')
 
 
 def test_checkpoint_cache_requires_exact_archive_and_refreshes_progress(tmp_path,monkeypatch):
@@ -114,3 +127,35 @@ def test_checkpoint_cache_requires_exact_archive_and_refreshes_progress(tmp_path
     (tmp_path/'artifacts.bin').write_bytes(b'tampered')
     with pytest.raises(ValueError,match='differs'):runtime.checkpoint_input(api,tmp_path,'artifacts.bin')
     assert len(calls)==1
+
+
+def test_progress_reports_only_after_original_private_readback():
+    import types
+    from cloud.recovery_v1.monitor import install
+    state={'last_persistence':{'private':True,'readback_verified':False,'version':240},
+           'judge_counts':{'groq':37,'gemini':345},'artifacts_sha256':'fixed',
+           'responses_completed':912,'judges':{'groq':{'status':'running','completed':37,'reason':'private text excluded'}}}
+    events=[]
+    def checkpoint(value):value['last_persistence']['readback_verified']=True;return 'done'
+    evaluation=types.SimpleNamespace(checkpoint=checkpoint);install(evaluation,events.append)
+    assert evaluation.checkpoint(state)=='done'
+    assert events[0]['judge_counts']['groq']==37
+    assert 'private text' not in json.dumps(events)
+    evaluation=types.SimpleNamespace(checkpoint=lambda state:None);install(evaluation,events.append)
+    state['last_persistence']['readback_verified']=False
+    with pytest.raises(RuntimeError):evaluation.checkpoint(state)
+    assert len(events)==1
+
+
+def test_saved_vote_monitor_counts_actual_archive_journals(tmp_path):
+    import io,tarfile
+    from cloud.recovery_v1.monitor import saved_vote_counts
+    archive=tmp_path/'fictional.bin'
+    with tarfile.open(archive,'w:gz') as tar:
+        for provider,ids in [('groq',[1,2]),('gemini',[2,3])]:
+            data=''.join(json.dumps({'evaluation_id':i})+'\n' for i in ids).encode()
+            entry=tarfile.TarInfo('judging/'+provider+'.jsonl');entry.size=len(data);tar.addfile(entry,io.BytesIO(data))
+    result=saved_vote_counts(archive)
+    assert result['persisted_judge_counts']=={'groq':2,'gemini':2}
+    assert result['persisted_paired']==1
+    assert result['persisted_duplicate_votes']=={'groq':0,'gemini':0}

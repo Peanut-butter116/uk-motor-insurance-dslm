@@ -1,0 +1,12 @@
+{
+  "kind": "colab_private_scratch_acceptance",
+  "dataset": "scarletthe0116/uk-motor-d1000-scratch-e1369fd3d7fd",
+  "version": 1,
+  "private": true,
+  "checksum_verified": true,
+  "readback_verified": true,
+  "initial_metadata_http_status": 403,
+  "subsequent_status": "ready",
+  "new_judge_calls": 0,
+  "production_dataset_writes": 0
+}

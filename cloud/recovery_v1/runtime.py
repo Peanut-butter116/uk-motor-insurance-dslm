@@ -11,6 +11,7 @@ import os
 from pathlib import Path, PurePosixPath
 import sys
 import tempfile
+import time
 import uuid
 
 STORE = 'scarletthe0116/uk-motor-d1000-models-results'
@@ -86,17 +87,35 @@ def checkpoint_input(api, mount, name):
                               quiet=True, force=True, unzip=True)
 
 
-def scratch_persistence(publish, session):
-    """Create-only private nonce dataset; never interpret403 as absence."""
+def scratch_persistence(api, info, verify_file, session, *, resume_created=False, attempts=18):
+    """One private create, then bounded readiness checks and exact nonce readback."""
     if len(session) != 32 or any(c not in '0123456789abcdef' for c in session):
         raise ValueError('Invalid scratch session')
     dataset = 'scarletthe0116/uk-motor-d1000-scratch-' + session[:12]
-    with tempfile.TemporaryDirectory() as tmp:
-        folder = Path(tmp); (folder/'nonce.txt').write_text(session)
-        receipt = publish(folder,dataset,create=True)
-        if not receipt['readback_verified'] or not receipt['private']:
-            raise RuntimeError('Scratch readback failed')
-        return receipt
+    if not resume_created:
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp); (folder/'nonce.txt').write_text(session)
+            (folder/'dataset-metadata.json').write_text(json.dumps({'id':dataset,
+                'title':dataset.split('/')[1], 'licenses':[{'name':'other'}]}))
+            result = api.dataset_create_new(tmp,public=False,quiet=True,convert_to_csv=False,dir_mode='tar')
+            if getattr(result,'error',None): raise RuntimeError('Private scratch creation rejected')
+    # Acknowledged new resources may briefly return403 while provisioning. This
+    # never becomes an absence signal or another create attempt. Existing-resource
+    # recovery still requires private ownership and the exact original nonce.
+    for attempt in range(attempts):
+        try:
+            d=info(api,dataset)
+            if not d.is_private: raise RuntimeError('Scratch must remain private')
+            if api.dataset_status(dataset)=='ready':
+                expected=hashlib.sha256(session.encode()).hexdigest()
+                verify_file(dataset,d.current_version_number,'nonce.txt',expected)
+                return {'dataset':dataset,'version':d.current_version_number,'private':True,
+                        'readback_verified':True,'nonce_sha256':expected}
+        except Exception as exc:
+            status=getattr(getattr(exc,'response',None),'status_code',None)
+            if status not in (403,404) or attempt==attempts-1: raise
+        if attempt+1<attempts: time.sleep(10)
+    raise RuntimeError('Scratch provisioning not verified; no judging allowed')
 
 
 def restore_adapter(source):
@@ -154,10 +173,11 @@ def verify_journals(root):
 
 
 class ColabRecovery:
-    def __init__(self):
+    def __init__(self, *, scratch_session=None, resume_created_scratch=False):
+        self.resume_created_scratch = resume_created_scratch
         self.ready = False; self.started = False
-        self.session = uuid.uuid4().hex
-        self.receipt = {'adapter':'colab_cpu_v1_2','status':'BLOCKED','new_judge_calls':0}
+        self.session = scratch_session or uuid.uuid4().hex
+        self.receipt = {'adapter':'colab_cpu_v1_3','status':'BLOCKED','new_judge_calls':0}
 
     def prepare(self, *, private_colab_transfer_approved=False):
         # This explicit gate comes before credential retrieval or private downloads.
@@ -202,7 +222,7 @@ class ColabRecovery:
         stage_bundle(code, files)
         sys.path.insert(0,str(code)); os.chdir(code)
         from cloud.d1000 import evaluation_only as evaluation
-        from cloud.d1000.storage import info, publish
+        from cloud.d1000.storage import info, publish, verify_file
         self.evaluation = evaluation
         self.info = info; self.publish = publish
         audit = json.loads((code/'cloud/d1000/evaluation_repair_v1.json').read_text())
@@ -231,7 +251,7 @@ class ColabRecovery:
         self.receipt['preservation'] = preservation
         self.receipt['saved_judgements'] = verify_journals(evaluation.ROOT)
         # Create-only scratch probe: a403 lookup is never reclassified as absence.
-        self.receipt['scratch_private_persistence'] = scratch_persistence(publish,self.session)
+        self.receipt['scratch_private_persistence'] = scratch_persistence(api,info,verify_file,self.session,resume_created=self.resume_created_scratch)
         if api.kernels_status(KERNEL).status.name not in TERMINAL or info(api,STORE).current_version_number != 239:
             raise RuntimeError('Writer or checkpoint changed during preflight')
         self.state = state; self.preservation = preservation
