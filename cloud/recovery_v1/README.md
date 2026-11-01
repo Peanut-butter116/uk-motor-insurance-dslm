@@ -121,3 +121,5 @@ Colab v1.1 repairs the read-only `/kaggle/input` path with `/content/d1000-priva
 
 Cloud end-to-end restoration and persistence remain unverified until Colab is
 securely configured and preflight actually succeeds.
+
+Colab v1.2: live restoration passed all239 preservation checks and retained the protected Gemini503. A scratch metadata lookup returned403; this is not reclassified as404 or absence. The adapter now uses the supported create-new-only operation on a unique private nonce dataset, which cannot overwrite an existing dataset and must independently read back. Results-owner authentication is required, and the original startup production checkpoint is still persisted/read back before any research request. Exact existing archive bytes may be reused only after the pinned239 SHA check; progress is always refreshed. No results dataset write or judge call preceded these gates.

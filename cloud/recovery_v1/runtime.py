@@ -73,6 +73,32 @@ def stage_bundle(code, files):
         os.chmod(p,0o600)
 
 
+def checkpoint_input(api, mount, name):
+    """Reuse only an exact hash-verified opaque archive; always refresh progress."""
+    if name not in ('progress.json', 'artifacts.bin'):
+        raise ValueError('Unexpected checkpoint input')
+    path = Path(mount)/name
+    if name == 'artifacts.bin' and path.exists():
+        if sha(path) != ARCHIVE_SHA:
+            raise ValueError('Existing checkpoint archive differs from239')
+        return
+    api.dataset_download_file(STORE+'/239', name, path=str(mount),
+                              quiet=True, force=True, unzip=True)
+
+
+def scratch_persistence(publish, session):
+    """Create-only private nonce dataset; never interpret403 as absence."""
+    if len(session) != 32 or any(c not in '0123456789abcdef' for c in session):
+        raise ValueError('Invalid scratch session')
+    dataset = 'scarletthe0116/uk-motor-d1000-scratch-' + session[:12]
+    with tempfile.TemporaryDirectory() as tmp:
+        folder = Path(tmp); (folder/'nonce.txt').write_text(session)
+        receipt = publish(folder,dataset,create=True)
+        if not receipt['readback_verified'] or not receipt['private']:
+            raise RuntimeError('Scratch readback failed')
+        return receipt
+
+
 def restore_adapter(source):
     """Change credential acquisition only; all original restore checks retained."""
     tree = ast.parse(source)
@@ -131,7 +157,7 @@ class ColabRecovery:
     def __init__(self):
         self.ready = False; self.started = False
         self.session = uuid.uuid4().hex
-        self.receipt = {'adapter':'colab_cpu_v1_1','status':'BLOCKED','new_judge_calls':0}
+        self.receipt = {'adapter':'colab_cpu_v1_2','status':'BLOCKED','new_judge_calls':0}
 
     def prepare(self, *, private_colab_transfer_approved=False):
         # This explicit gate comes before credential retrieval or private downloads.
@@ -161,6 +187,9 @@ class ColabRecovery:
     def _prepare(self):
         from kaggle import api
         self.api = api; api.authenticate()
+        if str(api.config_values.get(api.CONFIG_NAME_USER, '')).lower() != STORE.split('/')[0]:
+            raise RuntimeError('Results dataset owner authentication required')
+        self.receipt['results_owner_authenticated'] = True
         # Pull only code/metadata in this private cloud VM; includes private audit sidebands.
         if api.kernels_status(KERNEL).status.name not in TERMINAL:
             raise RuntimeError('Kaggle evaluation writer is active')
@@ -188,7 +217,7 @@ class ColabRecovery:
         INPUT_ROOT.mkdir(parents=True, exist_ok=True); os.chmod(INPUT_ROOT,0o700)
         mount = INPUT_ROOT/'recovery239'; mount.mkdir(exist_ok=True); os.chmod(mount,0o700)
         for name in ('progress.json','artifacts.bin'):
-            api.dataset_download_file(STORE+'/239',name,path=str(mount),quiet=True,force=True,unzip=True)
+            checkpoint_input(api,mount,name)
         state = json.loads((mount/'progress.json').read_text())
         if state['artifacts_sha256'] != ARCHIVE_SHA or sha(mount/'artifacts.bin') != ARCHIVE_SHA:
             raise RuntimeError('Checkpoint239 archive mismatch')
@@ -201,19 +230,8 @@ class ColabRecovery:
             raise RuntimeError('Frozen benchmark/model inventory mismatch')
         self.receipt['preservation'] = preservation
         self.receipt['saved_judgements'] = verify_journals(evaluation.ROOT)
-        # Private scratch dataset carries only nonce, never research data.
-        with tempfile.TemporaryDirectory() as tmp:
-            folder = Path(tmp); (folder/'nonce.txt').write_text(self.session)
-            try:
-                previous = info(api,SCRATCH)
-            except Exception as exc:
-                status = getattr(getattr(exc,'response',None),'status_code',None)
-                if status != 404: raise
-                previous = None
-            if previous is not None and not previous.is_private: raise RuntimeError('Scratch must be private')
-            receipt = publish(folder,SCRATCH,create=previous is None)
-            if not receipt['readback_verified'] or not receipt['private']: raise RuntimeError('Scratch readback failed')
-            self.receipt['scratch_private_persistence'] = receipt
+        # Create-only scratch probe: a403 lookup is never reclassified as absence.
+        self.receipt['scratch_private_persistence'] = scratch_persistence(publish,self.session)
         if api.kernels_status(KERNEL).status.name not in TERMINAL or info(api,STORE).current_version_number != 239:
             raise RuntimeError('Writer or checkpoint changed during preflight')
         self.state = state; self.preservation = preservation

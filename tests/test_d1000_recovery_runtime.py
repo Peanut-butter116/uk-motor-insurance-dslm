@@ -90,3 +90,27 @@ def test_stage_bundle_reuses_exact_code_and_rejects_mutation(tmp_path):
 def test_stage_bundle_rejects_unexpected_executable(tmp_path):
     (tmp_path/'injected.py').write_text('pass')
     with pytest.raises(RuntimeError,match='Unexpected'):runtime.stage_bundle(tmp_path,{})
+
+
+def test_scratch_is_unique_private_create_only_without_lookup(tmp_path):
+    calls=[]
+    def publish(folder,dataset,create=False):
+        calls.append((dataset,create))
+        assert (folder/'nonce.txt').read_text()=='a'*32
+        return {'dataset':dataset,'version':1,'private':True,'readback_verified':True}
+    result=runtime.scratch_persistence(publish,'a'*32)
+    assert calls==[('scarletthe0116/uk-motor-d1000-scratch-'+'a'*12,True)]
+    assert result['readback_verified']
+    with pytest.raises(ValueError):runtime.scratch_persistence(publish,'invalid')
+
+
+def test_checkpoint_cache_requires_exact_archive_and_refreshes_progress(tmp_path,monkeypatch):
+    import types
+    data=b'fictional archive';(tmp_path/'artifacts.bin').write_bytes(data)
+    monkeypatch.setattr(runtime,'ARCHIVE_SHA',hashlib.sha256(data).hexdigest())
+    calls=[];api=types.SimpleNamespace(dataset_download_file=lambda *a,**kw:calls.append((a,kw)))
+    runtime.checkpoint_input(api,tmp_path,'artifacts.bin');assert calls==[]
+    runtime.checkpoint_input(api,tmp_path,'progress.json');assert len(calls)==1
+    (tmp_path/'artifacts.bin').write_bytes(b'tampered')
+    with pytest.raises(ValueError,match='differs'):runtime.checkpoint_input(api,tmp_path,'artifacts.bin')
+    assert len(calls)==1

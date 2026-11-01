@@ -1,0 +1,24 @@
+{
+  "kind": "colab_restore_preflight",
+  "source_version": 239,
+  "archive_hash_verified": true,
+  "response_count": 912,
+  "immutable_files": 80,
+  "immutable_manifest_sha256": "dcf1ac6708449d6aefa8dab36110adcb15a2193267c4111790c432ee3bfe3dd5",
+  "adapter_hashes_verified": 3,
+  "judge_counts": {
+    "groq": 36,
+    "gemini": 345
+  },
+  "paired": 32,
+  "uncertain_tasks": {
+    "groq": 0,
+    "gemini": 1
+  },
+  "journals_manifest_sha256": "16034458e9cbe6ad9c61394e69ce38889822d62d8246baa6301e096bc63898fa",
+  "scratch_lookup_http_status": 403,
+  "scratch_persistence_verified": false,
+  "new_judge_calls": 0,
+  "production_dataset_writes": 0,
+  "status": "RESTORED_BLOCKED_AT_SCRATCH_LOOKUP"
+}
