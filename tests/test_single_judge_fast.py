@@ -125,3 +125,15 @@ def test_pacific_reset_handles_25_hour_dst_day():
     start,end=pacific_window(now)
     assert end-start==25*3600
     assert datetime.fromtimestamp(end,timezone.utc).isoformat()=='2026-11-02T08:00:00+00:00'
+
+
+def test_async_entry_cannot_restart_launched_protocol(tmp_path):
+    import asyncio,types,pytest
+    from cloud.single_judge_fast.engine import run_async
+    recovery=types.SimpleNamespace(fast_started=True,fast_control={})
+    failure=RuntimeError('asyncio.run() cannot be called from a running event loop')
+    with pytest.raises(RuntimeError,match='already launched'):asyncio.run(run_async(recovery,lambda x:None,failure,{'fictional':'hash'}))
+    recovery=types.SimpleNamespace(fast_started=True)
+    with pytest.raises(RuntimeError,match='already started'):asyncio.run(run_async(recovery,lambda x:None,RuntimeError('other')))
+    path=tmp_path/'ledger.json';path.write_text('changed')
+    with pytest.raises(RuntimeError,match='Quota state changed'):asyncio.run(run_async(recovery,lambda x:None,failure,{str(path):'different'}))

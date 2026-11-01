@@ -75,6 +75,23 @@ def run(recovery,sink):
         return asyncio.run(coordinate(recovery,sink))
 
 
+async def run_async(recovery,sink,prelaunch_failure=None,ledger_hashes=None):
+    """Colab already owns its event loop; continue only an untouched loop-entry failure."""
+    if getattr(recovery,'fast_started',False):
+        if not isinstance(prelaunch_failure,RuntimeError) or str(prelaunch_failure)!='asyncio.run() cannot be called from a running event loop':
+            raise RuntimeError('Fast coordinator already started')
+        if hasattr(recovery,'fast_control'):
+            raise RuntimeError('Protocol already launched; cannot repeat entry')
+        if not ledger_hashes or any(hashlib.sha256(Path(p).read_bytes()).hexdigest()!=v for p,v in ledger_hashes.items()):
+            raise RuntimeError('Quota state changed; reconcile before continuation')
+    elif prelaunch_failure is not None:
+        raise RuntimeError('Unexpected prelaunch continuation')
+    if not hasattr(recovery,'fast_prepared'):raise RuntimeError('Fast preflight required')
+    writer_guard(recovery);recovery.fast_started=True
+    with recovery.log.open('a') as log,redirect_stdout(log),redirect_stderr(log):
+        return await coordinate(recovery,sink)
+
+
 async def coordinate(recovery,sink):
     from cloud.d1000 import judging,judge_recovery as jr
     from experiments import core
