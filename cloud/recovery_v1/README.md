@@ -83,7 +83,7 @@ verification. Project permission and account privacy must be confirmed first.
 ## Preservation and execution
 
 `runtime.py` compiles a strictly matched copy of the original `restore` function,
-removing only its Kaggle Secrets credential prologue. It supplies credentials via
+removing its Kaggle Secrets credential prologue and substituting a private Colab input path. It supplies credentials via
 Colab userdata and keeps all original restore validation. Audited source files on
 disk remain unchanged, so the original evaluation's code-fingerprint checks still
 run. The original `main` handles calibration, quota accounting, cached completions,
@@ -117,5 +117,7 @@ Run `python -m pytest -q tests/test_d1000_recovery_runtime.py` and existing sema
 and D1000 recovery tests. Tests cover chained HTTP statuses without sensitive
 messages, transfer/credential gates, exact-source/path rejection, narrow restore
 adaptation, duplicate-vote rejection and preservation of the uncertain request.
+Colab v1.1 repairs the read-only `/kaggle/input` path with `/content/d1000-private-input` (mode0700). It reuses staged files only when they exactly match the pinned bundle; changed or unexpected executable source blocks continuation. Initial live preflight confirmed all three Colab secrets and SDK2.2.5 authentication, then stopped with filesystem errno30 before checkpoint transfer.
+
 Cloud end-to-end restoration and persistence remain unverified until Colab is
 securely configured and preflight actually succeeds.

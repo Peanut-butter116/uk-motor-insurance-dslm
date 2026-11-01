@@ -1,7 +1,7 @@
 """Colab CPU adapter v1 for the exact supported D1000 evaluation source.
 
 No research code is changed on disk. A narrowly checked restore adapter removes
-only Kaggle Secrets loading; credentials come from Colab userdata instead.
+Kaggle Secrets loading and the read-only input path; credentials use Colab userdata.
 """
 import ast
 from contextlib import redirect_stdout, redirect_stderr
@@ -17,6 +17,7 @@ STORE = 'scarletthe0116/uk-motor-d1000-models-results'
 KERNEL = 'scarletthe0116/uk-motor-d1000-train-eval'
 SOURCE_SHA = '35e54432a06d06285699d8e9096cabd1bf2811693515934a092b1ea2c09d7133'
 ARCHIVE_SHA = 'aa9e5eba75d908c13da03c0c64ce47c55794e9aaeb74d16a25312fd90f86a604'
+INPUT_ROOT = Path('/content/d1000-private-input')
 SCRATCH = 'scarletthe0116/uk-motor-d1000-recovery-scratch-v1'
 LEASE = 'scarletthe0116/uk-motor-d1000-evaluation-lease-v1'
 TERMINAL = {'COMPLETE', 'ERROR', 'CANCEL_ACKNOWLEDGED'}
@@ -55,6 +56,23 @@ def supported_bundle(notebook):
     return files
 
 
+def stage_bundle(code, files):
+    """Reuse verified code after a preflight failure, never overwrite changed code."""
+    code = Path(code); code.mkdir(parents=True, exist_ok=True)
+    expected_py = {str(PurePosixPath(n)) for n in files if n.endswith('.py')}
+    actual_py = {str(p.relative_to(code)) for p in code.rglob('*.py')}
+    if actual_py - expected_py:
+        raise RuntimeError('Unexpected executable source in recovery directory')
+    for name, text in files.items():
+        p = code/name
+        if p.exists() and (not p.is_file() or p.is_symlink() or p.read_text() != text):
+            raise RuntimeError('Existing recovery source differs from pinned bundle')
+    for name, text in files.items():
+        p = code/name; p.parent.mkdir(parents=True, exist_ok=True)
+        if not p.exists(): p.write_text(text)
+        os.chmod(p,0o600)
+
+
 def restore_adapter(source):
     """Change credential acquisition only; all original restore checks retained."""
     tree = ast.parse(source)
@@ -64,6 +82,10 @@ def restore_adapter(source):
         raise ValueError('Credential prologue differs from reviewed source')
     adapted = original.replace(CREDENTIAL_PROLOGUE,
                                '    from kaggle import api\n    api.authenticate()\n', 1)
+    # Colab exposes /kaggle/input as read-only; use a private cloud directory.
+    if adapted.count("Path('/kaggle/input')") != 1:
+        raise ValueError('Mounted-input expression differs from reviewed source')
+    adapted = adapted.replace("Path('/kaggle/input')", "Path('/content/d1000-private-input')", 1)
     # Only this function is compiled, under the unchanged module globals.
     return compile(adapted, '<reviewed-colab-restore-v1>', 'exec')
 
@@ -109,7 +131,7 @@ class ColabRecovery:
     def __init__(self):
         self.ready = False; self.started = False
         self.session = uuid.uuid4().hex
-        self.receipt = {'adapter':'colab_cpu_v1','status':'BLOCKED','new_judge_calls':0}
+        self.receipt = {'adapter':'colab_cpu_v1_1','status':'BLOCKED','new_judge_calls':0}
 
     def prepare(self, *, private_colab_transfer_approved=False):
         # This explicit gate comes before credential retrieval or private downloads.
@@ -148,10 +170,7 @@ class ColabRecovery:
             if len(notebooks) != 1: raise RuntimeError('Ambiguous supported notebook')
             files = supported_bundle(json.loads(notebooks[0].read_text()))
         code = Path('/kaggle/working/code'); code.mkdir(exist_ok=True)
-        # Fail closed rather than overwrite an existing recovery runtime.
-        if any(code.iterdir()): raise RuntimeError('Use a fresh Colab session')
-        for name, text in files.items():
-            p = code/name; p.parent.mkdir(parents=True, exist_ok=True); p.write_text(text); os.chmod(p,0o600)
+        stage_bundle(code, files)
         sys.path.insert(0,str(code)); os.chdir(code)
         from cloud.d1000 import evaluation_only as evaluation
         from cloud.d1000.storage import info, publish
@@ -166,7 +185,8 @@ class ColabRecovery:
             if sha(code/'cloud/d1000'/name) != audit[field]: raise RuntimeError('Private audit sideband mismatch')
         d = info(api, STORE)
         if not d.is_private or d.current_version_number != 239: raise RuntimeError('Reconcile latest checkpoint first')
-        mount = Path('/kaggle/input/d1000-recovery239'); mount.mkdir(parents=True, exist_ok=True)
+        INPUT_ROOT.mkdir(parents=True, exist_ok=True); os.chmod(INPUT_ROOT,0o700)
+        mount = INPUT_ROOT/'recovery239'; mount.mkdir(exist_ok=True); os.chmod(mount,0o700)
         for name in ('progress.json','artifacts.bin'):
             api.dataset_download_file(STORE+'/239',name,path=str(mount),quiet=True,force=True,unzip=True)
         state = json.loads((mount/'progress.json').read_text())

@@ -45,6 +45,7 @@ def test_restore_adapter_changes_only_credential_prologue():
     tree=ast.parse(source);node=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='restore')
     original=ast.get_source_segment(source,node)+'\n'
     expected=original.replace(runtime.CREDENTIAL_PROLOGUE,'    from kaggle import api\n    api.authenticate()\n',1)
+    expected=expected.replace("Path('/kaggle/input')","Path('/content/d1000-private-input')",1)
     assert adapted.co_code==compile(expected,'<reviewed-colab-restore-v1>','exec').co_code
     with pytest.raises(ValueError,match='differs'):
         runtime.restore_adapter(source.replace('secrets=UserSecretsClient()','secrets = UserSecretsClient()'))
@@ -73,3 +74,19 @@ def test_restore_retains_unknown_and_rejects_duplicates_or_changed_raw(tmp_path)
 def test_duplicate_votes_fail_closed(tmp_path):
     write_state(tmp_path,duplicate=True)
     with pytest.raises(ValueError,match='population'):runtime.verify_journals(tmp_path)
+
+
+def test_stage_bundle_reuses_exact_code_and_rejects_mutation(tmp_path):
+    files={'cloud/d1000/example.py':'x=1\n','cloud/d1000/audit.json':'{}'}
+    runtime.stage_bundle(tmp_path,files)
+    before={str(p):p.read_bytes() for p in tmp_path.rglob('*') if p.is_file()}
+    runtime.stage_bundle(tmp_path,files)
+    assert before=={str(p):p.read_bytes() for p in tmp_path.rglob('*') if p.is_file()}
+    (tmp_path/'cloud/d1000/example.py').write_text('x=2\n')
+    with pytest.raises(RuntimeError,match='differs'):runtime.stage_bundle(tmp_path,files)
+    assert (tmp_path/'cloud/d1000/example.py').read_text()=='x=2\n'
+
+
+def test_stage_bundle_rejects_unexpected_executable(tmp_path):
+    (tmp_path/'injected.py').write_text('pass')
+    with pytest.raises(RuntimeError,match='Unexpected'):runtime.stage_bundle(tmp_path,{})
