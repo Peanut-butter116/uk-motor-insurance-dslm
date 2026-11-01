@@ -1,0 +1,35 @@
+{
+  "kind": "colab_preflight_acceptance",
+  "status": "READY_NOT_RUNNING",
+  "recovery_revision": "bdbf5e39747a35b17933303732d65b5e5ef2b452",
+  "cpu": true,
+  "private_notebook": true,
+  "private_outputs": true,
+  "confidentiality_approval": "owner_confirmed",
+  "secrets_available": {
+    "kaggle": true,
+    "groq": true,
+    "gemini": true
+  },
+  "sdk": "2.2.5",
+  "source_version": 239,
+  "archive_hash_verified": true,
+  "responses_verified": 912,
+  "adapters_verified": 3,
+  "immutable_files": 80,
+  "immutable_manifest_sha256": "dcf1ac6708449d6aefa8dab36110adcb15a2193267c4111790c432ee3bfe3dd5",
+  "judge_counts": {
+    "groq": 36,
+    "gemini": 345
+  },
+  "paired": 32,
+  "uncertain_tasks": {
+    "groq": 0,
+    "gemini": 1
+  },
+  "scratch_private_readback_verified": true,
+  "results_owner_authenticated": true,
+  "no_kaggle_writer": true,
+  "new_judge_calls": 0,
+  "production_dataset_writes": 0
+}

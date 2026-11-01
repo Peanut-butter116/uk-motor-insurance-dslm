@@ -159,3 +159,48 @@ def test_saved_vote_monitor_counts_actual_archive_journals(tmp_path):
     assert result['persisted_judge_counts']=={'groq':2,'gemini':2}
     assert result['persisted_paired']==1
     assert result['persisted_duplicate_votes']=={'groq':0,'gemini':0}
+
+
+def test_lease_creation_rejection_never_steals_or_retries(tmp_path):
+    import types
+    from cloud.recovery_v1 import lease
+    calls=[]
+    api=types.SimpleNamespace(dataset_create_new=lambda *a,**k:(calls.append('create') or types.SimpleNamespace(error='exists')))
+    recovery=types.SimpleNamespace(api=api,session='a'*32,publish=lambda *a,**k:None,info=lambda *a:calls.append('info'))
+    (tmp_path/'owner.json').write_text(json.dumps({'session':recovery.session,'source_checkpoint':239}))
+    lease.install(recovery)
+    with pytest.raises(RuntimeError,match='already exists'):recovery.publish(tmp_path,lease.LEASE,create=True)
+    assert calls==['create']
+
+
+def test_lease_rejects_wrong_owner_before_network(tmp_path):
+    import types
+    from cloud.recovery_v1 import lease
+    recovery=types.SimpleNamespace(session='a'*32,publish=lambda *a,**k:None)
+    (tmp_path/'owner.json').write_text(json.dumps({'session':'someone_else','source_checkpoint':239}))
+    lease.install(recovery)
+    with pytest.raises(RuntimeError,match='owner'):recovery.publish(tmp_path,lease.LEASE,create=True)
+
+
+def test_lease_create_once_then_private_owner_readback(tmp_path,monkeypatch):
+    import types,requests
+    from cloud.recovery_v1 import lease
+    from cloud.d1000 import storage
+    calls=[]
+    def create(*a,**kwargs):
+        assert kwargs['public'] is False
+        calls.append('create');return types.SimpleNamespace(error=None)
+    def info(*a):
+        calls.append('info')
+        if calls.count('info')==1:
+            response=requests.Response();response.status_code=403
+            raise requests.HTTPError(response=response)
+        return types.SimpleNamespace(is_private=True,current_version_number=1)
+    recovery=types.SimpleNamespace(session='a'*32,api=types.SimpleNamespace(dataset_create_new=create,dataset_status=lambda dataset:'ready'),info=info,publish=lambda *a,**k:None)
+    (tmp_path/'owner.json').write_text(json.dumps({'session':recovery.session,'source_checkpoint':239}))
+    monkeypatch.setattr(lease.time,'sleep',lambda seconds:None)
+    monkeypatch.setattr(storage,'verify_file',lambda dataset,version,name,digest:calls.append(('readback',digest)))
+    lease.install(recovery,attempts=2);result=recovery.publish(tmp_path,lease.LEASE,create=True)
+    assert calls[:3]==['create','info','info']
+    assert calls[-1]==('readback',hashlib.sha256((tmp_path/'owner.json').read_bytes()).hexdigest())
+    assert result['readback_verified'] and result['private']
