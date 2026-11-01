@@ -1,0 +1,76 @@
+{
+  "kind": "isolated_secret_http_diagnostic",
+  "new_judge_calls": 0,
+  "dataset_writes": 0,
+  "retrievals": {
+    "KAGGLE_API_TOKEN": {
+      "success": false,
+      "category": "http_error",
+      "exception_chain": [
+        {
+          "type": "ConnectionError",
+          "module": "builtins"
+        },
+        {
+          "type": "HTTPError",
+          "module": "urllib.error",
+          "http_status": 400
+        }
+      ],
+      "http_status": 400,
+      "elapsed_seconds": 0.135
+    },
+    "GROQ_API_KEY": {
+      "success": false,
+      "category": "http_error",
+      "exception_chain": [
+        {
+          "type": "ConnectionError",
+          "module": "builtins"
+        },
+        {
+          "type": "HTTPError",
+          "module": "urllib.error",
+          "http_status": 400
+        }
+      ],
+      "http_status": 400,
+      "elapsed_seconds": 0.064
+    },
+    "GEMINI_API_KEY": {
+      "success": false,
+      "category": "http_error",
+      "exception_chain": [
+        {
+          "type": "ConnectionError",
+          "module": "builtins"
+        },
+        {
+          "type": "HTTPError",
+          "module": "urllib.error",
+          "http_status": 400
+        }
+      ],
+      "http_status": 400,
+      "elapsed_seconds": 0.056
+    }
+  },
+  "python_version": "3.13.15",
+  "started_at": "2026-11-01T16:38:09.364818+00:00",
+  "client_source_sha256": "b7b77c30a8e759f54e4e3060926d876d3b982292979f1b17329282fa06507734",
+  "http_error_is_url_error": true,
+  "handler_order": [
+    "(URLError, socket.timeout)",
+    "HTTPError"
+  ],
+  "status": "FAIL",
+  "finished_at": "2026-11-01T16:38:09.629858+00:00",
+  "execution": 28,
+  "kernel_status": "COMPLETE",
+  "private": true,
+  "enable_gpu": false,
+  "dataset_inputs": [],
+  "source_sha256": "8d78ac2e25960ee450c9538ab423627220b83ab438e334eba1faa24aae15abb1",
+  "evaluation_relaunched": false,
+  "latest_persisted_checkpoint": 239
+}

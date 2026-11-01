@@ -1,0 +1,63 @@
+{
+  "status": "BLOCKED",
+  "root_cause": {
+    "secrets_http_status": 400,
+    "affected_labels": [
+      "KAGGLE_API_TOKEN",
+      "GROQ_API_KEY",
+      "GEMINI_API_KEY"
+    ],
+    "precise_400_cause_identified": false,
+    "http_error_wrapped_as_connection_error": true
+  },
+  "plan_a": {
+    "status": "BLOCKED",
+    "native_token_file_available": true,
+    "authentication_completed": true,
+    "private_results_metadata_readable": true,
+    "runtime_kaggle_version": "2.0.2",
+    "progress_download": "TypeError; SDK interface compatibility not verified",
+    "private_archive_restore": "not verified in new runtime",
+    "scratch_private_write_readback": "not reached",
+    "groq_credentials": "last retrieval HTTP400 in28",
+    "gemini_credentials": "last retrieval HTTP400 in28"
+  },
+  "plan_b": {
+    "status": "PREPARED_BLOCKED_ON_HUMAN_SETUP",
+    "notebook": "cloud/recovery_v1/colab_cpu_v1.ipynb",
+    "credentials_configured": false,
+    "private_destination_approval_confirmed": false,
+    "private_data_transfer_started": false,
+    "checkpoint_access_verified": false,
+    "persistent_storage_tested": false,
+    "authoritative_storage": "original private Kaggle Dataset",
+    "automatic_retry": false
+  },
+  "evaluation": {
+    "active_execution_url": null,
+    "active_coordinators": 0,
+    "latest_private_checkpoint": 239,
+    "groq": 36,
+    "gemini": 345,
+    "paired": 32,
+    "responses": 912,
+    "adapters": 3,
+    "new_judge_calls": 0,
+    "production_dataset_writes": 0,
+    "gemini_uncertain_request_replayed": false
+  },
+  "tests": {
+    "targeted_passed": 108,
+    "cloud_end_to_end": "blocked pending secure setup"
+  },
+  "launcher_failures": {
+    "executions": [
+      29,
+      30
+    ],
+    "reason": "No kernel name found in notebook and no override provided",
+    "research_code_executed": false,
+    "corrected_execution": 31
+  },
+  "scheduled_monitor": "PAUSED"
+}
