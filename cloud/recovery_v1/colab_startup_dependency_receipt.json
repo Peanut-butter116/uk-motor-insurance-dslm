@@ -1,0 +1,25 @@
+{
+  "kind": "colab_pre_checkpoint_dependency_failure",
+  "lease_private_verified": true,
+  "lease_version": 1,
+  "local_exclusive_lock_acquired": true,
+  "recovery_started": true,
+  "active_evaluation_workers": 0,
+  "production_checkpoint_created": false,
+  "new_judge_calls": 0,
+  "production_dataset_writes": 0,
+  "failure": {
+    "type": "StopIteration",
+    "module": "cloud.d1000.judging",
+    "function": "provider_runtime",
+    "cause": "Kaggle-only mounted production manifest unavailable in Colab"
+  },
+  "scratch_private_readback_verified": true,
+  "source_checkpoint": 239,
+  "saved_judge_counts": {
+    "groq": 36,
+    "gemini": 345
+  },
+  "paired": 32,
+  "continuation_policy": "same verified lease only; exact failure; no active worker; no production checkpoint; unchanged journals"
+}

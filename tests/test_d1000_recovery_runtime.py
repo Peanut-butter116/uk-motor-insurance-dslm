@@ -204,3 +204,53 @@ def test_lease_create_once_then_private_owner_readback(tmp_path,monkeypatch):
     assert calls[:3]==['create','info','info']
     assert calls[-1]==('readback',hashlib.sha256((tmp_path/'owner.json').read_bytes()).hexdigest())
     assert result['readback_verified'] and result['private']
+
+
+def test_archived_transport_checks_hashes_and_never_resets_ledgers(tmp_path,monkeypatch):
+    import types
+    from cloud.recovery_v1 import transport
+    code=tmp_path/'production_transport/production_transport';code.mkdir(parents=True)
+    work=tmp_path/'judge_runtime';(work/'provider_usage').mkdir(parents=True)
+    files={}
+    for name in ('providers.py','common.py','kelly.py'):
+        (code/name).write_text('# fictional '+name)
+        files['uk-insurance-QA-data/src/'+name]=hashlib.sha256((code/name).read_bytes()).hexdigest()
+    (work/'provider_verification.json').write_text('{}')
+    files['uk-insurance-QA-data-local/production-v1/provider_verification.json']=hashlib.sha256(b'{}').hexdigest()
+    for provider in ('groq','gemini'):(work/'provider_usage'/f'{provider}.json').write_text('{"retained":true}')
+    before={p:p.read_bytes() for p in (work/'provider_usage').iterdir()}
+    module=types.SimpleNamespace(__file__=str(code/'providers.py'))
+    monkeypatch.setattr(transport.importlib,'import_module',lambda name:module)
+    judging=types.SimpleNamespace(transport_paths=lambda root:(code,work))
+    result=transport.install_verified(judging,tmp_path,{'archive_sha256':transport.ARCHIVE,'files':files})
+    assert result['transport_hashes_verified']==4
+    judging.provider_runtime(tmp_path)
+    assert before=={p:p.read_bytes() for p in (work/'provider_usage').iterdir()}
+    (code/'providers.py').write_text('changed')
+    with pytest.raises(RuntimeError,match='hash mismatch'):judging.provider_runtime(tmp_path)
+
+
+def test_transport_rejects_wrong_original_archive_before_loading(tmp_path):
+    from cloud.recovery_v1 import transport
+    with pytest.raises(RuntimeError,match='identity'):transport.install_verified(None,tmp_path,{'archive_sha256':'wrong'})
+
+
+def test_continuation_rejects_unrelated_failure_before_any_network():
+    import types
+    from cloud.recovery_v1.continue_startup import continue_verified
+    recovery=types.SimpleNamespace(ready=True,started=True,lease_version=1)
+    try:raise ValueError('fictional')
+    except ValueError as failure:
+        with pytest.raises(RuntimeError,match='Only the diagnosed'):continue_verified(recovery,failure,{},lambda *a:None,lambda *a:None)
+
+
+def test_continuation_rejects_an_active_evaluation_worker(monkeypatch):
+    import types
+    from cloud.recovery_v1 import continue_startup
+    scope={};exec(compile('def provider_runtime():\n    return next(iter(()))\n','judging.py','exec'),scope)
+    def worker():pass
+    monkeypatch.setattr(continue_startup.threading,'enumerate',lambda:[types.SimpleNamespace(is_alive=lambda:True,_target=worker)])
+    try:scope['provider_runtime']()
+    except StopIteration as failure:
+        recovery=types.SimpleNamespace(ready=True,started=True,lease_version=1)
+        with pytest.raises(RuntimeError,match='already active'):continue_startup.continue_verified(recovery,failure,{},lambda *a:None,lambda *a:None)
