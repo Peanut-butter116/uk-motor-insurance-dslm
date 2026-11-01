@@ -17,3 +17,11 @@ Checkpoints pause new claims, drain active calls, compute separate deterministic
 Private outputs: results_single_judge_fast_v1/comparison.json, comparison.csv, selected_votes.json; single_judge_fast_v1/protocol.json, progress.json, new_assignments.jsonl and safe_failures.jsonl. Never publish selected-vote IDs, raw journals, provider requests, model outputs or archives. Only aggregate summaries may enter GitHub.
 
 Tests cover strict historical selection, provider-scoped uncertain exclusion, unchanged quota ledgers, calendar boundaries across DST, quota refusal, concurrent disjoint claims and exactly-once private journal persistence, plus original recovery/evaluation regressions.
+
+## Supported runtime renewal
+
+Free Colab cannot guarantee a continuous20-hour VM. `lifecycle.suspend` is for a controlled safe stop: signal STOP_REQUESTED, wait for all named provider tasks and actual completion-thread stacks to drain, strictly recover any fully validated cached success missing its journal row, then independently publish/read back the final snapshot. It records an explicit suspension proof and unchanged original deadline. It must be invoked only after the active control cell has exited; it does not kill requests.
+
+`resume.restore` accepts only a fresh private CPU VM and a latest production checkpoint explicitly marked as a fully drained suspension. It pulls exact original18 code, verifies the latest archive/912 responses/3 adapters/benchmark, validates all saved votes and protected histories, verifies the previous lease owner, runs a fresh private scratch readback, then versions the existing private lease to the new session. The new coordinator preserves the original launch time, baseline and20-hour deadline. No quota entries, caches, unknown histories or votes are reset. A live old writer, nonsuspended checkpoint, expired deadline or changed lease blocks restoration. A generic lost VM with possible unsaved requests is not eligible for automatic replay or this supported renewal path.
+
+A runtime restart remains an operational dependency, not proof that resources will be available. Never run the old checkpoint239 preflight over a newer checkpoint. Do not rerun all notebook cells. Use the reviewed renewal entry only after a controlled suspended checkpoint has passed readback and the previous coordinator is definitively stopped.

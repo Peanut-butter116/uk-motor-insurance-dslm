@@ -1,5 +1,5 @@
 {
-  "status": "COLAB_EVALUATION_RESUMED_NEW_VOTES_READBACK_VERIFIED",
+  "status": "SUPERSEDED_BY_SINGLE_JUDGE_FAST_ACTIVE",
   "root_cause": {
     "secrets_http_status": 400,
     "affected_labels": [
@@ -39,10 +39,10 @@
   "evaluation": {
     "active_execution_url": "https://colab.research.google.com/drive/1g_rir-DPeeoZG3fAqNZxoY_JRXuRcbbD",
     "active_coordinators": 1,
-    "latest_private_checkpoint": 243,
-    "groq": 39,
-    "gemini": 345,
-    "paired": 35,
+    "latest_private_checkpoint": 257,
+    "groq": 56,
+    "gemini": 378,
+    "paired": 48,
     "responses": 912,
     "adapters": 3,
     "production_dataset_writes": 4,
@@ -57,7 +57,10 @@
     "archive_sha256": "55941235c9b63cb4c7b6592c7cb71984e97c9e8753089cf734ff738c584ac34f",
     "groq_status": "quota_wait",
     "groq_observed_resume_after_epoch": 1793558803.1988807,
-    "gemini_status": "blocked"
+    "gemini_status": "blocked",
+    "unique_judged": 386,
+    "remaining_first_judgements": 526,
+    "full_dual_judge_target_superseded": true
   },
   "tests": {
     "targeted_passed": 122,
@@ -72,5 +75,7 @@
     "research_code_executed": false,
     "corrected_execution": 31
   },
-  "scheduled_monitor": "PAUSED"
+  "scheduled_monitor": "PAUSED",
+  "current_protocol": "d1000-single-judge-fast-v1",
+  "current_report": "cloud/single_judge_fast/EXECUTION_REPORT.md"
 }

@@ -1,0 +1,52 @@
+{
+  "protocol": "d1000-single-judge-fast-v1",
+  "status": "READY_NOT_RUNNING_AT_PREFLIGHT",
+  "source_checkpoint": 249,
+  "old_workers_after_drain": 0,
+  "same_lease_version": 1,
+  "unique_judged": 349,
+  "remaining": 563,
+  "provider_votes": {
+    "groq": 52,
+    "gemini": 345
+  },
+  "protected_task_counts": {
+    "groq": 0,
+    "gemini": 1
+  },
+  "strict_existing_vote_validation": "PASS",
+  "calibration_reuse": {
+    "groq": "PASS9/9",
+    "gemini": "PASS9/9"
+  },
+  "ledger_bytes_unchanged": true,
+  "quota_planning": {
+    "groq": {
+      "rpm": 30,
+      "rpd": 1000,
+      "tpm": 8000,
+      "tpd": 200000,
+      "remaining_ledger_rpd": 976,
+      "remaining_ledger_tpd": 101543,
+      "next_rolling_daily_expiry_epoch": 1793644833.557822,
+      "projected_success_capacity20h": 16
+    },
+    "gemini": {
+      "rpm": 5,
+      "rpd": 500,
+      "tpm": 250000,
+      "configured_tpd": 125000000,
+      "remaining_ledger_rpd": 500,
+      "remaining_ledger_tpd": 125000000,
+      "documented_next_pacific_reset_epoch": 1793606400,
+      "projected_request_slots20h": 1000,
+      "tpd_is_preserved_configuration_not_newly_verified_service_limit": true
+    },
+    "feasible_projection": true,
+    "caveat": "Not a guarantee: server remaining/shared usage is not independently known; retries/errors/runtime interruption can reduce coverage."
+  },
+  "quota_reset_documentation": "https://ai.google.dev/gemini-api/docs/rate-limits",
+  "research_calls_during_preflight": 0,
+  "tests_passed": 129,
+  "code_revision": "02cd9f1e733e97a9728e1eed92dd6c205ea8e73f"
+}

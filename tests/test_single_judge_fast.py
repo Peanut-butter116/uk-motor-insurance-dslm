@@ -137,3 +137,19 @@ def test_async_entry_cannot_restart_launched_protocol(tmp_path):
     with pytest.raises(RuntimeError,match='already started'):asyncio.run(run_async(recovery,lambda x:None,RuntimeError('other')))
     path=tmp_path/'ledger.json';path.write_text('changed')
     with pytest.raises(RuntimeError,match='Quota state changed'):asyncio.run(run_async(recovery,lambda x:None,failure,{str(path):'different'}))
+
+
+def test_resume_keeps_original_clock_and_rejects_arbitrary_interruption():
+    import pytest
+    from cloud.single_judge_fast.lifecycle import clock
+    from cloud.single_judge_fast.resume import validate_suspension
+    control={'protocol':'d1000-single-judge-fast-v1','phase':'suspended','launch_epoch':1000,'deadline_epoch':73000,'baseline_unique':349}
+    proof={**control,'expected_checkpoint':300,'active_provider_threads':0,'active_provider_tasks':0,'unique_judged':850}
+    state={'status':'single_judge_suspended_for_supported_runtime_renewal'}
+    validate_suspension(state,control,proof,300,40000)
+    assert clock(control,40000,850)==(1000,73000,349)
+    with pytest.raises(RuntimeError,match='not a controlled'):validate_suspension({'status':'single_judge_partial'},control,proof,300,40000)
+    proof['active_provider_threads']=1
+    with pytest.raises(RuntimeError,match='not fully drained'):validate_suspension(state,control,proof,300,40000)
+    with pytest.raises(RuntimeError,match='deadline changed'):clock({**control,'deadline_epoch':74000},40000,850)
+    with pytest.raises(RuntimeError,match='Insufficient time'):clock(control,72500,850)

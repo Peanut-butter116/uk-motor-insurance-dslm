@@ -57,7 +57,8 @@ def prepare(recovery):
             prompts.append(max(1,reservation-2048) if p=='groq' else max(1,(reservation-6144)/4))
         estimates[p]={'median_prompt_estimate':statistics.median(prompts) if prompts else 0,
                       'minimum_reservation':min(costs[p].values(),default=0),'maximum_reservation':max(costs[p].values(),default=0)}
-    audit=quota_audit(runtime,providers);forecast=feasibility(audit,912-len(covered),estimates)
+    horizon=max(0,(recovery.fast_resume_control['deadline_epoch']-time.time())/3600) if hasattr(recovery,'fast_resume_control') else 20
+    audit=quota_audit(runtime,providers,hours=horizon);forecast=feasibility(audit,912-len(covered),estimates)
     report={'protocol':PROTOCOL,'status':'READY_NOT_RUNNING','source_checkpoint':recovery.state['last_persistence']['version'],
             'unique_judged':len(covered),'remaining':912-len(covered),'provider_votes':{p:len(votes[p]) for p in MODELS},
             'protected_task_counts':{p:len(unknown[p]) for p in MODELS},'quota_audit':audit,'token_estimates':estimates,
@@ -99,12 +100,20 @@ async def coordinate(recovery,sink):
     prepared=recovery.fast_prepared;votes=prepared['votes'];candidates=prepared['candidates']
     unknown=prepared['unknown'];costs=prepared['costs'];covered=set(select(votes));baseline=len(covered)
     providers,runtime=judging.provider_runtime(root);values={k:os.environ[k] for k in ('GROQ_API_KEY','GEMINI_API_KEY')}
-    launched=time.time();deadline=launched+20*3600
+    from cloud.single_judge_fast.lifecycle import clock
+    prior=getattr(recovery,'fast_resume_control',None)
+    launched,deadline,baseline=clock(prior,time.time(),baseline)
     control={'protocol':PROTOCOL,'launch_epoch':launched,'deadline_epoch':deadline,'baseline_unique':baseline,
              'source_checkpoint':recovery.state['last_persistence']['version'],'same_lease_version':recovery.lease_version,
              'historical_protocol':jr.PROTOCOL,'selection_rule':'Groq-first historical tie; otherwise first valid provider',
              'rubric_unchanged':True,'unknown_outcome_guard':'task/provider scoped; original complete() unchanged',
              'source_hashes':{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in Path(__file__).parent.glob('*.py')}}
+    if prior:
+        history=folder/'history';history.mkdir(exist_ok=True)
+        old=(folder/'protocol.json').read_bytes()
+        (history/('protocol-'+hashlib.sha256(old).hexdigest()+'.json')).write_bytes(old)
+        control['resumed_from_checkpoint']=recovery.state['last_persistence']['version']
+        control['original_source_checkpoint']=prior.get('original_source_checkpoint',prior['source_checkpoint'])
     (folder/'protocol.json').write_text(json.dumps(control,sort_keys=True,indent=2))
     gate=asyncio.Event();gate.set();claims={};active=set();failed={p:set() for p in MODELS};status={p:{'status':'ready'} for p in MODELS}
     recovery.fast_control=control;recovery.state['single_judge_fast']=control
@@ -113,7 +122,7 @@ async def coordinate(recovery,sink):
         with path.open('a') as f:f.write(json.dumps(value)+'\n');f.flush();os.fsync(f.fileno())
     def progress():
         total=len(covered);elapsed=max(0,time.time()-launched);rate=(total-baseline)/(elapsed/3600) if elapsed else 0
-        audit=quota_audit(runtime,providers)
+        audit=quota_audit(runtime,providers,hours=max(0,(deadline-time.time())/3600))
         remaining=912-total;eta=remaining/rate if rate>0 else None
         current_projected=0
         for p,q in audit.items():
@@ -145,6 +154,8 @@ async def coordinate(recovery,sink):
         stored=recovery.fast_archive_audit(archive)
         expected={p:len(votes[p]) for p in MODELS}
         if stored['persisted_judge_counts']!=expected or any(stored['persisted_duplicate_votes'].values()):raise RuntimeError('Snapshot vote journal mismatch')
+        # Report end-to-end measured throughput including private publish/readback.
+        report=progress();report['selected_provider_counts']=summary['selected_provider_counts']
         report.update(event='single_judge_private_checkpoint_readback',checkpoint=recovery.state['last_persistence']['version'],
                       private=True,readback_verified=True,archive_sha256=recovery.state['artifacts_sha256'],persisted_judge_counts=expected)
         sink(report);new_since_checkpoint=0;gate.set()
