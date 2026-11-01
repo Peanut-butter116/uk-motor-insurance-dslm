@@ -153,3 +153,22 @@ def test_resume_keeps_original_clock_and_rejects_arbitrary_interruption():
     with pytest.raises(RuntimeError,match='not fully drained'):validate_suspension(state,control,proof,300,40000)
     with pytest.raises(RuntimeError,match='deadline changed'):clock({**control,'deadline_epoch':74000},40000,850)
     with pytest.raises(RuntimeError,match='Insufficient time'):clock(control,72500,850)
+
+
+def test_suspension_waits_for_request_and_checkpoint_thread_stacks():
+    from cloud.single_judge_fast.lifecycle import provider_threads
+    request={'detect':provider_threads}
+    exec(compile('def complete():\n    return detect()\n','cloud/d1000/judge_recovery.py','exec'),request)
+    assert request['complete']()
+    persistence={'detect':provider_threads}
+    exec(compile('def checkpoint():\n    return detect()\n','original-audited-checkpoint','exec'),persistence)
+    assert persistence['checkpoint']()
+    assert not provider_threads()
+
+
+def test_final_report_rejects_incomplete_checkpoint_evidence_before_reading(tmp_path):
+    import pytest
+    from cloud.single_judge_fast.final_report import report
+    state={'last_persistence':{'version':300,'private':True,'readback_verified':True}}
+    with pytest.raises(RuntimeError,match='did not finish'):report(tmp_path,{'status':'running'},state)
+    with pytest.raises(RuntimeError,match='not verified'):report(tmp_path,{'status':'COMPLETE','checkpoint':299},state)

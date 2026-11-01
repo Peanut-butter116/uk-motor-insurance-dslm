@@ -26,7 +26,10 @@ def provider_threads():
     matches=[]
     for thread_id,frame in sys._current_frames().items():
         while frame is not None:
-            if Path(frame.f_code.co_filename).name=='judge_recovery.py' and frame.f_code.co_name in ('complete','observed_transport'):
+            name=frame.f_code.co_filename;function=frame.f_code.co_name
+            request=Path(name).name=='judge_recovery.py' and function in ('complete','observed_transport')
+            persistence=any(part in name for part in ('evaluation_only','storage.py','continue_startup','original-audited-checkpoint')) and function in ('checkpoint','checked_checkpoint','publish','verify_file')
+            if request or persistence:
                 matches.append(thread_id);break
             frame=frame.f_back
     return matches

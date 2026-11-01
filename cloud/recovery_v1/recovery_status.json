@@ -39,9 +39,9 @@
   "evaluation": {
     "active_execution_url": "https://colab.research.google.com/drive/1g_rir-DPeeoZG3fAqNZxoY_JRXuRcbbD",
     "active_coordinators": 1,
-    "latest_private_checkpoint": 257,
-    "groq": 56,
-    "gemini": 378,
+    "latest_private_checkpoint": 260,
+    "groq": 58,
+    "gemini": 394,
     "paired": 48,
     "responses": 912,
     "adapters": 3,
@@ -58,8 +58,8 @@
     "groq_status": "quota_wait",
     "groq_observed_resume_after_epoch": 1793558803.1988807,
     "gemini_status": "blocked",
-    "unique_judged": 386,
-    "remaining_first_judgements": 526,
+    "unique_judged": 404,
+    "remaining_first_judgements": 508,
     "full_dual_judge_target_superseded": true
   },
   "tests": {
