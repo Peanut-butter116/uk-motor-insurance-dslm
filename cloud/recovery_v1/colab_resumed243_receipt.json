@@ -1,0 +1,30 @@
+{
+  "kind": "colab_resumed_evaluation_acceptance",
+  "checkpoint": 243,
+  "private": true,
+  "readback_verified": true,
+  "archive_sha256": "55941235c9b63cb4c7b6592c7cb71984e97c9e8753089cf734ff738c584ac34f",
+  "persisted_judge_counts": {
+    "groq": 39,
+    "gemini": 345
+  },
+  "persisted_paired": 35,
+  "persisted_duplicate_votes": {
+    "groq": 0,
+    "gemini": 0
+  },
+  "new_successful_groq_votes_persisted": 3,
+  "live_groq_count_at_progress_write": 40,
+  "counts_source": "actual archived vote journals; live state may lead snapshot",
+  "responses_preserved": 912,
+  "source239_preserved": true,
+  "same_writer_lease_version": 1,
+  "active_coordinators": 1,
+  "calibrations": {
+    "groq": "PASS9/9",
+    "gemini": "PASS9/9"
+  },
+  "gemini_unknown_outcome_replayed": false,
+  "scheduled_monitor": "PAUSED",
+  "full_evaluation_complete": false
+}

@@ -1,73 +1,29 @@
 # D1000 recovery status — 1 November 2026
 
-Evaluation is BLOCKED; no active coordinator, new votes or production writes.
-Scheduled monitoring remains PAUSED at the owner's request.
+Colab recovery succeeded and evaluation-only execution genuinely resumed. Three new successful Groq votes are present in independently readback-verified private checkpoint243. The same exclusive writer lease remains held by one active coordinator. Scheduled monitoring stays PAUSED at the owner's request.
 
-## Root cause evidence
+## Kaggle diagnosis
 
-Diagnostic28 confirmed HTTP400 for each existing secret. Kaggle's
-`/requests/GetUserSecretByLabelRequest` returns an HTTPError that its client wraps
-as ConnectionError because URLError is caught before its HTTPError subclass.
-The failure is after an internal Secrets request is sent, before any secret value
-is returned or public Kaggle API token is used. Internal credential presence is
-established by successful client construction; its server-side acceptance is not.
-The request shape matches official client code. All three labels fail in this
-notebook; token invalidity,429 rate limiting and a platform-wide outage are not
-established. Exact400 cause, session/mode/attachment behaviour and protocol
-compatibility remain uncertain. No sensitive response body was exported.
+Diagnostic28 confirmed HTTP400 for all three secret labels at `/requests/GetUserSecretByLabelRequest`. The internal client catches HTTPError as URLError and wraps it as ConnectionError. Exact400 cause remains unknown; invalid user tokens,429 and a platform-wide outage are not established. No further full Kaggle evaluation was launched against the failing service.
 
-## Plan A — BLOCKED
+## Colab recovery evidence
 
-Corrected bounded probe31 completed privately on CPU with exact source verification,
-zero Secrets calls, zero judges and zero production writes. Native token-file
-presence and successful authentication/private dataset metadata access are confirmed.
-Private checkpoint239 is still current. Runtime Kaggle SDK was2.0.2. A TypeError
-occurred on the subsequent progress-download call, which used2.2.5 parameters;
-no private archive restore or scratch write/readback was established. Independent
-code pull confirmed private CPU/no dataset mounts. Launchers29/30 had failed before
-Python execution due to missing kernelspec; the notebook metadata was corrected
-before31. No repeated secret request or full evaluation was made.
+Private Restricted CPU notebook: https://colab.research.google.com/drive/1g_rir-DPeeoZG3fAqNZxoY_JRXuRcbbD . The owner approved private Colab processing and access to all three existing secrets. All three actual retrievals PASS without credential output. Kaggle SDK2.2.5 authenticated the dataset owner and restored239 inside the private VM: archive hash,912 responses,3 adapters,80 immutable files, frozen benchmark,36 Groq/345 Gemini/32 paired votes and the unresolved Gemini503 all verified.
 
-Native authentication alone cannot recover the judge keys. Both Groq and Gemini
-remain blocked by their last verified400 secret retrievals. Further Kaggle attempts
-stop here. No credentials, internal JWTs, IAP headers or endpoints were modified.
+A separate private nonce scratch dataset was created, independently downloaded and checksum verified. The private exclusive lease version1 and owner checksum were verified. The same local exclusive lock remains held; no second lease or writer was started.
 
-## Plan B — prepared; secure human setup required
+## Reviewed compatibility and freshness repairs
 
-`colab_cpu_v1.ipynb` embeds the public, reviewed `runtime.py` adapter. It installs
-SDK2.2.5 and CPU judging dependencies, loads credentials once from Colab Secrets,
-and preserves the exact supported18 research source on disk. It retrieves private
-code/audit sidebands and checkpoint only inside the approved cloud VM, through the
-authenticated SDK. No private transfer has started. Colab destination permission
-and all three secrets are pending direct human configuration.
+The Colab adapter uses a writable private cloud input folder, exact archived transport source/component hashes and supported SDK2.2.5 downloads. Original research source18 remains unchanged. An initial missing Kaggle mount failed before checkpoint creation or workers; continuation permits only that exact failure, same lease, unchanged journals and no production checkpoint.
 
-The adapter retains original restoration/hash/response/adapter/benchmark checks,
-adds exact36/345/32 vote/duplicate checks and the existing uncertain Gemini503 guard,
-tests a separate nonce-only private scratch dataset, then creates a private writer
-lease before invoking the unchanged evaluation. Existing lease, active Kaggle job,
-newer checkpoint, mismatched source, absent credentials or failed persistence all
-block judging. Kaggle remains the only persistent research store. No Drive transfer,
-training, inference, generation, paid fallback or quota reset is included.
+The transport account receipt was over seven days old. Current account UI confirms Groq Free with30RPM/1000RPD/8KTPM/200KTPD and Gemini Free with15RPM/500RPD/250KTPM. Existing stricter Gemini5RPM/1.25MTPD project caps remain unchanged. Live catalogue GETs verify both exact models, and the original9-case calibration receipts pass unchanged. Current primary data-use documentation was reviewed, including Google's UK/EEA regional exception. Re-verification preserves the original private receipt and records an old/new hash transition permitting only the verification date to change. All quotas, reservations, caches and votes remain byte-identical; the original seven-day expiry guard is retained. No inference calls were made for this re-verification.
 
-## Evaluation and limits
+Recovery helper revision36a023c48dd9511f326104fbc458fd6b9033e0e3;122 relevant tests pass. Only code, tests and aggregate receipts are public. Private archives, records, responses, keys and per-request quota entries remain private.
 
-Last verified private checkpoint239:36/912 Groq,345/912 Gemini,32 paired,912 saved
-responses and3 adapters. Existing quota receipts and ledgers stay authoritative:
-Groq30RPM/1000RPD/8KTPM/200KTPD; Gemini5RPM/500RPD/250KTPM/1.25MTPD. Actual provider
-availability has not been re-probed. Gemini's one transport-uncertain503 with no
-durable raw reply is not replayed. DeepSeek remains unavailable and votes remain
-missing rather than zero. Final metrics are not claimed.
+## Evaluation
 
-## Validation and next action
+Private checkpoint243 is independently readback verified with archive SHA55941235c9b63cb4c7b6592c7cb71984e97c9e8753089cf734ff738c584ac34f. Its actual archived journals contain Groq39/912, Gemini345/912 and35 paired votes, with zero duplicate votes. This establishes three new successful Groq judgements persisted after recovery. Live progress recorded40 Groq while snapshot capture contained39; only the archived39 are claimed durable. All912 responses remain preserved. The same private writer lease version1 remains held; one coordinator is executing in Colab. No second coordinator was launched.
 
-108 targeted tests passed (new recovery safeguards plus D1000 and semantic judge
-regressions). All Colab code cells compile, have a Python kernelspec, contain no
-stored outputs, and embed the exact reviewed adapter. Cloud end-to-end preflight
-and resumed judging remain unverified until secure setup succeeds.
+Groq is observing short quota waits under retained30RPM/1000RPD/8KTPM/200KTPD limits. The observed reset epoch1793558803.1988807 was a transient pacing boundary, not a new daily entitlement. Gemini credentials/catalogue/calibration PASS, but its worker is blocked; the existing unresolved503 with no durable reply remains protected and was not replayed. Existing Gemini5RPM/500RPD/250KTPM/1.25MTPD limits are retained. No training, inference, generation, DeepSeek repair, paid fallback or quota reset occurred. Evaluation is partial, not final metrics.
 
-Open the prepared notebook in your own private Colab CPU runtime, enter the three
-existing credentials only in Colab Secrets, enable notebook access, and confirm
-project permission for private Colab processing before setting the transfer gate.
-Run preflight; only READY_NOT_RUNNING permits the sole-writer resume cell. Exact
-instructions are in README.md. If project permission is unavailable, stop before
-any transfer. Do not paste credentials into chat.
+The live notebook must stay connected; do not run another resume cell or clear its lock/lease. If interrupted, reconcile the latest private version and held lease before a reviewed continuation. Never rerun recovery239 over a newer production checkpoint. The scheduled desktop monitor remains PAUSED; it was not re-enabled.

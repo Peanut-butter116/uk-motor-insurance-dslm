@@ -1,0 +1,23 @@
+{
+  "kind": "colab_checkpoint_snapshot",
+  "checkpoint": 242,
+  "private": true,
+  "readback_verified": true,
+  "archive_sha256": "00ff0cbcfb52d6bcb52df40587fd737fff84cffe10f3f3f658d4e22f7dfc83cc",
+  "live_judge_counts_at_progress_write": {
+    "groq": 37,
+    "gemini": 345
+  },
+  "actual_archive_judge_counts": {
+    "groq": 36,
+    "gemini": 345
+  },
+  "actual_archive_paired": 32,
+  "duplicate_votes": {
+    "groq": 0,
+    "gemini": 0
+  },
+  "snapshot_race_detected": true,
+  "interpretation": "one new Groq vote completed after archive capture; require later archive readback before claiming durable new progress",
+  "gemini_unknown_outcome_preserved": true
+}
