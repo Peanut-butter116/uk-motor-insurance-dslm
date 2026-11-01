@@ -10,6 +10,14 @@ MODELS={'groq':'openai/gpt-oss-120b','gemini':'gemini-3.5-flash-lite'}
 UNKNOWN=('in_flight','transport_uncertain','response_saved')
 
 
+def eligible_tasks(candidates,covered,claims,unknown,failed,costs,tpm):
+    """Quarantine an unknown response across providers; never reassign it."""
+    quarantined=set().union(*unknown.values())
+    return [t for t,_ in candidates if t['evaluation_id'] not in covered
+            and t['evaluation_id'] not in claims and t['evaluation_id'] not in quarantined
+            and t['evaluation_id'] not in failed and costs.get(t['evaluation_id'],10**20)<=tpm]
+
+
 def rows(path):
     return [json.loads(line) for line in Path(path).read_text().splitlines() if line.strip()] if Path(path).exists() else []
 

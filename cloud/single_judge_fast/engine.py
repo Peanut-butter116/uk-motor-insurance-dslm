@@ -7,7 +7,7 @@ from pathlib import Path
 import statistics
 import time
 from contextlib import redirect_stdout,redirect_stderr
-from cloud.single_judge_fast.protocol import PROTOCOL,MODELS,load_validated,unknown_ids,quota_audit,feasibility,select
+from cloud.single_judge_fast.protocol import PROTOCOL,MODELS,load_validated,unknown_ids,quota_audit,feasibility,select,eligible_tasks
 from cloud.single_judge_fast import metrics
 from cloud.single_judge_fast.handoff import old_workers
 
@@ -166,7 +166,7 @@ async def coordinate(recovery,sink):
             await gate.wait()
             if stopping:return
             limits=providers.verify_receipt(runtime,p,model)
-            eligible=[t for t,m in candidates if t['evaluation_id'] not in covered and t['evaluation_id'] not in claims and t['evaluation_id'] not in unknown[p] and t['evaluation_id'] not in failed[p] and costs[p].get(t['evaluation_id'],10**20)<=limits['tpm']]
+            eligible=eligible_tasks(candidates,covered,claims,unknown,failed[p],costs[p],limits['tpm'])
             if not eligible:
                 status[p]={'status':'no_safe_unclaimed_tasks'};await asyncio.sleep(1);continue
             task=min(eligible,key=lambda t:(costs[p][t['evaluation_id']],t['evaluation_id']))

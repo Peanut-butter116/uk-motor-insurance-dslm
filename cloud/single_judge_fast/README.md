@@ -18,6 +18,14 @@ Private outputs: results_single_judge_fast_v1/comparison.json, comparison.csv, s
 
 Tests cover strict historical selection, provider-scoped uncertain exclusion, unchanged quota ledgers, calendar boundaries across DST, quota refusal, concurrent disjoint claims and exactly-once private journal persistence, plus original recovery/evaluation regressions.
 
+## HTTP503 quarantine continuation
+
+After the second Gemini HTTP503, the owner authorised response-level quarantine across both providers. `eligible_tasks` excludes the union of all protected unknown response IDs from both queues. Existing valid votes remain selected; an unknown task is neither replayed nor reassigned to the other judge. Strict original request handling is unchanged. A new transport-uncertain failure still stops that provider for the session rather than repeatedly probing an outage with research calls.
+
+`continuation.resume_same_runtime` requires a deliberately drained, independently read-back suspension, zero provider tasks/threads, unchanged lease and original deadline. It revalidates votes, calibrations, model availability, hashes and latest storage/lease state. Every existing journal/cache/quota file is hash-checked across preflight. The stop marker is archived only after these checks. Flags, leases, reservations and original launch time are never reset. A successful catalogue GET verifies model availability but does not prove generation service health; actual new validated, persisted judgements are required before reporting successful recovery.
+
+Both observed HTTP503 requests lack durable raw replies, so they remain unresolved. This can limit complete coverage even when independent work succeeds. Google documents503 as service unavailable, not evidence that a request was never processed: https://ai.google.dev/gemini-api/docs/troubleshooting . No automatic replay is introduced.
+
 ## Supported runtime renewal
 
 Free Colab cannot guarantee a continuous20-hour VM. `lifecycle.suspend` is for a controlled safe stop: signal STOP_REQUESTED, wait for all named provider tasks and actual completion-thread stacks to drain, strictly recover any fully validated cached success missing its journal row, then independently publish/read back the final snapshot. It records an explicit suspension proof and unchanged original deadline. It must be invoked only after the active control cell has exited; it does not kill requests.

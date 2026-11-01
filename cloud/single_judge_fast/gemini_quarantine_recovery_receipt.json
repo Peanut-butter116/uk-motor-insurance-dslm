@@ -1,0 +1,47 @@
+{
+  "protocol": "d1000-single-judge-fast-v1",
+  "status": "RESUMED_NEW_JUDGEMENTS_PERSISTED",
+  "source_checkpoint": 293,
+  "suspension_checkpoint": 294,
+  "suspension_archive_sha256": "0b7ad512b32f68b57a40575ee50a7a4297e4262234ab0be1232c30d18f09e056",
+  "latest_checkpoint": 296,
+  "latest_archive_sha256": "abb587e66bf55bf7371a843ade25724ba135e446c24c658f8f7c36b816aa867b",
+  "private_readback_verified": true,
+  "unique_judged": 475,
+  "provider_votes": {
+    "groq": 67,
+    "gemini": 456
+  },
+  "new_persisted_judgements_since_recovery": 6,
+  "confirmed_unknown_error_categories": {
+    "http_503": 2
+  },
+  "durable_raw_replies_found": 0,
+  "protected_unknown_requests": 2,
+  "quarantined_unjudged_responses": 1,
+  "eligible_remaining": 436,
+  "maximum_coverage_without_unknown_resolution": 911,
+  "same_lease_version": 1,
+  "original_deadline_epoch": 1793632557.1127477,
+  "groq_resume_after_epoch": 1793644833.557822,
+  "gemini_next_rpd_reset_epoch": 1793606400,
+  "gemini_tracked_current_rpd_remaining": 374,
+  "server_remaining_not_independently_known": true,
+  "model_catalogue_health": "PASS",
+  "generation_health": "PASS_NEW_VALID_PERSISTED_JUDGEMENTS",
+  "readback_interval_successes_per_hour": 133.9896139575385,
+  "whole_campaign_successes_per_hour": 37.0402613828639,
+  "source_hashes": {
+    "__init__.py": "3c3e01db12655da6fd015305e8b0e16e615b7cb4cfad909296667259fa138a0b",
+    "protocol.py": "eb2ec15c0e2cf49ed28cf7d61ebf1a6928aa9930fafc5bb68b7c940065a884b5",
+    "quotas.py": "f20ddaa5759ce4251a0d916898d4e767581deb9f856f37aff08ffc9c41e5e7f0",
+    "metrics.py": "3c03a50d6121e7aee965d8ec773d13b6b111179b2422b6d1bfb883dae6aac8a9",
+    "handoff.py": "7e727b2d7cfddd5c34e324254c78dfacd9dc176a771813ab2316d0619eee9d5e",
+    "lifecycle.py": "10823b428be2941bb91322c427314d3348c8c90e661f8f02ae276ee414879fe5",
+    "resume.py": "1185c067de51f01f1c4d82279f4fc5b6556b78bbae06d652f6b4e915b1968857",
+    "engine.py": "6e14157b9c61d81346ef7a659ac1fa132d9fbbbef92b932a9a9bf594d9bcc700",
+    "continuation.py": "065d95f42b0492705540f10c0fb655ea9fc0e593237b2500962b69b81d5dd876"
+  },
+  "tests_passed": 137,
+  "raw_private_material_published": false
+}

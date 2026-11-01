@@ -20,6 +20,75 @@ def test_groq_first_does_not_mutate_historical_votes():
     assert votes['gemini']['a']['score']==0
 
 
+def test_quarantine_excludes_unknown_from_both_providers_without_mutation():
+    import copy
+    from cloud.single_judge_fast.protocol import eligible_tasks
+    candidates=[({'evaluation_id':s},{}) for s in ('unknown','done','claimed','failed','large','safe')]
+    unknown={'gemini':{'unknown'},'groq':set()};saved=copy.deepcopy(unknown)
+    costs={t['evaluation_id']:100 for t,_ in candidates};costs['large']=9000
+    for provider in ('groq','gemini'):
+        result=eligible_tasks(candidates,{'done'},{'claimed':provider},unknown,{'failed'},costs,8000)
+        assert [t['evaluation_id'] for t in result]==['safe']
+    assert unknown==saved
+
+
+def test_same_runtime_continuation_rejects_live_provider_before_mutation(monkeypatch,tmp_path):
+    import asyncio,types,pytest
+    from cloud.single_judge_fast import continuation,lifecycle
+    monkeypatch.setattr(lifecycle,'provider_threads',lambda:[123])
+    recovery=types.SimpleNamespace(fast_started=True,started=True,ready=True,evaluation=types.SimpleNamespace(ROOT=tmp_path))
+    with pytest.raises(RuntimeError,match='not drained'):
+        asyncio.run(continuation.resume_same_runtime(recovery,lambda x:None))
+
+
+def test_same_runtime_resume_retains_lease_clock_and_protected_bytes(monkeypatch,tmp_path):
+    import asyncio,json,types
+    from cloud.single_judge_fast import continuation,lifecycle,engine
+    folder=tmp_path/'single_judge_fast_v1';folder.mkdir()
+    prior={'protocol':'d1000-single-judge-fast-v1','phase':'suspended','launch_epoch':1000,'deadline_epoch':73000,'baseline_unique':349}
+    proof={**prior,'expected_checkpoint':294,'active_provider_threads':0,'active_provider_tasks':0,'unique_judged':469,'lease_version':1}
+    (folder/'protocol.json').write_text(json.dumps(prior));(folder/'suspension.json').write_text(json.dumps(proof));(folder/'STOP_REQUESTED').touch()
+    journal=tmp_path/'judge_runtime';journal.mkdir();protected=journal/'protected.json';protected.write_text('unchanged uncertain reservation')
+    recovery=types.SimpleNamespace(fast_started=True,started=True,ready=True,lease_version=1,
+      evaluation=types.SimpleNamespace(ROOT=tmp_path),state={'status':'single_judge_suspended_for_supported_runtime_renewal','last_persistence':{'version':294}},log=tmp_path/'private.log')
+    monkeypatch.setattr(lifecycle,'provider_threads',lambda:[])
+    monkeypatch.setattr(continuation.time,'time',lambda:40000)
+    monkeypatch.setattr(engine,'writer_guard',lambda r:None)
+    monkeypatch.setattr(engine,'prepare',lambda r:{'status':'READY_NOT_RUNNING'})
+    async def coordinate(r,sink):
+        assert r.fast_started and r.lease_version==1 and r.fast_resume_control==prior
+        assert not (folder/'STOP_REQUESTED').exists()
+        assert len(list(folder.glob('STOP_ACKNOWLEDGED-*')))==1
+        assert protected.read_text()=='unchanged uncertain reservation'
+        return 'resumed'
+    monkeypatch.setattr(engine,'coordinate',coordinate)
+    reports=[]
+    assert asyncio.run(continuation.resume_same_runtime(recovery,reports.append))=='resumed'
+    assert reports[0]['original_deadline_epoch']==73000
+    # A second entry cannot consume the same suspension again.
+    import pytest
+    with pytest.raises(RuntimeError,match='marker missing'):
+        asyncio.run(continuation.resume_same_runtime(recovery,reports.append))
+
+
+def test_same_runtime_resume_rejects_preflight_ledger_mutation(monkeypatch,tmp_path):
+    import asyncio,json,types,pytest
+    from cloud.single_judge_fast import continuation,lifecycle,engine
+    folder=tmp_path/'single_judge_fast_v1';folder.mkdir()
+    prior={'protocol':'d1000-single-judge-fast-v1','phase':'suspended','launch_epoch':1000,'deadline_epoch':73000,'baseline_unique':349}
+    proof={**prior,'expected_checkpoint':294,'active_provider_threads':0,'active_provider_tasks':0,'unique_judged':469,'lease_version':1}
+    for name,value in [('protocol.json',prior),('suspension.json',proof)]: (folder/name).write_text(json.dumps(value))
+    (folder/'STOP_REQUESTED').touch();runtime=tmp_path/'judge_runtime';runtime.mkdir();ledger=runtime/'ledger.json';ledger.write_text('reserved')
+    recovery=types.SimpleNamespace(fast_started=True,started=True,ready=True,lease_version=1,evaluation=types.SimpleNamespace(ROOT=tmp_path),state={'status':'single_judge_suspended_for_supported_runtime_renewal','last_persistence':{'version':294}},log=tmp_path/'private.log')
+    monkeypatch.setattr(lifecycle,'provider_threads',lambda:[]);monkeypatch.setattr(continuation.time,'time',lambda:40000)
+    monkeypatch.setattr(engine,'writer_guard',lambda r:None)
+    def mutate(r):ledger.write_text('cleared');return {}
+    monkeypatch.setattr(engine,'prepare',mutate)
+    with pytest.raises(RuntimeError,match='protected research state'):
+        asyncio.run(continuation.resume_same_runtime(recovery,lambda x:None))
+    assert (folder/'STOP_REQUESTED').exists()
+
+
 def test_quota_audit_preserves_unknown_reservations_and_real_expiry(tmp_path):
     import json
     from cloud.single_judge_fast.protocol import quota_audit,feasibility
