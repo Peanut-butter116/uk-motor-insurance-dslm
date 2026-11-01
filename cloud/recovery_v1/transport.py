@@ -13,7 +13,7 @@ ARCHIVE='a88e3259cde5357f273f97a9ff2afa0821359815a7238c78332056d16511fe0e'
 def digest(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def install_verified(judging, root, manifest):
+def install_verified(judging, root, manifest, receipt_transition=None):
     if manifest.get('archive_sha256')!=ARCHIVE:
         raise RuntimeError('Original production archive identity differs')
     root=Path(root);code,runtime=judging.transport_paths(root)
@@ -23,6 +23,10 @@ def install_verified(judging, root, manifest):
     def provider_runtime(actual_root):
         if Path(actual_root).resolve()!=root.resolve():raise RuntimeError('Unexpected transport root')
         for path,value in expected.items():
+            if path==runtime/'provider_verification.json' and receipt_transition is not None:
+                from cloud.recovery_v1.reverify import validate_transition
+                validate_transition(path,value,receipt_transition)
+                continue
             if not path.is_file() or digest(path)!=value:raise RuntimeError('Archived transport hash mismatch')
         ledgers=[runtime/'provider_usage'/f'{p}.json' for p in ('groq','gemini')]
         if not all(p.is_file() for p in ledgers):raise RuntimeError('Existing quota ledgers required')
@@ -50,7 +54,7 @@ def prepare(recovery):
         recovery.api.dataset_download_file(PRODUCTION+'/319','migration_manifest.json',
             path=str(folder),quiet=True,force=True,unzip=True)
     path=folder/'migration_manifest.json';path.chmod(0o600)
-    result=install_verified(judging,recovery.evaluation.ROOT,json.loads(path.read_text()))
+    result=install_verified(judging,recovery.evaluation.ROOT,json.loads(path.read_text()),recovery.receipt.get('provider_reverification'))
     providers,runtime=judging.provider_runtime(recovery.evaluation.ROOT)
     for provider,model in (('groq','openai/gpt-oss-120b'),('gemini','gemini-3.5-flash-lite')):
         providers.verify_receipt(runtime,provider,model)

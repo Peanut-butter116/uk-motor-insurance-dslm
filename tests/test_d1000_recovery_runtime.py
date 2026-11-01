@@ -254,3 +254,21 @@ def test_continuation_rejects_an_active_evaluation_worker(monkeypatch):
     except StopIteration as failure:
         recovery=types.SimpleNamespace(ready=True,started=True,lease_version=1)
         with pytest.raises(RuntimeError,match='already active'):continue_startup.continue_verified(recovery,failure,{},lambda *a:None,lambda *a:None)
+
+
+def test_provider_reverification_transition_rejects_limit_or_identity_changes(tmp_path):
+    from cloud.recovery_v1.reverify import validate_transition
+    old={p:{'verified_at_epoch':1,'rpm':5} for p in ('groq','gemini')}
+    backup=tmp_path/'old.json';backup.write_text(json.dumps(old))
+    current=tmp_path/'new.json';new=json.loads(json.dumps(old))
+    for p in new:new[p]['verified_at_epoch']=2
+    current.write_text(json.dumps(new))
+    digest=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+    transition={'backup':str(backup),'original_sha256':digest(backup),'renewed_sha256':digest(current),
+                'checks':{p:{'catalogue_verified':True,'inference_calls':0} for p in new},
+                'quota_limits_unchanged':True,'request_state_unchanged':True}
+    validate_transition(current,digest(backup),transition)
+    new['groq']['rpm']=50;current.write_text(json.dumps(new));transition['renewed_sha256']=digest(current)
+    with pytest.raises(RuntimeError,match='other than'):validate_transition(current,digest(backup),transition)
+    backup.write_text('{}')
+    with pytest.raises(RuntimeError,match='identity'):validate_transition(current,transition['original_sha256'],transition)
