@@ -1,0 +1,66 @@
+{
+  "event": "remaining_capacity_audit",
+  "checkpoint": 427,
+  "eligible_remaining": 84,
+  "groq_tpm_limit": 8000,
+  "groq_tasks_within_tpm": 19,
+  "groq_tasks_over_tpm": 65,
+  "minimum_groq_reservation": 7113,
+  "maximum_groq_reservation": 19060,
+  "protected_requests": 4,
+  "protected_unjudged": 3,
+  "protected_http_categories": {
+    "503": 4
+  },
+  "protected_durable_raw_present": 0,
+  "groq_recorded_reset_epoch": 1793644833.557822,
+  "quota": {
+    "groq": {
+      "verified_limits": {
+        "rpm": 30,
+        "rpd": 1000,
+        "tpm": 8000,
+        "tpd": 200000
+      },
+      "remaining_conservative_ledger": {
+        "rpm": 30,
+        "rpd": 950,
+        "tpm": 8000,
+        "tpd": 6343
+      },
+      "blocked_until_epoch": 0,
+      "next_minute_entry_expiry": null,
+      "next_daily_entry_expiry": 1793644833.557822,
+      "twenty_hour_request_slots_upper_bound": 1000,
+      "twenty_hour_token_budget": 200000,
+      "historical_mean_actual_tokens": 3081.774480712166,
+      "server_remaining_not_independently_known": true,
+      "documented_calendar_reset_epoch": null,
+      "quota_policy": "existing conservative rolling60s/24h; reservations unchanged"
+    },
+    "gemini": {
+      "verified_limits": {
+        "rpm": 5,
+        "rpd": 500,
+        "tpm": 250000,
+        "tpd": 125000000
+      },
+      "remaining_conservative_ledger": {
+        "rpm": 5,
+        "rpd": 68,
+        "tpm": 250000,
+        "tpd": 120654776
+      },
+      "blocked_until_epoch": 1793452709.1494133,
+      "next_minute_entry_expiry": null,
+      "next_daily_entry_expiry": 1793647059.7022424,
+      "twenty_hour_request_slots_upper_bound": 568,
+      "twenty_hour_token_budget": 123206638,
+      "historical_mean_actual_tokens": 5726.937945492662,
+      "server_remaining_not_independently_known": true,
+      "documented_calendar_reset_epoch": 1793692800,
+      "quota_policy": "Gemini RPD midnight Pacific; RPM/TPM rolling60s and TPD rolling24h; all entries retained"
+    }
+  },
+  "judge_calls": 0
+}

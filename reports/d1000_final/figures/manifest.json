@@ -1,0 +1,32 @@
+{
+  "canonical_input_sha256": "c6c6d65ee3e9a7ddf0f823bf0697482238e128fabbfe18d5a6461d41fbdaa83c",
+  "checkpoint": 444,
+  "files": {
+    "01_semantic_correctness.pdf": "d9fbdf690b351dffb92385178cac81d70d3321b8cfdf0d4965a622a378d78464",
+    "01_semantic_correctness.png": "24ed13423362e1382d6b615f3b6e5015414e86b14d7d2689f7a649aeb3b48d5e",
+    "01_semantic_correctness.svg": "cf802552ba23334e04f450724e8dc8fec7d73d633a57eda41051795d31687a15",
+    "02_sft_effect.pdf": "1b98ca6b231e3b1c7838d2488f9ac7538f5f7ddd0f919c86e0a47ad3e63c761c",
+    "02_sft_effect.png": "d4664c76e0b67b1329bcb74fa4e9035c8097e73c5a79ba51afaf7b3ff9d05f81",
+    "02_sft_effect.svg": "37dcd85b01db05274f4cbcfe726ffd5d83eb379ac2544c2224f200d13cfaf6c7",
+    "03_refusal_abstention.pdf": "a7ea7a9d2ec53af746111d302f20831a0f9688e140d713b8995bc773773b4ba7",
+    "03_refusal_abstention.png": "2b92deb431ea07f549ef98fa39890b1e4febcfbae5c2122d07b2ed503ad1228e",
+    "03_refusal_abstention.svg": "e9fea1f159f677ae533df3800f4d01d01bd8fbbd4ed0ece2b672ebae33e5b562",
+    "04_citation_reliability.pdf": "084187e6e4084ca0f74690646c6455d078f2aac9051c6ec7ab1b8b5df8cc8746",
+    "04_citation_reliability.png": "3cffb88fa6064e2b4abdf18efae5dc14cc4b0f227c8020b8f06e0df3a984160f",
+    "04_citation_reliability.svg": "3f8162b4601d052633c9865b5d1571f64ca1ce12c52b55026320c1bc8296bf25",
+    "05_coverage.pdf": "205668c5e864e98e5a4b7461b4d49417872b95dadf375293ecee44ae74a1df9c",
+    "05_coverage.png": "bf52f6f438eac6a63263e46d1d228400d399d5e0a19ed73545d052c7ebe3ef8f",
+    "05_coverage.svg": "d17a361243510419717a9610fe9479239cd0a541231cb298ce9b17bdb3389a41",
+    "06_results_heatmap.pdf": "12efcb887509a90c5265e969639496fedb7200d19ad72de4ccfcbc18e23bf808",
+    "06_results_heatmap.png": "e342f2fb24bf3742a01050112e6d741f271c5e5b586c742623a41b6b8bcb6f92",
+    "06_results_heatmap.svg": "4a3f7f0a6429a82d75f5259b98a857a699a8351020f2c18e00e5693c6c091076"
+  },
+  "generator_sha256": "1e60ab4844da972153cbc1676d5e729d29ace686d99e8473f04a6dab7c5e7bd5",
+  "matplotlib": "3.10.7",
+  "numpy": "2.3.5",
+  "png_dpi": 300,
+  "size_inches": [
+    16,
+    9
+  ]
+}

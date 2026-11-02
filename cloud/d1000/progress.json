@@ -1,0 +1,460 @@
+{
+  "checked_at_utc": "2026-10-30T12:01:43.750631+00:00",
+  "dataset": {
+    "url": "https://www.kaggle.com/datasets/scarletthe0116/uk-motor-qa-d1000-training/versions/1",
+    "private": true,
+    "version": 1,
+    "records": 1000,
+    "verified": 462,
+    "unverified": 538,
+    "csv_sha256": "faec491822ce60758d1705fe0f1b71621eaf8dd34f9f9b8168eca001b1acd6b3",
+    "independent_cloud_readback_passed": true
+  },
+  "frozen_evaluation_dataset": "scarletthe0116/uk-motor-frozen-evaluation-v2/1",
+  "smoke": {
+    "notebook": "scarletthe0116/uk-motor-d1000-gpu-smoke",
+    "execution_version": 2,
+    "status": "smoke_finished",
+    "gpus": [
+      {
+        "index": 0,
+        "name": "Tesla T4",
+        "total_memory": 15636037632
+      },
+      {
+        "index": 1,
+        "name": "Tesla T4",
+        "total_memory": 15636037632
+      }
+    ],
+    "models": {
+      "qwen3b": {
+        "status": "smoke_passed",
+        "gpu": 0,
+        "exit_code": 0,
+        "metrics": {
+          "loss": 0.8764175772666931,
+          "seconds": 1570.2367143689999,
+          "samples_per_second": 0.014,
+          "peak_gpu_bytes": 7168736256,
+          "steps": 2
+        }
+      },
+      "ministral3b": {
+        "status": "smoke_passed",
+        "gpu": 1,
+        "exit_code": 0,
+        "metrics": {
+          "loss": 0.7540242075920105,
+          "seconds": 1823.849106981,
+          "samples_per_second": 0.012,
+          "peak_gpu_bytes": 9259468800,
+          "steps": 2
+        }
+      },
+      "smollm1b7": {
+        "status": "smoke_passed",
+        "gpu": 0,
+        "exit_code": 0,
+        "metrics": {
+          "loss": 0.8682875335216522,
+          "seconds": 1056.445613035,
+          "samples_per_second": 0.021,
+          "peak_gpu_bytes": 3584092160,
+          "steps": 2
+        }
+      }
+    },
+    "full_training_started": false,
+    "model_calls": 0,
+    "conversion": {
+      "source_rows": 1000,
+      "eligible_rows": 893,
+      "model_preflight_failures": {
+        "deepseek1b5": {
+          "type": "ValueError",
+          "reason": "Chat template does not preserve the prompt prefix; refuse unsafe masking"
+        }
+      }
+    },
+    "train_rows": 804,
+    "validation_rows": 89
+  },
+  "previous_smoke": {
+    "execution_version": 1,
+    "status": "ERROR",
+    "failure": "Unnecessary evaluation-context file dependency before model loading; removed for training-only smoke",
+    "models_trained": 0
+  },
+  "full_campaign": {
+    "notebook": "scarletthe0116/uk-motor-d1000-train-eval",
+    "execution_version": 8,
+    "status": "COMPLETE",
+    "private": true,
+    "code_sha256": "5cf037b5d255dd1b0ea81986bb488fb1f1d37f564b5a1487c53403a52cecefdb",
+    "matches_recovery_code": true,
+    "gpu_enabled": true,
+    "machine_shape": "NvidiaTeslaT4",
+    "source_checkpoint": 58,
+    "private_checkpoint_input_attached": true,
+    "required_action": null,
+    "terminal_stage": "finished_or_documented_partial"
+  },
+  "responses_completed": 912,
+  "groq_judgements_completed": 0,
+  "gemini_judgements_completed": 60,
+  "trained_adapters_confirmed": 3,
+  "tests_passed": 301,
+  "historical_loader_unchanged": true,
+  "generation_restarted": false,
+  "limitations": [
+    "DeepSeek tokenisation preflight blocked by prompt-prefix masking safety guard; other three models passed standalone GPU smoke",
+    "Smoke speeds include validation overhead and are not full-training runtime estimates",
+    "Four-way sharing of two GPUs not benchmarked",
+    "Free judge quotas may require multiple sessions; no cross-session scheduler configured",
+    "Full conversion 834 eligible: 751 train,83 validation; source dataset remains 1000.",
+    "New calibration blocked: Groq structured output persistent_retry_limit_exhausted; Gemini Refusal support must be N/A. Zero completed evaluation judgements. No guard bypass."
+  ],
+  "previous_campaign": {
+    "execution_version": 7,
+    "status": "ERROR",
+    "stage": "preflight_restore",
+    "models_started": 0,
+    "responses_completed": 0,
+    "judge_calls": 0,
+    "failure": "OSError Errno28 No space left on device",
+    "failure_source": "Specific startup error shown in Kaggle UI; FAILED.json empty on full disk"
+  },
+  "output_storage": {
+    "dataset": "scarletthe0116/uk-motor-d1000-models-results",
+    "version": 108,
+    "private": true,
+    "bootstrap_only": false,
+    "actual_trained_adapters": 3,
+    "opaque_archive_readback_passed": true,
+    "terminal_readback_verified": true
+  },
+  "private_campaign_progress": {
+    "protocol": "d1000-mixed-quality-qlora-dual-judge/1",
+    "status": "evaluation_only_running",
+    "models": {
+      "qwen3b": {
+        "status": "complete"
+      },
+      "ministral3b": {
+        "status": "complete"
+      },
+      "deepseek1b5": {
+        "status": "tokenisation_failed"
+      },
+      "smollm1b7": {
+        "status": "complete",
+        "gpu": 0,
+        "pid": 77,
+        "exit_code": 0
+      }
+    },
+    "responses_completed": 912,
+    "judge_counts": {
+      "groq": 0,
+      "gemini": 60
+    },
+    "last_persistence": {
+      "dataset": "scarletthe0116/uk-motor-d1000-models-results",
+      "version": 107,
+      "private": true,
+      "readback_verified": true
+    },
+    "artifacts_sha256": "69e3f0b6d601e3aa9d18b002dfff20be420332bb9326054f6eca97d925c0994a",
+    "bootstrap_contains_models_or_data": false,
+    "artifact_format": "gzip tar bytes with opaque .bin suffix to prevent automatic extraction",
+    "code_fingerprint": "205e5ee7ab99c3f4917486d43749e5fe85f7dbc9ffb4f2042df2d7f4ec1f3863",
+    "gpus": [],
+    "export": {
+      "dataset": "scarletthe0116/uk-motor-qa-d1000-training",
+      "version": 1,
+      "records": 1000,
+      "csv_sha256": "faec491822ce60758d1705fe0f1b71621eaf8dd34f9f9b8168eca001b1acd6b3",
+      "readback_verified": true
+    },
+    "dataset_conversion": {
+      "source_rows": 1000,
+      "eligible_rows": 834,
+      "model_preflight_failures": {
+        "deepseek1b5": {
+          "type": "ValueError",
+          "reason": "Chat template does not preserve the prompt prefix; refuse unsafe masking"
+        }
+      }
+    },
+    "train_rows": 751,
+    "validation_rows": 83,
+    "judges": {
+      "groq": {
+        "model": "openai/gpt-oss-120b",
+        "status": "calibration_blocked",
+        "completed": 0,
+        "calibration": "PENDING",
+        "catalogue_verified": true,
+        "reason": "groq HTTP 400"
+      },
+      "gemini": {
+        "model": "gemini-3.5-flash-lite",
+        "status": "quota_wait",
+        "completed": 60,
+        "calibration": "PASS",
+        "catalogue_verified": true,
+        "calibration_cases_completed": 9,
+        "resume_after_epoch": 1793361624.0731223,
+        "missing_failures": 40
+      }
+    },
+    "restore_audit": {
+      "source_archive_sha256": "8548bcbcd05c7584359f1744f2f963c46323026071f0abbd0cc4073852fb0cd7",
+      "original_archive_unchanged": true,
+      "optimizer_members_not_extracted": 198,
+      "completed_workers_skipped_optimizer_restore": [
+        "ministral3b",
+        "qwen3b"
+      ],
+      "latest_optimizer_steps": {
+        "smollm1b7/full": 125,
+        "smollm1b7/smoke": 2
+      }
+    },
+    "resume_repairs": [
+      {
+        "source_fingerprint": "d348d461dd1d603dfda0c25ae285bfe08deba244a460606378cc679e0c438609",
+        "source_hashes": {
+          "cloud/d1000/metrics.py": "d7d0b1eab8a05f11f2290569d9f0785b1ebf6f5601b2539ed72ccaadb04b02e8",
+          "cloud/d1000/train_worker.py": "153654444ed5189bd7f0dfba8bb7d003c1770b855286cd2241ba4557b2ee03ab",
+          "cloud/d1000/export.py": "cf8ed84ad525ae311ba093292e3137edab87d14469df73f0c08d433ceba43e8a",
+          "cloud/d1000/judging.py": "6a0060272b39dca61de7bcdbbf2a9f732d0fd8d51c0b094d9c9e6cb88c8448d4",
+          "cloud/d1000/gpu_probe.py": "f8e4f42e8df3a3f97bb68672a0471c5569e8dce6bc1e55db2e97675f17064e4f",
+          "cloud/d1000/campaign.py": "004675ffeac7dbb3d7b4d021aa1096c7c4046b5d8f496e10d7a2e62dc412dd46",
+          "cloud/d1000/storage.py": "67ec82627cd7bac9de4766deb5aa934117f26afeb57e78705400347a8c179b65",
+          "cloud/d1000/fetch_progress.py": "836c223a705869e85b90bcd83e6bde6e2ec5129aa8fa789f9829b71ff597bd13",
+          "cloud/d1000/storage_probe.py": "0a5b64580a4487a5abb3193e53032349da19a8a85571b2ab79a1e720e5fea944",
+          "cloud/d1000/stage.py": "bb2682f4b6dacfa05c97bcca17982a99a6a490498353d599a7f2051b4202ac68"
+        },
+        "source_notebook_sha256": "5c544a287b007e4da3dd5abc341821bdecc54b458186b1861d0f1962e48b2249",
+        "destination_hashes": {
+          "cloud/d1000/campaign.py": "d885d8694dc8b0ec0b1e3c482de877df970e52611b084539b3aa3414956ab5bd",
+          "cloud/d1000/export.py": "cf8ed84ad525ae311ba093292e3137edab87d14469df73f0c08d433ceba43e8a",
+          "cloud/d1000/fetch_progress.py": "a80101fd5c24158638266b6ae4e772999dbd348292ab19acf0c7254ae5f83bb1",
+          "cloud/d1000/gpu_probe.py": "f8e4f42e8df3a3f97bb68672a0471c5569e8dce6bc1e55db2e97675f17064e4f",
+          "cloud/d1000/judging.py": "e9f2559872810d930dafec1b36321b0203feb6633cbdb4cde774ae040c169881",
+          "cloud/d1000/metrics.py": "d7d0b1eab8a05f11f2290569d9f0785b1ebf6f5601b2539ed72ccaadb04b02e8",
+          "cloud/d1000/stage.py": "033e8c3e8d72f0a4f2b53a38ac1eca654d1218176e99106f911aa1e79852672c",
+          "cloud/d1000/storage.py": "67ec82627cd7bac9de4766deb5aa934117f26afeb57e78705400347a8c179b65",
+          "cloud/d1000/storage_probe.py": "0a5b64580a4487a5abb3193e53032349da19a8a85571b2ab79a1e720e5fea944",
+          "cloud/d1000/train_worker.py": "153654444ed5189bd7f0dfba8bb7d003c1770b855286cd2241ba4557b2ee03ab"
+        },
+        "changed_files": [
+          "cloud/d1000/judging.py",
+          "cloud/d1000/campaign.py",
+          "cloud/d1000/fetch_progress.py",
+          "cloud/d1000/stage.py"
+        ],
+        "reason": "Nest judge transport source; include exact historical reference-package module; mounted immutable archive restore selects latest unfinished optimizer state to fit cloud working disk; receipt-only monitoring avoids SDK log side effect. Training/data/prompts/models/rubric unchanged."
+      }
+    ],
+    "results": {
+      "conditions": 16,
+      "responses": 912,
+      "judge_votes": {
+        "groq": 0,
+        "gemini": 0
+      },
+      "disagreements": 0,
+      "human_reviews_completed": 0,
+      "primary_three_vote_results": false
+    },
+    "evaluation_repair": {
+      "protocol": "d1000-evaluation-only-audit/1",
+      "source_version": 93,
+      "source_archive_sha256": "96639cb1a40dd6ec3939b1ee99bf88fc8f94ffba29add61da95a6dcceec3dac1",
+      "source_fingerprint": "fcb5183d9bae43079570ee5f03194c3d18e0e79500f89702813c23a5a4b6a72f",
+      "source_hashes": {
+        "cloud/d1000/campaign.py": "d885d8694dc8b0ec0b1e3c482de877df970e52611b084539b3aa3414956ab5bd",
+        "cloud/d1000/export.py": "cf8ed84ad525ae311ba093292e3137edab87d14469df73f0c08d433ceba43e8a",
+        "cloud/d1000/fetch_progress.py": "a80101fd5c24158638266b6ae4e772999dbd348292ab19acf0c7254ae5f83bb1",
+        "cloud/d1000/gpu_probe.py": "f8e4f42e8df3a3f97bb68672a0471c5569e8dce6bc1e55db2e97675f17064e4f",
+        "cloud/d1000/judging.py": "e9f2559872810d930dafec1b36321b0203feb6633cbdb4cde774ae040c169881",
+        "cloud/d1000/metrics.py": "d7d0b1eab8a05f11f2290569d9f0785b1ebf6f5601b2539ed72ccaadb04b02e8",
+        "cloud/d1000/stage.py": "033e8c3e8d72f0a4f2b53a38ac1eca654d1218176e99106f911aa1e79852672c",
+        "cloud/d1000/storage.py": "67ec82627cd7bac9de4766deb5aa934117f26afeb57e78705400347a8c179b65",
+        "cloud/d1000/storage_probe.py": "0a5b64580a4487a5abb3193e53032349da19a8a85571b2ab79a1e720e5fea944",
+        "cloud/d1000/train_worker.py": "153654444ed5189bd7f0dfba8bb7d003c1770b855286cd2241ba4557b2ee03ab"
+      },
+      "destination_hashes": {
+        "cloud/d1000/campaign.py": "d885d8694dc8b0ec0b1e3c482de877df970e52611b084539b3aa3414956ab5bd",
+        "cloud/d1000/evaluation_only.py": "9e00c69c1f42646724b78e0b860b65fc5c234626b59dbcbee60eb20dd44fb28a",
+        "cloud/d1000/export.py": "cf8ed84ad525ae311ba093292e3137edab87d14469df73f0c08d433ceba43e8a",
+        "cloud/d1000/fetch_progress.py": "7160425c8978effac947c4ce8d32f192b3c27b1be09697a85e96feb756078f75",
+        "cloud/d1000/gpu_probe.py": "f8e4f42e8df3a3f97bb68672a0471c5569e8dce6bc1e55db2e97675f17064e4f",
+        "cloud/d1000/judge_recovery.py": "598032e482468312c778c2eddb45b24c3a174870b18e8b2e3f321db4ad4db945",
+        "cloud/d1000/judging.py": "e9f2559872810d930dafec1b36321b0203feb6633cbdb4cde774ae040c169881",
+        "cloud/d1000/metrics.py": "22f264da70001a3b42066815400f6a7920ce20e1b776dea0bd928c8a5d51bb6c",
+        "cloud/d1000/stage.py": "a787c1d00057f480f8d781c6885ec2307df1834994c27bbe0195bd3f156e6d4e",
+        "cloud/d1000/storage.py": "67ec82627cd7bac9de4766deb5aa934117f26afeb57e78705400347a8c179b65",
+        "cloud/d1000/storage_probe.py": "0a5b64580a4487a5abb3193e53032349da19a8a85571b2ab79a1e720e5fea944",
+        "cloud/d1000/train_worker.py": "153654444ed5189bd7f0dfba8bb7d003c1770b855286cd2241ba4557b2ee03ab"
+      },
+      "destination_fingerprint": "205e5ee7ab99c3f4917486d43749e5fe85f7dbc9ffb4f2042df2d7f4ec1f3863",
+      "immutable_method": "Training worker, model/data config, benchmark, rubric and912source responses unchanged; new CPU-only coordinator/transport; schema on wire; bounded validation retries without label feedback."
+    },
+    "evaluation_only": true,
+    "preservation": {
+      "source_version": 93,
+      "archive_hash_verified": true,
+      "response_count": 912,
+      "condition_counts": {
+        "ministral3b/base": 76,
+        "ministral3b/base-rag": 76,
+        "ministral3b/sft": 76,
+        "ministral3b/sft-rag": 76,
+        "qwen3b/base": 76,
+        "qwen3b/base-rag": 76,
+        "qwen3b/sft": 76,
+        "qwen3b/sft-rag": 76,
+        "smollm1b7/base": 76,
+        "smollm1b7/base-rag": 76,
+        "smollm1b7/sft": 76,
+        "smollm1b7/sft-rag": 76
+      },
+      "immutable_files": 80,
+      "immutable_manifest_sha256": "dcf1ac6708449d6aefa8dab36110adcb15a2193267c4111790c432ee3bfe3dd5",
+      "adapter_hashes_verified": {
+        "qwen3b": "3f96854635a8b74b30585dd5b17587818be71346690b7c61628c49b04c05cf24",
+        "ministral3b": "7347f3709600d50dc94efd543fa73710a0d901397da2e283c037667df09453cb",
+        "smollm1b7": "f20459860f6bc7af704fa3a34192ce80510ee2f6b6da1d3a471468f12fe9071d"
+      },
+      "secrets_accessible": true,
+      "previous_execution_complete": true
+    }
+  },
+  "inference_started_confirmed": true,
+  "completed_model_workers": [
+    "qwen3b",
+    "ministral3b",
+    "smollm1b7"
+  ],
+  "adapter_verification_note": "CPU recovery independently hashes all three full adapters against saved full receipt and COMPLETE hashes; exact hashes recorded in preservation audit.",
+  "recovery": {
+    "source": 58,
+    "code_audit": "resume_repair_v1.json",
+    "training_worker_unchanged": true,
+    "completed_workers_skipped": [
+      "qwen3b",
+      "ministral3b"
+    ],
+    "judge_directory_repair_deployed_in7": true,
+    "resumption_and_new_judge_results_confirmed": false,
+    "mounted_input": "scarletthe0116/uk-motor-d1000-models-results/58",
+    "runtime_restore_policy": "Preserve completed adapters, receipts and inference journals; skip their optimizer copies; restore only latest unfinished optimizer per phase; original v58 unchanged",
+    "restoration_confirmed": true,
+    "restored_private_version": 59,
+    "restore_audit": {
+      "source_archive_sha256": "8548bcbcd05c7584359f1744f2f963c46323026071f0abbd0cc4073852fb0cd7",
+      "original_archive_unchanged": true,
+      "optimizer_members_not_extracted": 198,
+      "completed_workers_skipped_optimizer_restore": [
+        "ministral3b",
+        "qwen3b"
+      ],
+      "latest_optimizer_steps": {
+        "smollm1b7/full": 125,
+        "smollm1b7/smoke": 2
+      }
+    },
+    "current_worker_and_judge_status_note": "Execution8 COMPLETE; terminal receipt confirms private93 readback_verified and912responses. Three model workers complete, DeepSeek documented failure. Both judges calibration blocked; zero evaluation votes. No recovery execution launched."
+  },
+  "monitor_log_side_effect": {
+    "issue": "Kaggle kernels_output saves notebook log despite file_pattern",
+    "corrected": true,
+    "unintended_local_log_copies_removed": 3,
+    "logs_read": false,
+    "replacement": "List output metadata and fetch only exact permitted aggregate JSON; empty receipts reported individually"
+  },
+  "tests_targeted_passed": 21,
+  "worker_required_reload_gates_completed": 3,
+  "results": {
+    "conditions": 16,
+    "responses": 912,
+    "judge_votes": {
+      "groq": 0,
+      "gemini": 0
+    },
+    "disagreements": 0,
+    "human_reviews_completed": 0,
+    "primary_three_vote_results": false
+  },
+  "overall_complete": false,
+  "restart_needs": "Evaluation-only supported recovery after diagnosing Groq structured output retry exhaustion and Gemini refusal-support validation. Preserve completed models and912responses; no retraining, no blind unknown request replay.",
+  "evaluation_pipeline": {
+    "execution_version": 11,
+    "mode": "evaluation-only",
+    "status": "RUNNING",
+    "cpu_only": true,
+    "private": true,
+    "code_sha256": "2af4b53b81549c605ef648fba4e334783747b8596fda8c6fe74c204eb5db8bdf",
+    "source_checkpoint": 93,
+    "groq_completed": 0,
+    "gemini_completed": 60,
+    "paired": 0,
+    "calibration": {
+      "groq": {
+        "status": "PASS",
+        "cases": 9,
+        "execution": 14
+      },
+      "gemini": {
+        "status": "PASS",
+        "cases": 9,
+        "execution": 11
+      }
+    },
+    "expected_per_provider": 912,
+    "diagnostic_execution": 9,
+    "diagnostic_passed": true,
+    "prior_execution10": "Audit guard rejected staged source before calls; corrected and retested",
+    "latest_private_checkpoint": 108,
+    "preservation": {
+      "source_version": 93,
+      "archive_hash_verified": true,
+      "response_count": 912,
+      "condition_counts": {
+        "ministral3b/base": 76,
+        "ministral3b/base-rag": 76,
+        "ministral3b/sft": 76,
+        "ministral3b/sft-rag": 76,
+        "qwen3b/base": 76,
+        "qwen3b/base-rag": 76,
+        "qwen3b/sft": 76,
+        "qwen3b/sft-rag": 76,
+        "smollm1b7/base": 76,
+        "smollm1b7/base-rag": 76,
+        "smollm1b7/sft": 76,
+        "smollm1b7/sft-rag": 76
+      },
+      "immutable_files": 80,
+      "immutable_manifest_sha256": "dcf1ac6708449d6aefa8dab36110adcb15a2193267c4111790c432ee3bfe3dd5",
+      "adapter_hashes_verified": {
+        "qwen3b": "3f96854635a8b74b30585dd5b17587818be71346690b7c61628c49b04c05cf24",
+        "ministral3b": "7347f3709600d50dc94efd543fa73710a0d901397da2e283c037667df09453cb",
+        "smollm1b7": "f20459860f6bc7af704fa3a34192ce80510ee2f6b6da1d3a471468f12fe9071d"
+      },
+      "secrets_accessible": true,
+      "previous_execution_complete": true
+    },
+    "current_runtime_blocker": "Active writer11 has old Groq wire schema; corrected Groq and richer retry transport are prepared for its safe terminal boundary",
+    "prepared_next_source_sha256": "6775c7218a67922c68a5200d947265efe000adefee425a0590733f81314f3897",
+    "prepared_next_launched": false,
+    "prepared_next_mode": "evaluation-only CPU",
+    "candidate_inference_repeated": false,
+    "training_repeated": false
+  },
+  "inherited_results_note": "The private results field is an older summary until summarise runs at terminal; live judge_counts are authoritative.",
+  "tests_recovery_and_semantic_passed": 51
+}

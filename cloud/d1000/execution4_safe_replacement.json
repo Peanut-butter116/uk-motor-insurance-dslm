@@ -1,0 +1,8 @@
+{
+  "execution": 4,
+  "session_id": 363484591,
+  "cancel_requested": true,
+  "reason": "Read-only guard replacement before model loading; Kaggle archive extraction requires opaque .bin persistence",
+  "smoke2_left_running": true,
+  "production_data_unchanged": true
+}

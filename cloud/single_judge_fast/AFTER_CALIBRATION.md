@@ -1,0 +1,15 @@
+# Original-judge continuation after failed alternative calibration
+
+On 2 November 2026 the owner requested evaluation continuation from independently verified private checkpoint412. The same private CPU Colab VM, authoritative writer lease version2 and original deadline were retained. No second writer was created.
+
+`after_calibration.resume` permits only an explicitly drained original coordinator followed by a readback-verified failed-alternative checkpoint containing zero alternative research votes. It verifies original caches/journals unchanged since suspension, the exact historical quota prefix, every third-recovery file hash against the readback archive, no provider work, original nine-case calibration receipts, model catalogues, immutable research artifacts, lease ownership and current storage head. It consumes the controlled stop marker by archiving it, preserves all clocks/flags/leases, and returns to the unchanged original `engine.coordinate`. It never enables the failed Gemini3.1 judge or resets its three-attempt calibration history.
+
+The four protected Gemini requests remain excluded across both providers. Gemini3.5 Flash-Lite resumed only other globally uncovered tasks under the unchanged rubric, strict schema and citation validators. Groq GPT-OSS-120B remains quota-blocked until2 November18:40:33UTC. The shared Gemini ledger includes the11 alternative calibration attempts; preflight had147 tracked daily slots and414 retained142. Free limits remain the original conservative5RPM/500RPD/250KTPM/125MTPD configuration. Server/shared-account remaining capacity is not independently known.
+
+Startup413 independently verified774 unique votes. Checkpoint414 independently verified779/912 (67Groq,760Gemini), five new first judgements,130 eligible remaining plus three quarantined unjudged responses. All912 saved responses, three adapters,80 immutable files, frozen benchmark, caches, reservations and raw/unknown histories are retained. Historical overlap remains48 and duplicates remain zero. The third model has zero research votes.
+
+The first verified resume interval measured approximately101.3 successful unique judgements/hour, including private publication and readback. At that pace130 eligible judgements need roughly77minutes. The unchanged deadline is15:15:57UTC and new calls stop15minutes earlier for drain/persistence, so this measured pace does not establish deadline feasibility. Full912 additionally remains blocked by three unjudged protected responses. No deadline extension or complete-evaluation claim is made. The coordinator continues eligible work until its existing safe stopping conditions.
+
+Archive414 SHA-256: `c716394349e1a6b569a7a267e575332f94c318e3e758f64e9fdebc5b67338e4f`.
+
+Validation:154 tests passed, including fail-closed transition cases for active work, changed lease/deadline, alternative research, missing private readback and wrong checkpoint ancestry. Only safe implementation/tests/aggregates are published. Raw private records and per-request quota entries remain cloud-only. The old scheduled desktop monitor remains paused.

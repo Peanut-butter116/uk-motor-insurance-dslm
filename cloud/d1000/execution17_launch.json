@@ -1,0 +1,15 @@
+{
+  "execution": 17,
+  "status_at_verification": "RUNNING",
+  "mode": "evaluation-only",
+  "source_sha256": "40a8404cb2a531278cfd84c861b8b39fefd1d1a61965a08ae552c74804c86e50",
+  "python_fingerprint": "cef364555a09a50a7ab09fc64fe6cfe4b84ce382fcbf02d16aeb122b844265d6",
+  "private": true,
+  "enable_gpu": false,
+  "machine_shape": "None",
+  "source_version": 129,
+  "prior_writer_terminal": true,
+  "purpose": "Capture privately the exact Groq research rejection; export only a fixed safe category. Same scoring/schema/transport retry bounds. Preserve valid votes and quota state.",
+  "gemini_quota_resume_epoch": 1793452709.1494133,
+  "new_votes_confirmed": false
+}

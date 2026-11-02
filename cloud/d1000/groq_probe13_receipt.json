@@ -1,0 +1,13 @@
+{
+  "purpose": "fictional schema diagnostic only",
+  "new_research_judgements": 0,
+  "results_dataset_writes": 0,
+  "status": "request_rejected",
+  "http_status": 400,
+  "error": {
+    "type": "invalid_request_error",
+    "code": null,
+    "param": "response_format",
+    "message": "invalid JSON schema for response_format: 'motor_semantic_judgement': /properties/evaluations/items/properties/citation_assessments/items/properties/support: cannot include both 'integer' and 'number'"
+  }
+}

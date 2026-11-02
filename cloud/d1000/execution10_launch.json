@@ -1,0 +1,15 @@
+{
+  "notebook": "scarletthe0116/uk-motor-d1000-train-eval",
+  "execution_version": 10,
+  "status": "ERROR",
+  "private": true,
+  "enable_gpu": false,
+  "code_sha256": "8b6f55db4d50525ad9b52afa055ba08ee2ffd04ae38e91f4139383d71e75bc5c",
+  "mode": "evaluation-only",
+  "source_checkpoint": 93,
+  "source_independently_verified": true,
+  "no_training_or_inference_dispatch": true,
+  "calibration_status": "awaiting_new_private_receipt",
+  "failure": "Unaudited evaluation code: broad dispatch replacement changed bundled stage.py; guard stopped before calls/persistence",
+  "new_judge_calls": 0
+}

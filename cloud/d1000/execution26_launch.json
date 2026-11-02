@@ -1,0 +1,20 @@
+{
+  "execution": 26,
+  "status_at_verification": "RUNNING",
+  "mode": "evaluation-only",
+  "source_sha256": "35e54432a06d06285699d8e9096cabd1bf2811693515934a092b1ea2c09d7133",
+  "unchanged_executed_source_from": 18,
+  "private": true,
+  "enable_gpu": false,
+  "source_version": 239,
+  "judge_counts_before_start": {
+    "groq": 36,
+    "gemini": 345
+  },
+  "paired_before_start": 32,
+  "prior_writer_terminal": true,
+  "owner_reported_existing_kaggle_token_replaced": true,
+  "startup_confirmed": false,
+  "gemini_unknown_outcome_guard_unchanged": true,
+  "evaluation_complete": false
+}

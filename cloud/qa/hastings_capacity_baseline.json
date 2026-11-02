@@ -1,0 +1,29 @@
+{
+  "baseline_accepted": 409,
+  "remaining_hastings_packages": 537,
+  "completed_hastings_packages": 210,
+  "hastings_package_statuses": {
+    "source_review": 126,
+    "judged": 68,
+    "failed_structured_output": 16
+  },
+  "hastings_candidates": 296,
+  "hastings_accepted": 164,
+  "historical_hastings_accepted_per_completed_package": 0.780952380952381,
+  "package_yield_additional_estimate": 419,
+  "hastings_accepted_by_teacher": {
+    "claude-sonnet-4-6": 80,
+    "openai/gpt-oss-120b": 84
+  },
+  "limitation": "Descriptive observed yield, not a forecast. Ordered overlapping pages, historical providers and stricter new exclusions limit extrapolation.",
+  "recent_free_workflow": {
+    "completed_packages": 82,
+    "source_review": 38,
+    "judged": 32,
+    "failed_structured_output": 12,
+    "candidates": 152,
+    "accepted": 84,
+    "accepted_per_completed_package": 1.024390243902439,
+    "additional_estimate_for_537": 550
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "execution": 24,
+  "status": "ERROR",
+  "startup_failure": {
+    "type": "ConnectionError",
+    "reason": "Connection error trying to communicate with service."
+  },
+  "restore_receipt_observed": false,
+  "private_checkpoint": 239,
+  "judge_counts": {
+    "groq": 36,
+    "gemini": 345
+  },
+  "paired_judgements": 32,
+  "source_sha256": "35e54432a06d06285699d8e9096cabd1bf2811693515934a092b1ea2c09d7133",
+  "secret_attachments_visibly_enabled_before_launch": true,
+  "evaluation_complete": false
+}

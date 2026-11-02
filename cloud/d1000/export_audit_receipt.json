@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "dataset": "scarletthe0116/uk-motor-qa-d1000-training",
+  "version": 1,
+  "records": 1000,
+  "verification_split": {
+    "verified": 462,
+    "unverified": 538
+  },
+  "csv_sha256": "faec491822ce60758d1705fe0f1b71621eaf8dd34f9f9b8168eca001b1acd6b3",
+  "all_export_hashes_verified": true,
+  "csv_canonical_roundtrip": true,
+  "frozen_evaluation_hashes_verified": true,
+  "raw_downloads_local": 0
+}

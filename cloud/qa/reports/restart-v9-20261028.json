@@ -1,0 +1,21 @@
+{
+  "checked_at_utc": "2026-10-28T15:23:39.966978+00:00",
+  "notebook": "scarletthe0116/uk-motor-qa-resume",
+  "execution_version": 9,
+  "state": "ERROR",
+  "restart_requested_by_owner": true,
+  "code_modified": false,
+  "source_sha256": "fc928e430e97f2f4d5e85d9f787000100e11b942d1ad57c3dd6a518e5244270d",
+  "failure_stage": "Kaggle secrets retrieval before campaign/model calls",
+  "error_type": "ConnectionError",
+  "error_message": "Connection error trying to communicate with service.",
+  "browser_editor_state": "Loading; cells unavailable",
+  "new_generation_confirmed": false,
+  "new_provider_calls": 0,
+  "dataset_version": 154,
+  "accepted": 450,
+  "dataset_private": true,
+  "progress_monitor": "PAUSED",
+  "automatic_cross_session_restart": false,
+  "next_action": "Use the existing Kaggle editor Save Version -> Save & Run All once the editor and secrets service load successfully; no repeated API retries"
+}

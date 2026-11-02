@@ -1,0 +1,110 @@
+{
+  "test_success": true,
+  "controlled_package_id": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p42",
+  "source_package_limit": 1,
+  "total_accepted": 412,
+  "target": 2000,
+  "remaining_to_target": 1588,
+  "answerability": {
+    "answerable": 338,
+    "unanswerable": 74
+  },
+  "answerability_percent": {
+    "answerable": 82.04,
+    "unanswerable": 17.96
+  },
+  "new_cloud_accepted": 3,
+  "new_cloud_answerability": {
+    "answerable": 3
+  },
+  "new_cloud_insufficiency_percent": 0.0,
+  "new_cloud_insufficiency_target_percent": [
+    20,
+    25
+  ],
+  "candidates_generated": 608,
+  "generated_accepted": 277,
+  "generated_acceptance_rate": 0.4555921052631579,
+  "generated_dispositions": {
+    "needs_review": 267,
+    "accepted": 277,
+    "rejected": 49,
+    "failed_structured_output": 15
+  },
+  "verification_reasons": {
+    "full_protected_semantic_screen_failed_or_uncertain": 41,
+    "judge_answer_supported": 82,
+    "judge_context_complete": 115,
+    "judge_label_correct": 35,
+    "judge_no_material_contradiction": 54,
+    "judge_review": 83,
+    "independent_answerability_disagrees": 46,
+    "judge_numbers_conditions_correct": 79,
+    "unsupported_or_unresolved_claim": 181,
+    "judge_reject": 49,
+    "judge_question_useful": 1,
+    "no_answer_citations": 40,
+    "judge_citations_support_claims": 54,
+    "persistent_retry_limit_exhausted": 15,
+    "missing_answer_quote": 1,
+    "near_duplicate_question": 12,
+    "full_document_extraction_incomplete": 1
+  },
+  "duplicate_removals": 12,
+  "leakage_exclusions": 41,
+  "by_insurer": {
+    "Admiral": 35,
+    "Aviva": 57,
+    "AA": 43,
+    "Hastings Direct": 167,
+    "Ageas": 29,
+    "AXA": 81
+  },
+  "last_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p42",
+  "last_checkpoint_utc": "2026-10-25T17:27:50Z",
+  "status": "paused_cloud_batch_limit",
+  "train_sha256": "cc9999596268d368a2431c833bfe365e3b8bc7f0146b5d00730f8435611d3de3",
+  "human_review_completed": 0,
+  "training_ready": false,
+  "statistics_scope": "All recorded generated candidates, including historical providers; reasons may overlap. No package completion timestamp exists in inherited state.",
+  "accepted_before": 409,
+  "accepted_delta": 3,
+  "generated_before": 608,
+  "generated_delta": 0,
+  "baseline_409_preserved": true,
+  "frozen_benchmark_unchanged": true,
+  "changed_candidate_dispositions": {
+    "accepted": 3,
+    "needs_review": 1
+  },
+  "changed_candidate_failure_reasons": {
+    "full_document_extraction_incomplete": 1
+  },
+  "changed_candidate_ids": [
+    "generated-45c49da8b3a047ba6e2859343d2a88b08bcccc0e417a42f838e40e65def83da6",
+    "generated-50f149841d5e19dfa338cd706ad83264ab15512a742e8928b86d1a6eb03bd35f",
+    "generated-7396006b04f9f0882e76f3d2b2f6523fb946eae8b5d3c70d2f173f925aaa9d51",
+    "generated-879c7e0199e85e1e56ce2c45c5c4452c117c1bb347a556dcfa78e2a92fe230f9"
+  ],
+  "completed_controlled_package": [
+    {
+      "package_id": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p42",
+      "status": "judged",
+      "candidate_count": 4,
+      "teacher_request_sha256": "03f080ce180e359f55f62a9d2d4ad3372b7d34adebe879ef9e1f7433275b58d7",
+      "accepted": 3,
+      "cost_usd": "0E-8"
+    }
+  ],
+  "only_controlled_package_processed": true,
+  "api_stop_reason": null,
+  "resume_after_epoch": 1792948593.5832946,
+  "current_accepted_ids_unique": true,
+  "accepted_decisions_match_export": true,
+  "accepted_schema_valid": true,
+  "new_acceptances_independently_verified": true,
+  "persisted_dataset_version": 9,
+  "dataset_private": true,
+  "persisted_restore_verified": true,
+  "persisted_archive_sha256": "cae9a99a112796a520d7256a7c35056e976bed2c025f2c03fd7c2fe558bfedd4"
+}

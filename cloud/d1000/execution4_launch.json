@@ -1,0 +1,9 @@
+{
+  "execution_version": 4,
+  "status": "RUNNING",
+  "private": true,
+  "gpu_enabled": true,
+  "machine_shape": "NvidiaTeslaT4",
+  "code_sha256": "6a57d435129f1c70d26f47e85bcf04e541719aa4e52301c550609c2eabdebb84",
+  "matches_saved3": true
+}

@@ -1,0 +1,6 @@
+{
+  "test_success": false,
+  "controlled_package_id": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p42",
+  "source_package_limit": 1,
+  "exception_class": "ConnectionError"
+}

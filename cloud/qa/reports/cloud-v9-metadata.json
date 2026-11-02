@@ -1,0 +1,10 @@
+{
+  "checked_at_utc": "2026-10-25T17:38:06.547477+00:00",
+  "dataset": "scarletthe0116/uk-motor-qa-production-v1",
+  "version": 9,
+  "is_private": true,
+  "generation_notebook": "scarletthe0116/uk-motor-qa-checkpoint-check",
+  "accepted": 412,
+  "controlled_package": "p42",
+  "further_generation_authorised": false
+}

@@ -1,0 +1,19 @@
+{
+  "kind": "provider_reverification",
+  "source_revision": "36a023c48dd9511f326104fbc458fd6b9033e0e3",
+  "status": "PASS",
+  "original_receipt_sha256": "5d74b7737be72587b04948afee3b01331da1c1dc8c220fc3103ff49fea46a2ea",
+  "renewed_receipt_sha256": "bb72ca37f7d5be7ff54d195741b4e578bcebed175f741c009ffbfd449c62a274",
+  "original_receipt_preserved_privately": true,
+  "live_catalogue_models_present": {"groq": true, "gemini": true},
+  "original_nine_case_calibration_verified": {"groq": true, "gemini": true},
+  "observed_free_accounts": {"groq": true, "gemini": true},
+  "quota_limits_unchanged": true,
+  "quota_ledgers_unchanged": true,
+  "requests_caches_votes_unchanged": true,
+  "seven_day_expiry_guard_retained": true,
+  "protected_gemini_unknown_outcome_retained": true,
+  "transport_component_hashes_verified": 4,
+  "judge_inference_calls_during_reverification": 0,
+  "validation_tests_passed": 122
+}
