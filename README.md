@@ -4,9 +4,9 @@
 
 Can relatively small language models answer UK motor insurance questions reliably, and how do supervised fine-tuning (SFT) and retrieval-augmented generation (RAG) affect correctness, grounding and refusal behaviour?
 
-**Latest verified evaluation snapshot: private checkpoint v427 — PARTIAL, 825/912 valid semantic judgements (90.5%).** All 912 model responses and three trained adapters are saved and verified. Of the 87 missing semantic judgements, **84 exhausted Gemini’s existing validation-attempt bound; 3 are quarantined**. Four protected transport-uncertain requests are retained, including one response already covered by a historical valid vote. No unknown request is replayed or reassigned. This is not a completed 912-response semantic evaluation.
+**Latest verified evaluation snapshot: private checkpoint v444 — PARTIAL, 833/912 valid semantic judgements (91.3%).** All 912 model responses and three trained adapters are saved and verified. Of the 79 missing semantic judgements, **76 exhausted Gemini’s existing validation-attempt bound; 3 are quarantined**. Four protected transport-uncertain requests are retained, including one response already covered by a historical valid vote. No unknown request is replayed or reassigned. This is not a completed 912-response semantic evaluation.
 
-**Private reporting checkpoint v428** independently preserves the same 825 judged responses plus the canonical tables, reporting code and 18 figure files. The figure/table provenance remains the verified evaluation snapshot 427; checkpoint 428 adds reporting artifacts, not new votes.
+**Private reporting checkpoint v445** independently preserves the same 833 judged responses plus refreshed canonical tables and figures. The figure/table provenance is verified evaluation snapshot 444; checkpoint 445 adds reporting artifacts, not new votes.
 
 The D1000 findings below supersede the October 20 interim experiment as this repository’s primary results. Historical data, protocols and evidence remain preserved under [Historical experiments](#historical-experiments).
 
@@ -42,7 +42,7 @@ The D1000 Qwen3B and Unsloth Ministral checkpoints are distinct from the separat
 
 The owner-authorised **`d1000-single-judge-fast-v1`** protocol requires one valid semantic judgement per response. Original judges: Groq `openai/gpt-oss-120b` and Gemini `gemini-3.5-flash-lite`; both passed all nine unchanged fictional calibration cases. Historical ties use Groq first; otherwise an existing valid vote is reused. Existing votes, the frozen rubric, citation validation and request journals are retained. No new paired-judgement collection or cross-judge agreement analysis is performed.
 
-There are **67 Groq and 806 Gemini saved votes**, including 48 historical overlaps. Deterministic selection uses **67 Groq + 758 Gemini = 825** responses. These are mixed-provider single-judge descriptive results, not dual-judge consensus or human-reviewed accuracy. A Gemini3.1 fallback failed calibration (8/9) and contributes **zero** research votes.
+There are **75 Groq and 806 Gemini saved votes**, including 48 historical overlaps. Deterministic selection uses **75 Groq + 758 Gemini = 833** responses. These are mixed-provider single-judge descriptive results, not dual-judge consensus or human-reviewed accuracy. A Gemini3.1 fallback failed calibration (8/9) and contributes **zero** research votes.
 
 Every accepted semantic result passes the original schema, score/null constraints, citation occurrence and verbatim-span validation. Missing scores remain missing. Deterministic refusal/citation/parse metrics use all saved responses independently of semantic API availability. Strict journal and cache identities, archive hash, 80-file preservation manifest, all 912 responses, adapters and writer lease were reverified before aggregation.
 
@@ -51,17 +51,17 @@ Every accepted semantic result passes the original schema, score/null constraint
 | Model | Condition | Correctness¹ | Judged / 76 | Balanced abstention² | Citation support³ | Citation-ID resolution | Parse⁴ | False refusal² |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
 | Qwen2.5-3B | Base | 13.2% | 76/76 | 49.3% | N/A | N/A | 25.0% | 1.5% |
-| Qwen2.5-3B | Base + RAG | 47.6% | 62/76 | 50.0% | 56.6% | 88.9% | 69.7% | 0.0% |
+| Qwen2.5-3B | Base + RAG | 46.9% | 64/76 | 50.0% | 57.2% | 88.9% | 69.7% | 0.0% |
 | Qwen2.5-3B | SFT | 20.3% | 74/76 | 50.0% | N/A | N/A | 43.4% | 0.0% |
-| Qwen2.5-3B | SFT + RAG | 43.4% | 61/76 | 58.9% | 74.5% | 92.4% | 92.1% | 4.5% |
+| Qwen2.5-3B | SFT + RAG | 45.2% | 63/76 | 58.9% | 75.4% | 92.4% | 92.1% | 4.5% |
 | Ministral-3B | Base | 18.4% | 76/76 | 45.4% | N/A | N/A | 36.8% | 31.3% |
 | Ministral-3B | Base + RAG | 58.8% | 57/76 | 60.4% | 91.4% | 81.2% | 75.0% | 1.5% |
 | Ministral-3B | SFT | 15.1% | 76/76 | 54.1% | N/A | N/A | 89.5% | 80.6% |
-| Ministral-3B | SFT + RAG | 62.9% | 66/76 | 83.7% | 90.4% | 100.0% | 96.1% | 10.4% |
-| SmolLM2-1.7B | Base | 9.5% | 74/76 | 50.0% | N/A | N/A | 15.8% | 0.0% |
+| Ministral-3B | SFT + RAG | 62.7% | 67/76 | 83.7% | 90.5% | 100.0% | 96.1% | 10.4% |
+| SmolLM2-1.7B | Base | 9.3% | 75/76 | 50.0% | N/A | N/A | 15.8% | 0.0% |
 | SmolLM2-1.7B | Base + RAG | 20.0% | 70/76 | 50.0% | N/A | 100.0% | 1.3% | 0.0% |
 | SmolLM2-1.7B | SFT | 14.7% | 75/76 | 50.0% | N/A | N/A | 9.2% | 0.0% |
-| SmolLM2-1.7B | SFT + RAG | 38.8% | 58/76 | 48.5% | 64.9% | 83.3% | 71.1% | 3.0% |
+| SmolLM2-1.7B | SFT + RAG | 40.0% | 60/76 | 48.5% | 66.7% | 83.3% | 71.1% | 3.0% |
 
 ¹ Mean rubric score (0 / 0.5 / 1), conditional on valid non-null semantic judgements; missing is not zero. See canonical table for score sums, denominators and conditional bootstrap intervals.
 ² Deterministic metrics use all 76 saved responses: 67 answerable and 9 unanswerable. Balanced abstention = ½(answerable non-refusal rate + unanswerable refusal rate).
@@ -74,11 +74,11 @@ DeepSeek’s four conditions are unavailable (N/A), excluded from the 912-respon
 ### Findings supported by this snapshot
 
 - **RAG raises observed correctness in each model family, with and without SFT** in this snapshot. Semantic coverage differs between arms; these are observed-subset comparisons, not unbiased population effects.
-- **Highest observed correctness: Ministral-3B SFT + RAG, 62.9%** (41.5 rubric score points / 66 judged questions; conditional question-bootstrap interval 52.3%–73.5%). Its balanced abstention is 83.7% across all 76 saved answers. This is an observed ranking, not a statistically established universal winner.
-- **SFT is not a uniform correctness improvement.** Qwen2.5-3B Base→SFT: 13.2%→20.3%; Qwen2.5-3B Base + RAG→SFT + RAG: 47.6%→43.4%; Ministral-3B Base→SFT: 18.4%→15.1%; SmolLM2-1.7B Base + RAG→SFT + RAG: 20.0%→38.8%. [Paired common-question sensitivity analysis](reports/d1000_final/sft_effects.json) reports matched-question deltas and intervals separately.
+- **Highest observed correctness: Ministral-3B SFT + RAG, 62.7%** (42 rubric score points / 67 judged questions; conditional question-bootstrap interval 52.2%–72.4%). Its balanced abstention is 83.7% across all 76 saved answers. This is an observed ranking, not a statistically established universal winner.
+- **SFT is not a uniform correctness improvement.** Qwen2.5-3B Base→SFT: 13.2%→20.3%; Qwen2.5-3B Base + RAG→SFT + RAG: 46.9%→45.2%; Ministral-3B Base→SFT: 18.4%→15.1%; SmolLM2-1.7B Base + RAG→SFT + RAG: 20.0%→40.0%. [Paired common-question sensitivity analysis](reports/d1000_final/sft_effects.json) reports matched-question deltas and intervals separately.
 - **Refusal sensitivity can hide over-refusal.** Ministral SFT refuses 8/9 unanswerable questions but also 54/67 answerable ones (80.6% false refusal). With RAG this becomes 7/9 appropriate refusals and 7/67 false refusals; balanced abstention is 83.7%.
-- **Citation matching is not semantic support.** Ministral SFT+RAG resolves 71/71 IDs, while its available semantic citation-support mean is 90.4% across 57 scored occurrences. SmolLM Base+RAG has only one resolving ID and zero scored support occurrences; its resolution is not a grounding-reliability finding.
-- **Lowest observed correctness: SmolLM2-1.7B Base, 9.5% (74/76 judged).** A balanced-abstention score of 50% can result from answering every question and refusing none.
+- **Citation matching is not semantic support.** Ministral SFT+RAG resolves 71/71 IDs, while its available semantic citation-support mean is 90.5% across 58 scored occurrences. SmolLM Base+RAG has only one resolving ID and zero scored support occurrences; its resolution is not a grounding-reliability finding.
+- **Lowest observed correctness: SmolLM2-1.7B Base, 9.3% (75/76 judged).** A balanced-abstention score of 50% can result from answering every question and refusing none.
 
 ## Presentation figures
 
@@ -117,13 +117,13 @@ Evaluation/training modules remain in [cloud/d1000](cloud/d1000/README.md); secu
 
 ## Limitations and remaining work
 
-This snapshot is **PARTIAL**, not fully judged or eligible-complete. 84 currently missing responses exhausted Gemini’s bounded validation attempts; 3 unjudged responses are protected by unknown outcomes. Missingness is concentrated in RAG conditions and may bias semantic comparisons. A valid judge record is not the same as factual ground truth. There is no completed human review, no multi-seed training uncertainty and no independent human/judge agreement assessment. Conditional bootstrap intervals do not account for judge disagreement or missingness and are not evidence of significant universal model differences.
+This snapshot is **PARTIAL**, not fully judged or eligible-complete. 76 currently missing responses exhausted Gemini’s bounded validation attempts; 3 unjudged responses are protected by unknown outcomes. Missingness is concentrated in RAG conditions and may bias semantic comparisons. A valid judge record is not the same as factual ground truth. There is no completed human review, no multi-seed training uncertainty and no independent human/judge agreement assessment. Conditional bootstrap intervals do not account for judge disagreement or missingness and are not evidence of significant universal model differences.
 
 D1000 mixes verified and unverified source examples, and only its eligible converted subset was used. The frozen test has 76 questions, including only 9 unanswerable items. Citation-support denominators are scored occurrences, whereas resolution uses all emitted IDs; they must not be conflated. The inherited parse metric is citation/refusal recognition rather than JSON structured-output compliance. DeepSeek’s unavailable arm remains N/A.
 
-All four unknown requests and quota reservations are preserved. Groq’s recorded quota boundary is 2 November 2026 **18:40:33UTC**; it cannot be used early. Actual prompt/token capacity and writer ownership must pass again before any continuation. Gemini’s known-invalid bounds and failed third-model calibration must not be reset merely to obtain coverage. [Current run receipt](reports/d1000_final/run_receipt.json).
+All four unknown requests and quota reservations are preserved. The original calibrated Groq continuation ran after the recorded 18:40:33UTC boundary and added **eight valid judgements**, independently persisted and read back. It then stopped on a provider error with zero active calls; the safe terminal output does not identify the exact error category. No restart or additional judge request was made during reporting. Gemini’s known-invalid bounds and failed third-model calibration remain unchanged. [Current run receipt](reports/d1000_final/run_receipt.json).
 
-The remaining-capacity audit at snapshot 427 found **19 non-quarantined tasks that fit Groq’s 8,000-token/minute reservation limit and 65 that exceed it**. Its current 6,343-token daily balance is below the smallest remaining 7,113-token reservation. All four protected errors are HTTP503 with no durable raw reply. No prompt is truncated and no attempt bound is reset to obtain coverage. [Safe capacity audit](reports/d1000_final/capacity_audit.json).
+The historical capacity audit at snapshot 427 found 19 non-quarantined tasks fitting Groq’s 8,000-token/minute reservation limit and 65 exceeding it. This is historical capacity, not a claim of currently usable work. At terminal snapshot 444, 76 non-quarantined responses remain missing and three are quarantined. The final conservative ledger is available in the coverage report; server remaining quota is not independently known. No prompt was truncated and no attempt bound reset. [Historical capacity audit](reports/d1000_final/capacity_audit.json).
 
 ## Private research assets
 
@@ -131,7 +131,7 @@ Authorised account access is required; no private records are embedded in this r
 
 - [Private D1000 training export](https://www.kaggle.com/datasets/scarletthe0116/uk-motor-qa-d1000-training/versions/1).
 - [Private frozen evaluation assets](https://www.kaggle.com/datasets/scarletthe0116/uk-motor-frozen-evaluation-v2/versions/1).
-- [Private results checkpoint 427](https://www.kaggle.com/datasets/scarletthe0116/uk-motor-d1000-models-results/versions/427).
+- [Private results checkpoint 444](https://www.kaggle.com/datasets/scarletthe0116/uk-motor-d1000-models-results/versions/444).
 - [Private CPU Colab evaluation](https://colab.research.google.com/drive/1g_rir-DPeeoZG3fAqNZxoY_JRXuRcbbD).
 - [Working research PR #2](https://github.com/Peanut-butter116/uk-motor-insurance-dslm/pull/2); no merge is implied by this reporting update.
 

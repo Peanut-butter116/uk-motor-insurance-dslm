@@ -6,7 +6,7 @@ Can relatively small language models answer UK motor insurance questions reliabl
 
 **Latest verified evaluation snapshot: private checkpoint v{{CHECKPOINT}} — {{STATUS}}, {{JUDGED}}/912 valid semantic judgements ({{COVERAGE_PERCENT}}%).** All 912 model responses and three trained adapters are saved and verified. Of the {{MISSING}} missing semantic judgements, **{{EXHAUSTED}} exhausted Gemini’s existing validation-attempt bound; {{QUARANTINED}} are quarantined**. Four protected transport-uncertain requests are retained, including one response already covered by a historical valid vote. No unknown request is replayed or reassigned. This is not a completed 912-response semantic evaluation.
 
-**Private reporting checkpoint v428** independently preserves the same 825 judged responses plus the canonical tables, reporting code and 18 figure files. The figure/table provenance remains the verified evaluation snapshot 427; checkpoint 428 adds reporting artifacts, not new votes.
+**Private reporting checkpoint v445** independently preserves the same 833 judged responses plus refreshed canonical tables and figures. The figure/table provenance is verified evaluation snapshot 444; checkpoint 445 adds reporting artifacts, not new votes.
 
 The D1000 findings below supersede the October 20 interim experiment as this repository’s primary results. Historical data, protocols and evidence remain preserved under [Historical experiments](#historical-experiments).
 
@@ -93,9 +93,9 @@ This snapshot is **PARTIAL**, not fully judged or eligible-complete. {{EXHAUSTED
 
 D1000 mixes verified and unverified source examples, and only its eligible converted subset was used. The frozen test has 76 questions, including only 9 unanswerable items. Citation-support denominators are scored occurrences, whereas resolution uses all emitted IDs; they must not be conflated. The inherited parse metric is citation/refusal recognition rather than JSON structured-output compliance. DeepSeek’s unavailable arm remains N/A.
 
-All four unknown requests and quota reservations are preserved. Groq’s recorded quota boundary is 2 November 2026 **18:40:33UTC**; it cannot be used early. Actual prompt/token capacity and writer ownership must pass again before any continuation. Gemini’s known-invalid bounds and failed third-model calibration must not be reset merely to obtain coverage. [Current run receipt](reports/d1000_final/run_receipt.json).
+All four unknown requests and quota reservations are preserved. The original calibrated Groq continuation ran after the recorded 18:40:33UTC boundary and added **eight valid judgements**, independently persisted and read back. It then stopped on a provider error with zero active calls; the safe terminal output does not identify the exact error category. No restart or additional judge request was made during reporting. Gemini’s known-invalid bounds and failed third-model calibration remain unchanged. [Current run receipt](reports/d1000_final/run_receipt.json).
 
-The remaining-capacity audit at snapshot 427 found **19 non-quarantined tasks that fit Groq’s 8,000-token/minute reservation limit and 65 that exceed it**. Its current 6,343-token daily balance is below the smallest remaining 7,113-token reservation. All four protected errors are HTTP503 with no durable raw reply. No prompt is truncated and no attempt bound is reset to obtain coverage. [Safe capacity audit](reports/d1000_final/capacity_audit.json).
+The historical capacity audit at snapshot 427 found 19 non-quarantined tasks fitting Groq’s 8,000-token/minute reservation limit and 65 exceeding it. This is historical capacity, not a claim of currently usable work. At terminal snapshot 444, 76 non-quarantined responses remain missing and three are quarantined. The final conservative ledger is available in the coverage report; server remaining quota is not independently known. No prompt was truncated and no attempt bound reset. [Historical capacity audit](reports/d1000_final/capacity_audit.json).
 
 ## Private research assets
 
@@ -103,7 +103,7 @@ Authorised account access is required; no private records are embedded in this r
 
 - [Private D1000 training export](https://www.kaggle.com/datasets/scarletthe0116/uk-motor-qa-d1000-training/versions/1).
 - [Private frozen evaluation assets](https://www.kaggle.com/datasets/scarletthe0116/uk-motor-frozen-evaluation-v2/versions/1).
-- [Private results checkpoint 427](https://www.kaggle.com/datasets/scarletthe0116/uk-motor-d1000-models-results/versions/{{CHECKPOINT}}).
+- [Private results checkpoint {{CHECKPOINT}}](https://www.kaggle.com/datasets/scarletthe0116/uk-motor-d1000-models-results/versions/{{CHECKPOINT}}).
 - [Private CPU Colab evaluation](https://colab.research.google.com/drive/1g_rir-DPeeoZG3fAqNZxoY_JRXuRcbbD).
 - [Working research PR #2](https://github.com/Peanut-butter116/uk-motor-insurance-dslm/pull/2); no merge is implied by this reporting update.
 

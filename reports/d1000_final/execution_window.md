@@ -9,3 +9,9 @@ There are84 nonquarantined missing responses. Only19 fit Groq’s verified8KTPM 
 The queued cell regenerates cloud-safe aggregates and private figures after the terminal readback and prints a checksum-bound safe export. Local GitHub reporting can then be regenerated with the three public scripts. After explicit owner approval, the reporting-only Codex follow-up `d1000-presentation-results-refresh` is active hourly at 18:45–23:45 UTC on 2 November 2026. It may refresh verified aggregates, figures, README and safe PR #2 reports, but cannot launch evaluators. It ends after the final terminal refresh or by 23:59 today. The old Kaggle monitor remains paused. The Colab continuation itself is already queued as part of the explicitly authorised research execution.
 
 Do not Run all, launch another coordinator, reset flags/quotas or replay unknown requests. If this Colab VM ends, do not infer that any in-flight request was unprocessed; audit the authoritative checkpoint and journal first.
+
+## Verified terminal outcome
+
+The authorised continuation stopped on a provider error after eight new valid Groq votes. Checkpoint444 was independently read back with833/912 unique judgements,75 Groq/806 Gemini saved votes,79 missing (76 non-quarantined,3 quarantined) and no active provider calls. The safe event does not expose the exact provider error category. No evaluator was restarted by this reporting follow-up. Four historical uncertain requests and all reservations remain protected.
+
+The subsequent private reporting checkpoint445 was independently read back; safe aggregate export SHA256 `2f3f65e6945635fe1d8c406bdd43833aa4f7c1564223e4d2bccb236338a96359` was checked before regenerating local tables, figures and README. The source evaluation snapshot is444. This remains PARTIAL, not eligible-complete. The approved reporting follow-up ends after this terminal refresh; the old monitor stays paused.

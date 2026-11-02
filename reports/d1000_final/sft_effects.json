@@ -2,7 +2,7 @@
   {
     "after": "sft",
     "before": "base",
-    "checkpoint": 427,
+    "checkpoint": 444,
     "ci_high": 0.1891891891891892,
     "ci_low": -0.02027027027027027,
     "correctness_delta": 0.08108108108108109,
@@ -15,20 +15,20 @@
   {
     "after": "sft-rag",
     "before": "base-rag",
-    "checkpoint": 427,
-    "ci_high": 0.12,
-    "ci_low": -0.13,
-    "correctness_delta": -0.01,
-    "delta_sum": -0.5,
+    "checkpoint": 444,
+    "ci_high": 0.14150943396226415,
+    "ci_low": -0.10377358490566038,
+    "correctness_delta": 0.018867924528301886,
+    "delta_sum": 1,
     "interpretation": "Common-question paired descriptive sensitivity analysis, not an extra judging protocol",
     "model": "Qwen/Qwen2.5-3B-Instruct",
     "model_key": "qwen3b",
-    "paired_scored_questions": 50
+    "paired_scored_questions": 53
   },
   {
     "after": "sft",
     "before": "base",
-    "checkpoint": 427,
+    "checkpoint": 444,
     "ci_high": 0.03289473684210526,
     "ci_low": -0.10526315789473684,
     "correctness_delta": -0.03289473684210526,
@@ -41,20 +41,20 @@
   {
     "after": "sft-rag",
     "before": "base-rag",
-    "checkpoint": 427,
-    "ci_high": 0.21,
-    "ci_low": -0.07,
-    "correctness_delta": 0.07,
+    "checkpoint": 444,
+    "ci_high": 0.19607843137254902,
+    "ci_low": -0.06862745098039216,
+    "correctness_delta": 0.06862745098039216,
     "delta_sum": 3.5,
     "interpretation": "Common-question paired descriptive sensitivity analysis, not an extra judging protocol",
     "model": "unsloth/Ministral-3-3B-Instruct-2512-bnb-4bit",
     "model_key": "ministral3b",
-    "paired_scored_questions": 50
+    "paired_scored_questions": 51
   },
   {
     "after": "sft",
     "before": "base",
-    "checkpoint": 427,
+    "checkpoint": 444,
     "ci_high": null,
     "ci_low": null,
     "correctness_delta": null,
@@ -67,7 +67,7 @@
   {
     "after": "sft-rag",
     "before": "base-rag",
-    "checkpoint": 427,
+    "checkpoint": 444,
     "ci_high": null,
     "ci_low": null,
     "correctness_delta": null,
@@ -80,27 +80,27 @@
   {
     "after": "sft",
     "before": "base",
-    "checkpoint": 427,
-    "ci_high": 0.13013698630136986,
-    "ci_low": -0.02054794520547945,
-    "correctness_delta": 0.0547945205479452,
+    "checkpoint": 444,
+    "ci_high": 0.13513513513513514,
+    "ci_low": -0.02027027027027027,
+    "correctness_delta": 0.05405405405405406,
     "delta_sum": 4,
     "interpretation": "Common-question paired descriptive sensitivity analysis, not an extra judging protocol",
     "model": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
     "model_key": "smollm1b7",
-    "paired_scored_questions": 73
+    "paired_scored_questions": 74
   },
   {
     "after": "sft-rag",
     "before": "base-rag",
-    "checkpoint": 427,
-    "ci_high": 0.3269230769230769,
-    "ci_low": 0.028846153846153848,
-    "correctness_delta": 0.18269230769230768,
-    "delta_sum": 9.5,
+    "checkpoint": 444,
+    "ci_high": 0.3333333333333333,
+    "ci_low": 0.037037037037037035,
+    "correctness_delta": 0.18518518518518517,
+    "delta_sum": 10,
     "interpretation": "Common-question paired descriptive sensitivity analysis, not an extra judging protocol",
     "model": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
     "model_key": "smollm1b7",
-    "paired_scored_questions": 52
+    "paired_scored_questions": 54
   }
 ]

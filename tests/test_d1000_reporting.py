@@ -23,8 +23,10 @@ def test_missing_semantic_scores_are_not_zero_and_denominator_is_observed():
     assert mean_parts([None])==(None,0,0)
     p=builder.validate(payload())
     q=next(r for r in p['comparison'] if r['model_key']=='qwen3b' and r['condition']=='base-rag')
-    assert q['correctness']==29.5/62 and q['correctness']!=29.5/76
-    assert q['benchmark_questions']==76 and q['missing']==14
+    assert q['correctness']==pytest.approx(q['correctness_numerator']/q['correctness_denominator'])
+    assert q['correctness']!=q['correctness_numerator']/76
+    assert q['benchmark_questions']==76 and q['missing']==76-q['judged']
+    assert q['correctness_denominator']==q['judged']<76
 
 
 def test_absent_support_is_na_even_when_one_citation_resolves():

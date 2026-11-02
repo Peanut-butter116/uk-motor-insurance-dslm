@@ -2,16 +2,16 @@
   "active_coordinators": 0,
   "active_judge_calls": 0,
   "answerable": 67,
-  "archive_sha256": "b52f16e158a48a5a4c34fa02097d560bd41e9afb5bfd5e9e51e3f2f1b17bff4d",
+  "archive_sha256": "695f0d60d64c94ac606ad473132184111e241465be17dc811a134b970a81fe42",
   "benchmark_questions": 76,
   "calibration": {
     "gemini": "PASS9/9",
     "gemini31": "FAIL8/9; zero research votes",
     "groq": "PASS9/9"
   },
-  "checkpoint": 427,
+  "checkpoint": 444,
   "completed_adapters": 3,
-  "eligible_remaining": 84,
+  "eligible_remaining": 76,
   "immutable_files": 80,
   "immutable_manifest_sha256": "0599bd70dd2e4afc425ddacd1ca5bb1ad387da00eb62c8ba311e9fa42143c4d4",
   "limitations": [
@@ -25,7 +25,7 @@
   "protocol": "d1000-single-judge-fast-v1",
   "provider_votes": {
     "gemini": 806,
-    "groq": 67
+    "groq": 75
   },
   "quarantined_unjudged": 3,
   "quota_audit": {
@@ -44,7 +44,7 @@
       },
       "server_remaining_not_independently_known": true,
       "twenty_hour_request_slots_upper_bound": 568,
-      "twenty_hour_token_budget": 123025399,
+      "twenty_hour_token_budget": 125000000,
       "verified_limits": {
         "rpd": 500,
         "rpm": 5,
@@ -55,19 +55,19 @@
     "groq": {
       "blocked_until_epoch": 0,
       "documented_calendar_reset_epoch": null,
-      "historical_mean_actual_tokens": 3081.774480712166,
-      "next_daily_entry_expiry": 1793644833.557822,
+      "historical_mean_actual_tokens": 3177.1676136363635,
+      "next_daily_entry_expiry": 1793647059.7123823,
       "next_minute_entry_expiry": null,
       "quota_policy": "existing conservative rolling60s/24h; reservations unchanged",
       "remaining_conservative_ledger": {
-        "rpd": 950,
+        "rpd": 959,
         "rpm": 30,
-        "tpd": 6343,
+        "tpd": 24995,
         "tpm": 8000
       },
       "server_remaining_not_independently_known": true,
-      "twenty_hour_request_slots_upper_bound": 1000,
-      "twenty_hour_token_budget": 200000,
+      "twenty_hour_request_slots_upper_bound": 985,
+      "twenty_hour_token_budget": 120195,
       "verified_limits": {
         "rpd": 1000,
         "rpm": 30,
@@ -76,16 +76,16 @@
       }
     }
   },
-  "remaining": 87,
+  "remaining": 79,
   "remaining_gemini_terminal_states": {
-    "known_invalid": 84,
-    "known_invalid_attempt_bound_exhausted": 84
+    "known_invalid": 76,
+    "known_invalid_attempt_bound_exhausted": 76
   },
   "reporting_source_sha256": "250ff04c0c3b9d803524dc05ecee71fd6fbf4b9f5bd21de7598313a7d05a597e",
   "responses": 912,
   "selected_provider_counts": {
     "gemini": 758,
-    "groq": 67
+    "groq": 75
   },
   "source_quality": {
     "source_records": 1000,
@@ -106,7 +106,7 @@
     "smoke_steps": 2
   },
   "unanswerable": 9,
-  "unique_judged": 825,
-  "verified_epoch": 1793632892.7180505,
+  "unique_judged": 833,
+  "verified_epoch": 1793646714.7453132,
   "writer_lease_version": 2
 }

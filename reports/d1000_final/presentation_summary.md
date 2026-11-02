@@ -1,6 +1,6 @@
 # Slide-ready D1000 summary — 3 November 2026
 
-**Status: PARTIAL, provisional.** Verified checkpoint v427: 825/912 judged; 87 missing, including 3 quarantined unjudged responses. No full-coverage claim.
+**Status: PARTIAL, provisional.** Verified checkpoint v444: 833/912 judged; 79 missing, including 3 quarantined unjudged responses. No full-coverage claim.
 
 **Research question:** Can relatively small language models reliably answer UK motor insurance questions, and what benefits do SFT and RAG provide?
 
@@ -9,11 +9,11 @@
 ### Findings supported by this snapshot
 
 - **RAG raises observed correctness in each model family, with and without SFT** in this snapshot. Semantic coverage differs between arms; these are observed-subset comparisons, not unbiased population effects.
-- **Highest observed correctness: Ministral-3B SFT + RAG, 62.9%** (41.5 rubric score points / 66 judged questions; conditional question-bootstrap interval 52.3%–73.5%). Its balanced abstention is 83.7% across all 76 saved answers. This is an observed ranking, not a statistically established universal winner.
-- **SFT is not a uniform correctness improvement.** Qwen2.5-3B Base→SFT: 13.2%→20.3%; Qwen2.5-3B Base + RAG→SFT + RAG: 47.6%→43.4%; Ministral-3B Base→SFT: 18.4%→15.1%; SmolLM2-1.7B Base + RAG→SFT + RAG: 20.0%→38.8%. [Paired common-question sensitivity analysis](reports/d1000_final/sft_effects.json) reports matched-question deltas and intervals separately.
+- **Highest observed correctness: Ministral-3B SFT + RAG, 62.7%** (42 rubric score points / 67 judged questions; conditional question-bootstrap interval 52.2%–72.4%). Its balanced abstention is 83.7% across all 76 saved answers. This is an observed ranking, not a statistically established universal winner.
+- **SFT is not a uniform correctness improvement.** Qwen2.5-3B Base→SFT: 13.2%→20.3%; Qwen2.5-3B Base + RAG→SFT + RAG: 46.9%→45.2%; Ministral-3B Base→SFT: 18.4%→15.1%; SmolLM2-1.7B Base + RAG→SFT + RAG: 20.0%→40.0%. [Paired common-question sensitivity analysis](reports/d1000_final/sft_effects.json) reports matched-question deltas and intervals separately.
 - **Refusal sensitivity can hide over-refusal.** Ministral SFT refuses 8/9 unanswerable questions but also 54/67 answerable ones (80.6% false refusal). With RAG this becomes 7/9 appropriate refusals and 7/67 false refusals; balanced abstention is 83.7%.
-- **Citation matching is not semantic support.** Ministral SFT+RAG resolves 71/71 IDs, while its available semantic citation-support mean is 90.4% across 57 scored occurrences. SmolLM Base+RAG has only one resolving ID and zero scored support occurrences; its resolution is not a grounding-reliability finding.
-- **Lowest observed correctness: SmolLM2-1.7B Base, 9.5% (74/76 judged).** A balanced-abstention score of 50% can result from answering every question and refusing none.
+- **Citation matching is not semantic support.** Ministral SFT+RAG resolves 71/71 IDs, while its available semantic citation-support mean is 90.5% across 58 scored occurrences. SmolLM Base+RAG has only one resolving ID and zero scored support occurrences; its resolution is not a grounding-reliability finding.
+- **Lowest observed correctness: SmolLM2-1.7B Base, 9.3% (75/76 judged).** A balanced-abstention score of 50% can result from answering every question and refusing none.
 
 **Limitations:** Mixed-provider judging; unequal, potentially nonrandom semantic missingness; no completed human review; mixed-quality source examples; a small benchmark with only nine unanswerable items; one fixed training run; unavailable DeepSeek arm. Conditional bootstrap intervals do not capture judge error, training variation or missing-data bias. Four historical unknown requests remain protected.
 
