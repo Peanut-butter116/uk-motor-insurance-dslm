@@ -27,18 +27,18 @@ def validate_suspension(state,control,proof,version,now):
     clock(control,now,proof['unique_judged'])
 
 
-def restore(runtime_scope,transport_scope,archive_audit,*,private_colab_transfer_approved=False):
+def restore(runtime_scope,transport_scope,archive_audit,*,private_colab_transfer_approved=False,old_idle_runtime_ended=False):
     if not private_colab_transfer_approved:raise PermissionError('Existing project approval required before private processing')
     if not Path('/content').is_dir() or os.environ.get('COLAB_GPU') not in (None,'','0'):
         raise RuntimeError('Private Colab CPU runtime required')
     if Path('/kaggle/working/d1000-authoritative-writer.lock').exists() or Path('/kaggle/working/d1000').exists():
         raise RuntimeError('Use a fresh VM; do not replace an existing writer or restored state')
     from google.colab import userdata
-    from kaggle import api
     for name in ('KAGGLE_API_TOKEN','GROQ_API_KEY','GEMINI_API_KEY'):
         value=userdata.get(name)
         if not isinstance(value,str) or not value:raise RuntimeError('Approved Colab secret unavailable')
         os.environ[name]=value;del value
+    from kaggle import api
     self=runtime_scope['ColabRecovery']()
     Path('/kaggle/working').mkdir(parents=True,exist_ok=True)
     self.log=Path('/kaggle/working/fast-resume-private.log');self.log.touch(mode=0o600);self.log.chmod(0o600)
@@ -76,7 +76,13 @@ def restore(runtime_scope,transport_scope,archive_audit,*,private_colab_transfer
         if preservation['immutable_manifest_sha256']!=audit['immutable_manifest_sha256']:raise RuntimeError('Frozen data changed')
         root=evaluation.ROOT;folder=root/'single_judge_fast_v1'
         control=json.loads((folder/'protocol.json').read_text());proof=json.loads((folder/'suspension.json').read_text())
-        validate_suspension(state,control,proof,version,time.time())
+        if old_idle_runtime_ended:
+            from cloud.single_judge_fast.idle_loss import validate
+            reconciliation=validate(state,control,proof,version,time.time(),old_runtime_ended=old_idle_runtime_ended)
+            control={**control,'phase':'idle_loss_reconciled','idle_loss_reconciliation':reconciliation}
+            self.receipt['idle_loss_reconciliation']=reconciliation
+        else:
+            validate_suspension(state,control,proof,version,time.time())
         self.state=state;self.preservation=preservation;self.receipt['preservation']=preservation
         # Audit the previously renewed receipt against its preserved original,
         # never silently rewrite verification dates during a runtime restart.
@@ -95,6 +101,9 @@ def restore(runtime_scope,transport_scope,archive_audit,*,private_colab_transfer
         fd=os.open('/kaggle/working/d1000-authoritative-writer.lock',os.O_CREAT|os.O_EXCL|os.O_WRONLY,0o600);os.close(fd)
         self.ready=True;self.started=True;self.fast_handoff={'old_workers_drained':True,'source_checkpoint':version,'prior_suspended_lease':proof['lease_version']}
         self.fast_resume_control=control;self.fast_archive_audit=archive_audit
+        if old_idle_runtime_ended:
+            destination=root/'recovery_audits/idle_loss_reconciliation.json'
+            destination.write_text(json.dumps(reconciliation,sort_keys=True,indent=2));destination.chmod(0o600)
         original=evaluation.checkpoint
         def guarded_checkpoint(value):
             lease_now=info(api,lease)

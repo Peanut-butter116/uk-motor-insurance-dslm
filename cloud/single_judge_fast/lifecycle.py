@@ -15,7 +15,15 @@ from cloud.single_judge_fast.protocol import PROTOCOL,MODELS,select,load_validat
 
 def clock(prior,now,coverage):
     if prior is None:return now,now+20*3600,coverage
-    if prior.get('protocol')!=PROTOCOL or prior.get('phase')!='suspended':raise RuntimeError('Verified suspended protocol required')
+    if prior.get('protocol')!=PROTOCOL:raise RuntimeError('Verified suspended protocol required')
+    if prior.get('phase')=='idle_loss_reconciled':
+        from cloud.single_judge_fast.idle_loss import ENGINE_SHA
+        proof=prior.get('idle_loss_reconciliation',{})
+        if (proof.get('method')!='reviewed_idle_loss_v1' or proof.get('old_runtime_ended') is not True
+            or proof.get('no_post_checkpoint_requests_possible') is not True
+            or proof.get('engine_sha256')!=ENGINE_SHA or proof.get('original_deadline_epoch')!=prior.get('deadline_epoch')):
+            raise RuntimeError('Idle-loss reconciliation evidence required')
+    elif prior.get('phase')!='suspended':raise RuntimeError('Verified suspended protocol required')
     start=prior['launch_epoch'];end=prior['deadline_epoch']
     if abs(end-start-72000)>.001:raise RuntimeError('Original deadline changed')
     if now>=end-900:raise RuntimeError('Insufficient time before original deadline')

@@ -1,16 +1,16 @@
 {
   "protocol": "d1000-single-judge-fast-v1",
-  "unique_judged": 480,
-  "remaining": 432,
+  "unique_judged": 585,
+  "remaining": 327,
   "provider_votes": {
     "groq": 67,
-    "gemini": 461
+    "gemini": 566
   },
-  "new_unique_since_launch": 131,
-  "successful_judgements_per_hour": 38.143253728978145,
-  "estimated_hours_remaining": 11.325724938661997,
+  "new_unique_since_launch": 236,
+  "successful_judgements_per_hour": 15.75873578640083,
+  "estimated_hours_remaining": 20.75039549061976,
   "eta_interpretation": "Measured successful unique throughput plus projected calendar quota wait; errors, repairs and runtime availability may worsen this estimate",
-  "elapsed_hours": 3.4344212198257447,
+  "elapsed_hours": 14.97582059873475,
   "launch_epoch": 1793560557.1127477,
   "deadline_epoch": 1793632557.1127477,
   "provider_status": {
@@ -19,13 +19,13 @@
       "resume_after_epoch": 1793644833.557822
     },
     "gemini": {
-      "status": "quota_wait",
-      "resume_after_epoch": 1793572864.2813096
+      "status": "running",
+      "completed_votes": 566
     }
   },
   "unresolved_requests": {
     "groq": 0,
-    "gemini": 2
+    "gemini": 3
   },
   "quota_constraints": {
     "groq": {
@@ -60,33 +60,33 @@
       },
       "remaining_conservative_ledger": {
         "rpm": 5,
-        "rpd": 369,
+        "rpd": 490,
         "tpm": 250000,
-        "tpd": 124613173
+        "tpd": 123804669
       },
       "blocked_until_epoch": 1793452709.1494133,
       "next_minute_entry_expiry": null,
       "next_daily_entry_expiry": 1793647059.7022424,
-      "twenty_hour_request_slots_upper_bound": 869,
-      "twenty_hour_token_budget": 124613173,
-      "historical_mean_actual_tokens": 5451.367745535715,
+      "twenty_hour_request_slots_upper_bound": 490,
+      "twenty_hour_token_budget": 123804669,
+      "historical_mean_actual_tokens": 5370.976069246436,
       "server_remaining_not_independently_known": true,
-      "documented_calendar_reset_epoch": 1793606400,
+      "documented_calendar_reset_epoch": 1793692800,
       "quota_policy": "Gemini RPD midnight Pacific; RPM/TPM rolling60s and TPD rolling24h; all entries retained"
     }
   },
   "active_provider_calls": 0,
   "selected_provider_counts": {
     "groq": 67,
-    "gemini": 413
+    "gemini": 518
   },
   "event": "single_judge_private_checkpoint_readback",
-  "checkpoint": 297,
+  "checkpoint": 371,
   "private": true,
   "readback_verified": true,
-  "archive_sha256": "23413362ded5001de5b22cdb2d32a9bc4a57f40b7c56e717537309db8ebb9596",
+  "archive_sha256": "112cde02f3328641f16d396c1556d5afd46cdd47e76c0abd1c635ef6a765d883",
   "persisted_judge_counts": {
     "groq": 67,
-    "gemini": 461
+    "gemini": 566
   }
 }

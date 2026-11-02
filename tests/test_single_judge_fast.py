@@ -241,3 +241,68 @@ def test_final_report_rejects_incomplete_checkpoint_evidence_before_reading(tmp_
     state={'last_persistence':{'version':300,'private':True,'readback_verified':True}}
     with pytest.raises(RuntimeError,match='did not finish'):report(tmp_path,{'status':'running'},state)
     with pytest.raises(RuntimeError,match='not verified'):report(tmp_path,{'status':'COMPLETE','checkpoint':299},state)
+
+
+def idle_loss_fixture():
+    from cloud.single_judge_fast.idle_loss import ENGINE_SHA,PROTOCOL_SHA
+    control={'protocol':'d1000-single-judge-fast-v1','launch_epoch':1000,'deadline_epoch':73000,'baseline_unique':349,
+             'same_lease_version':1,'source_hashes':{'engine.py':ENGINE_SHA,'protocol.py':PROTOCOL_SHA}}
+    progress={'active_provider_calls':0,'launch_epoch':1000,'deadline_epoch':73000,'unique_judged':579,
+              'provider_status':{'groq':{'status':'quota_wait','resume_after_epoch':80000},
+              'gemini':{'status':'blocked','category':'transport_uncertain_provider_stopped'}}}
+    state={'status':'single_judge_partial','last_persistence':{'version':369,'private':True,'readback_verified':True},
+           'single_judge_fast':{**control,'progress':progress}}
+    prior={'lease_version':1,'lease_owner_sha256':'fictional-owner-hash','launch_epoch':1000,'deadline_epoch':73000}
+    return state,control,prior
+
+
+def test_idle_vm_loss_requires_impossible_future_calls_and_retired_vm():
+    import copy,pytest
+    from cloud.single_judge_fast.idle_loss import validate
+    from cloud.single_judge_fast.lifecycle import clock
+    state,control,prior=idle_loss_fixture();before=copy.deepcopy((state,control,prior))
+    with pytest.raises(RuntimeError,match='termination'):validate(state,control,prior,369,40000)
+    result=validate(state,control,prior,369,40000,old_runtime_ended=True)
+    assert result['no_post_checkpoint_requests_possible'] and result['source_checkpoint']==369
+    assert (state,control,prior)==before
+    assert clock({**control,'phase':'idle_loss_reconciled','idle_loss_reconciliation':result},40000,579)==(1000,73000,349)
+    with pytest.raises(RuntimeError,match='evidence'):clock({**control,'phase':'idle_loss_reconciled'},40000,579)
+
+
+def test_idle_vm_loss_rejects_any_possible_unsaved_request():
+    import copy,pytest
+    from cloud.single_judge_fast.idle_loss import validate
+    original,control,prior=idle_loss_fixture()
+    changes=[lambda s:s['single_judge_fast']['progress'].update(active_provider_calls=1),
+      lambda s:s['single_judge_fast']['progress']['provider_status']['groq'].update(resume_after_epoch=50000),
+      lambda s:s['single_judge_fast']['progress']['provider_status']['gemini'].update(status='running'),
+      lambda s:s['single_judge_fast']['progress']['provider_status']['gemini'].update(status='quota_wait',resume_after_epoch=50000),
+      lambda s:s['last_persistence'].update(readback_verified=False)]
+    for change in changes:
+        state=copy.deepcopy(original);change(state)
+        with pytest.raises(RuntimeError):validate(state,control,prior,369,40000,old_runtime_ended=True)
+    with pytest.raises(RuntimeError,match='not been reviewed'):
+        validate(original,{**control,'source_hashes':{'engine.py':'different'}},prior,369,40000,old_runtime_ended=True)
+    with pytest.raises(RuntimeError,match='lease ownership'):
+        validate(original,control,{**prior,'lease_version':2},369,40000,old_runtime_ended=True)
+    with pytest.raises(RuntimeError,match='Insufficient time'):
+        validate(original,control,prior,369,72900,old_runtime_ended=True)
+
+
+def test_fresh_restore_configures_colab_secrets_before_autoauth_sdk_import(monkeypatch):
+    import builtins,os,types,pytest
+    from pathlib import Path
+    from cloud.single_judge_fast.resume import restore
+    original_import=builtins.__import__;original_is_dir=Path.is_dir;original_exists=Path.exists
+    monkeypatch.setattr(Path,'is_dir',lambda p:True if str(p)=='/content' else original_is_dir(p))
+    monkeypatch.setattr(Path,'exists',lambda p:False if str(p).startswith('/kaggle/working/d1000') else original_exists(p))
+    for name in ('KAGGLE_API_TOKEN','GROQ_API_KEY','GEMINI_API_KEY'):monkeypatch.delenv(name,raising=False)
+    class ImportReached(Exception):pass
+    def guarded_import(name,*args,**kwargs):
+        if name=='google.colab':return types.SimpleNamespace(userdata=types.SimpleNamespace(get=lambda label:'fictional'))
+        if name=='kaggle':
+            assert all(os.environ.get(key)=='fictional' for key in ('KAGGLE_API_TOKEN','GROQ_API_KEY','GEMINI_API_KEY'))
+            raise ImportReached()
+        return original_import(name,*args,**kwargs)
+    monkeypatch.setattr(builtins,'__import__',guarded_import)
+    with pytest.raises(ImportReached):restore({}, {}, None,private_colab_transfer_approved=True)
