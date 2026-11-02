@@ -1,7 +1,8 @@
 {
   "active_judge_calls": 0,
   "active_original_coordinators": 0,
-  "automatic_refresh_status": "REJECTED_BY_AUTOMATIC_APPROVAL_REVIEW; separate explicit owner approval required",
+  "automatic_refresh_id": "d1000-presentation-results-refresh",
+  "automatic_refresh_status": "ACTIVE; explicit owner approval; reporting only, 2 November 2026 18:45\u201323:45 UTC",
   "durable_raw_replies_for_protected_requests": 0,
   "evaluation_archive_sha256": "b52f16e158a48a5a4c34fa02097d560bd41e9afb5bfd5e9e51e3f2f1b17bff4d",
   "evaluation_source_checkpoint": 427,
