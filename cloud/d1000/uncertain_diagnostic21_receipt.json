@@ -1,0 +1,20 @@
+{
+  "kind": "uncertain_outcome_read_only",
+  "source_version": 239,
+  "source_archive_sha256": "aa9e5eba75d908c13da03c0c64ce47c55794e9aaeb74d16a25312fd90f86a604",
+  "source_judge_counts": {
+    "groq": 36,
+    "gemini": 345
+  },
+  "new_judge_calls": 0,
+  "results_dataset_writes": 0,
+  "providers": {
+    "groq": {},
+    "gemini": {
+      "uncertain_tasks": 1,
+      "status_transport_uncertain": 1,
+      "durable_raw_absent": 1,
+      "http503_category": 1
+    }
+  }
+}

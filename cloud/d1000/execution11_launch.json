@@ -1,0 +1,13 @@
+{
+  "notebook": "scarletthe0116/uk-motor-d1000-train-eval",
+  "execution_version": 11,
+  "status": "RUNNING",
+  "private": true,
+  "enable_gpu": false,
+  "code_sha256": "2af4b53b81549c605ef648fba4e334783747b8596fda8c6fe74c204eb5db8bdf",
+  "mode": "evaluation-only",
+  "source_checkpoint": 93,
+  "source_independently_verified": true,
+  "no_training_or_inference_dispatch": true,
+  "calibration_status": "awaiting_new_private_receipt"
+}

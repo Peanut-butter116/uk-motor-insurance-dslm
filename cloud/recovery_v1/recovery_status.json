@@ -1,0 +1,81 @@
+{
+  "status": "SUPERSEDED_BY_SINGLE_JUDGE_FAST_ACTIVE",
+  "root_cause": {
+    "secrets_http_status": 400,
+    "affected_labels": [
+      "KAGGLE_API_TOKEN",
+      "GROQ_API_KEY",
+      "GEMINI_API_KEY"
+    ],
+    "precise_400_cause_identified": false,
+    "http_error_wrapped_as_connection_error": true
+  },
+  "plan_a": {
+    "status": "BLOCKED",
+    "native_token_file_available": true,
+    "authentication_completed": true,
+    "private_results_metadata_readable": true,
+    "runtime_kaggle_version": "2.0.2",
+    "progress_download": "TypeError; SDK interface compatibility not verified",
+    "private_archive_restore": "not verified in new runtime",
+    "scratch_private_write_readback": "not reached",
+    "groq_credentials": "last retrieval HTTP400 in28",
+    "gemini_credentials": "last retrieval HTTP400 in28"
+  },
+  "plan_b": {
+    "status": "PREFLIGHT_PASS",
+    "notebook": "https://colab.research.google.com/drive/1g_rir-DPeeoZG3fAqNZxoY_JRXuRcbbD",
+    "credentials_configured": true,
+    "private_destination_approval_confirmed": true,
+    "private_data_transfer_started": true,
+    "checkpoint_access_verified": true,
+    "persistent_storage_tested": true,
+    "authoritative_storage": "original private Kaggle Dataset",
+    "automatic_retry": false,
+    "recovery_revision": "36a023c48dd9511f326104fbc458fd6b9033e0e3",
+    "scratch_private_readback": true,
+    "single_writer_lease_version": 1
+  },
+  "evaluation": {
+    "active_execution_url": "https://colab.research.google.com/drive/1g_rir-DPeeoZG3fAqNZxoY_JRXuRcbbD",
+    "active_coordinators": 1,
+    "latest_private_checkpoint": 260,
+    "groq": 58,
+    "gemini": 394,
+    "paired": 48,
+    "responses": 912,
+    "adapters": 3,
+    "production_dataset_writes": 4,
+    "gemini_uncertain_request_replayed": false,
+    "new_successful_judgements_readback_verified": true,
+    "new_successful_judgements_persisted": 3,
+    "live_groq_at_checkpoint_progress_write": 40,
+    "persisted_duplicate_votes": {
+      "groq": 0,
+      "gemini": 0
+    },
+    "archive_sha256": "55941235c9b63cb4c7b6592c7cb71984e97c9e8753089cf734ff738c584ac34f",
+    "groq_status": "quota_wait",
+    "groq_observed_resume_after_epoch": 1793558803.1988807,
+    "gemini_status": "blocked",
+    "unique_judged": 404,
+    "remaining_first_judgements": 508,
+    "full_dual_judge_target_superseded": true
+  },
+  "tests": {
+    "targeted_passed": 122,
+    "cloud_end_to_end": "PASS: restoration, secrets, scratch, lease, new successful Groq votes persisted and independently read back"
+  },
+  "launcher_failures": {
+    "executions": [
+      29,
+      30
+    ],
+    "reason": "No kernel name found in notebook and no override provided",
+    "research_code_executed": false,
+    "corrected_execution": 31
+  },
+  "scheduled_monitor": "PAUSED",
+  "current_protocol": "d1000-single-judge-fast-v1",
+  "current_report": "cloud/single_judge_fast/EXECUTION_REPORT.md"
+}

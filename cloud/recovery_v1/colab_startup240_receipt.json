@@ -1,0 +1,21 @@
+{
+  "kind": "colab_startup_checkpoint",
+  "checkpoint": 240,
+  "private": true,
+  "readback_verified": true,
+  "archive_sha256": "bc8f62be6087006f2f59326e515ead28063c08fb90f73c5e5773a3e6c1385661",
+  "judge_counts": {
+    "groq": 36,
+    "gemini": 345
+  },
+  "paired": 32,
+  "duplicate_votes": {
+    "groq": 0,
+    "gemini": 0
+  },
+  "responses_preserved": 912,
+  "persisted_vote_journals_audited": true,
+  "source239_preserved": true,
+  "same_writer_lease_version": 1,
+  "new_successful_judgements_established": false
+}

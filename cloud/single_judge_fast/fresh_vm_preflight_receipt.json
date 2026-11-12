@@ -1,0 +1,43 @@
+{
+  "event": "fresh_vm_recovery_preflight_verified",
+  "source_checkpoint": 369,
+  "archive_sha256": "16febdce163044d40ecb2104f403b0413a065a6939da221df03470c59873c64a",
+  "responses_verified": 912,
+  "adapters_verified": 3,
+  "immutable_files_verified": 80,
+  "scratch_private_readback": true,
+  "lease_version": 2,
+  "unique_judged": 579,
+  "provider_votes": {
+    "groq": 67,
+    "gemini": 560
+  },
+  "unknown_requests": [
+    {
+      "provider": "gemini",
+      "status": "transport_uncertain",
+      "safe_error_category": "http_503",
+      "durable_raw_present": false,
+      "validated_cache_present": false
+    },
+    {
+      "provider": "gemini",
+      "status": "transport_uncertain",
+      "safe_error_category": "http_503",
+      "durable_raw_present": false,
+      "validated_cache_present": false
+    },
+    {
+      "provider": "gemini",
+      "status": "transport_uncertain",
+      "safe_error_category": "http_503",
+      "durable_raw_present": false,
+      "validated_cache_present": false
+    }
+  ],
+  "quarantined_unjudged": 2,
+  "eligible_remaining": 331,
+  "original_deadline_epoch": 1793632557.1127477,
+  "idle_loss_reconciled": true,
+  "judge_calls": 0
+}

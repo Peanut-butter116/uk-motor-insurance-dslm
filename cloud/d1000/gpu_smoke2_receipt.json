@@ -1,0 +1,67 @@
+{
+  "status": "smoke_finished",
+  "gpus": [
+    {
+      "index": 0,
+      "name": "Tesla T4",
+      "total_memory": 15636037632
+    },
+    {
+      "index": 1,
+      "name": "Tesla T4",
+      "total_memory": 15636037632
+    }
+  ],
+  "models": {
+    "qwen3b": {
+      "status": "smoke_passed",
+      "gpu": 0,
+      "exit_code": 0,
+      "metrics": {
+        "loss": 0.8764175772666931,
+        "seconds": 1570.2367143689999,
+        "samples_per_second": 0.014,
+        "peak_gpu_bytes": 7168736256,
+        "steps": 2
+      }
+    },
+    "ministral3b": {
+      "status": "smoke_passed",
+      "gpu": 1,
+      "exit_code": 0,
+      "metrics": {
+        "loss": 0.7540242075920105,
+        "seconds": 1823.849106981,
+        "samples_per_second": 0.012,
+        "peak_gpu_bytes": 9259468800,
+        "steps": 2
+      }
+    },
+    "smollm1b7": {
+      "status": "smoke_passed",
+      "gpu": 0,
+      "exit_code": 0,
+      "metrics": {
+        "loss": 0.8682875335216522,
+        "seconds": 1056.445613035,
+        "samples_per_second": 0.021,
+        "peak_gpu_bytes": 3584092160,
+        "steps": 2
+      }
+    }
+  },
+  "full_training_started": false,
+  "model_calls": 0,
+  "conversion": {
+    "source_rows": 1000,
+    "eligible_rows": 893,
+    "model_preflight_failures": {
+      "deepseek1b5": {
+        "type": "ValueError",
+        "reason": "Chat template does not preserve the prompt prefix; refuse unsafe masking"
+      }
+    }
+  },
+  "train_rows": 804,
+  "validation_rows": 89
+}

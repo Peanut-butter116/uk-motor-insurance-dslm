@@ -1,0 +1,63 @@
+{
+  "execution": 19,
+  "status": "COMPLETE",
+  "evaluation_status": "evaluation_partial_or_blocked",
+  "private_checkpoint": {
+    "dataset": "scarletthe0116/uk-motor-d1000-models-results",
+    "version": 150,
+    "private": true,
+    "readback_verified": true
+  },
+  "judge_counts": {
+    "groq": 14,
+    "gemini": 173
+  },
+  "judges": {
+    "groq": {
+      "model": "openai/gpt-oss-120b",
+      "status": "blocked",
+      "completed": 14,
+      "calibration": "PASS",
+      "catalogue_verified": true,
+      "missing_failures": 15,
+      "resume_after_epoch": 1793445384.6156876,
+      "reason": "Verified free quota exceeds this session; resume from cache"
+    },
+    "gemini": {
+      "model": "gemini-3.5-flash-lite",
+      "status": "blocked",
+      "completed": 173,
+      "calibration": "PASS",
+      "catalogue_verified": true,
+      "resume_after_epoch": 1793452709.1494133,
+      "reason": "Verified free quota exceeds this session; resume from cache"
+    }
+  },
+  "paired_judgements": 12,
+  "artifacts_sha256": "c6fd64a39435dca5a5f4744acee991dd208f4c94779e6bf4d6b49b88cef80987",
+  "immutable_manifest_sha256": "dcf1ac6708449d6aefa8dab36110adcb15a2193267c4111790c432ee3bfe3dd5",
+  "metric_artifact_hashes": {
+    "results/balanced_abstention.png": "4cc56970e64e500a3bae4a45cc4135139ee3e0ae72ff650cac259870bf310902",
+    "results/gemini_correctness.svg": "50de4d8b993b8af8a2c2709f1e92b25a8bd2945b64197091e2360a61a702574f",
+    "results/inter_judge_agreement.json": "b921490a9b4c21fe5a9c9de14586143057ab09fb26244f74e0ff78c47eab50d2",
+    "results/groq_citation_support.svg": "cd443a561f73c9f89a6fee5dfa194f2bc43d7ea281d9e115f7d74331222fe288",
+    "results/balanced_abstention.svg": "d8161b14649f9618e29d4df47d35a53c6c84113c0a543c67395c89bbdaf9bb2a",
+    "results/citation_resolution.svg": "278223ab201718a40dfc409d96bc0385dc24b48477cdd255505b82033c9ad9f0",
+    "results/parse_rate.svg": "5e16a6b80b1dfecd0db08b38a3ff887692545c2229d3aece963ec1e4083267c6",
+    "results/gemini_citation_support.svg": "6017a15a197f6ae220ae698968ba7cfbb9c51df5c52b564c6cc006abafed87f1",
+    "results/training_time.png": "af18646296ebb2bfa6549c0bec3eeb8575af4db9a379658ef5422c6e87b9f1f8",
+    "results/correctness_agreement.png": "e5d819e3744f60a72a3ef2ee7c55a645d49da7552976f8853193cad9f4606276",
+    "results/parse_rate.png": "5e3f252081f4237e703ae2e2a14874212f73e85609fb25256d86ad8b9b862995",
+    "results/citation_resolution.png": "ba957db5a04bedf9df5024087b0809b8fe0fcff0c3d0b8b6ccd45cdd0f520fff",
+    "results/groq_correctness.png": "b85db629f76be2b3d0b555bd71867c83d0c87f3fc1947f9443f1c2e8d57887a9",
+    "results/gemini_correctness.png": "673266e513526ec0111dbbf256c34177599d0445c930ef55a2df32bb0be666fe",
+    "results/disagreements.json": "523a940c42eb13ff7d5d7a60b76a63f7cc23c563a4dfcc39de49579c51fcba2e",
+    "results/results.json": "bbecb34255d7046e5dd02767d404981631f5c17cf23db038c78a0e5db7ef9a2c",
+    "results/groq_citation_support.png": "5084ecb9fe77def47b4afda2390a84902f686e4f64b6e476728a0c4464d3b30b",
+    "results/correctness_agreement.svg": "8601f0bd5e04c3e06f67e4f729d02ab10bfa93949b4dc8138149fe6982625ddc",
+    "results/groq_correctness.svg": "0b3cc891451db07433d42b982cc5ed1afb071b3b8fe897d675dc06ff5531b41b",
+    "results/results.csv": "0eeff417bb229eab4a6d9613d8f19dccb0604e49812d2ae8a5b4b826f4fc702a",
+    "results/gemini_citation_support.png": "7a4b521e2d3d73d8f846717d6e66faa8554d0bf1a2249691ed6943486e14d77e",
+    "results/human_review_sample.json": "044465d58e1f316f2046dbb56094dfd69c4538ebcb056004e4a3325b40f4ed2a"
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "status": "calibration_passed",
+  "new_research_judgements": 0,
+  "results_dataset_writes": 0,
+  "calibration": {
+    "protocol": "d1000-evaluation-only-schema-v2",
+    "fixtures_sha256": "ac0d6828c30ee993fd863034ecde55a738e94a2f1c2daae996f93901db188313",
+    "passed": true,
+    "results": [
+      {
+        "id": "fictional-0",
+        "correctness": 1,
+        "expected": 1,
+        "passed": true,
+        "evidence_support": 1,
+        "abstention_category": "correct_answer"
+      },
+      {
+        "id": "fictional-1",
+        "correctness": 0,
+        "expected": 0,
+        "passed": true,
+        "evidence_support": 0,
+        "abstention_category": "incorrect_answer"
+      },
+      {
+        "id": "fictional-2",
+        "correctness": 0,
+        "expected": 0,
+        "passed": true,
+        "evidence_support": 0,
+        "abstention_category": "incorrect_answer"
+      },
+      {
+        "id": "fictional-3",
+        "correctness": 0,
+        "expected": 0,
+        "passed": true,
+        "evidence_support": null,
+        "abstention_category": "incorrect_abstention"
+      },
+      {
+        "id": "fictional-4",
+        "correctness": 1,
+        "expected": 1,
+        "passed": true,
+        "evidence_support": null,
+        "abstention_category": "correct_abstention"
+      },
+      {
+        "id": "fictional-5",
+        "correctness": 0,
+        "expected": 0,
+        "passed": true,
+        "evidence_support": 0,
+        "abstention_category": "incorrect_answer"
+      },
+      {
+        "id": "fictional-6",
+        "correctness": 0.5,
+        "expected": 0.5,
+        "passed": true,
+        "evidence_support": 0.5,
+        "abstention_category": "incorrect_answer"
+      },
+      {
+        "id": "fictional-7",
+        "correctness": 1,
+        "expected": 1,
+        "passed": true,
+        "evidence_support": 1,
+        "abstention_category": "correct_answer"
+      },
+      {
+        "id": "fictional-missing-reference",
+        "correctness": null,
+        "expected": null,
+        "passed": true,
+        "evidence_support": null,
+        "abstention_category": "uncertain"
+      }
+    ]
+  }
+}

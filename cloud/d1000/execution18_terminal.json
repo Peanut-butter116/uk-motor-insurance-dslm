@@ -1,0 +1,62 @@
+{
+  "execution": 18,
+  "status": "COMPLETE",
+  "evaluation_status": "evaluation_partial_or_blocked",
+  "private_checkpoint": {
+    "dataset": "scarletthe0116/uk-motor-d1000-models-results",
+    "version": 146,
+    "private": true,
+    "readback_verified": true
+  },
+  "judge_counts": {
+    "groq": 13,
+    "gemini": 173
+  },
+  "judges": {
+    "groq": {
+      "model": "openai/gpt-oss-120b",
+      "status": "blocked",
+      "completed": 13,
+      "calibration": "PASS",
+      "catalogue_verified": true,
+      "missing_failures": 15,
+      "resume_after_epoch": 1793410736.6608193,
+      "reason": "Verified free quota exceeds this session; resume from cache"
+    },
+    "gemini": {
+      "model": "gemini-3.5-flash-lite",
+      "status": "blocked",
+      "completed": 173,
+      "calibration": "PASS",
+      "catalogue_verified": true,
+      "resume_after_epoch": 1793452709.1494133,
+      "reason": "Verified free quota exceeds this session; resume from cache"
+    }
+  },
+  "paired_judgements": 11,
+  "immutable_manifest_sha256": "dcf1ac6708449d6aefa8dab36110adcb15a2193267c4111790c432ee3bfe3dd5",
+  "metric_artifact_hashes": {
+    "results/parse_rate.png": "5e3f252081f4237e703ae2e2a14874212f73e85609fb25256d86ad8b9b862995",
+    "results/results.json": "23770682d7f102a61beb4565c282779421066d37365178d30ccbf097bdc22213",
+    "results/balanced_abstention.png": "4cc56970e64e500a3bae4a45cc4135139ee3e0ae72ff650cac259870bf310902",
+    "results/gemini_citation_support.svg": "9fe434679ee95cc617a9fc8afd8f47885b6ec4d5fdc564755cf0388aecd1424b",
+    "results/human_review_sample.json": "044465d58e1f316f2046dbb56094dfd69c4538ebcb056004e4a3325b40f4ed2a",
+    "results/inter_judge_agreement.json": "2a716ec63fe9d70ef980a9af39f16b184d58c9056e376f3530c3d7d4b6a45f67",
+    "results/groq_citation_support.png": "5084ecb9fe77def47b4afda2390a84902f686e4f64b6e476728a0c4464d3b30b",
+    "results/parse_rate.svg": "13ff17446384b720a1773d0d054144ac90e15bc08385344ee48b9e83e46ede6b",
+    "results/results.csv": "9421cfef4651bacef1a7271ff7bbcbea942d4790a4ee194022368dac942e2a11",
+    "results/training_time.png": "af18646296ebb2bfa6549c0bec3eeb8575af4db9a379658ef5422c6e87b9f1f8",
+    "results/citation_resolution.png": "ba957db5a04bedf9df5024087b0809b8fe0fcff0c3d0b8b6ccd45cdd0f520fff",
+    "results/groq_correctness.svg": "cd98a3f7b592fe1305de91d2b1802ea0780bf11949c8748fd454c5b57e85b38d",
+    "results/groq_correctness.png": "28b1271705724071041652050873b84d74f88ec7e2bf01afaf7afac88071a406",
+    "results/groq_citation_support.svg": "bff3874f5cee3d28f46f5c6e82842288c140a0a96ebd8ffbb82d87ac9f5edcca",
+    "results/gemini_citation_support.png": "7a4b521e2d3d73d8f846717d6e66faa8554d0bf1a2249691ed6943486e14d77e",
+    "results/gemini_correctness.png": "673266e513526ec0111dbbf256c34177599d0445c930ef55a2df32bb0be666fe",
+    "results/correctness_agreement.svg": "ae7f2b4689c70ecd1c73fa6b399575d49cc27fa1cc99cde22c0ed834715509cd",
+    "results/balanced_abstention.svg": "bba37ab6997bc2cf81d13a77c7c6fc988e3f5da8a0c0f740a1e8167447f13755",
+    "results/disagreements.json": "523a940c42eb13ff7d5d7a60b76a63f7cc23c563a4dfcc39de49579c51fcba2e",
+    "results/citation_resolution.svg": "44c173eeff99d5661f4db6498e156241109588c893da551a08f7a62e375abfdb",
+    "results/gemini_correctness.svg": "c16dd2b13ec19dc2b07882eafdfe03d30b3b7b934ae5a96fb366ddad2c761116",
+    "results/correctness_agreement.png": "f747f3a69b6976558a15c71b1af151917bc74dc92c4b43bb06c55668b9bd4ba9"
+  }
+}

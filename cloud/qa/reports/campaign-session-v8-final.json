@@ -1,0 +1,382 @@
+{
+  "started_at_utc": "2026-10-25T18:17:33.081236+00:00",
+  "input_version": 10,
+  "target": 1000,
+  "execution_started": true,
+  "automatic_continuation": "same Kaggle session only",
+  "session_limit_seconds": 14400,
+  "fresh_test_passed": true,
+  "batches": [
+    {
+      "completed_at_utc": "2026-10-25T18:21:01.777676+00:00",
+      "version": 12,
+      "accepted": 412,
+      "generated": 612,
+      "status": "paused_provider_quota",
+      "package_cap": 1
+    },
+    {
+      "completed_at_utc": "2026-10-25T18:24:52.022951+00:00",
+      "version": 16,
+      "accepted": 414,
+      "generated": 612,
+      "status": "paused_cloud_batch_limit",
+      "package_cap": 1
+    },
+    {
+      "completed_at_utc": "2026-10-25T18:28:04.564196+00:00",
+      "version": 19,
+      "accepted": 414,
+      "generated": 616,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T18:30:59.298310+00:00",
+      "version": 21,
+      "accepted": 414,
+      "generated": 620,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T18:35:20.900581+00:00",
+      "version": 25,
+      "accepted": 415,
+      "generated": 624,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T18:39:40.582992+00:00",
+      "version": 29,
+      "accepted": 416,
+      "generated": 628,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T18:49:21.874089+00:00",
+      "version": 38,
+      "accepted": 420,
+      "generated": 644,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T18:54:15.142313+00:00",
+      "version": 42,
+      "accepted": 421,
+      "generated": 644,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T18:57:37.948582+00:00",
+      "version": 44,
+      "accepted": 421,
+      "generated": 648,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T19:02:58.748743+00:00",
+      "version": 48,
+      "accepted": 423,
+      "generated": 652,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T19:08:22.205993+00:00",
+      "version": 52,
+      "accepted": 424,
+      "generated": 652,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T19:12:53.439736+00:00",
+      "version": 55,
+      "accepted": 424,
+      "generated": 656,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T19:18:37.724038+00:00",
+      "version": 59,
+      "accepted": 424,
+      "generated": 664,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T19:25:48.423813+00:00",
+      "version": 64,
+      "accepted": 425,
+      "generated": 672,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T19:33:32.190765+00:00",
+      "version": 69,
+      "accepted": 428,
+      "generated": 680,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T19:41:12.375218+00:00",
+      "version": 74,
+      "accepted": 430,
+      "generated": 684,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T19:45:19.933769+00:00",
+      "version": 76,
+      "accepted": 430,
+      "generated": 688,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T19:52:09.631331+00:00",
+      "version": 80,
+      "accepted": 432,
+      "generated": 692,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T19:58:55.397451+00:00",
+      "version": 84,
+      "accepted": 434,
+      "generated": 696,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T20:06:08.793116+00:00",
+      "version": 88,
+      "accepted": 435,
+      "generated": 700,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T20:13:22.824089+00:00",
+      "version": 92,
+      "accepted": 436,
+      "generated": 700,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T20:17:56.948079+00:00",
+      "version": 94,
+      "accepted": 436,
+      "generated": 704,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T20:29:54.449573+00:00",
+      "version": 101,
+      "accepted": 437,
+      "generated": 708,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T20:39:24.932422+00:00",
+      "version": 106,
+      "accepted": 440,
+      "generated": 708,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T20:46:05.039201+00:00",
+      "version": 109,
+      "accepted": 440,
+      "generated": 716,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T20:58:00.517393+00:00",
+      "version": 115,
+      "accepted": 444,
+      "generated": 724,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T21:08:36.606204+00:00",
+      "version": 120,
+      "accepted": 446,
+      "generated": 728,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T21:13:53.066160+00:00",
+      "version": 122,
+      "accepted": 446,
+      "generated": 732,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T21:30:19.485551+00:00",
+      "version": 130,
+      "accepted": 449,
+      "generated": 732,
+      "status": "paused_cloud_batch_limit",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T21:44:50.140217+00:00",
+      "version": 137,
+      "accepted": 449,
+      "generated": 732,
+      "status": "paused_cloud_batch_limit",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T21:53:49.633276+00:00",
+      "version": 141,
+      "accepted": 449,
+      "generated": 732,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T22:08:56.352158+00:00",
+      "version": 148,
+      "accepted": 450,
+      "generated": 736,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    },
+    {
+      "completed_at_utc": "2026-10-25T22:20:47.029304+00:00",
+      "version": 153,
+      "accepted": 450,
+      "generated": 744,
+      "status": "paused_provider_quota",
+      "package_cap": 5
+    }
+  ],
+  "total_accepted": 450,
+  "remaining_to_target": 550,
+  "answerability": {
+    "answerable": 376,
+    "unanswerable": 74
+  },
+  "answerability_percent": {
+    "answerable": 83.56,
+    "unanswerable": 16.44
+  },
+  "new_cloud_accepted": 41,
+  "new_cloud_answerability": {
+    "answerable": 41
+  },
+  "new_cloud_insufficiency_percent": 0.0,
+  "new_cloud_insufficiency_target_percent": [
+    20,
+    25
+  ],
+  "candidates_generated": 744,
+  "generated_accepted": 315,
+  "generated_acceptance_rate": 0.42338709677419356,
+  "generated_dispositions": {
+    "needs_review": 351,
+    "rejected": 61,
+    "accepted": 315,
+    "failed_structured_output": 17
+  },
+  "verification_reasons": {
+    "full_protected_semantic_screen_failed_or_uncertain": 44,
+    "no_answer_citations": 68,
+    "judge_answer_supported": 93,
+    "judge_citations_support_claims": 63,
+    "judge_context_complete": 122,
+    "judge_label_correct": 48,
+    "judge_no_material_contradiction": 62,
+    "judge_numbers_conditions_correct": 86,
+    "judge_reject": 61,
+    "unsupported_or_unresolved_claim": 202,
+    "independent_answerability_disagrees": 63,
+    "near_duplicate_question": 17,
+    "judge_review": 83,
+    "training_semantic_duplicate_or_uncertain": 12,
+    "persistent_retry_limit_exhausted": 17,
+    "judge_question_useful": 3,
+    "full_document_extraction_incomplete": 25,
+    "missing_answer_quote": 1
+  },
+  "duplicate_removals": 29,
+  "leakage_exclusions": 44,
+  "by_insurer": {
+    "Admiral": 35,
+    "Aviva": 57,
+    "AA": 43,
+    "Hastings Direct": 205,
+    "Ageas": 29,
+    "AXA": 81
+  },
+  "last_completed_package": "d91f8be4c3d271a9a811bca81a4dfcbdee1305ec9659e4b70e3fd3205a1081d6:p15",
+  "last_checkpoint_utc": "2026-10-25T22:18:44Z",
+  "status": "paused_provider_quota",
+  "train_sha256": "fbefdc7a54baf9e89a0994a17270c237daa62e1d0d2b857dacdb051ed7763e86",
+  "human_review_completed": 0,
+  "training_ready": false,
+  "statistics_scope": "All recorded generated candidates, including historical providers; reasons may overlap. No package completion timestamp exists in inherited state.",
+  "latest_verified_receipt": {
+    "dataset": "scarletthe0116/uk-motor-qa-production-v1",
+    "version": 154,
+    "is_private": true,
+    "archive_sha256": "97c6e2f90893367242b987492230fa77e009afa098fabe4967c36af68d1bcb19",
+    "verified_at_utc": "2026-10-25T22:22:34.581559+00:00",
+    "accepted": 450
+  },
+  "new_candidates_generated": 136,
+  "new_accepted": 38,
+  "packages_completed_since_start": 52,
+  "packages_remaining": 484,
+  "new_candidate_dispositions": {
+    "accepted": 38,
+    "needs_review": 84,
+    "rejected": 12,
+    "failed_structured_output": 2
+  },
+  "new_candidate_failure_reasons": {
+    "training_semantic_duplicate_or_uncertain": 12,
+    "unsupported_or_unresolved_claim": 21,
+    "no_answer_citations": 28,
+    "judge_context_complete": 7,
+    "judge_label_correct": 13,
+    "judge_reject": 12,
+    "independent_answerability_disagrees": 17,
+    "full_document_extraction_incomplete": 24,
+    "judge_answer_supported": 11,
+    "judge_citations_support_claims": 9,
+    "judge_numbers_conditions_correct": 7,
+    "full_protected_semantic_screen_failed_or_uncertain": 3,
+    "judge_no_material_contradiction": 8,
+    "judge_question_useful": 2,
+    "near_duplicate_question": 5,
+    "persistent_retry_limit_exhausted": 2
+  },
+  "quota_provider": "groq",
+  "resume_after_epoch": 1792966782.769088,
+  "waiting_for_quota": false,
+  "quota_wait_seconds": 5,
+  "stop_reason": "Quota wait exceeds remaining session; restart from newest checkpoint after resume_after_epoch",
+  "finished_at_utc": "2026-10-25T22:20:47.031531+00:00"
+}

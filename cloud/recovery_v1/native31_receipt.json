@@ -1,0 +1,29 @@
+{
+  "kind": "native_auth_probe_v1",
+  "new_judge_calls": 0,
+  "secret_service_calls": 0,
+  "production_dataset_writes": 0,
+  "scratch_dataset": "scarletthe0116/uk-motor-d1000-auth-probe-20261101",
+  "status": "BLOCKED",
+  "kaggle_version": "2.0.2",
+  "native_token_file_available": true,
+  "authentication_completed": true,
+  "private_results_readable": true,
+  "latest_checkpoint": 239,
+  "exception_chain": [
+    {
+      "type": "TypeError",
+      "module": "builtins"
+    }
+  ],
+  "execution": 31,
+  "kernel_status": "COMPLETE",
+  "private": true,
+  "enable_gpu": false,
+  "dataset_inputs": [],
+  "source_sha256": "02cab84bfda30654338186874efbf6fcb69432af1e6dfd01d36c1f5d4681ee12",
+  "latest_persisted_checkpoint": 239,
+  "evaluation_relaunched": false,
+  "private_archive_restoration_verified": false,
+  "scratch_write_readback_verified": false
+}

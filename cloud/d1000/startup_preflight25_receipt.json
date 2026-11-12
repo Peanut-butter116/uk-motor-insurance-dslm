@@ -1,0 +1,15 @@
+{
+  "kind": "startup_service_preflight",
+  "new_judge_calls": 0,
+  "results_dataset_writes": 0,
+  "secrets": {},
+  "last_completed_stage": "secrets_client_created",
+  "attempted_stage": "secret_access:KAGGLE_API_TOKEN",
+  "status": "BLOCKED",
+  "error_type": "ConnectionError",
+  "execution": 25,
+  "private": true,
+  "enable_gpu": false,
+  "source_sha256": "ee9877ccb15bab8ebb107126ff36a4e81c6a697fed61f683e5e191205f622426",
+  "private_checkpoint_unchanged": 239
+}

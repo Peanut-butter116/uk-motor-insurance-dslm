@@ -1,0 +1,88 @@
+{
+  "protocol": "d1000-mixed-quality-qlora-dual-judge/1",
+  "status": "gpu_smoke_then_training",
+  "models": {
+    "qwen3b": {
+      "status": "complete",
+      "gpu": 0,
+      "pid": 103,
+      "exit_code": 0
+    },
+    "ministral3b": {
+      "status": "complete",
+      "gpu": 1,
+      "pid": 104,
+      "exit_code": 0
+    },
+    "deepseek1b5": {
+      "status": "tokenisation_failed"
+    },
+    "smollm1b7": {
+      "status": "smoke_training_inference",
+      "gpu": 0,
+      "pid": 254
+    }
+  },
+  "responses_completed": 608,
+  "judge_counts": {
+    "groq": 0,
+    "gemini": 0
+  },
+  "last_persistence": {
+    "dataset": "scarletthe0116/uk-motor-d1000-models-results",
+    "version": 58,
+    "private": true,
+    "readback_verified": true
+  },
+  "artifacts_sha256": "8548bcbcd05c7584359f1744f2f963c46323026071f0abbd0cc4073852fb0cd7",
+  "bootstrap_contains_models_or_data": false,
+  "artifact_format": "gzip tar bytes with opaque .bin suffix to prevent automatic extraction",
+  "code_fingerprint": "d348d461dd1d603dfda0c25ae285bfe08deba244a460606378cc679e0c438609",
+  "gpus": [
+    {
+      "index": 0,
+      "name": "Tesla T4",
+      "total_memory": 15636037632
+    },
+    {
+      "index": 1,
+      "name": "Tesla T4",
+      "total_memory": 15636037632
+    }
+  ],
+  "export": {
+    "dataset": "scarletthe0116/uk-motor-qa-d1000-training",
+    "version": 1,
+    "records": 1000,
+    "csv_sha256": "faec491822ce60758d1705fe0f1b71621eaf8dd34f9f9b8168eca001b1acd6b3",
+    "readback_verified": true
+  },
+  "dataset_conversion": {
+    "source_rows": 1000,
+    "eligible_rows": 834,
+    "model_preflight_failures": {
+      "deepseek1b5": {
+        "type": "ValueError",
+        "reason": "Chat template does not preserve the prompt prefix; refuse unsafe masking"
+      }
+    }
+  },
+  "train_rows": 751,
+  "validation_rows": 83,
+  "judges": {
+    "groq": {
+      "completed": 0,
+      "model": "openai/gpt-oss-120b",
+      "catalogue_verified": true,
+      "status": "calibration_blocked",
+      "reason": "Restricted outputs must be outside Git repository"
+    },
+    "gemini": {
+      "completed": 0,
+      "model": "gemini-3.5-flash-lite",
+      "catalogue_verified": true,
+      "status": "calibration_blocked",
+      "reason": "Restricted outputs must be outside Git repository"
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "archive_sha256": "481dbb7cdc64699b10447dd2efc32e762051436f27a41427e083243556cecf61",
+  "manifest_created_at_utc": "2026-10-28T20:38:27.761519+00:00",
+  "worker_specs": {
+    "groq": {
+      "provider": "groq",
+      "model": "openai/gpt-oss-120b"
+    },
+    "gemini": {
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite"
+    },
+    "groq_extra": {
+      "provider": "groq",
+      "model": "openai/gpt-oss-20b"
+    },
+    "gemini_extra": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite"
+    }
+  },
+  "worker_package_failures": {
+    "gemini": {
+      "persistent_retry_limit_exhausted": 3
+    }
+  },
+  "new_structured_failures_by_response_model": {
+    "gemini-3.5-flash-lite": {
+      "failure:schema_validation_failed": 9,
+      "finish:stop": 9,
+      "content_characters": 15634,
+      "schema:minLength:properties/records/items/properties/answer/minLength:actual-str": 8,
+      "completion_tokens": 4185,
+      "reasoning_tokens": 0,
+      "schema:type:properties/records/items/properties/answer/type:actual-NoneType": 1
+    },
+    "openai/gpt-oss-20b": {
+      "failure:schema_validation_failed": 1,
+      "finish:stop": 1,
+      "content_characters": 1428,
+      "schema:minLength:properties/records/items/properties/answer/minLength:actual-str": 1,
+      "completion_tokens": 1223,
+      "reasoning_tokens": 881
+    },
+    "openai/gpt-oss-120b": {
+      "failure:schema_validation_failed": 1,
+      "finish:stop": 1,
+      "content_characters": 1522,
+      "schema:minLength:properties/records/items/properties/answer/minLength:actual-str": 1,
+      "completion_tokens": 760,
+      "reasoning_tokens": 401
+    }
+  },
+  "production_writes": 0,
+  "model_calls": 0,
+  "raw_records_downloaded_locally": false
+}

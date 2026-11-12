@@ -1,0 +1,26 @@
+{
+  "dataset_version": 9,
+  "archive_sha256": "cae9a99a112796a520d7256a7c35056e976bed2c025f2c03fd7c2fe558bfedd4",
+  "accepted": 412,
+  "baseline_preserved": 409,
+  "new_accepted": 3,
+  "frozen_benchmark_unchanged": true,
+  "files_verified": 5126,
+  "new_lexical_duplicate_pairs": [],
+  "missing_training_baseline_screens": 0,
+  "missing_within_batch_semantic_pairs": [
+    [
+      "generated-7396006b04f9f0882e76f3d2b2f6523fb946eae8b5d3c70d2f173f925aaa9d51",
+      "generated-50f149841d5e19dfa338cd706ad83264ab15512a742e8928b86d1a6eb03bd35f"
+    ],
+    [
+      "generated-879c7e0199e85e1e56ce2c45c5c4452c117c1bb347a556dcfa78e2a92fe230f9",
+      "generated-50f149841d5e19dfa338cd706ad83264ab15512a742e8928b86d1a6eb03bd35f"
+    ]
+  ],
+  "deterministic_and_claim_failures": {},
+  "only_one_package_completed": true,
+  "paid_kelly_ledger_unchanged": true,
+  "provider_calls": 0,
+  "passed": false
+}

@@ -1,0 +1,37 @@
+{
+  "execution": 16,
+  "status": "COMPLETE",
+  "evaluation_status": "evaluation_partial_or_blocked",
+  "private_checkpoint": {
+    "dataset": "scarletthe0116/uk-motor-d1000-models-results",
+    "version": 129,
+    "private": true,
+    "readback_verified": true
+  },
+  "judge_counts": {
+    "groq": 0,
+    "gemini": 173
+  },
+  "judges": {
+    "groq": {
+      "model": "openai/gpt-oss-120b",
+      "status": "blocked",
+      "completed": 0,
+      "calibration": "PASS",
+      "catalogue_verified": true,
+      "reason": "groq HTTP 400"
+    },
+    "gemini": {
+      "model": "gemini-3.5-flash-lite",
+      "status": "blocked",
+      "completed": 173,
+      "calibration": "PASS",
+      "catalogue_verified": true,
+      "missing_failures": 1,
+      "resume_after_epoch": 1793452709.1494133,
+      "reason": "Verified free quota exceeds this session; resume from cache"
+    }
+  },
+  "paired_judgements": 0,
+  "immutable_manifest_sha256": "dcf1ac6708449d6aefa8dab36110adcb15a2193267c4111790c432ee3bfe3dd5"
+}

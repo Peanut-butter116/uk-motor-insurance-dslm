@@ -1,0 +1,42 @@
+{
+  "kind": "isolated_kaggle_secret_service",
+  "secret_label": "KAGGLE_API_TOKEN",
+  "secret_retrieved": false,
+  "new_judge_calls": 0,
+  "dataset_writes": 0,
+  "attempts": 1,
+  "python_version": "3.13.15",
+  "stage": "get_secret",
+  "status": "FAIL",
+  "exception_type": "ConnectionError",
+  "exception_module": "builtins",
+  "exception_chain": [
+    {
+      "type": "ConnectionError",
+      "module": "builtins"
+    },
+    {
+      "type": "HTTPError",
+      "module": "urllib.error"
+    }
+  ],
+  "failure_category": "service_connection",
+  "elapsed_seconds": 0.185,
+  "execution": 27,
+  "kernel_status": "COMPLETE",
+  "private": true,
+  "enable_gpu": false,
+  "source_sha256": "0ce38bad14e5d91984230456025ee66c85abb53ff834bb4bc760e569183e9be7",
+  "dataset_inputs": [],
+  "evaluation_status": "BLOCKED",
+  "latest_evaluation_execution": 26,
+  "latest_persisted_checkpoint": 239,
+  "checkpoint_ready": true,
+  "judge_counts": {
+    "groq": 36,
+    "gemini": 345
+  },
+  "paired_judgements": 32,
+  "evaluation_relaunched": false,
+  "gemini_uncertain_request_replayed": false
+}

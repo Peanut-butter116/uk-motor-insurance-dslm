@@ -1,0 +1,68 @@
+{
+  "total_accepted": 449,
+  "target": 1000,
+  "remaining_to_target": 551,
+  "answerability": {
+    "answerable": 375,
+    "unanswerable": 74
+  },
+  "answerability_percent": {
+    "answerable": 83.52,
+    "unanswerable": 16.48
+  },
+  "new_cloud_accepted": 40,
+  "new_cloud_answerability": {
+    "answerable": 40
+  },
+  "new_cloud_insufficiency_percent": 0.0,
+  "new_cloud_insufficiency_target_percent": [
+    20,
+    25
+  ],
+  "candidates_generated": 732,
+  "generated_accepted": 314,
+  "generated_acceptance_rate": 0.42896174863387976,
+  "generated_dispositions": {
+    "needs_review": 341,
+    "accepted": 314,
+    "rejected": 61,
+    "failed_structured_output": 16
+  },
+  "verification_reasons": {
+    "full_protected_semantic_screen_failed_or_uncertain": 44,
+    "unsupported_or_unresolved_claim": 202,
+    "missing_answer_quote": 1,
+    "no_answer_citations": 62,
+    "judge_answer_supported": 93,
+    "judge_citations_support_claims": 63,
+    "judge_label_correct": 48,
+    "judge_no_material_contradiction": 62,
+    "judge_numbers_conditions_correct": 86,
+    "judge_reject": 61,
+    "independent_answerability_disagrees": 62,
+    "full_document_extraction_incomplete": 23,
+    "judge_context_complete": 122,
+    "judge_review": 83,
+    "training_semantic_duplicate_or_uncertain": 12,
+    "near_duplicate_question": 14,
+    "persistent_retry_limit_exhausted": 16,
+    "judge_question_useful": 3
+  },
+  "duplicate_removals": 26,
+  "leakage_exclusions": 44,
+  "by_insurer": {
+    "Admiral": 35,
+    "Aviva": 57,
+    "AA": 43,
+    "Hastings Direct": 204,
+    "Ageas": 29,
+    "AXA": 81
+  },
+  "last_completed_package": "a710f17c1583c5d20f8de5a65eca41c351325123a9dde4484c7c130982842c9d:p80",
+  "last_checkpoint_utc": "2026-10-25T21:37:24Z",
+  "status": "generating",
+  "train_sha256": "f5dc3cfd8659ddbf1cd1511ac6cf59537b98f92bee890e7508f0b86634a63e52",
+  "human_review_completed": 0,
+  "training_ready": false,
+  "statistics_scope": "All recorded generated candidates, including historical providers; reasons may overlap. No package completion timestamp exists in inherited state."
+}

@@ -1,0 +1,92 @@
+{
+  "protocol": "d1000-single-judge-fast-v1",
+  "unique_judged": 585,
+  "remaining": 327,
+  "provider_votes": {
+    "groq": 67,
+    "gemini": 566
+  },
+  "new_unique_since_launch": 236,
+  "successful_judgements_per_hour": 15.75873578640083,
+  "estimated_hours_remaining": 20.75039549061976,
+  "eta_interpretation": "Measured successful unique throughput plus projected calendar quota wait; errors, repairs and runtime availability may worsen this estimate",
+  "elapsed_hours": 14.97582059873475,
+  "launch_epoch": 1793560557.1127477,
+  "deadline_epoch": 1793632557.1127477,
+  "provider_status": {
+    "groq": {
+      "status": "quota_wait",
+      "resume_after_epoch": 1793644833.557822
+    },
+    "gemini": {
+      "status": "running",
+      "completed_votes": 566
+    }
+  },
+  "unresolved_requests": {
+    "groq": 0,
+    "gemini": 3
+  },
+  "quota_constraints": {
+    "groq": {
+      "verified_limits": {
+        "rpm": 30,
+        "rpd": 1000,
+        "tpm": 8000,
+        "tpd": 200000
+      },
+      "remaining_conservative_ledger": {
+        "rpm": 30,
+        "rpd": 950,
+        "tpm": 8000,
+        "tpd": 6343
+      },
+      "blocked_until_epoch": 0,
+      "next_minute_entry_expiry": null,
+      "next_daily_entry_expiry": 1793644833.557822,
+      "twenty_hour_request_slots_upper_bound": 950,
+      "twenty_hour_token_budget": 6343,
+      "historical_mean_actual_tokens": 3081.774480712166,
+      "server_remaining_not_independently_known": true,
+      "documented_calendar_reset_epoch": null,
+      "quota_policy": "existing conservative rolling60s/24h; reservations unchanged"
+    },
+    "gemini": {
+      "verified_limits": {
+        "rpm": 5,
+        "rpd": 500,
+        "tpm": 250000,
+        "tpd": 125000000
+      },
+      "remaining_conservative_ledger": {
+        "rpm": 5,
+        "rpd": 490,
+        "tpm": 250000,
+        "tpd": 123804669
+      },
+      "blocked_until_epoch": 1793452709.1494133,
+      "next_minute_entry_expiry": null,
+      "next_daily_entry_expiry": 1793647059.7022424,
+      "twenty_hour_request_slots_upper_bound": 490,
+      "twenty_hour_token_budget": 123804669,
+      "historical_mean_actual_tokens": 5370.976069246436,
+      "server_remaining_not_independently_known": true,
+      "documented_calendar_reset_epoch": 1793692800,
+      "quota_policy": "Gemini RPD midnight Pacific; RPM/TPM rolling60s and TPD rolling24h; all entries retained"
+    }
+  },
+  "active_provider_calls": 0,
+  "selected_provider_counts": {
+    "groq": 67,
+    "gemini": 518
+  },
+  "event": "single_judge_private_checkpoint_readback",
+  "checkpoint": 371,
+  "private": true,
+  "readback_verified": true,
+  "archive_sha256": "112cde02f3328641f16d396c1556d5afd46cdd47e76c0abd1c635ef6a765d883",
+  "persisted_judge_counts": {
+    "groq": 67,
+    "gemini": 566
+  }
+}
